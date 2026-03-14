@@ -44,7 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${manrope.variable} ${playfair.variable}`}>
-      <body className="antialiased bg-[#0b0e14] text-white font-sans">
+      <body className="antialiased font-sans" style={{ background: "var(--bg)", color: "var(--text)" }}>
         {children}
       </body>
     </html>

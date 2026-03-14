@@ -17,24 +17,22 @@ const aboutItems = [
 ];
 
 function DropdownMenu({
-  items,
-  isOpen,
-  onClose,
+  items, isOpen, onClose, dark,
 }: {
   items: { label: string; href: string }[];
   isOpen: boolean;
   onClose: () => void;
+  dark: boolean;
 }) {
   if (!isOpen) return null;
   return (
     <div
-      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-68 z-50 overflow-hidden"
+      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-72 z-50 overflow-hidden"
       style={{
-        background: "rgba(10,14,22,0.97)",
-        border: "1px solid rgba(255,255,255,0.08)",
-        backdropFilter: "blur(20px)",
+        background: "#fff",
+        border: "1px solid var(--border)",
         borderRadius: "2px",
-        boxShadow: "0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,104,198,0.1)",
+        boxShadow: "0 12px 40px rgba(0,0,0,0.12)",
       }}
     >
       {items.map((item, i) => (
@@ -42,14 +40,17 @@ function DropdownMenu({
           key={i}
           href={item.href}
           onClick={onClose}
-          className="block px-5 py-3 text-[10px] font-light tracking-[0.22em] uppercase transition-all duration-200"
-          style={{ color: "rgba(255,255,255,0.55)", borderBottom: i < items.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}
+          className="block px-5 py-3 text-[10px] font-light tracking-[0.2em] uppercase transition-all duration-200"
+          style={{
+            color: "var(--text-secondary)",
+            borderBottom: i < items.length - 1 ? "1px solid var(--border-light)" : "none",
+          }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.color = "#fff";
-            (e.currentTarget as HTMLElement).style.background = "rgba(0,104,198,0.08)";
+            (e.currentTarget as HTMLElement).style.color = "var(--accent)";
+            (e.currentTarget as HTMLElement).style.background = "var(--surface-alt)";
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.55)";
+            (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
             (e.currentTarget as HTMLElement).style.background = "transparent";
           }}
         >
@@ -69,8 +70,15 @@ export default function Navigation() {
   const servicesRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
 
+  // Hero height detection
+  const [pastHero, setPastHero] = useState(false);
+
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
+    const handleScroll = () => {
+      const heroH = window.innerHeight * 0.75;
+      setScrolled(window.scrollY > 40);
+      setPastHero(window.scrollY > heroH);
+    };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -84,140 +92,111 @@ export default function Navigation() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const navLinkClass =
-    "text-[10px] font-light tracking-[0.22em] uppercase transition-all duration-250 cursor-pointer relative group";
-  const navLinkStyle = { color: "rgba(255,255,255,0.7)" };
+  // On dark hero: white text. When scrolled into light sections: dark text
+  const isDark = !pastHero;
+  const textColor = isDark && !scrolled ? "rgba(255,255,255,0.88)" : "var(--text-secondary)";
+  const textHover = isDark && !scrolled ? "#fff" : "var(--accent)";
+  const logoColor = isDark && !scrolled ? "#fff" : "var(--accent)";
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-400"
       style={
         scrolled
           ? {
-              background: "rgba(11,14,20,0.92)",
-              backdropFilter: "blur(20px)",
-              borderBottom: "1px solid rgba(255,255,255,0.05)",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
+              background: "rgba(255,255,255,0.97)",
+              backdropFilter: "blur(16px)",
+              borderBottom: "1px solid var(--border)",
+              boxShadow: "0 2px 20px rgba(0,0,0,0.06)",
             }
           : { background: "transparent" }
       }
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-14">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
           <a
             href="#hero"
-            className="font-manrope font-bold tracking-[0.32em] text-white hover:opacity-80 transition-opacity duration-300"
-            style={{ fontSize: "1.25rem", letterSpacing: "0.3em" }}
+            className="font-manrope font-bold tracking-[0.3em] transition-colors duration-400"
+            style={{ fontSize: "1.2rem", color: logoColor }}
           >
             VENTUM
           </a>
 
-          {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-10">
-            <a href="#yacht" className={navLinkClass} style={navLinkStyle}
-              onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "#fff"}
-              onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"}
-            >
-              Yacht
-            </a>
+            {[
+              { label: "Yacht", href: "#yacht" },
+              { label: "Cruise Plan", href: "#cruise-plan" },
+              { label: "Contact", href: "#contact" },
+            ].map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="text-[10px] font-light tracking-[0.22em] uppercase transition-colors duration-300"
+                style={{ color: textColor }}
+                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = textHover}
+                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = textColor}
+              >
+                {item.label}
+              </a>
+            ))}
 
-            {/* Services Dropdown */}
             <div ref={servicesRef} className="relative">
               <button
-                className={`${navLinkClass} flex items-center gap-1.5`}
-                style={navLinkStyle}
-                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "#fff"}
-                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"}
+                className="text-[10px] font-light tracking-[0.22em] uppercase flex items-center gap-1.5 transition-colors duration-300"
+                style={{ color: textColor }}
+                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = textHover}
+                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = textColor}
                 onClick={() => { setServicesOpen(!servicesOpen); setAboutOpen(false); }}
               >
                 Services
-                <svg
-                  className={`w-2.5 h-2.5 transition-transform duration-250 ${servicesOpen ? "rotate-180" : ""}`}
-                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                >
+                <svg className={`w-2.5 h-2.5 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              <DropdownMenu items={servicesItems} isOpen={servicesOpen} onClose={() => setServicesOpen(false)} />
+              <DropdownMenu items={servicesItems} isOpen={servicesOpen} onClose={() => setServicesOpen(false)} dark={isDark} />
             </div>
 
-            <a href="#cruise-plan" className={navLinkClass} style={navLinkStyle}
-              onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "#fff"}
-              onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"}
-            >
-              Cruise Plan
-            </a>
-
-            {/* About Dropdown */}
             <div ref={aboutRef} className="relative">
               <button
-                className={`${navLinkClass} flex items-center gap-1.5`}
-                style={navLinkStyle}
-                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "#fff"}
-                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"}
+                className="text-[10px] font-light tracking-[0.22em] uppercase flex items-center gap-1.5 transition-colors duration-300"
+                style={{ color: textColor }}
+                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = textHover}
+                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = textColor}
                 onClick={() => { setAboutOpen(!aboutOpen); setServicesOpen(false); }}
               >
                 About
-                <svg
-                  className={`w-2.5 h-2.5 transition-transform duration-250 ${aboutOpen ? "rotate-180" : ""}`}
-                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                >
+                <svg className={`w-2.5 h-2.5 transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              <DropdownMenu items={aboutItems} isOpen={aboutOpen} onClose={() => setAboutOpen(false)} />
+              <DropdownMenu items={aboutItems} isOpen={aboutOpen} onClose={() => setAboutOpen(false)} dark={isDark} />
             </div>
 
-            <a href="#contact" className={navLinkClass} style={navLinkStyle}
-              onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "#fff"}
-              onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"}
-            >
-              Contact
-            </a>
-
-            {/* Language switcher */}
             <div
-              className="flex items-center gap-1 ml-2 px-3 py-1.5 border"
-              style={{ borderColor: "rgba(255,255,255,0.12)", borderRadius: "1px" }}
+              className="flex items-center gap-1 ml-2 px-3 py-1.5"
+              style={{ border: `1px solid ${isDark && !scrolled ? "rgba(255,255,255,0.3)" : "var(--border)"}`, borderRadius: "1px" }}
             >
-              <button className="text-[10px] text-white tracking-[0.2em]">EN</button>
-              <span className="text-white/20 text-xs">|</span>
-              <button
-                className="text-[10px] tracking-[0.2em] transition-colors duration-200"
-                style={{ color: "rgba(255,255,255,0.35)" }}
-                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"}
-                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.35)"}
-              >
-                DE
-              </button>
+              <button className="text-[10px] tracking-[0.2em] transition-colors duration-300" style={{ color: isDark && !scrolled ? "#fff" : "var(--accent)", fontWeight: 600 }}>EN</button>
+              <span className="text-xs" style={{ color: isDark && !scrolled ? "rgba(255,255,255,0.25)" : "var(--border)" }}>|</span>
+              <button className="text-[10px] tracking-[0.2em] transition-colors duration-300" style={{ color: isDark && !scrolled ? "rgba(255,255,255,0.4)" : "var(--text-muted)" }}>DE</button>
             </div>
           </div>
 
-          {/* Mobile Toggle */}
-          <button
-            className="lg:hidden text-white p-2"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
-          >
+          <button className="lg:hidden p-2" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu">
             <div className="w-6 flex flex-col gap-[5px]">
-              <span className={`block h-px bg-white transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
-              <span className={`block h-px bg-white transition-all duration-300 ${mobileOpen ? "opacity-0 scale-x-0" : ""}`} />
-              <span className={`block h-px bg-white transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
+              {[
+                mobileOpen ? "rotate-45 translate-y-[7px]" : "",
+                mobileOpen ? "opacity-0 scale-x-0" : "",
+                mobileOpen ? "-rotate-45 -translate-y-[7px]" : "",
+              ].map((cls, i) => (
+                <span key={i} className={`block h-px transition-all duration-300 ${cls}`} style={{ background: isDark && !scrolled ? "#fff" : "var(--text)" }} />
+              ))}
             </div>
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {mobileOpen && (
-          <div
-            className="lg:hidden border-t pb-6"
-            style={{
-              background: "rgba(10,14,22,0.98)",
-              backdropFilter: "blur(20px)",
-              borderColor: "rgba(255,255,255,0.06)",
-            }}
-          >
+          <div className="lg:hidden pb-6" style={{ background: "#fff", borderTop: "1px solid var(--border)" }}>
             {[
               { label: "Yacht", href: "#yacht" },
               ...servicesItems.map((s) => ({ label: s.label, href: "#services" })),
@@ -230,24 +209,18 @@ export default function Navigation() {
                 key={i}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className="block px-6 py-3.5 text-[10px] tracking-[0.22em] uppercase transition-all border-b"
-                style={{ color: "rgba(255,255,255,0.6)", borderColor: "rgba(255,255,255,0.04)" }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.color = "#fff";
-                  (e.currentTarget as HTMLElement).style.background = "rgba(0,104,198,0.07)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.6)";
-                  (e.currentTarget as HTMLElement).style.background = "transparent";
-                }}
+                className="block px-6 py-3.5 text-[10px] tracking-[0.2em] uppercase transition-all"
+                style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-light)" }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--accent)"; (e.currentTarget as HTMLElement).style.background = "var(--surface-alt)"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)"; (e.currentTarget as HTMLElement).style.background = "transparent"; }}
               >
                 {item.label}
               </a>
             ))}
             <div className="flex gap-3 px-6 pt-5">
-              <button className="text-[10px] text-white tracking-[0.2em]">EN</button>
-              <span style={{ color: "rgba(255,255,255,0.2)" }}>|</span>
-              <button className="text-[10px] tracking-[0.2em]" style={{ color: "rgba(255,255,255,0.35)" }}>DE</button>
+              <button className="text-[10px] tracking-[0.2em]" style={{ color: "var(--accent)", fontWeight: 600 }}>EN</button>
+              <span style={{ color: "var(--border)" }}>|</span>
+              <button className="text-[10px] tracking-[0.2em]" style={{ color: "var(--text-muted)" }}>DE</button>
             </div>
           </div>
         )}

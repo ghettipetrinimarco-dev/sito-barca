@@ -1,178 +1,158 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 
-const easeOut = [0.16, 1, 0.3, 1];
+const ease = [0.16, 1, 0.3, 1];
 
 export default function Hero() {
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-    >
-      {/* Deep navy layered background */}
+    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Background image */}
+      <Image
+        src="/Copertina.jpg"
+        alt="Ventum catamaran sailing the Mediterranean"
+        fill
+        priority
+        className="object-cover object-center"
+        quality={90}
+      />
+
+      {/* Gradient overlay — dark left/bottom, reveal right */}
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "linear-gradient(160deg, #060c18 0%, #0b1628 35%, #0d1e3a 65%, #060e1c 100%)",
-        }}
-      />
-
-      {/* Radial accent glows */}
-      <div
-        className="absolute inset-0 animate-pulse-glow"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 55% at 20% 60%, rgba(0,104,198,0.18) 0%, transparent 70%)",
+          background: "linear-gradient(105deg, rgba(5,15,30,0.82) 0%, rgba(5,15,30,0.6) 50%, rgba(5,15,30,0.25) 100%)",
         }}
       />
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "radial-gradient(ellipse 50% 40% at 80% 25%, rgba(44,141,226,0.1) 0%, transparent 60%)",
-          animation: "pulseGlow 10s ease-in-out infinite reverse",
+          background: "linear-gradient(to top, rgba(5,15,30,0.55) 0%, transparent 50%)",
         }}
-      />
-
-      {/* Fine grid texture */}
-      <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)`,
-          backgroundSize: "72px 72px",
-        }}
-      />
-
-      {/* Floating orbs */}
-      <div
-        className="absolute top-[22%] left-[15%] w-72 h-72 rounded-full pointer-events-none animate-float"
-        style={{ background: "radial-gradient(circle, rgba(0,104,198,0.12), transparent 70%)" }}
-      />
-      <div
-        className="absolute bottom-[20%] right-[12%] w-96 h-96 rounded-full pointer-events-none animate-float-slow"
-        style={{ background: "radial-gradient(circle, rgba(44,141,226,0.08), transparent 70%)" }}
       />
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-14 text-center">
-        {/* Label */}
-        <motion.p
-          className="text-[10px] tracking-[0.55em] uppercase mb-7 font-light"
-          style={{ color: "var(--accent-light)" }}
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.2, ease: easeOut }}
-        >
-          Premium Sailing Catamaran · Mediterranean
-        </motion.p>
-
-        {/* Main heading with Manrope */}
-        <motion.h1
-          className="font-manrope font-bold leading-[1.08] tracking-[-0.03em] mb-8"
-          style={{ fontSize: "clamp(3rem, 8vw, 7.5rem)" }}
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.0, delay: 0.38, ease: easeOut }}
-        >
-          <span className="text-white">Sailing, training</span>
-          <br />
-          <span className="text-white">and </span>
-          <span className="text-gradient">unforgettable</span>
-          <br />
-          <span className="text-white">experience at sea</span>
-        </motion.h1>
-
-        {/* Playfair serif subtitle */}
-        <motion.p
-          className="font-playfair italic text-xl md:text-2xl max-w-xl mx-auto mb-3 font-light"
-          style={{ color: "rgba(255,255,255,0.35)" }}
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.58, ease: easeOut }}
-        >
-          Private catamaran cruises &amp; professional sailing instruction
-        </motion.p>
-
-        <motion.p
-          className="text-sm text-white/40 max-w-lg mx-auto mb-14 font-light leading-relaxed"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.9, delay: 0.72, ease: easeOut }}
-        >
-          Adventure on the Mediterranean with Captain Marco
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.88, ease: easeOut }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-        >
-          <a
-            href="#cruise-plan"
-            className="group inline-flex items-center gap-3 text-white px-9 py-4 text-[11px] tracking-[0.2em] uppercase font-semibold font-manrope transition-all duration-350"
-            style={{
-              background: "linear-gradient(120deg, var(--accent) 0%, var(--accent-light) 100%)",
-              boxShadow: "0 4px 32px rgba(0,104,198,0.35)",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 48px rgba(0,104,198,0.55)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 32px rgba(0,104,198,0.35)";
-            }}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-14 w-full pt-20">
+        <div className="max-w-3xl">
+          <motion.p
+            className="text-[10px] tracking-[0.55em] uppercase font-light mb-7"
+            style={{ color: "rgba(255,255,255,0.65)" }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.2, ease }}
           >
-            Cruise Plan 2026
-            <svg
-              className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5"
-              fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            Premium Sailing Catamaran · Mediterranean
+          </motion.p>
+
+          <motion.h1
+            className="font-manrope font-bold text-white leading-[1.07] tracking-[-0.03em] mb-8"
+            style={{ fontSize: "clamp(2.8rem, 7vw, 6.5rem)" }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.0, delay: 0.35, ease }}
+          >
+            Sailing, training
+            <br />
+            and{" "}
+            <span style={{
+              background: "linear-gradient(120deg, #7ab8f5 0%, #c8e4ff 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}>
+              unforgettable
+            </span>
+            <br />
+            experience at sea
+          </motion.h1>
+
+          <motion.p
+            className="font-playfair italic text-xl md:text-2xl font-light mb-3"
+            style={{ color: "rgba(255,255,255,0.55)" }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.55, ease }}
+          >
+            Private catamaran cruises &amp; professional sailing instruction
+          </motion.p>
+
+          <motion.p
+            className="text-sm font-light leading-relaxed mb-14"
+            style={{ color: "rgba(255,255,255,0.4)" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.9, delay: 0.7, ease }}
+          >
+            Adventure on the Mediterranean with Captain Marco
+          </motion.p>
+
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.85, ease }}
+          >
+            <a
+              href="#cruise-plan"
+              className="group inline-flex items-center gap-3 text-white font-manrope font-semibold text-[11px] tracking-[0.2em] uppercase px-9 py-4 transition-all duration-300"
+              style={{
+                background: "var(--accent)",
+                boxShadow: "0 4px 24px rgba(0,75,145,0.4)",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 36px rgba(0,75,145,0.55)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "var(--accent)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(0,75,145,0.4)";
+              }}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-          <a
-            href="#services"
-            className="inline-flex items-center gap-3 border text-white/65 hover:text-white px-9 py-4 text-[11px] tracking-[0.2em] uppercase font-light font-manrope transition-all duration-350"
-            style={{ borderColor: "rgba(255,255,255,0.15)" }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.4)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.15)";
-            }}
-          >
-            Our Services
-          </a>
-        </motion.div>
+              Cruise Plan 2026
+              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+            <a
+              href="#services"
+              className="inline-flex items-center gap-3 text-white font-manrope font-light text-[11px] tracking-[0.2em] uppercase px-9 py-4 border transition-all duration-300"
+              style={{ borderColor: "rgba(255,255,255,0.3)" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.7)";
+                (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.08)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.3)";
+                (e.currentTarget as HTMLElement).style.background = "transparent";
+              }}
+            >
+              Our Services
+            </a>
+          </motion.div>
+        </div>
       </div>
 
       {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        style={{ color: "rgba(255,255,255,0.25)" }}
+        style={{ color: "rgba(255,255,255,0.3)" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.6, duration: 0.9 }}
       >
         <span className="text-[9px] tracking-[0.45em] uppercase">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 7, 0] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-        >
+        <motion.div animate={{ y: [0, 7, 0] }} transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 9l-7 7-7-7" />
           </svg>
         </motion.div>
       </motion.div>
 
-      {/* Bottom fade */}
+      {/* Bottom fade to light */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-40"
-        style={{ background: "linear-gradient(to top, #0b0e14, transparent)" }}
+        className="absolute bottom-0 left-0 right-0 h-32"
+        style={{ background: "linear-gradient(to top, var(--bg), transparent)" }}
       />
     </section>
   );

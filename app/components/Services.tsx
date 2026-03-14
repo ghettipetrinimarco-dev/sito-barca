@@ -2,8 +2,9 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import Image from "next/image";
 
-const easeOut = [0.16, 1, 0.3, 1];
+const ease = [0.16, 1, 0.3, 1];
 
 const services = [
   {
@@ -12,6 +13,7 @@ const services = [
     description:
       "If the wind really picks up during this week, we stay outside and experience the sea in its untamed form. In such conditions, every maneuver must be faster and completely precise. This is how you develop the mental strength and confidence that define a true skipper.",
     tag: "Training",
+    image: "/Mileage Cruise.jpg",
   },
   {
     number: "02",
@@ -24,7 +26,7 @@ const services = [
     number: "03",
     title: "Harbor Maneuver Course",
     description:
-      "Master docking with complete confidence. In this course you will learn in a practical way how to safely maneuver your catamaran into the harbor even with wind and limited space. We train calmness and precision so that stress in the harbor becomes a thing of the past.",
+      "Master docking with complete confidence. Learn how to safely maneuver your catamaran into the harbor even with wind and limited space. We train calmness and precision so that stress in the harbor becomes a thing of the past.",
     tag: "Course",
     dates: "04–11 Oct and 11–18 Oct",
   },
@@ -32,21 +34,23 @@ const services = [
     number: "04",
     title: "Survey / Yacht Inspection",
     description:
-      "A shiny hull can often hide technical defects that later become expensive and quickly turn the joy of watersports into a costly setback. We inspect the real condition of your vessel and determine the exact market value for insurance or purchase agreements.",
+      "A shiny hull can often hide technical defects that later become expensive. We inspect the real condition of your vessel and determine the exact market value for insurance or purchase agreements.",
     tag: "Inspection",
+    image: "/Yacht Survey.jpg",
   },
   {
     number: "05",
     title: "Wingfoil Courses",
     description:
-      "Combine sailing and wingfoiling exclusively from our yacht. We start directly where the wind is perfect, always accompanied by a support dinghy for your safety. We guide you in both disciplines using the latest high-end equipment from our sponsor Duotone.",
+      "Combine sailing and wingfoiling exclusively from our yacht. We start directly where the wind is perfect, always accompanied by a support dinghy for your safety. We guide you using the latest high-end equipment from our sponsor Duotone.",
     tag: "Watersports",
+    image: "/Wingfoil.webp",
   },
   {
     number: "06",
     title: "Sushi Sailor",
     description:
-      "Fixed menus have no place in my concept as the Sushi Sailor. I select only the best seasonal ingredients and the freshest fish to create a multi-course menu directly in front of you. Every movement is precision, every piece of sushi is unique. No loud restaurants, no time pressure. Only you, your guests, and the art of sushi.",
+      "I select only the best seasonal ingredients and the freshest fish to create a multi-course menu directly in front of you. No loud restaurants, no time pressure. Only you, your guests, and the art of sushi.",
     tag: "Culinary",
     footer: "Arigato — Marco",
   },
@@ -59,74 +63,82 @@ function ServiceCard({ service, index }: { service: (typeof services)[0]; index:
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 36 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 36 }}
-      transition={{ duration: 0.75, delay: (index % 3) * 0.12, ease: easeOut }}
-      className="group relative p-8 cursor-default overflow-hidden"
+      initial={{ opacity: 0, y: 32 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
+      transition={{ duration: 0.75, delay: (index % 3) * 0.1, ease }}
+      className="group flex flex-col overflow-hidden transition-all duration-350"
       style={{
-        background: "rgba(255,255,255,0.022)",
-        border: "1px solid rgba(255,255,255,0.065)",
-        transition: "all 0.4s ease",
+        background: "var(--surface)",
+        border: "1px solid var(--border)",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLElement;
-        el.style.background = "rgba(255,255,255,0.048)";
+        el.style.boxShadow = "0 8px 32px rgba(0,75,145,0.1)";
         el.style.borderColor = "rgba(0,104,198,0.3)";
         el.style.transform = "translateY(-4px)";
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget as HTMLElement;
-        el.style.background = "rgba(255,255,255,0.022)";
-        el.style.borderColor = "rgba(255,255,255,0.065)";
+        el.style.boxShadow = "0 1px 4px rgba(0,0,0,0.04)";
+        el.style.borderColor = "var(--border)";
         el.style.transform = "translateY(0)";
       }}
     >
-      {/* Number + Tag */}
-      <div className="flex items-start justify-between mb-7">
-        <span
-          className="text-xs font-mono tracking-widest"
-          style={{ color: "rgba(0,104,198,0.5)" }}
-        >
-          {service.number}
-        </span>
-        <span
-          className="text-[9px] tracking-[0.22em] uppercase px-2.5 py-1 border transition-all duration-300"
-          style={{
-            color: "rgba(255,255,255,0.3)",
-            borderColor: "rgba(255,255,255,0.1)",
-          }}
-        >
-          {service.tag}
-        </span>
+      {/* Image */}
+      {service.image && (
+        <div className="relative w-full overflow-hidden" style={{ height: "180px" }}>
+          <Image
+            src={service.image}
+            alt={service.title}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.15) 100%)" }} />
+        </div>
+      )}
+
+      <div className="flex flex-col flex-1 p-8">
+        <div className="flex items-start justify-between mb-6">
+          <span className="text-xs font-mono tracking-widest" style={{ color: "var(--accent-light)" }}>
+            {service.number}
+          </span>
+          <span
+            className="text-[9px] tracking-[0.22em] uppercase px-2.5 py-1"
+            style={{ color: "var(--text-muted)", border: "1px solid var(--border)", borderRadius: "1px" }}
+          >
+            {service.tag}
+          </span>
+        </div>
+
+        <h3 className="font-manrope font-semibold mb-4 leading-snug" style={{ fontSize: "1.02rem", color: "var(--text)" }}>
+          {service.title}
+        </h3>
+
+        <p className="text-sm font-light leading-relaxed flex-1" style={{ color: "var(--text-secondary)" }}>
+          {service.description}
+        </p>
+
+        {service.dates && (
+          <div className="mt-5 pt-5" style={{ borderTop: "1px solid var(--border-light)" }}>
+            <p className="text-[10px] tracking-[0.25em] uppercase font-medium" style={{ color: "var(--accent)" }}>
+              Dates: {service.dates}
+            </p>
+          </div>
+        )}
+
+        {service.footer && (
+          <div className="mt-5 pt-5" style={{ borderTop: "1px solid var(--border-light)" }}>
+            <p className="font-playfair italic text-sm" style={{ color: "var(--text-muted)" }}>
+              {service.footer}
+            </p>
+          </div>
+        )}
       </div>
 
-      <h3 className="font-manrope font-semibold text-white mb-4 leading-snug" style={{ fontSize: "1.05rem" }}>
-        {service.title}
-      </h3>
-
-      <p className="text-sm leading-relaxed font-light" style={{ color: "rgba(255,255,255,0.45)" }}>
-        {service.description}
-      </p>
-
-      {service.dates && (
-        <div className="mt-5 pt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-          <p className="text-[10px] tracking-[0.25em] uppercase" style={{ color: "var(--accent-light)" }}>
-            Dates: {service.dates}
-          </p>
-        </div>
-      )}
-
-      {service.footer && (
-        <div className="mt-5 pt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-          <p className="text-xs italic font-playfair" style={{ color: "rgba(255,255,255,0.25)" }}>
-            {service.footer}
-          </p>
-        </div>
-      )}
-
-      {/* Bottom accent line on hover */}
+      {/* Hover bottom accent */}
       <div
-        className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500"
+        className="h-[2px] w-0 group-hover:w-full transition-all duration-500"
         style={{ background: "linear-gradient(90deg, var(--accent), var(--accent-light))" }}
       />
     </motion.div>
@@ -143,29 +155,21 @@ export default function Services() {
         ref={titleRef}
         initial={{ opacity: 0, y: 28 }}
         animate={titleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-        transition={{ duration: 0.9, ease: easeOut }}
+        transition={{ duration: 0.9, ease }}
         className="mb-20"
       >
-        <p
-          className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light"
-          style={{ color: "var(--accent-light)" }}
-        >
+        <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
           What we offer
         </p>
-        <h2 className="font-manrope font-bold text-white tracking-tight mb-6" style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)" }}>
+        <h2 className="font-manrope font-bold tracking-tight mb-6" style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)", color: "var(--text)" }}>
           SERVICES
         </h2>
         <span className="accent-line" />
       </motion.div>
 
-      <div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px"
-        style={{ background: "rgba(255,255,255,0.04)" }}
-      >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((service, index) => (
-          <div key={index} style={{ background: "#0b0e14" }}>
-            <ServiceCard service={service} index={index} />
-          </div>
+          <ServiceCard key={index} service={service} index={index} />
         ))}
       </div>
     </section>
