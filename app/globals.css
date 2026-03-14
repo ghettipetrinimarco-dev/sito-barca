@@ -1,8 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #f5f5f5;
+  --background: #0b0e14;
+  --foreground: #f0f2f5;
+  --accent: #0068c6;
+  --accent-light: #2c8de2;
+  --accent-dim: rgba(0, 104, 198, 0.25);
 }
 
 @theme inline {
@@ -19,20 +22,66 @@ html {
 }
 
 body {
-  background: #0a0a0a;
-  color: #f5f5f5;
-  font-family: 'Inter', sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter, 'Inter', sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0b0e14; }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+/* Keyframes */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-18px); }
 }
-::-webkit-scrollbar-track {
-  background: #0a0a0a;
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.12; transform: scale(1); }
+  50%       { opacity: 0.28; transform: scale(1.08); }
 }
-::-webkit-scrollbar-thumb {
-  background: #2563eb;
-  border-radius: 3px;
+
+@keyframes shimmerLine {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+/* Utility classes */
+.animate-float { animation: floatY 9s ease-in-out infinite; }
+.animate-float-slow { animation: floatY 14s ease-in-out infinite reverse; }
+.animate-pulse-glow { animation: pulseGlow 7s ease-in-out infinite; }
+
+.font-manrope { font-family: var(--font-manrope, 'Manrope', sans-serif); }
+.font-playfair { font-family: var(--font-playfair, 'Playfair Display', serif); }
+
+.text-gradient {
+  background: linear-gradient(120deg, #ddeeff 0%, var(--accent-light) 55%, #9abfe8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.accent-line {
+  display: block;
+  height: 2px;
+  width: 44px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  border-radius: 1px;
+}
+
+.glass-card {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.07);
+  backdrop-filter: blur(8px);
+  transition: background 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+}
+
+.glass-card:hover {
+  background: rgba(255,255,255,0.048);
+  border-color: rgba(0,104,198,0.28);
+  transform: translateY(-3px);
 }

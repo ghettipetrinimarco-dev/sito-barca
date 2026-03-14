@@ -3,42 +3,49 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
+const easeOut = [0.16, 1, 0.3, 1];
+
 export default function VentumStory() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section
-      id="ventum-story"
-      className="py-32 px-6 lg:px-12 relative overflow-hidden"
-    >
-      {/* Background accent */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-950/5 via-transparent to-transparent pointer-events-none" />
+    <section id="ventum-story" className="py-32 px-6 lg:px-14 relative overflow-hidden">
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse 60% 50% at 80% 50%, rgba(0,104,198,0.05) 0%, transparent 70%)",
+        }}
+      />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Left: Text */}
           <motion.div
             ref={ref}
-            initial={{ opacity: 0, x: -40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
-            transition={{ duration: 0.9, ease: [0.21, 0.47, 0.32, 0.98] }}
+            initial={{ opacity: 0, x: -36 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -36 }}
+            transition={{ duration: 0.95, ease: easeOut }}
           >
-            <p className="text-xs tracking-[0.4em] uppercase text-blue-500 mb-4">
+            <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
               Our journey
             </p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-6">
+            <h2
+              className="font-manrope font-bold text-white tracking-tight mb-6"
+              style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)" }}
+            >
               VENTUM STORY
             </h2>
-            <div className="h-px w-16 bg-blue-500 mb-8" />
-            <p className="text-lg text-white/60 leading-relaxed font-light">
+            <span className="accent-line mb-8" />
+
+            <p className="text-lg font-light leading-relaxed mt-8" style={{ color: "rgba(255,255,255,0.5)" }}>
               Since 2018, we have been living our dream on the sea. As brothers,
               we have not only fulfilled a wish with our own yacht, but found a
               calling. For eight years we have been sharing this passion with our
               guests, friends, and families, creating unforgettable experiences
               on the water together.
             </p>
-            <p className="text-lg text-white/60 leading-relaxed font-light mt-6">
+            <p className="text-lg font-light leading-relaxed mt-6" style={{ color: "rgba(255,255,255,0.5)" }}>
               Join us, Sandro and Marco, on our journeys and become part of a
               success story told by the wind and freedom.
             </p>
@@ -48,7 +55,18 @@ export default function VentumStory() {
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="inline-flex items-center gap-3 mt-10 text-xs tracking-widest uppercase text-white/50 hover:text-white border-b border-white/10 hover:border-white/50 pb-1 transition-all duration-300"
+              className="inline-flex items-center gap-3 mt-10 text-[10px] tracking-[0.22em] uppercase font-manrope pb-1 transition-all duration-300"
+              style={{ color: "rgba(255,255,255,0.45)", borderBottom: "1px solid rgba(255,255,255,0.1)" }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.color = "#fff";
+                el.style.borderBottomColor = "rgba(255,255,255,0.45)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.color = "rgba(255,255,255,0.45)";
+                el.style.borderBottomColor = "rgba(255,255,255,0.1)";
+              }}
             >
               Meet Captain Marco
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -57,28 +75,35 @@ export default function VentumStory() {
             </motion.a>
           </motion.div>
 
-          {/* Right: Visual element */}
+          {/* Right: Visual card */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
-            transition={{ duration: 0.9, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
+            initial={{ opacity: 0, x: 36 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 36 }}
+            transition={{ duration: 0.95, delay: 0.2, ease: easeOut }}
             className="relative"
           >
-            {/* Decorative card */}
-            <div className="relative aspect-[4/3] bg-gradient-to-br from-slate-800 via-blue-950/50 to-slate-900 border border-white/10 overflow-hidden">
-              {/* Inner gradient decoration */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-transparent to-transparent" />
+            <div
+              className="relative aspect-[4/3] overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, #0d1a2e 0%, #0a1628 50%, #0c1e38 100%)",
+                border: "1px solid rgba(255,255,255,0.07)",
+              }}
+            >
               <div
-                className="absolute inset-0 opacity-10"
+                className="absolute inset-0"
                 style={{
-                  backgroundImage: `radial-gradient(circle at 30% 40%, rgba(37,99,235,0.5) 0%, transparent 50%)`,
+                  background: "radial-gradient(ellipse 60% 50% at 30% 40%, rgba(0,104,198,0.18) 0%, transparent 60%)",
                 }}
               />
 
               {/* Year badge */}
               <div className="absolute top-8 left-8">
-                <p className="text-xs tracking-[0.3em] uppercase text-white/30">Founded</p>
-                <p className="text-5xl font-bold text-white/10 mt-1">2018</p>
+                <p className="text-[10px] tracking-[0.3em] uppercase" style={{ color: "rgba(255,255,255,0.25)" }}>
+                  Founded
+                </p>
+                <p className="font-manrope font-bold mt-1" style={{ fontSize: "3.5rem", color: "rgba(255,255,255,0.07)" }}>
+                  2018
+                </p>
               </div>
 
               {/* Stats */}
@@ -87,17 +112,23 @@ export default function VentumStory() {
                   { value: "8+", label: "Years at sea" },
                   { value: "2", label: "Brothers" },
                 ].map((stat, i) => (
-                  <div key={i} className="border border-white/10 p-4">
-                    <p className="text-2xl font-bold text-blue-400">{stat.value}</p>
-                    <p className="text-xs text-white/30 tracking-widest uppercase mt-1">
+                  <div
+                    key={i}
+                    className="p-4"
+                    style={{ border: "1px solid rgba(255,255,255,0.08)" }}
+                  >
+                    <p className="font-manrope font-bold text-2xl" style={{ color: "var(--accent-light)" }}>
+                      {stat.value}
+                    </p>
+                    <p className="text-[10px] tracking-[0.22em] uppercase mt-1" style={{ color: "rgba(255,255,255,0.28)" }}>
                       {stat.label}
                     </p>
                   </div>
                 ))}
               </div>
 
-              {/* Decorative compass rose */}
-              <div className="absolute top-1/2 right-8 -translate-y-1/2 w-24 h-24 opacity-10">
+              {/* Compass rose */}
+              <div className="absolute top-1/2 right-8 -translate-y-1/2 w-24 h-24 opacity-[0.07]">
                 <svg viewBox="0 0 100 100" fill="none" stroke="white" strokeWidth="0.5">
                   <circle cx="50" cy="50" r="48" />
                   <circle cx="50" cy="50" r="36" />
@@ -109,8 +140,11 @@ export default function VentumStory() {
               </div>
             </div>
 
-            {/* Decorative border offset */}
-            <div className="absolute -bottom-3 -right-3 w-full h-full border border-blue-500/20 -z-10" />
+            {/* Offset border */}
+            <div
+              className="absolute -bottom-3 -right-3 w-full h-full -z-10"
+              style={{ border: "1px solid rgba(0,104,198,0.18)" }}
+            />
           </motion.div>
         </div>
       </div>
