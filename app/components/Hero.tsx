@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
@@ -22,20 +21,22 @@ export default function Hero() {
   return (
     <section id="hero" ref={ref} className="relative min-h-screen flex items-center overflow-hidden">
       {/* Parallax background */}
-      <motion.div
-        className="absolute inset-0 scale-[1.2]"
-        style={{ y: imageY }}
-      >
-        <Image
+      <div className="absolute inset-0 overflow-hidden">
+        <motion.img
           src="/Copertina.jpg"
           alt="Ventum catamaran sailing the Mediterranean"
-          fill
-          priority
-          className="object-cover"
-            style={{ objectPosition: "center 60%" }}
-          quality={90}
+          style={{
+            y: imageY,
+            scale: 1.25,
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center 55%",
+          }}
         />
-      </motion.div>
+      </div>
 
       {/* Gradient overlays */}
       <div
