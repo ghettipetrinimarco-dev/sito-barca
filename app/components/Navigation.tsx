@@ -153,8 +153,8 @@ export default function Navigation() {
           <div className="flex justify-center">
             <a
               href="#hero"
-              className="font-playfair font-bold italic transition-colors duration-400 hover:opacity-75"
-              style={{ fontSize: "1.45rem", color: logoColor, letterSpacing: "0.12em" }}
+              className="font-playfair transition-colors duration-400 hover:opacity-60"
+              style={{ fontSize: "1.65rem", color: logoColor, letterSpacing: "0.32em", fontWeight: 400 }}
             >
               VENTUM
             </a>
@@ -205,8 +205,8 @@ export default function Navigation() {
         <div className="lg:hidden flex items-center justify-between h-20">
           <a
             href="#hero"
-            className="font-playfair font-bold italic"
-            style={{ fontSize: "1.35rem", color: logoColor, letterSpacing: "0.1em" }}
+            className="font-playfair"
+            style={{ fontSize: "1.5rem", color: logoColor, letterSpacing: "0.28em", fontWeight: 400 }}
           >
             VENTUM
           </a>
