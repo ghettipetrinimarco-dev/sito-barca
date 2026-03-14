@@ -108,7 +108,7 @@ export default function CaptainMarco() {
                 className="font-manrope font-bold mb-2"
                 style={{ fontSize: "clamp(2.2rem, 4vw, 3.5rem)", color: "var(--accent)" }}
               >
-                <CountUpStat value={stat.value} inView={isInView} duration={2} />
+                <CountUpStat value={stat.value} inView={isInView} duration={2.8} />
               </p>
               <p
                 className="text-[11px] tracking-[0.15em] uppercase font-light"

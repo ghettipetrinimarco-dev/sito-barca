@@ -57,7 +57,7 @@ export default function VentumStory() {
                 style={{ border: "1px solid var(--border)", background: "var(--bg)" }}
               >
                 <p className="font-manrope font-bold text-2xl" style={{ color: "var(--accent)" }}>
-                  <CountUpStat value={stat.value} inView={isInView} duration={1.6} />
+                  <CountUpStat value={stat.value} inView={isInView} duration={2.4} />
                 </p>
                 <p className="text-[10px] tracking-[0.2em] uppercase mt-1" style={{ color: "var(--text-muted)" }}>{stat.label}</p>
               </motion.div>
