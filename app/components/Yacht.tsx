@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import {
   BedDouble, Users, ShowerHead, Wifi, Wind, Sun,
   Music, Tv, ChefHat, Droplets, Anchor, Waves,
@@ -9,7 +10,7 @@ import {
 } from "lucide-react";
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
-import { yachtSpecs, yachtSpecsDe, yachtFeatures } from "../../lib/yacht-data";
+import { yachtSpecs, yachtSpecsDe, yachtFeatures, yachtGallery } from "../../lib/yacht-data";
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -23,10 +24,14 @@ export default function Yacht() {
   const tr = t[lang].yacht;
   const specs = lang === "de" ? yachtSpecsDe : yachtSpecs;
 
+  const [activeImg, setActiveImg] = useState(0);
+
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const specsRef = useRef<HTMLDivElement>(null);
   const specsInView = useInView(specsRef, { once: true, margin: "-60px" });
+  const galleryRef = useRef<HTMLDivElement>(null);
+  const galleryInView = useInView(galleryRef, { once: true, margin: "-60px" });
 
   return (
     <section id="yacht" className="py-32 px-6 lg:px-14 overflow-hidden" style={{ background: "var(--surface)" }}>
@@ -77,59 +82,127 @@ export default function Yacht() {
           </div>
         </motion.div>
 
-        {/* Main grid: image + description */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-center">
-          {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, x: -32 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -32 }}
-            transition={{ duration: 1.0, delay: 0.15, ease }}
-            className="relative overflow-hidden"
-            style={{ height: "480px", border: "1px solid var(--border)" }}
-          >
-            <img
-              src="/Yacht.jpg"
-              alt="X5000 Ventum Catamaran"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center 40%" }}
-            />
-            {/* Badge */}
-            <div
-              className="absolute top-5 left-5 px-4 py-2"
-              style={{ background: "rgba(5,15,30,0.75)", backdropFilter: "blur(8px)" }}
-            >
-              <p className="text-[9px] tracking-[0.3em] uppercase text-white/60">Model</p>
-              <p className="font-manrope font-semibold text-white text-sm tracking-wider">X5000 — 50ft</p>
-            </div>
-          </motion.div>
+        {/* Gallery */}
+        <motion.div
+          ref={galleryRef}
+          initial={{ opacity: 0, y: 24 }}
+          animate={galleryInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+          transition={{ duration: 0.9, ease }}
+          className="mb-24"
+        >
+          {/* Main image */}
+          <div className="relative overflow-hidden mb-3" style={{ height: "520px", border: "1px solid var(--border)" }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeImg}
+                initial={{ opacity: 0, scale: 1.03 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.45, ease }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={yachtGallery[activeImg].src}
+                  alt={yachtGallery[activeImg].alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1280px) 100vw, 1280px"
+                  priority={activeImg === 0}
+                />
+              </motion.div>
+            </AnimatePresence>
 
-          {/* Description + quick specs */}
+            {/* Label overlay */}
+            <div
+              className="absolute bottom-5 left-5 px-4 py-2 pointer-events-none"
+              style={{ background: "rgba(5,15,30,0.65)", backdropFilter: "blur(8px)" }}
+            >
+              <p className="text-[9px] tracking-[0.3em] uppercase" style={{ color: "rgba(255,255,255,0.55)" }}>
+                {yachtGallery[activeImg].label}
+              </p>
+              <p className="font-manrope font-semibold text-white text-sm tracking-wider">
+                X5000 — 50ft
+              </p>
+            </div>
+
+            {/* Nav arrows */}
+            <button
+              onClick={() => setActiveImg((i) => (i - 1 + yachtGallery.length) % yachtGallery.length)}
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all duration-200"
+              style={{ background: "rgba(5,15,30,0.5)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.15)" }}
+              onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.background = "rgba(0,75,145,0.7)"}
+              onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.background = "rgba(5,15,30,0.5)"}
+            >
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              onClick={() => setActiveImg((i) => (i + 1) % yachtGallery.length)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all duration-200"
+              style={{ background: "rgba(5,15,30,0.5)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.15)" }}
+              onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.background = "rgba(0,75,145,0.7)"}
+              onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.background = "rgba(5,15,30,0.5)"}
+            >
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Thumbnails */}
+          <div className="grid grid-cols-6 gap-2">
+            {yachtGallery.map((img, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveImg(i)}
+                className="relative overflow-hidden transition-all duration-200"
+                style={{
+                  height: "72px",
+                  border: activeImg === i ? "2px solid var(--accent)" : "1px solid var(--border)",
+                  opacity: activeImg === i ? 1 : 0.65,
+                }}
+                onMouseEnter={(e) => { if (activeImg !== i) (e.currentTarget as HTMLElement).style.opacity = "0.9"; }}
+                onMouseLeave={(e) => { if (activeImg !== i) (e.currentTarget as HTMLElement).style.opacity = "0.65"; }}
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className="object-cover"
+                  sizes="200px"
+                />
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Description + quick specs */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-start">
           <motion.div
-            initial={{ opacity: 0, x: 32 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 32 }}
-            transition={{ duration: 1.0, delay: 0.25, ease }}
-            className="space-y-8"
+            initial={{ opacity: 0, x: -28 }}
+            animate={galleryInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -28 }}
+            transition={{ duration: 0.9, delay: 0.1, ease }}
           >
             <p className="text-lg font-light leading-relaxed" style={{ color: "var(--text-secondary)" }}>
               {tr.description}
             </p>
+          </motion.div>
 
-            {/* Quick specs row */}
+          <motion.div
+            initial={{ opacity: 0, x: 28 }}
+            animate={galleryInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 28 }}
+            transition={{ duration: 0.9, delay: 0.2, ease }}
+          >
             <div
               className="grid grid-cols-2 gap-0"
               style={{ borderTop: "1px solid var(--border)", borderLeft: "1px solid var(--border)" }}
             >
               {tr.specs.map((spec, i) => (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-                  transition={{ duration: 0.5, delay: 0.4 + i * 0.07, ease }}
                   className="px-5 py-4"
-                  style={{
-                    borderRight: "1px solid var(--border)",
-                    borderBottom: "1px solid var(--border)",
-                  }}
+                  style={{ borderRight: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}
                 >
                   <p className="text-[9px] tracking-[0.25em] uppercase mb-1" style={{ color: "var(--text-muted)" }}>
                     {spec.label}
@@ -137,7 +210,7 @@ export default function Yacht() {
                   <p className="font-manrope font-semibold text-sm" style={{ color: "var(--accent)" }}>
                     {spec.value}
                   </p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </motion.div>
@@ -152,7 +225,7 @@ export default function Yacht() {
           className="mb-24"
         >
           <p className="text-[10px] tracking-[0.45em] uppercase mb-8 font-manrope font-medium" style={{ color: "var(--text-secondary)" }}>
-            Technical Specifications
+            {lang === "de" ? "Technische Daten" : "Technical Specifications"}
           </p>
           <div
             className="grid grid-cols-2 lg:grid-cols-5"
@@ -164,7 +237,7 @@ export default function Yacht() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={specsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                 transition={{ duration: 0.45, delay: i * 0.05, ease }}
-                className="px-6 py-6 group transition-colors duration-200"
+                className="px-6 py-6 transition-colors duration-200"
                 style={{
                   borderRight: "1px solid var(--border)",
                   borderBottom: "1px solid var(--border)",
@@ -189,7 +262,7 @@ export default function Yacht() {
           </div>
         </motion.div>
 
-        {/* Features grid */}
+        {/* Amenities grid */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={specsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
@@ -209,11 +282,7 @@ export default function Yacht() {
                   animate={specsInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 14, scale: 0.97 }}
                   transition={{ duration: 0.45, delay: 0.1 + i * 0.05, ease }}
                   className="flex items-center gap-3.5 px-5 py-4 transition-all duration-200 cursor-default"
-                  style={{
-                    border: "1px solid var(--border)",
-                    background: "var(--bg)",
-                    borderRadius: "2px",
-                  }}
+                  style={{ border: "1px solid var(--border)", background: "var(--bg)", borderRadius: "2px" }}
                   onMouseEnter={(e) => {
                     const el = e.currentTarget as HTMLElement;
                     el.style.borderColor = "var(--accent-light)";
@@ -225,13 +294,7 @@ export default function Yacht() {
                     el.style.background = "var(--bg)";
                   }}
                 >
-                  {Icon && (
-                    <Icon
-                      size={16}
-                      strokeWidth={1.5}
-                      style={{ color: "var(--accent)", flexShrink: 0 }}
-                    />
-                  )}
+                  {Icon && <Icon size={16} strokeWidth={1.5} style={{ color: "var(--accent)", flexShrink: 0 }} />}
                   <span
                     className="text-[11px] tracking-[0.1em] font-manrope font-medium leading-tight"
                     style={{ color: "var(--text-secondary)" }}

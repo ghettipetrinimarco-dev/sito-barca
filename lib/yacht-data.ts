@@ -1,3 +1,38 @@
+const BASE = "https://ventum-sailing.ch/wp-content/uploads";
+
+export const yachtGallery = [
+  {
+    src: `${BASE}/2021/05/boatbiaisloin.png`,
+    alt: "Ventum X5000 — exterior view",
+    label: "Exterior",
+  },
+  {
+    src: `${BASE}/2021/05/top_view_gallery.jpg`,
+    alt: "Ventum X5000 — top view",
+    label: "Top View",
+  },
+  {
+    src: `${BASE}/2021/05/top_view_deck.jpg`,
+    alt: "Ventum X5000 — deck",
+    label: "Deck",
+  },
+  {
+    src: `${BASE}/2021/05/cabine_ventum-3.jpg`,
+    alt: "Ventum X5000 — cabin",
+    label: "Cabin",
+  },
+  {
+    src: `${BASE}/2021/05/yacht_interior_1.jpg`,
+    alt: "Ventum X5000 — interior",
+    label: "Interior",
+  },
+  {
+    src: `${BASE}/2022/01/ventum-sailing-layout-02-7.jpg`,
+    alt: "Ventum X5000 — layout",
+    label: "Layout",
+  },
+];
+
 export type YachtSpec = {
   label: string;
   value: string;
