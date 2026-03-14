@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import {
@@ -25,6 +25,54 @@ export default function Yacht() {
   const specs = lang === "de" ? yachtSpecsDe : yachtSpecs;
 
   const [activeImg, setActiveImg] = useState(0);
+  const [autoPaused, setAutoPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchStartX = useRef(0);
+  const AUTO_DELAY = 4000;
+
+  const clearTimers = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (progressRef.current) clearInterval(progressRef.current);
+  };
+
+  const startAuto = useCallback(() => {
+    clearTimers();
+    setProgress(0);
+    const tick = 50;
+    progressRef.current = setInterval(() => {
+      setProgress((p) => Math.min(p + (tick / AUTO_DELAY) * 100, 100));
+    }, tick);
+    intervalRef.current = setInterval(() => {
+      setActiveImg((i) => (i + 1) % yachtGallery.length);
+      setProgress(0);
+    }, AUTO_DELAY);
+  }, []);
+
+  useEffect(() => {
+    if (!autoPaused) startAuto();
+    return clearTimers;
+  }, [autoPaused, startAuto]);
+
+  const goTo = (index: number) => {
+    setActiveImg(index);
+    setAutoPaused(true);
+    clearTimers();
+  };
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(delta) > 45) {
+      goTo(delta < 0
+        ? (activeImg + 1) % yachtGallery.length
+        : (activeImg - 1 + yachtGallery.length) % yachtGallery.length
+      );
+    }
+  };
 
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
@@ -91,7 +139,12 @@ export default function Yacht() {
           className="mb-24"
         >
           {/* Main image */}
-          <div className="relative overflow-hidden mb-3" style={{ height: "520px", border: "1px solid var(--border)" }}>
+          <div
+            className="relative overflow-hidden mb-3 select-none"
+            style={{ height: "520px", border: "1px solid var(--border)" }}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeImg}
@@ -112,22 +165,58 @@ export default function Yacht() {
               </motion.div>
             </AnimatePresence>
 
-            {/* Label overlay */}
-            <div
-              className="absolute bottom-5 left-5 px-4 py-2 pointer-events-none"
-              style={{ background: "rgba(5,15,30,0.65)", backdropFilter: "blur(8px)" }}
-            >
-              <p className="text-[9px] tracking-[0.3em] uppercase" style={{ color: "rgba(255,255,255,0.55)" }}>
-                {yachtGallery[activeImg].label}
-              </p>
-              <p className="font-manrope font-semibold text-white text-sm tracking-wider">
-                X5000 — 50ft
-              </p>
+            {/* Auto-progress bar */}
+            {!autoPaused && (
+              <div className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: "rgba(255,255,255,0.15)" }}>
+                <motion.div
+                  className="h-full"
+                  style={{ width: `${progress}%`, background: "rgba(255,255,255,0.7)" }}
+                />
+              </div>
+            )}
+
+            {/* Label + auto/paused badge */}
+            <div className="absolute bottom-5 left-5 flex items-end gap-3 pointer-events-none">
+              <div
+                className="px-4 py-2"
+                style={{ background: "rgba(5,15,30,0.65)", backdropFilter: "blur(8px)" }}
+              >
+                <p className="text-[9px] tracking-[0.3em] uppercase" style={{ color: "rgba(255,255,255,0.55)" }}>
+                  {yachtGallery[activeImg].label}
+                </p>
+                <p className="font-manrope font-semibold text-white text-sm tracking-wider">X5000 — 50ft</p>
+              </div>
+              {autoPaused && (
+                <button
+                  className="pointer-events-auto px-3 py-1.5 text-[9px] tracking-[0.2em] uppercase transition-all duration-200"
+                  style={{ background: "rgba(5,15,30,0.55)", backdropFilter: "blur(8px)", color: "rgba(255,255,255,0.6)", border: "1px solid rgba(255,255,255,0.15)" }}
+                  onClick={() => setAutoPaused(false)}
+                  onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "#fff"}
+                  onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.6)"}
+                >
+                  ▶ auto
+                </button>
+              )}
+            </div>
+
+            {/* Dot indicators */}
+            <div className="absolute top-5 left-1/2 -translate-x-1/2 flex gap-1.5 pointer-events-none">
+              {yachtGallery.map((_, i) => (
+                <div
+                  key={i}
+                  className="rounded-full transition-all duration-300"
+                  style={{
+                    width: activeImg === i ? "20px" : "6px",
+                    height: "6px",
+                    background: activeImg === i ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.35)",
+                  }}
+                />
+              ))}
             </div>
 
             {/* Nav arrows */}
             <button
-              onClick={() => setActiveImg((i) => (i - 1 + yachtGallery.length) % yachtGallery.length)}
+              onClick={() => goTo((activeImg - 1 + yachtGallery.length) % yachtGallery.length)}
               className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all duration-200"
               style={{ background: "rgba(5,15,30,0.5)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.15)" }}
               onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.background = "rgba(0,75,145,0.7)"}
@@ -138,7 +227,7 @@ export default function Yacht() {
               </svg>
             </button>
             <button
-              onClick={() => setActiveImg((i) => (i + 1) % yachtGallery.length)}
+              onClick={() => goTo((activeImg + 1) % yachtGallery.length)}
               className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all duration-200"
               style={{ background: "rgba(5,15,30,0.5)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.15)" }}
               onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.background = "rgba(0,75,145,0.7)"}
@@ -155,23 +244,17 @@ export default function Yacht() {
             {yachtGallery.map((img, i) => (
               <button
                 key={i}
-                onClick={() => setActiveImg(i)}
+                onClick={() => goTo(i)}
                 className="relative overflow-hidden transition-all duration-200"
                 style={{
                   height: "72px",
                   border: activeImg === i ? "2px solid var(--accent)" : "1px solid var(--border)",
-                  opacity: activeImg === i ? 1 : 0.65,
+                  opacity: activeImg === i ? 1 : 0.6,
                 }}
                 onMouseEnter={(e) => { if (activeImg !== i) (e.currentTarget as HTMLElement).style.opacity = "0.9"; }}
-                onMouseLeave={(e) => { if (activeImg !== i) (e.currentTarget as HTMLElement).style.opacity = "0.65"; }}
+                onMouseLeave={(e) => { if (activeImg !== i) (e.currentTarget as HTMLElement).style.opacity = "0.6"; }}
               >
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  className="object-cover"
-                  sizes="200px"
-                />
+                <Image src={img.src} alt={img.alt} fill className="object-cover" sizes="200px" />
               </button>
             ))}
           </div>
