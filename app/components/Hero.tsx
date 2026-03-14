@@ -31,7 +31,8 @@ export default function Hero() {
           alt="Ventum catamaran sailing the Mediterranean"
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover"
+            style={{ objectPosition: "center 60%" }}
           quality={90}
         />
       </motion.div>
@@ -41,13 +42,13 @@ export default function Hero() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(105deg, rgba(5,15,30,0.80) 0%, rgba(5,15,30,0.55) 55%, rgba(5,15,30,0.2) 100%)",
+            "linear-gradient(105deg, rgba(5,15,30,0.65) 0%, rgba(5,15,30,0.35) 55%, rgba(5,15,30,0.08) 100%)",
         }}
       />
       <div
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(to top, rgba(5,15,30,0.6) 0%, transparent 55%)",
+          background: "linear-gradient(to top, rgba(5,15,30,0.45) 0%, transparent 45%)",
         }}
       />
 
