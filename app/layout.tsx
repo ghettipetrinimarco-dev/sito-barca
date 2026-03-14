@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Manrope, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "./context/LanguageContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -45,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${manrope.variable} ${playfair.variable}`}>
       <body className="antialiased font-sans" style={{ background: "var(--bg)", color: "var(--text)" }}>
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

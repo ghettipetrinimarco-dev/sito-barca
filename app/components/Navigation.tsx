@@ -1,27 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-
-const leftNav = [
-  { label: "Yacht", href: "#yacht", type: "link" },
-  { label: "Services", type: "dropdown", items: [
-    { label: "Mileage Cruise / Heavy Weather Training", href: "#services" },
-    { label: "Holiday Cruise", href: "#services" },
-    { label: "Harbor Maneuver Course", href: "#services" },
-    { label: "Survey / Yacht Inspection", href: "#services" },
-    { label: "Wingfoil Courses", href: "#services" },
-    { label: "Sushi Sailor", href: "#services" },
-  ]},
-  { label: "About", type: "dropdown", items: [
-    { label: "Ventum Story", href: "#ventum-story" },
-    { label: "Captain Marco", href: "#captain-marco" },
-  ]},
-];
-
-const rightNav = [
-  { label: "Cruise Plan", href: "#cruise-plan", type: "link" },
-  { label: "Contact", href: "#contact", type: "link" },
-];
+import { useLang } from "../context/LanguageContext";
+import { t } from "../translations";
 
 function Dropdown({ items, isOpen }: { items: { label: string; href: string }[]; isOpen: boolean }) {
   if (!isOpen) return null;
@@ -62,11 +43,25 @@ function Dropdown({ items, isOpen }: { items: { label: string; href: string }[];
 }
 
 export default function Navigation() {
+  const { lang, setLang } = useLang();
+  const tr = t[lang].nav;
+
   const [scrolled, setScrolled] = useState(false);
   const [pastHero, setPastHero] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
+
+  const leftNav = [
+    { label: tr.yacht, href: "#yacht", type: "link" },
+    { label: tr.services, type: "dropdown", items: tr.servicesItems },
+    { label: tr.about, type: "dropdown", items: tr.aboutItems },
+  ];
+
+  const rightNav = [
+    { label: tr.cruisePlan, href: "#cruise-plan", type: "link" },
+    { label: tr.contact, href: "#contact", type: "link" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -180,23 +175,25 @@ export default function Navigation() {
               </a>
             ))}
 
-            {/* Language */}
+            {/* Language switcher */}
             <div
               className="flex items-center gap-1 px-3 py-1.5"
               style={{ border: `1px solid ${borderColor}`, borderRadius: "1px" }}
             >
               <button
                 className="text-[10px] tracking-[0.2em] font-semibold transition-colors duration-300"
-                style={{ color: onDark ? "#fff" : "var(--accent)" }}
+                style={{ color: lang === "en" ? (onDark ? "#fff" : "var(--accent)") : langColor }}
+                onClick={() => setLang("en")}
               >
                 EN
               </button>
               <span className="text-xs" style={{ color: borderColor }}>|</span>
               <button
                 className="text-[10px] tracking-[0.2em] transition-colors duration-300"
-                style={{ color: langColor }}
+                style={{ color: lang === "de" ? (onDark ? "#fff" : "var(--accent)") : langColor }}
+                onClick={() => setLang("de")}
                 onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = linkHover}
-                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = langColor}
+                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = lang === "de" ? (onDark ? "#fff" : "var(--accent)") : langColor}
               >
                 DE
               </button>
@@ -248,9 +245,21 @@ export default function Navigation() {
               ));
             })}
             <div className="flex gap-3 px-6 pt-5">
-              <button className="text-[10px] tracking-[0.2em] font-semibold" style={{ color: "var(--accent)" }}>EN</button>
+              <button
+                className="text-[10px] tracking-[0.2em] font-semibold"
+                style={{ color: lang === "en" ? "var(--accent)" : "var(--text-muted)" }}
+                onClick={() => setLang("en")}
+              >
+                EN
+              </button>
               <span style={{ color: "var(--border)" }}>|</span>
-              <button className="text-[10px] tracking-[0.2em]" style={{ color: "var(--text-muted)" }}>DE</button>
+              <button
+                className="text-[10px] tracking-[0.2em]"
+                style={{ color: lang === "de" ? "var(--accent)" : "var(--text-muted)" }}
+                onClick={() => setLang("de")}
+              >
+                DE
+              </button>
             </div>
           </div>
         )}

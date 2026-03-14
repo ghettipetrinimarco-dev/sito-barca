@@ -2,8 +2,10 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { useLang } from "../context/LanguageContext";
+import { t } from "../translations";
 
-const ease = [0.16, 1, 0.3, 1];
+const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const stops = [
   { name: "La Ràpita", country: "Spain", month: "May" },
@@ -18,6 +20,9 @@ const stops = [
 ];
 
 export default function CruisePlan() {
+  const { lang } = useLang();
+  const tr = t[lang].cruisePlan;
+
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -32,20 +37,17 @@ export default function CruisePlan() {
           className="mb-16"
         >
           <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
-            Mediterranean 2026
+            {tr.label}
           </p>
           <h2
             className="font-manrope font-bold tracking-tight mb-6"
             style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)", color: "var(--text)" }}
           >
-            CRUISE PLAN 2026
+            {tr.title}
           </h2>
           <span className="accent-line mb-8" />
           <p className="text-lg font-light leading-relaxed mt-8" style={{ color: "var(--text-secondary)", maxWidth: "760px" }}>
-            We start in May in La Ràpita and end our journey in Bizerte. A long
-            stopover takes us to the Balearic Islands — Mallorca, Menorca,
-            Cabrera, Ibiza, and Formentera, the pearls of the Mediterranean. In
-            September we continue to Sardinia, before departing for Tunisia for winter.
+            {tr.description}
           </p>
         </motion.div>
 

@@ -2,52 +2,17 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useLang } from "../context/LanguageContext";
+import { t } from "../translations";
 
-const ease = [0.16, 1, 0.3, 1];
+const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const services = [
-  {
-    number: "01",
-    title: "Mileage Cruise / Heavy Weather Training",
-    description: "If the wind really picks up during this week, we stay outside and experience the sea in its untamed form. Every maneuver must be faster and completely precise. This is how you develop the mental strength and confidence that define a true skipper.",
-    tag: "Training",
-    image: "/Mileage Cruise.jpg",
-  },
-  {
-    number: "02",
-    title: "Holiday Cruise",
-    description: "Sail the seas on your own yacht, far away from crowded tourist routes, and discover hidden beaches. Experience the night sky over the water and decide for yourself whether you prefer to cook or be cooked for.",
-    tag: "Leisure",
-  },
-  {
-    number: "03",
-    title: "Harbor Maneuver Course",
-    description: "Master docking with complete confidence. Learn how to safely maneuver your catamaran into the harbor even with wind and limited space. We train calmness and precision so that stress in the harbor becomes a thing of the past.",
-    tag: "Course",
-    dates: "04–11 Oct · 11–18 Oct",
-  },
-  {
-    number: "04",
-    title: "Survey / Yacht Inspection",
-    description: "A shiny hull can often hide technical defects that later become expensive. We inspect the real condition of your vessel and determine the exact market value for insurance or purchase agreements.",
-    tag: "Inspection",
-    image: "/Yacht Survey.jpg",
-  },
-  {
-    number: "05",
-    title: "Wingfoil Courses",
-    description: "Combine sailing and wingfoiling exclusively from our yacht. We start directly where the wind is perfect, always accompanied by a support dinghy for your safety. High-end equipment from our sponsor Duotone.",
-    tag: "Watersports",
-    image: "/Wingfoil.webp",
-  },
-  {
-    number: "06",
-    title: "Sushi Sailor",
-    description: "I select only the best seasonal ingredients and the freshest fish to create a multi-course menu directly in front of you. No loud restaurants, no time pressure. Only you, your guests, and the art of sushi.",
-    tag: "Culinary",
-    footer: "Arigato — Marco",
-  },
-];
+// images keyed by service number (static, not translated)
+const serviceImages: Record<string, string> = {
+  "01": "/Mileage Cruise.jpg",
+  "04": "/Yacht Survey.jpg",
+  "05": "/Wingfoil.webp",
+};
 
 function ServiceRow({
   service,
@@ -56,7 +21,7 @@ function ServiceRow({
   onEnter,
   onLeave,
 }: {
-  service: typeof services[0];
+  service: { number: string; title: string; description: string; tag: string; dates?: string; footer?: string };
   index: number;
   isHovered: boolean;
   onEnter: () => void;
@@ -101,7 +66,6 @@ function ServiceRow({
             >
               {service.title}
             </h3>
-            {/* Description — slides in on hover */}
             <AnimatePresence>
               {isHovered && (
                 <motion.p
@@ -152,11 +116,15 @@ function ServiceRow({
 }
 
 export default function Services() {
+  const { lang } = useLang();
+  const tr = t[lang].services;
+
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const titleInView = useInView(titleRef, { once: true, margin: "-80px" });
 
-  const hoveredService = hoveredIndex !== null ? services[hoveredIndex] : null;
+  const hoveredService = hoveredIndex !== null ? tr.items[hoveredIndex] : null;
+  const hoveredImage = hoveredService ? serviceImages[hoveredService.number] : undefined;
 
   return (
     <section id="services" className="py-32 px-6 lg:px-14" style={{ background: "var(--bg)" }}>
@@ -170,22 +138,22 @@ export default function Services() {
           className="mb-16"
         >
           <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
-            What we offer
+            {tr.label}
           </p>
           <h2 className="font-manrope font-bold tracking-tight mb-6" style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)", color: "var(--text)" }}>
-            SERVICES
+            {tr.title}
           </h2>
           <span className="accent-line" />
         </motion.div>
 
-        {/* Two-column layout: list left, image right */}
+        {/* Two-column layout */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-0 lg:gap-16 items-start">
           {/* Service list */}
           <div
             className="lg:col-span-3"
             style={{ borderTop: "1px solid var(--border)" }}
           >
-            {services.map((service, index) => (
+            {tr.items.map((service, index) => (
               <ServiceRow
                 key={index}
                 service={service}
@@ -201,9 +169,9 @@ export default function Services() {
           <div className="hidden lg:block lg:col-span-2">
             <div className="sticky top-28" style={{ height: "420px" }}>
               <AnimatePresence mode="wait">
-                {hoveredService?.image ? (
+                {hoveredImage ? (
                   <motion.div
-                    key={hoveredService.number}
+                    key={hoveredService!.number}
                     initial={{ opacity: 0, scale: 1.04 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 1.04 }}
@@ -212,18 +180,17 @@ export default function Services() {
                     style={{ border: "1px solid var(--border)" }}
                   >
                     <img
-                      src={hoveredService.image}
-                      alt={hoveredService.title}
+                      src={hoveredImage}
+                      alt={hoveredService!.title}
                       className="w-full h-full object-cover"
                     />
-                    {/* Caption */}
                     <div
                       className="absolute bottom-0 left-0 right-0 p-5"
                       style={{ background: "linear-gradient(to top, rgba(5,15,30,0.7), transparent)" }}
                     >
-                      <p className="text-white font-manrope font-semibold text-sm">{hoveredService.title}</p>
+                      <p className="text-white font-manrope font-semibold text-sm">{hoveredService!.title}</p>
                       <p className="text-[10px] tracking-[0.2em] uppercase mt-1" style={{ color: "rgba(255,255,255,0.55)" }}>
-                        {hoveredService.tag}
+                        {hoveredService!.tag}
                       </p>
                     </div>
                   </motion.div>
@@ -260,7 +227,7 @@ export default function Services() {
                     ) : (
                       <div className="text-center">
                         <p className="text-[10px] tracking-[0.35em] uppercase" style={{ color: "var(--text-muted)" }}>
-                          Hover a service
+                          {tr.placeholder}
                         </p>
                       </div>
                     )}

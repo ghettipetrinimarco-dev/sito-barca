@@ -2,19 +2,22 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { useLang } from "../context/LanguageContext";
+import { t } from "../translations";
 
-const ease = [0.16, 1, 0.3, 1];
+const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function Hero() {
+  const { lang } = useLang();
+  const tr = t[lang].hero;
+
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
 
-  // Parallax: image moves up slower than scroll
   const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  // Fade content out as user scrolls
   const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const contentY = useTransform(scrollYProgress, [0, 0.5], ["0%", "8%"]);
 
@@ -53,7 +56,7 @@ export default function Hero() {
         }}
       />
 
-      {/* Content — fades + moves up on scroll */}
+      {/* Content */}
       <motion.div
         className="relative z-10 max-w-7xl mx-auto px-6 lg:px-14 w-full pt-20"
         style={{ opacity: contentOpacity, y: contentY }}
@@ -66,7 +69,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.2, ease }}
           >
-            Premium Sailing Catamaran · Mediterranean
+            {tr.label}
           </motion.p>
 
           <motion.h1
@@ -76,9 +79,9 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, delay: 0.35, ease }}
           >
-            Sailing, training
+            {tr.title1}
             <br />
-            and{" "}
+            {tr.title2}{" "}
             <span
               style={{
                 background: "linear-gradient(120deg, #7ab8f5 0%, #c8e4ff 100%)",
@@ -87,10 +90,10 @@ export default function Hero() {
                 backgroundClip: "text",
               }}
             >
-              unforgettable
+              {tr.titleAccent}
             </span>
             <br />
-            experience at sea
+            {tr.title3}
           </motion.h1>
 
           <motion.p
@@ -100,7 +103,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.55, ease }}
           >
-            Private catamaran cruises &amp; professional sailing instruction
+            {tr.subtitle}
           </motion.p>
 
           <motion.p
@@ -110,7 +113,7 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.9, delay: 0.7, ease }}
           >
-            Adventure on the Mediterranean with Captain Marco
+            {tr.sub2}
           </motion.p>
 
           <motion.div
@@ -135,7 +138,7 @@ export default function Hero() {
                 (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(0,75,145,0.45)";
               }}
             >
-              Cruise Plan 2026
+              {tr.cta1}
               <svg
                 className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5"
                 fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -156,7 +159,7 @@ export default function Hero() {
                 (e.currentTarget as HTMLElement).style.background = "transparent";
               }}
             >
-              Our Services
+              {tr.cta2}
             </a>
           </motion.div>
         </div>
@@ -181,7 +184,7 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Bottom fade to light bg */}
+      {/* Bottom fade */}
       <div
         className="absolute bottom-0 left-0 right-0 h-36 pointer-events-none"
         style={{ background: "linear-gradient(to top, var(--bg), transparent)" }}

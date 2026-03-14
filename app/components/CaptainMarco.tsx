@@ -2,25 +2,15 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { useLang } from "../context/LanguageContext";
+import { t } from "../translations";
 
-const ease = [0.16, 1, 0.3, 1];
-
-const stats = [
-  { value: "25", label: "Years of Experience" },
-  { value: "28,000", label: "Nautical Miles Sailed" },
-  { value: "1500", label: "Sailors Trained" },
-  { value: "4", label: "Languages" },
-];
-
-const qualifications = [
-  "Inland License A and D",
-  "WWS / WWC Chief Instructor Catamaran",
-  "Offshore License B",
-  "RYA Yachtmaster",
-  "PADI Dive Master",
-];
+const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function CaptainMarco() {
+  const { lang } = useLang();
+  const tr = t[lang].captainMarco;
+
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const qualRef = useRef<HTMLDivElement>(null);
@@ -39,17 +29,17 @@ export default function CaptainMarco() {
           className="mb-16"
         >
           <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
-            Meet the captain
+            {tr.label}
           </p>
           <h2
             className="font-manrope font-bold tracking-tight mb-6"
             style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)", color: "var(--text)" }}
           >
-            CAPTAIN MARCO
+            {tr.title}
           </h2>
           <span className="accent-line mb-8" />
           <p className="font-playfair italic text-xl mt-8 max-w-2xl" style={{ color: "var(--text-secondary)" }}>
-            From the peaks of the Alps to the vastness of the sea, and finally to perfection in the kitchen.
+            {tr.quote}
           </p>
         </motion.div>
 
@@ -62,17 +52,13 @@ export default function CaptainMarco() {
             className="space-y-5"
           >
             <p className="leading-relaxed font-light" style={{ color: "var(--text-secondary)" }}>
-              My focus is not only to demonstrate technique, but to pass it on with precision and safety.
-              As a qualified sailing and ski instructor, I am dedicated to structured and methodical teaching.
-              Whether it is precise edge control while carving on skis or tactical maneuvering in every
-              wind condition, I help guests and students better understand the elements.
+              {tr.p1}
             </p>
             <p className="leading-relaxed font-light" style={{ color: "var(--text-secondary)" }}>
-              I carry this dedication forward as a passionate sushi master. I guide you safely down the
-              mountain, across the world&apos;s oceans, and on a culinary journey directly to Japan.
+              {tr.p2}
             </p>
             <p className="font-playfair italic text-sm pt-2" style={{ color: "var(--text-muted)" }}>
-              Always in motion like the ocean — Marco
+              {tr.motto}
             </p>
           </motion.div>
 
@@ -84,31 +70,29 @@ export default function CaptainMarco() {
           >
             <div className="pl-6" style={{ borderLeft: "2px solid var(--accent)" }}>
               <h3 className="font-manrope text-sm tracking-[0.18em] uppercase mb-3 font-semibold" style={{ color: "var(--text)" }}>
-                Host by Passion
+                {tr.host.title}
               </h3>
               <p className="font-light text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                A catamaran is more than a means of transport; it is a place of connection. As your host,
-                I create an atmosphere where professionalism and genuine hospitality come together.
+                {tr.host.text}
               </p>
             </div>
             <div className="pl-6" style={{ borderLeft: "2px solid var(--border)" }}>
               <h3 className="font-manrope text-sm tracking-[0.18em] uppercase mb-3 font-semibold" style={{ color: "var(--text)" }}>
-                My Promise
+                {tr.promise.title}
               </h3>
               <p className="font-light text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                Whether you want to learn sailing, continue training, enjoy a holiday, or experience an
-                exclusive dinner at sea — I will guide you with solid expertise toward your goal.
+                {tr.promise.text}
               </p>
             </div>
           </motion.div>
         </div>
 
-        {/* Stats — large numbers, no card borders (Yachtera style) */}
+        {/* Stats */}
         <div
           className="grid grid-cols-2 lg:grid-cols-4 mb-24"
           style={{ borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}
         >
-          {stats.map((stat, i) => (
+          {tr.stats.map((stat, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 24 }}
@@ -116,7 +100,7 @@ export default function CaptainMarco() {
               transition={{ duration: 0.7, delay: 0.1 + i * 0.1, ease }}
               className="py-12 px-6 text-center"
               style={{
-                borderRight: i < stats.length - 1 ? "1px solid var(--border)" : "none",
+                borderRight: i < tr.stats.length - 1 ? "1px solid var(--border)" : "none",
               }}
             >
               <p
@@ -135,7 +119,7 @@ export default function CaptainMarco() {
           ))}
         </div>
 
-        {/* Qualifications — simple list with dividers (Yachtera style) */}
+        {/* Qualifications */}
         <motion.div
           ref={qualRef}
           initial={{ opacity: 0, y: 24 }}
@@ -146,11 +130,11 @@ export default function CaptainMarco() {
             className="text-[10px] tracking-[0.45em] uppercase mb-8 text-center font-manrope font-medium"
             style={{ color: "var(--text-secondary)" }}
           >
-            Qualifications
+            {tr.qualLabel}
           </p>
 
           <div className="max-w-2xl mx-auto">
-            {qualifications.map((qual, index) => (
+            {tr.qualifications.map((qual, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 12 }}

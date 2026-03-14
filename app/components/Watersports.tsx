@@ -3,12 +3,17 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
+import { useLang } from "../context/LanguageContext";
+import { t } from "../translations";
 
-const ease = [0.16, 1, 0.3, 1];
+const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const activities = ["Wingfoil", "Wakeboard", "Water Ski", "Shock Wave", "Snorkeling", "Diving", "Fishing"];
 
 export default function Watersports() {
+  const { lang } = useLang();
+  const tr = t[lang].watersports;
+
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -44,18 +49,17 @@ export default function Watersports() {
           transition={{ duration: 1.0, delay: 0.15, ease }}
         >
           <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
-            Adventure awaits
+            {tr.label}
           </p>
           <h2
             className="font-manrope font-bold tracking-tight mb-6"
             style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)", color: "var(--text)" }}
           >
-            WATERSPORTS
+            {tr.title}
           </h2>
           <span className="accent-line mb-8" />
           <p className="text-lg font-light leading-relaxed mb-12" style={{ color: "var(--text-secondary)" }}>
-            Our catamaran is not just for sailing. Whether you are looking for
-            speed or want to enjoy the silence underwater, we have something for everyone.
+            {tr.description}
           </p>
 
           <div className="flex flex-wrap gap-3">

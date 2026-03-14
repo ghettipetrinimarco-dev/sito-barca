@@ -1,6 +1,12 @@
 "use client";
 
+import { useLang } from "../context/LanguageContext";
+import { t } from "../translations";
+
 export default function Footer() {
+  const { lang } = useLang();
+  const tr = t[lang].footer;
+
   return (
     <footer style={{ background: "var(--text)", color: "#fff" }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-14 py-16">
@@ -15,19 +21,13 @@ export default function Footer() {
               VENTUM
             </a>
             <p className="font-playfair italic text-sm" style={{ color: "rgba(255,255,255,0.35)" }}>
-              Always in motion like the ocean
+              {tr.motto}
             </p>
           </div>
 
           {/* Links */}
           <div className="flex flex-wrap gap-8">
-            {[
-              { label: "Services", href: "#services" },
-              { label: "Cruise Plan", href: "#cruise-plan" },
-              { label: "Ventum Story", href: "#ventum-story" },
-              { label: "Captain Marco", href: "#captain-marco" },
-              { label: "Contact", href: "#contact" },
-            ].map((link) => (
+            {tr.links.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
@@ -54,7 +54,7 @@ export default function Footer() {
           style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
         >
           <p className="text-[11px] font-light" style={{ color: "rgba(255,255,255,0.2)" }}>
-            &copy; 2026 Ventum. All rights reserved.
+            &copy; 2026 Ventum. {tr.rights}
           </p>
           <p className="text-[11px] font-light" style={{ color: "rgba(255,255,255,0.15)" }}>
             Mediterranean Sea

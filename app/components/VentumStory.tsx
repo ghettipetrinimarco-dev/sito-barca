@@ -3,10 +3,15 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
+import { useLang } from "../context/LanguageContext";
+import { t } from "../translations";
 
-const ease = [0.16, 1, 0.3, 1];
+const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function VentumStory() {
+  const { lang } = useLang();
+  const tr = t[lang].ventumStory;
+
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -22,36 +27,26 @@ export default function VentumStory() {
           transition={{ duration: 0.95, ease }}
         >
           <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
-            Our journey
+            {tr.label}
           </p>
           <h2
             className="font-manrope font-bold tracking-tight mb-6"
             style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)", color: "var(--text)" }}
           >
-            VENTUM STORY
+            {tr.title}
           </h2>
           <span className="accent-line mb-8" />
 
           <p className="text-lg font-light leading-relaxed mt-2" style={{ color: "var(--text-secondary)" }}>
-            Since 2018, we have been living our dream on the sea. As brothers,
-            we have not only fulfilled a wish with our own yacht, but found a
-            calling. For eight years we have been sharing this passion with our
-            guests, friends, and families, creating unforgettable experiences
-            on the water together.
+            {tr.p1}
           </p>
           <p className="text-lg font-light leading-relaxed mt-6" style={{ color: "var(--text-secondary)" }}>
-            Join us, Sandro and Marco, on our journeys and become part of a
-            success story told by the wind and freedom.
+            {tr.p2}
           </p>
 
           {/* Stats */}
           <div className="grid grid-cols-2 gap-4 mt-12">
-            {[
-              { value: "8+", label: "Years at sea" },
-              { value: "2", label: "Brothers" },
-              { value: "2018", label: "Founded" },
-              { value: "Med", label: "Our home" },
-            ].map((stat, i) => (
+            {tr.stats.map((stat, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 14 }}
@@ -80,7 +75,7 @@ export default function VentumStory() {
               (e.currentTarget as HTMLElement).style.borderBottomColor = "rgba(0,75,145,0.3)";
             }}
           >
-            Meet Captain Marco
+            {tr.cta}
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
