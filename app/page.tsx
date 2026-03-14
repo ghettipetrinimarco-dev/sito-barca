@@ -1,4 +1,6 @@
 import Navigation from "./components/Navigation";
+import ScrollReset from "./components/ScrollReset";
+import ScrollToTop from "./components/ScrollToTop";
 import Hero from "./components/Hero";
 import Yacht from "./components/Yacht";
 import Services from "./components/Services";
@@ -12,6 +14,8 @@ import Footer from "./components/Footer";
 export default function Home() {
   return (
     <main className="min-h-screen overflow-x-hidden" style={{ background: "var(--bg)" }}>
+      <ScrollReset />
+      <ScrollToTop />
       <Navigation />
       <Hero />
       <Yacht />
