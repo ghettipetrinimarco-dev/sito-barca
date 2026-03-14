@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
+import { CountUpStat } from "./CountUpStat";
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -55,7 +56,9 @@ export default function VentumStory() {
                 className="p-4"
                 style={{ border: "1px solid var(--border)", background: "var(--bg)" }}
               >
-                <p className="font-manrope font-bold text-2xl" style={{ color: "var(--accent)" }}>{stat.value}</p>
+                <p className="font-manrope font-bold text-2xl" style={{ color: "var(--accent)" }}>
+                  <CountUpStat value={stat.value} inView={isInView} duration={1.6} />
+                </p>
                 <p className="text-[10px] tracking-[0.2em] uppercase mt-1" style={{ color: "var(--text-muted)" }}>{stat.label}</p>
               </motion.div>
             ))}

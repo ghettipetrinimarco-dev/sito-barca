@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
+import { CountUpStat } from "./CountUpStat";
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -107,7 +108,7 @@ export default function CaptainMarco() {
                 className="font-manrope font-bold mb-2"
                 style={{ fontSize: "clamp(2.2rem, 4vw, 3.5rem)", color: "var(--accent)" }}
               >
-                {stat.value}
+                <CountUpStat value={stat.value} inView={isInView} duration={2} />
               </p>
               <p
                 className="text-[11px] tracking-[0.15em] uppercase font-light"
