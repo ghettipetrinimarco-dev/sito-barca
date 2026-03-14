@@ -1,5 +1,6 @@
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
+import Yacht from "./components/Yacht";
 import Services from "./components/Services";
 import Watersports from "./components/Watersports";
 import CruisePlan from "./components/CruisePlan";
@@ -13,6 +14,7 @@ export default function Home() {
     <main className="min-h-screen overflow-x-hidden" style={{ background: "var(--bg)" }}>
       <Navigation />
       <Hero />
+      <Yacht />
       <Services />
       <Watersports />
       <CruisePlan />
