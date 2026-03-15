@@ -74,7 +74,7 @@ export default function Hero() {
 
           <motion.h1
             className="font-manrope font-bold text-white leading-[1.07] tracking-[-0.03em] mb-8"
-            style={{ fontSize: "clamp(2.8rem, 7vw, 6.5rem)" }}
+            style={{ fontSize: "clamp(2rem, 4vw, 3.8rem)" }}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, delay: 0.35, ease }}
