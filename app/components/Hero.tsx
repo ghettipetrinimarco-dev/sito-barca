@@ -43,18 +43,10 @@ export default function Hero() {
       </div>
 
       {/* Gradient overlays */}
+      <div className="absolute inset-0 hero-gradient-main" />
       <div
         className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(105deg, rgba(5,15,30,0.68) 0%, rgba(5,15,30,0.38) 55%, rgba(5,15,30,0.08) 100%)",
-        }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          background: "linear-gradient(to top, rgba(5,15,30,0.5) 0%, transparent 45%)",
-        }}
+        style={{ background: "linear-gradient(to top, rgba(5,15,30,0.5) 0%, transparent 45%)" }}
       />
 
       {/* Content */}

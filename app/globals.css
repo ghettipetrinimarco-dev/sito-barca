@@ -56,13 +56,26 @@ body {
   border-radius: 1px;
 }
 
+/* Hero gradient — stronger dark-left overlay on mobile for text legibility */
+.hero-gradient-main {
+  background: linear-gradient(105deg, rgba(5,15,30,0.68) 0%, rgba(5,15,30,0.38) 55%, rgba(5,15,30,0.08) 100%);
+}
+@media (max-width: 768px) {
+  .hero-gradient-main {
+    background: linear-gradient(to right, rgba(5,15,30,0.82) 0%, rgba(5,15,30,0.55) 60%, rgba(5,15,30,0.1) 100%);
+  }
+}
+
 /* Hero background — boat visible on all screen sizes */
 .hero-bg {
-  object-position: 72% 55%; /* desktop: boat right-of-center */
+  object-position: 72% 55%;
 }
 @media (max-width: 768px) {
   .hero-bg {
-    object-position: 82% 50%; /* mobile: shift further right so boat is visible */
+    /* Shift image far right so the boat is in the visible crop area */
+    object-position: 92% 58%;
+    /* Scale zooms from the same anchor point so the boat stays centred */
+    transform-origin: 92% 58% !important;
   }
 }
 
