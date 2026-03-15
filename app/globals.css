@@ -56,6 +56,16 @@ body {
   border-radius: 1px;
 }
 
+/* Hero background — boat visible on all screen sizes */
+.hero-bg {
+  object-position: 72% 55%; /* desktop: boat right-of-center */
+}
+@media (max-width: 768px) {
+  .hero-bg {
+    object-position: 82% 50%; /* mobile: shift further right so boat is visible */
+  }
+}
+
 /* Keyframes */
 @keyframes floatY {
   0%, 100% { transform: translateY(0px); }
