@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
 
@@ -17,6 +17,19 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // Desktop: boat is ~60% from left — keep it right-of-center
+  // Mobile portrait: boat hull+mast sit around 45% from left, lower half
+  const imgPosition = isMobile ? "45% 62%" : "62% 55%";
+  const imgScale    = isMobile ? 1.08 : 1.25;
+
   const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const contentY = useTransform(scrollYProgress, [0, 0.5], ["0%", "8%"]);
@@ -29,15 +42,15 @@ export default function Hero() {
         <motion.img
           src="/Copertina.jpg"
           alt="Ventum catamaran sailing the Mediterranean"
-          className="hero-bg"
           style={{
             y: imageY,
-            scale: 1.25,
+            scale: imgScale,
             position: "absolute",
             inset: 0,
             width: "100%",
             height: "100%",
             objectFit: "cover",
+            objectPosition: imgPosition,
           }}
         />
       </div>
