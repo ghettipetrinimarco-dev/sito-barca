@@ -58,7 +58,7 @@ export default function Hero() {
 
       {/* Content */}
       <motion.div
-        className="relative z-10 max-w-7xl mx-auto px-6 lg:px-14 w-full pt-20"
+        className="relative z-10 max-w-7xl mx-auto px-6 lg:px-14 w-full pt-20 pb-36"
         style={{ opacity: contentOpacity, y: contentY }}
       >
         <div className="max-w-3xl">
@@ -107,7 +107,7 @@ export default function Hero() {
           </motion.p>
 
           <motion.p
-            className="text-sm font-light leading-relaxed mb-14"
+            className="text-sm font-light leading-relaxed mb-10"
             style={{ color: "rgba(255,255,255,0.38)" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
