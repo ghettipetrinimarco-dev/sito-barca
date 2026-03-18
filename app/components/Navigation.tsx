@@ -7,37 +7,38 @@ import { t } from "../translations";
 function Dropdown({ items, isOpen }: { items: { label: string; href: string }[]; isOpen: boolean }) {
   if (!isOpen) return null;
   return (
-    <div
-      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 z-50 overflow-hidden"
-      style={{
-        minWidth: "260px",
-        background: "#fff",
-        border: "1px solid var(--border)",
-        borderRadius: "2px",
-        boxShadow: "0 16px 48px rgba(0,0,0,0.1)",
-      }}
-    >
-      {items.map((item, i) => (
-        <a
-          key={i}
-          href={item.href}
-          className="block px-5 py-3 text-[10px] tracking-[0.2em] uppercase transition-all duration-200"
-          style={{
-            color: "var(--text-secondary)",
-            borderBottom: i < items.length - 1 ? "1px solid var(--border-light)" : "none",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.color = "var(--accent)";
-            (e.currentTarget as HTMLElement).style.background = "var(--surface-alt)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
-            (e.currentTarget as HTMLElement).style.background = "transparent";
-          }}
-        >
-          {item.label}
-        </a>
-      ))}
+    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50" style={{ minWidth: "260px" }}>
+      <div
+        style={{
+          background: "#fff",
+          border: "1px solid var(--border)",
+          borderRadius: "2px",
+          boxShadow: "0 16px 48px rgba(0,0,0,0.1)",
+          overflow: "hidden",
+        }}
+      >
+        {items.map((item, i) => (
+          <a
+            key={i}
+            href={item.href}
+            className="block px-5 py-3 text-[10px] tracking-[0.2em] uppercase transition-all duration-200"
+            style={{
+              color: "var(--text-secondary)",
+              borderBottom: i < items.length - 1 ? "1px solid var(--border-light)" : "none",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.color = "var(--accent)";
+              (e.currentTarget as HTMLElement).style.background = "var(--surface-alt)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
+              (e.currentTarget as HTMLElement).style.background = "transparent";
+            }}
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
     </div>
   );
 }
@@ -111,7 +112,12 @@ export default function Navigation() {
           {/* Left nav */}
           <div className="flex items-center gap-8">
             {leftNav.map((item) => (
-              <div key={item.label} className="relative">
+              <div
+                key={item.label}
+                className="relative flex items-center"
+                onMouseEnter={() => item.type === "dropdown" && setOpenDropdown(item.label)}
+                onMouseLeave={() => item.type === "dropdown" && setOpenDropdown(null)}
+              >
                 {item.type === "link" ? (
                   <a
                     href={(item as { href: string }).href}
@@ -127,9 +133,6 @@ export default function Navigation() {
                     <button
                       className="flex items-center gap-1.5 text-[10px] font-light tracking-[0.22em] uppercase transition-colors duration-300"
                       style={{ color: openDropdown === item.label ? linkHover : linkColor }}
-                      onClick={() => setOpenDropdown(openDropdown === item.label ? null : item.label)}
-                      onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = linkHover}
-                      onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = openDropdown === item.label ? linkHover : linkColor}
                     >
                       {item.label}
                       <svg

@@ -83,7 +83,7 @@ export const t = {
       label: "The vessel",
       title: "X5000 CATAMARAN",
       subtitle: "50-foot premium sailing catamaran",
-      description: "The X5000 is a modern 50-foot sailing catamaran designed for maximum comfort and performance. With 3 large double cabins, private bathrooms, and a fully equipped saloon, she offers a true home at sea for up to 6 guests.",
+      description: "A modern catamaran built for both relaxed cruising and professional training. Spacious outdoor areas, comfortable cabins and full equipment for watersports and sailing instruction.",
       specs: [
         { label: "Type", value: "50ft Sailing Catamaran" },
         { label: "Cabins", value: "3 Double Cabins" },
@@ -100,7 +100,7 @@ export const t = {
         "Watersports equipment",
         "Solar panels",
       ],
-      contact: "Request Info",
+      contact: "Discover the Yacht",
     },
     watersports: {
       label: "Adventure awaits",
@@ -268,7 +268,7 @@ export const t = {
       label: "Das Schiff",
       title: "X5000 KATAMARAN",
       subtitle: "15 Meter Premium-Segelkatamaran",
-      description: "Der X5000 ist ein moderner 15-Meter-Segelkatamaran, der für maximalen Komfort und Leistung konzipiert wurde. Mit 3 großen Doppelkabinen, privaten Bädern und einem voll ausgestatteten Salon bietet er bis zu 6 Gästen ein echtes Zuhause auf See.",
+      description: "Ein moderner Katamaran, gebaut für entspanntes Cruisen und professionelles Training. Großzügige Außenbereiche, komfortable Kabinen und vollständige Ausrüstung für Wassersport und Segelunterricht.",
       specs: [
         { label: "Typ", value: "15m Segelkatamaran" },
         { label: "Kabinen", value: "3 Doppelkabinen" },
@@ -285,7 +285,7 @@ export const t = {
         "Wassersportausrüstung",
         "Solaranlage",
       ],
-      contact: "Info anfordern",
+      contact: "Yacht entdecken",
     },
     watersports: {
       label: "Abenteuer wartet",

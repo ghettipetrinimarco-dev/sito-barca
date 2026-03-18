@@ -69,7 +69,7 @@ function ServiceScrollItem({
       onMouseEnter={() => onActivate(index)}
     >
       <div
-        className="py-7 md:py-9 transition-all duration-200"
+        className="py-4 md:py-5 transition-all duration-200"
         style={{ paddingLeft: isActive ? "1rem" : "0" }}
       >
         <div className="flex items-baseline gap-4 lg:gap-7">
@@ -219,7 +219,7 @@ export default function Services() {
             {/* Left: sticky text panel */}
             <div
               className="hidden lg:flex flex-col sticky self-start"
-              style={{ top: "148px", paddingTop: "120px", paddingBottom: "5rem" }}
+              style={{ top: "100px", paddingTop: "80px", paddingBottom: "2rem" }}
             >
               <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "rgba(255,255,255,0.5)" }}>
                 {tr.label}
@@ -266,7 +266,7 @@ export default function Services() {
             </div>
 
             {/* Right: scrollable list */}
-            <div className="pt-16 pb-24 lg:pt-[120px] lg:pb-28">
+            <div className="pt-12 pb-16 lg:pt-[80px] lg:pb-16">
 
               {/* Mobile header */}
               <div className="lg:hidden mb-10">
@@ -292,7 +292,7 @@ export default function Services() {
                 ))}
               </div>
 
-              <div className="mt-14 pt-10" style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
+              <div className="mt-8 pt-7" style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
                 <a
                   href="#contact"
                   className="inline-flex items-center gap-3 font-manrope font-semibold text-[11px] tracking-[0.22em] uppercase px-8 py-4 transition-all duration-300"

@@ -1,5 +1,27 @@
 const BASE = "https://ventum-sailing.ch/wp-content/uploads";
 
+export const yachtExteriorImages = [
+  "/Boat/Exterior/Exterior-Cover.jpg",
+  "/Boat/Exterior/Exterior-1.jpg",
+  "/Boat/Exterior/Exterior-2.jpg",
+  "/Boat/Exterior/Exterior-3.jpg",
+  "/Boat/Exterior/Exterior-4.jpg",
+  "/Boat/Exterior/Exterior-5.jpg",
+  "/Boat/Exterior/Exterior-6.jpg",
+  "/Boat/Exterior/Exterior-7.jpg",
+  "/Boat/Exterior/Exterior-8.jpg",
+];
+
+export const yachtInteriorImages = [
+  "/Boat/Interior/Interior-Cover.jpg",
+  "/Boat/Interior/Interior-1.jpg",
+  "/Boat/Interior/Interior-2.jpg",
+  "/Boat/Interior/Interior-3.jpg",
+  "/Boat/Interior/Interior-4.jpg",
+  "/Boat/Interior/Interior-5.jpg",
+  "/Boat/Interior/Interior-7.jpg",
+];
+
 export const yachtGallery = [
   {
     src: `${BASE}/2021/05/boatbiaisloin.png`,
