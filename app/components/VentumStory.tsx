@@ -27,7 +27,7 @@ export default function VentumStory() {
           animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -36 }}
           transition={{ duration: 0.95, ease }}
         >
-          <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
+          <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
             {tr.label}
           </p>
           <h2
@@ -54,12 +54,12 @@ export default function VentumStory() {
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
                 transition={{ duration: 0.6, delay: 0.4 + i * 0.08, ease }}
                 className="p-4"
-                style={{ border: "1px solid var(--border)", background: "var(--bg)" }}
+                style={{ border: "1px solid var(--border)", background: "var(--bg)", borderRadius: "10px" }}
               >
                 <p className="font-manrope font-bold text-2xl" style={{ color: "var(--accent)" }}>
                   <CountUpStat value={stat.value} inView={isInView} duration={2.4} />
                 </p>
-                <p className="text-[10px] tracking-[0.2em] uppercase mt-1" style={{ color: "var(--text-muted)" }}>{stat.label}</p>
+                <p className="text-[12px] tracking-[0.08em] uppercase mt-1" style={{ color: "var(--text-muted)" }}>{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -69,7 +69,7 @@ export default function VentumStory() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
-            className="inline-flex items-center gap-3 mt-10 text-[10px] tracking-[0.22em] uppercase font-manrope pb-1 transition-all duration-300 self-start"
+            className="inline-flex items-center gap-3 mt-10 text-[12px] tracking-[0.1em] uppercase font-manrope pb-1 transition-all duration-300 self-start"
             style={{ color: "var(--accent)", borderBottom: "1px solid rgba(0,75,145,0.3)" }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.borderBottomColor = "var(--accent)";

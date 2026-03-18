@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/marcohaenni/Desktop/sito-barca push origin ale)"
+    ],
+    "additionalDirectories": [
+      "/Users/marcohaenni/Desktop/sito-barca/public/ Logos"
+    ]
+  }
+}

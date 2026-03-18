@@ -29,7 +29,7 @@ export default function CaptainMarco() {
           transition={{ duration: 0.9, ease }}
           className="mb-16"
         >
-          <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
+          <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
             {tr.label}
           </p>
           <h2
@@ -111,7 +111,7 @@ export default function CaptainMarco() {
                 <CountUpStat value={stat.value} inView={isInView} duration={2.8} />
               </p>
               <p
-                className="text-[11px] tracking-[0.15em] uppercase font-light"
+                className="text-[13px] tracking-[0.15em] uppercase font-light"
                 style={{ color: "var(--text-secondary)" }}
               >
                 {stat.label}

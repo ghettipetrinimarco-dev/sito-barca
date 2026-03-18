@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Guida Git — Sito Barca</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f7f8fa;
+      color: #1b1c1d;
+      padding: 48px 32px;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    header {
+      border-bottom: 2px solid #004b91;
+      padding-bottom: 20px;
+      margin-bottom: 36px;
+    }
+
+    header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #004b91;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      font-size: 13px;
+      color: #6f7275;
+      margin-top: 6px;
+    }
+
+    h2 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #004b91;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 36px 0 14px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #3a3c3e;
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    .tip {
+      background: #e8f0fa;
+      border-left: 3px solid #004b91;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      font-size: 13px;
+      color: #004b91;
+      margin: 10px 0 16px;
+    }
+
+    .warning {
+      background: #fff8e1;
+      border-left: 3px solid #f59e0b;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      font-size: 13px;
+      color: #92400e;
+      margin: 10px 0 16px;
+    }
+
+    pre {
+      background: #1b1c1d;
+      color: #e2e8f0;
+      padding: 16px 20px;
+      border-radius: 8px;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      margin: 10px 0 16px;
+      overflow-x: auto;
+    }
+
+    .comment { color: #6b7280; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 10px 0 20px;
+    }
+
+    th {
+      background: #004b91;
+      color: #fff;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+    }
+
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e1e7eb;
+    }
+
+    tr:nth-child(even) td { background: #f0f4f8; }
+
+    code {
+      font-family: 'Fira Code', monospace;
+      background: #e8f0fa;
+      color: #004b91;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .step {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .step-num {
+      background: #004b91;
+      color: #fff;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid #e1e7eb;
+      font-size: 12px;
+      color: #a0a8b0;
+      text-align: center;
+    }
+
+    @media print {
+      body { background: #fff; padding: 32px; }
+      pre { border: 1px solid #e1e7eb; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Guida Git — Sito Barca</h1>
+    <p>Workflow per lavorare sul progetto con branch <code>ale</code></p>
+  </header>
+
+  <!-- SEZIONE 1 -->
+  <h2>1 — Prima di iniziare a lavorare</h2>
+  <p>Ogni volta che apri il progetto, aggiorna il tuo branch con le ultime modifiche da <code>main</code>:</p>
+  <pre><span class="comment"># 1. Vai su main e scarica le novità</span>
+git checkout main
+git pull origin main
+
+<span class="comment"># 2. Torna su ale e porta le novità</span>
+git checkout ale
+git merge main</pre>
+  <div class="tip">Questo assicura che il tuo branch sia sempre aggiornato prima di iniziare.</div>
+
+  <!-- SEZIONE 2 -->
+  <h2>2 — Avvia il sito in locale</h2>
+  <p>Per vedere il sito mentre lavori:</p>
+  <pre>npm run dev</pre>
+  <p>Poi apri il browser su <code>http://localhost:3000</code></p>
+
+  <!-- SEZIONE 3 -->
+  <h2>3 — Mentre lavori</h2>
+  <p>Modifica i file normalmente. Le modifiche si riflettono in tempo reale sul browser. Quando sei soddisfatto di una modifica, salvala su GitHub:</p>
+  <pre><span class="comment"># Aggiungi tutti i file modificati</span>
+git add .
+
+<span class="comment"># Crea il commit con una descrizione</span>
+git commit -m "descrizione di cosa hai fatto"
+
+<span class="comment"># Manda su GitHub</span>
+git push origin ale</pre>
+  <div class="tip">Fai un commit ogni volta che completi una modifica logica (es. cambiato una sezione, aggiunto una foto, ecc.).</div>
+
+  <!-- SEZIONE 4 -->
+  <h2>4 — Comandi principali</h2>
+  <table>
+    <thead>
+      <tr><th>Comando</th><th>Cosa fa</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>git checkout ale</code></td><td>Vai sul tuo branch di lavoro</td></tr>
+      <tr><td><code>git checkout main</code></td><td>Vai sul branch principale</td></tr>
+      <tr><td><code>git pull origin main</code></td><td>Scarica le novità da GitHub</td></tr>
+      <tr><td><code>git merge main</code></td><td>Porta le novità di main in ale</td></tr>
+      <tr><td><code>git add .</code></td><td>Prepara tutti i file modificati</td></tr>
+      <tr><td><code>git commit -m "..."</code></td><td>Salva le modifiche in locale</td></tr>
+      <tr><td><code>git push origin ale</code></td><td>Manda le modifiche su GitHub</td></tr>
+      <tr><td><code>git status</code></td><td>Vedi cosa è stato modificato</td></tr>
+      <tr><td><code>git log --oneline</code></td><td>Vedi la storia dei commit</td></tr>
+    </tbody>
+  </table>
+
+  <!-- SEZIONE 5 -->
+  <h2>5 — Regole d'oro</h2>
+  <div class="step"><div class="step-num">1</div><p>Lavora <strong>sempre su <code>ale</code></strong>, mai direttamente su <code>main</code>.</p></div>
+  <div class="step"><div class="step-num">2</div><p>Prima di iniziare, <strong>aggiorna sempre</strong> il branch con <code>git pull</code> + <code>git merge main</code>.</p></div>
+  <div class="step"><div class="step-num">3</div><p>Fai <strong>commit frequenti</strong> con descrizioni chiare — è più facile tornare indietro se qualcosa va storto.</p></div>
+  <div class="step"><div class="step-num">4</div><p>Se hai dubbi su cosa sta succedendo, usa <code>git status</code> — ti dice sempre in che stato sei.</p></div>
+
+  <div class="warning">⚠️ Non fare mai <code>git push --force</code> senza chiedere — può sovrascrivere il lavoro degli altri.</div>
+
+  <!-- SEZIONE 6 -->
+  <h2>6 — Struttura branch</h2>
+  <table>
+    <thead>
+      <tr><th>Branch</th><th>A cosa serve</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>main</code></td><td>Versione stabile e ufficiale del sito</td></tr>
+      <tr><td><code>ale</code></td><td>Il tuo branch per sviluppare e testare modifiche</td></tr>
+      <tr><td><code>origin/...</code></td><td>La versione remota su GitHub (es. <code>origin/ale</code>)</td></tr>
+    </tbody>
+  </table>
+
+  <footer>
+    Guida generata per il progetto sito-barca · ghettipetrinimarco-dev/sito-barca
+  </footer>
+
+</body>
+</html>

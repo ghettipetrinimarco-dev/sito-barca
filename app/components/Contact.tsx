@@ -29,7 +29,7 @@ export default function Contact() {
     fontWeight: 300,
     outline: "none",
     transition: "border-color 0.3s ease, background 0.3s ease",
-    borderRadius: "1px",
+    borderRadius: "8px",
   };
 
   const onFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -52,7 +52,7 @@ export default function Contact() {
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -28 }}
             transition={{ duration: 0.95, ease }}
           >
-            <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
+            <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
               {tr.label}
             </p>
             <h2
@@ -86,11 +86,11 @@ export default function Contact() {
                 },
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-4">
-                  <div className="w-9 h-9 flex items-center justify-center flex-shrink-0 mt-0.5" style={{ border: "1px solid var(--border)", background: "var(--surface)", borderRadius: "1px" }}>
+                  <div className="w-9 h-9 flex items-center justify-center flex-shrink-0 mt-0.5" style={{ border: "1px solid var(--border)", background: "var(--surface)", borderRadius: "8px" }}>
                     <svg className="w-4 h-4" style={{ color: "var(--accent)" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">{item.icon}</svg>
                   </div>
                   <div>
-                    <p className="text-[10px] tracking-[0.2em] uppercase mb-1" style={{ color: "var(--text-muted)" }}>{item.label}</p>
+                    <p className="text-[12px] tracking-[0.08em] uppercase mb-1" style={{ color: "var(--text-muted)" }}>{item.label}</p>
                     <p className="text-sm font-light" style={{ color: "var(--text-secondary)" }}>{item.value}</p>
                   </div>
                 </div>
@@ -110,7 +110,7 @@ export default function Contact() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
                 className="flex flex-col items-center justify-center min-h-[400px] text-center p-12"
-                style={{ border: "1px solid var(--border)", background: "var(--surface)" }}
+                style={{ border: "1px solid var(--border)", background: "var(--surface)", borderRadius: "8px" }}
               >
                 <div className="w-14 h-14 rounded-full flex items-center justify-center mb-6" style={{ border: "2px solid var(--accent)", background: "#eef4fb" }}>
                   <svg className="w-6 h-6" style={{ color: "var(--accent)" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,7 +123,7 @@ export default function Contact() {
                 </p>
                 <button
                   onClick={() => { setSubmitted(false); setForm({ name: "", email: "", subject: "", message: "" }); }}
-                  className="mt-8 text-[10px] tracking-[0.22em] uppercase pb-0.5 transition-colors duration-200"
+                  className="mt-8 text-[12px] tracking-[0.1em] uppercase pb-0.5 transition-colors duration-200"
                   style={{ color: "var(--accent)", borderBottom: "1px solid rgba(0,75,145,0.3)" }}
                   onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.borderBottomColor = "var(--accent)"}
                   onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.borderBottomColor = "rgba(0,75,145,0.3)"}
@@ -135,29 +135,29 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="contact-name" className="block text-[10px] tracking-[0.22em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.nameLabel}</label>
+                    <label htmlFor="contact-name" className="block text-[12px] tracking-[0.1em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.nameLabel}</label>
                     <input id="contact-name" name="name" type="text" required placeholder={tr.namePlaceholder} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
                   </div>
                   <div>
-                    <label htmlFor="contact-email" className="block text-[10px] tracking-[0.22em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.emailFieldLabel}</label>
+                    <label htmlFor="contact-email" className="block text-[12px] tracking-[0.1em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.emailFieldLabel}</label>
                     <input id="contact-email" name="email" type="email" required placeholder={tr.emailPlaceholder} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="contact-subject" className="block text-[10px] tracking-[0.22em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.subjectLabel}</label>
+                  <label htmlFor="contact-subject" className="block text-[12px] tracking-[0.1em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.subjectLabel}</label>
                   <select id="contact-subject" name="subject" required value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} style={{ ...inputStyle, cursor: "pointer" }} onFocus={onFocus} onBlur={onBlur}>
                     <option value="" disabled>{tr.subjectPlaceholder}</option>
                     {tr.subjects.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="contact-message" className="block text-[10px] tracking-[0.22em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.messageLabel}</label>
+                  <label htmlFor="contact-message" className="block text-[12px] tracking-[0.1em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.messageLabel}</label>
                   <textarea id="contact-message" name="message" required rows={6} placeholder={tr.messagePlaceholder} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} style={{ ...inputStyle, resize: "none" }} onFocus={onFocus} onBlur={onBlur} />
                 </div>
                 <button
                   type="submit"
-                  className="w-full text-white py-4 text-[11px] tracking-[0.22em] uppercase font-manrope font-semibold transition-all duration-300 mt-2"
-                  style={{ background: "var(--accent)", boxShadow: "0 4px 16px rgba(0,75,145,0.2)" }}
+                  className="w-full text-white py-4 text-[13px] tracking-[0.1em] uppercase font-manrope font-semibold transition-all duration-300 mt-2"
+                  style={{ background: "var(--accent)", boxShadow: "0 4px 16px rgba(0,75,145,0.2)", borderRadius: "8px" }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 28px rgba(0,75,145,0.35)"; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(0,75,145,0.2)"; }}
                 >

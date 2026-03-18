@@ -126,7 +126,7 @@ function StopItem({
         <div className="flex items-center gap-3 lg:gap-5">
           {/* Index */}
           <span
-            className="font-manrope text-[10px] tracking-[0.3em] tabular-nums flex-shrink-0 transition-colors duration-200"
+            className="font-manrope text-[12px] tracking-[0.15em] tabular-nums flex-shrink-0 transition-colors duration-200"
             style={{ color: isActive ? "#4a9fd5" : "rgba(255,255,255,0.22)" }}
           >
             {String(index + 1).padStart(2, "0")}
@@ -134,7 +134,7 @@ function StopItem({
 
           {/* Month — desktop only */}
           <span
-            className="hidden lg:block font-manrope text-[10px] tracking-[0.4em] uppercase flex-shrink-0 transition-colors duration-200 w-8"
+            className="hidden lg:block font-manrope text-[12px] tracking-[0.4em] uppercase flex-shrink-0 transition-colors duration-200 w-8"
             style={{ color: isActive ? "#4a9fd5" : "rgba(255,255,255,0.2)" }}
           >
             {stop.month}
@@ -153,7 +153,7 @@ function StopItem({
 
           {/* Region — desktop */}
           <span
-            className="hidden lg:block font-manrope text-[10px] tracking-[0.35em] uppercase flex-shrink-0 transition-colors duration-200"
+            className="hidden lg:block font-manrope text-[12px] tracking-[0.18em] uppercase flex-shrink-0 transition-colors duration-200"
             style={{ color: isActive ? "rgba(255,255,255,0.45)" : "rgba(255,255,255,0.14)" }}
           >
             {stop.region}
@@ -182,7 +182,7 @@ function StopItem({
           }}
         >
           <p
-            className="text-[10px] tracking-[0.4em] uppercase mb-1.5 font-manrope"
+            className="text-[12px] tracking-[0.4em] uppercase mb-1.5 font-manrope"
             style={{ color: "#4a9fd5", paddingLeft: "2rem" }}
           >
             {stop.month} · {stop.region}
@@ -300,7 +300,7 @@ export default function CruisePlan() {
               {/* Header */}
               <div>
                 <p
-                  className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light"
+                  className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light"
                   style={{ color: "rgba(255,255,255,0.48)" }}
                 >
                   {tr.label}
@@ -325,7 +325,7 @@ export default function CruisePlan() {
                     transition={{ duration: 0.38, ease }}
                   >
                     <p
-                      className="text-[10px] tracking-[0.5em] uppercase mb-3 font-manrope"
+                      className="text-[12px] tracking-[0.5em] uppercase mb-3 font-manrope"
                       style={{ color: "#4a9fd5" }}
                     >
                       {active.month}
@@ -337,7 +337,7 @@ export default function CruisePlan() {
                       {active.city}
                     </h3>
                     <p
-                      className="text-sm tracking-[0.2em] uppercase mb-8 font-manrope"
+                      className="text-sm tracking-[0.08em] uppercase mb-8 font-manrope"
                       style={{ color: "rgba(255,255,255,0.4)" }}
                     >
                       {active.region}
@@ -367,7 +367,7 @@ export default function CruisePlan() {
               {/* Mobile header */}
               <div className="lg:hidden mb-10">
                 <p
-                  className="text-[10px] tracking-[0.45em] uppercase mb-3 font-light"
+                  className="text-[12px] tracking-[0.25em] uppercase mb-3 font-light"
                   style={{ color: "rgba(255,255,255,0.48)" }}
                 >
                   {tr.label}
@@ -408,8 +408,8 @@ export default function CruisePlan() {
               >
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-3 font-manrope font-semibold text-[11px] tracking-[0.22em] uppercase px-8 py-4 transition-all duration-300"
-                  style={{ background: "var(--accent)", color: "#fff", boxShadow: "0 4px 24px rgba(0,75,145,0.4)" }}
+                  className="inline-flex items-center gap-3 font-manrope font-semibold text-[13px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-300"
+                  style={{ background: "var(--accent)", color: "#fff", boxShadow: "0 4px 24px rgba(0,75,145,0.4)", borderRadius: "8px" }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)";
                     (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 36px rgba(0,75,145,0.6)";

@@ -13,31 +13,44 @@ const kenBurns = [
   { from: "scale(1) translate(-1%, 1%)",       to: "scale(1.07) translate(1%, -1%)" },
 ];
 
-const SLIDE_DURATION = 5000; // ms per slide
+const SLIDE_DURATION = 3500; // ms per slide
 
 /* ── Auto-carousel panel ─────────────────────────────────────────── */
 function GalleryPanel({
   label,
   images,
   onClick,
+  delay = 0,
 }: {
   label: string;
   images: string[];
   onClick: () => void;
+  delay?: number;
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const timers = useRef<{ prog?: ReturnType<typeof setInterval>; slide?: ReturnType<typeof setInterval> }>({});
+
+  const stopTimers = () => {
+    clearInterval(timers.current.prog);
+    clearInterval(timers.current.slide);
+    setProgress(0);
+  };
 
   useEffect(() => {
+    if (!isHovered) return;
     setProgress(0);
     const tick = 50;
-    const prog = setInterval(() => setProgress((p) => Math.min(p + (tick / SLIDE_DURATION) * 100, 100)), tick);
-    const slide = setInterval(() => {
-      setCurrentIndex((i) => (i + 1) % images.length);
-      setProgress(0);
-    }, SLIDE_DURATION);
-    return () => { clearInterval(prog); clearInterval(slide); };
-  }, [currentIndex, images.length]);
+    const start = setTimeout(() => {
+      timers.current.prog = setInterval(() => setProgress((p) => Math.min(p + (tick / SLIDE_DURATION) * 100, 100)), tick);
+      timers.current.slide = setInterval(() => {
+        setCurrentIndex((i) => (i + 1) % images.length);
+        setProgress(0);
+      }, SLIDE_DURATION);
+    }, delay);
+    return () => { clearTimeout(start); stopTimers(); };
+  }, [currentIndex, images.length, isHovered]);
 
   const kb = kenBurns[currentIndex % kenBurns.length];
 
@@ -46,6 +59,7 @@ function GalleryPanel({
       className="relative overflow-hidden cursor-pointer group"
       style={{ aspectRatio: "3/4" }}
       onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
     >
       {/* Images with crossfade */}
       <AnimatePresence>
@@ -94,7 +108,7 @@ function GalleryPanel({
         style={{ background: "rgba(5,15,30,0.18)" }}
       >
         <span
-          className="text-[10px] tracking-[0.3em] uppercase px-5 py-2.5 font-manrope font-semibold"
+          className="text-[12px] tracking-[0.15em] uppercase px-5 py-2.5 font-manrope font-semibold"
           style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "#fff", backdropFilter: "blur(6px)" }}
         >
           View all photos
@@ -103,7 +117,7 @@ function GalleryPanel({
 
       {/* Label */}
       <div className="absolute bottom-6 left-6">
-        <p className="text-[9px] tracking-[0.35em] uppercase mb-1.5" style={{ color: "rgba(255,255,255,0.45)" }}>
+        <p className="text-[13px] tracking-[0.18em] uppercase mb-1.5" style={{ color: "rgba(255,255,255,0.45)" }}>
           {images.length} photos
         </p>
         <p className="font-manrope font-bold text-white text-2xl tracking-wider">{label}</p>
@@ -203,7 +217,7 @@ function Lightbox({
                 return (
                   <button
                     key={section}
-                    className="text-[10px] tracking-[0.3em] uppercase font-manrope font-medium pb-1 transition-colors duration-200"
+                    className="text-[12px] tracking-[0.15em] uppercase font-manrope font-medium pb-1 transition-colors duration-200"
                     style={{
                       color: activeSection === section ? "#fff" : "rgba(255,255,255,0.3)",
                       borderBottom: activeSection === section ? "1px solid rgba(255,255,255,0.5)" : "1px solid transparent",
@@ -218,13 +232,13 @@ function Lightbox({
             </div>
 
             {selectedImg !== null && (
-              <span className="text-[10px] tracking-[0.2em] uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>
+              <span className="text-[12px] tracking-[0.08em] uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>
                 {selectedImg + 1} / {images.length}
               </span>
             )}
 
             <button
-              className="text-[10px] tracking-[0.25em] uppercase transition-colors duration-200"
+              className="text-[12px] tracking-[0.25em] uppercase transition-colors duration-200"
               style={{ color: "rgba(255,255,255,0.4)" }}
               onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#fff")}
               onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.4)")}
@@ -285,7 +299,7 @@ function Lightbox({
 
                   {/* Back to grid */}
                   <button
-                    className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[10px] tracking-[0.25em] uppercase transition-colors duration-200"
+                    className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[12px] tracking-[0.25em] uppercase transition-colors duration-200"
                     style={{ color: "rgba(255,255,255,0.35)" }}
                     onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#fff")}
                     onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.35)")}
@@ -341,8 +355,8 @@ export default function YachtGallery() {
       <div id="yacht-gallery" className="mb-20">
         {/* Two-panel grid */}
         <div className="grid grid-cols-2 gap-3 mb-5">
-          <GalleryPanel label="Exterior" images={yachtExteriorImages} onClick={() => open("exterior")} />
-          <GalleryPanel label="Interior" images={yachtInteriorImages} onClick={() => open("interior")} />
+          <GalleryPanel label="Exterior" images={yachtExteriorImages} onClick={() => open("exterior")} delay={0} />
+          <GalleryPanel label="Interior" images={yachtInteriorImages} onClick={() => open("interior")} delay={0} />
         </div>
 
       </div>

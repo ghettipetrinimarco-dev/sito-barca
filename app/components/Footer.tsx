@@ -31,7 +31,7 @@ export default function Footer() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-[10px] tracking-[0.22em] uppercase transition-colors duration-200"
+                className="text-[12px] tracking-[0.1em] uppercase transition-colors duration-200"
                 style={{ color: "rgba(255,255,255,0.4)" }}
                 onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "#fff"}
                 onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.4)"}
@@ -53,10 +53,10 @@ export default function Footer() {
           className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4"
           style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
         >
-          <p className="text-[11px] font-light" style={{ color: "rgba(255,255,255,0.2)" }}>
+          <p className="text-[13px] font-light" style={{ color: "rgba(255,255,255,0.2)" }}>
             &copy; 2026 Ventum. {tr.rights}
           </p>
-          <p className="text-[11px] font-light" style={{ color: "rgba(255,255,255,0.15)" }}>
+          <p className="text-[13px] font-light" style={{ color: "rgba(255,255,255,0.15)" }}>
             Mediterranean Sea
           </p>
         </div>

@@ -69,7 +69,7 @@ export default function Watersports() {
           animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
           transition={{ duration: 1.0, delay: 0.15, ease }}
         >
-          <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
+          <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
             {tr.label}
           </p>
           <h2
@@ -143,13 +143,13 @@ export default function Watersports() {
 
                 {/* Tag */}
                 <div
-                  className="px-5 py-2.5 text-[11px] tracking-[0.2em] uppercase font-manrope font-medium cursor-default transition-all duration-300 select-none"
+                  className="px-5 py-2.5 text-[13px] tracking-[0.08em] uppercase font-manrope font-medium cursor-default transition-all duration-300 select-none"
                   style={{
                     border: "1px solid var(--border)",
                     color: activeActivity === activity ? "var(--accent)" : "var(--text-secondary)",
                     background: activeActivity === activity ? "#eef4fb" : "var(--surface)",
                     borderColor: activeActivity === activity ? "var(--accent-light)" : "var(--border)",
-                    borderRadius: "1px",
+                    borderRadius: "20px",
                   }}
                   onMouseEnter={() => setActiveActivity(activity)}
                   onMouseLeave={() => setActiveActivity(null)}

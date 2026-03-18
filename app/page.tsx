@@ -5,7 +5,6 @@ import ScrollToTop from "./components/ScrollToTop";
 import Hero from "./components/Hero";
 import Yacht from "./components/Yacht";
 import Services from "./components/Services";
-import Watersports from "./components/Watersports";
 import CruisePlan from "./components/CruisePlan";
 import VentumStory from "./components/VentumStory";
 import CaptainMarco from "./components/CaptainMarco";
@@ -22,7 +21,6 @@ export default function Home() {
       <Hero />
       <Yacht />
       <Services />
-      <Watersports />
       <CruisePlan />
       <VentumStory />
       <CaptainMarco />

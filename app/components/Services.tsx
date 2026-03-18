@@ -74,7 +74,7 @@ function ServiceScrollItem({
       >
         <div className="flex items-baseline gap-4 lg:gap-7">
           <span
-            className="font-manrope text-[11px] tracking-[0.3em] tabular-nums flex-shrink-0 transition-colors duration-200"
+            className="font-manrope text-[13px] tracking-[0.15em] tabular-nums flex-shrink-0 transition-colors duration-200"
             style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.22)" }}
           >
             {service.number}
@@ -92,7 +92,7 @@ function ServiceScrollItem({
           </h3>
 
           <span
-            className="hidden lg:block text-[10px] tracking-[0.3em] uppercase flex-shrink-0 self-center transition-colors duration-200"
+            className="hidden lg:block text-[12px] tracking-[0.15em] uppercase flex-shrink-0 self-center transition-colors duration-200"
             style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.14)" }}
           >
             {service.tag}
@@ -113,7 +113,7 @@ function ServiceScrollItem({
               {service.description}
             </p>
             {service.dates && (
-              <p className="mt-2 text-[10px] tracking-[0.2em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
+              <p className="mt-2 text-[12px] tracking-[0.08em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
                 {service.dates}
               </p>
             )}
@@ -221,7 +221,7 @@ export default function Services() {
               className="hidden lg:flex flex-col sticky self-start"
               style={{ top: "100px", paddingTop: "80px", paddingBottom: "2rem" }}
             >
-              <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "rgba(255,255,255,0.5)" }}>
+              <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "rgba(255,255,255,0.5)" }}>
                 {tr.label}
               </p>
               <h2
@@ -244,14 +244,14 @@ export default function Services() {
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.3, ease }}
                   >
-                    <p className="text-[10px] tracking-[0.35em] uppercase mb-3 font-medium" style={{ color: "rgba(255,255,255,0.38)" }}>
+                    <p className="text-[12px] tracking-[0.18em] uppercase mb-3 font-medium" style={{ color: "rgba(255,255,255,0.38)" }}>
                       {activeService?.tag}
                     </p>
                     <p className="text-sm font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }}>
                       {activeService?.description}
                     </p>
                     {activeService?.dates && (
-                      <p className="mt-3 text-[10px] tracking-[0.2em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
+                      <p className="mt-3 text-[12px] tracking-[0.08em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
                         {activeService.dates}
                       </p>
                     )}
@@ -270,7 +270,7 @@ export default function Services() {
 
               {/* Mobile header */}
               <div className="lg:hidden mb-10">
-                <p className="text-[10px] tracking-[0.45em] uppercase mb-3 font-light" style={{ color: "rgba(255,255,255,0.5)" }}>
+                <p className="text-[12px] tracking-[0.25em] uppercase mb-3 font-light" style={{ color: "rgba(255,255,255,0.5)" }}>
                   {tr.label}
                 </p>
                 <h2 className="font-manrope font-bold text-white leading-tight mb-4" style={{ fontSize: "clamp(2rem, 8vw, 3rem)" }}>
@@ -295,8 +295,8 @@ export default function Services() {
               <div className="mt-8 pt-7" style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-3 font-manrope font-semibold text-[11px] tracking-[0.22em] uppercase px-8 py-4 transition-all duration-300"
-                  style={{ background: "var(--accent)", color: "#fff", boxShadow: "0 4px 24px rgba(0,75,145,0.4)" }}
+                  className="inline-flex items-center gap-3 font-manrope font-semibold text-[13px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-300"
+                  style={{ background: "var(--accent)", color: "#fff", boxShadow: "0 4px 24px rgba(0,75,145,0.4)", borderRadius: "8px" }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)";
                     (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 36px rgba(0,75,145,0.6)";

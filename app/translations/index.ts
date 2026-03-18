@@ -8,6 +8,12 @@ export const t = {
       about: "About",
       cruisePlan: "Cruise Plan",
       contact: "Contact",
+      yachtItems: [
+        { label: "Gallery", href: "#yacht-gallery" },
+        { label: "Virtual Tour", href: "#yacht-tour" },
+        { label: "Specifications", href: "#yacht-specs" },
+        { label: "Watersports", href: "#yacht-watersports" },
+      ],
       servicesItems: [
         { label: "Mileage Cruise / Heavy Weather Training", href: "#services" },
         { label: "Holiday Cruise", href: "#services" },

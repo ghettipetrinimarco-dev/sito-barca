@@ -12,7 +12,7 @@ function Dropdown({ items, isOpen }: { items: { label: string; href: string }[];
         style={{
           background: "#fff",
           border: "1px solid var(--border)",
-          borderRadius: "2px",
+          borderRadius: "10px",
           boxShadow: "0 16px 48px rgba(0,0,0,0.1)",
           overflow: "hidden",
         }}
@@ -21,7 +21,7 @@ function Dropdown({ items, isOpen }: { items: { label: string; href: string }[];
           <a
             key={i}
             href={item.href}
-            className="block px-5 py-3 text-[10px] tracking-[0.2em] uppercase transition-all duration-200"
+            className="block px-5 py-3 text-[12px] tracking-[0.08em] uppercase transition-all duration-200"
             style={{
               color: "var(--text-secondary)",
               borderBottom: i < items.length - 1 ? "1px solid var(--border-light)" : "none",
@@ -84,7 +84,7 @@ export default function Navigation() {
   }, []);
 
   const onDark = !pastHero && !scrolled && !mobileOpen;
-  const linkColor = onDark ? "rgba(255,255,255,0.75)" : "var(--text-secondary)";
+  const linkColor = onDark ? "rgba(255,255,255,0.85)" : "var(--text)";
   const linkHover = onDark ? "#fff" : "var(--accent)";
   const logoColor = onDark ? "#fff" : "var(--accent)";
   const borderColor = onDark ? "rgba(255,255,255,0.22)" : "var(--border)";
@@ -121,7 +121,7 @@ export default function Navigation() {
                 {item.type === "link" ? (
                   <a
                     href={(item as { href: string }).href}
-                    className="text-[10px] font-light tracking-[0.22em] uppercase transition-colors duration-300"
+                    className="text-[13px] font-normal tracking-[0.08em] uppercase transition-colors duration-300"
                     style={{ color: linkColor }}
                     onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = linkHover}
                     onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = linkColor}
@@ -131,7 +131,7 @@ export default function Navigation() {
                 ) : (
                   <>
                     <button
-                      className="flex items-center gap-1.5 text-[10px] font-light tracking-[0.22em] uppercase transition-colors duration-300"
+                      className="flex items-center gap-1.5 text-[13px] font-normal tracking-[0.08em] uppercase transition-colors duration-300"
                       style={{ color: openDropdown === item.label ? linkHover : linkColor }}
                     >
                       {item.label}
@@ -173,7 +173,7 @@ export default function Navigation() {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-[10px] font-light tracking-[0.22em] uppercase transition-colors duration-300"
+                className="text-[13px] font-normal tracking-[0.08em] uppercase transition-colors duration-300"
                 style={{ color: linkColor }}
                 onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = linkHover}
                 onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = linkColor}
@@ -185,10 +185,10 @@ export default function Navigation() {
             {/* Language switcher */}
             <div
               className="flex items-center gap-1 px-3 py-1.5"
-              style={{ border: `1px solid ${borderColor}`, borderRadius: "1px" }}
+              style={{ border: `1px solid ${borderColor}`, borderRadius: "20px" }}
             >
               <button
-                className="text-[10px] tracking-[0.2em] font-semibold transition-colors duration-300"
+                className="text-[12px] tracking-[0.08em] font-semibold transition-colors duration-300"
                 style={{ color: lang === "en" ? (onDark ? "#fff" : "var(--accent)") : langColor }}
                 onClick={() => setLang("en")}
               >
@@ -196,7 +196,7 @@ export default function Navigation() {
               </button>
               <span className="text-xs" style={{ color: borderColor }}>|</span>
               <button
-                className="text-[10px] tracking-[0.2em] transition-colors duration-300"
+                className="text-[12px] tracking-[0.08em] transition-colors duration-300"
                 style={{ color: lang === "de" ? (onDark ? "#fff" : "var(--accent)") : langColor }}
                 onClick={() => setLang("de")}
                 onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = linkHover}
@@ -246,7 +246,7 @@ export default function Navigation() {
                   key={`${item.label}-${i}`}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block px-6 py-3.5 text-[10px] tracking-[0.2em] uppercase transition-all"
+                  className="block px-6 py-3.5 text-[12px] tracking-[0.08em] uppercase transition-all"
                   style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-light)" }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--accent)"; (e.currentTarget as HTMLElement).style.background = "var(--surface-alt)"; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)"; (e.currentTarget as HTMLElement).style.background = "transparent"; }}
@@ -257,7 +257,7 @@ export default function Navigation() {
             })}
             <div className="flex gap-3 px-6 pt-5">
               <button
-                className="text-[10px] tracking-[0.2em] font-semibold"
+                className="text-[12px] tracking-[0.08em] font-semibold"
                 style={{ color: lang === "en" ? "var(--accent)" : "var(--text-muted)" }}
                 onClick={() => setLang("en")}
               >
@@ -265,7 +265,7 @@ export default function Navigation() {
               </button>
               <span style={{ color: "var(--border)" }}>|</span>
               <button
-                className="text-[10px] tracking-[0.2em]"
+                className="text-[12px] tracking-[0.08em]"
                 style={{ color: lang === "de" ? "var(--accent)" : "var(--text-muted)" }}
                 onClick={() => setLang("de")}
               >
