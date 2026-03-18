@@ -1,12 +1,57 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
 import { yachtSpecs, yachtSpecsDe } from "../../lib/yacht-data";
 import YachtGallery from "./YachtGallery";
+
+/* ── Count-up animation ──────────────────────────────────────────── */
+function CountUp({ value, inView, delay = 0 }: { value: string; inView: boolean; delay?: number }) {
+  const target = parseFloat(value.replace(",", "."));
+  const decimals = (value.includes(".") || value.includes(","))
+    ? (value.split(/[.,]/)[1]?.length ?? 0)
+    : 0;
+  const separator = value.includes(",") ? "," : ".";
+
+  const [display, setDisplay] = useState("0");
+  const started = useRef(false);
+
+  useEffect(() => {
+    if (!inView || started.current) return;
+    started.current = true;
+
+    const duration = 1600; // ms
+    const fps = 60;
+    const steps = Math.round((duration / 1000) * fps);
+    let step = 0;
+
+    const timer = setTimeout(() => {
+      const interval = setInterval(() => {
+        step++;
+        const progress = step / steps;
+        // ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = eased * target;
+        setDisplay(
+          decimals > 0
+            ? current.toFixed(decimals).replace(".", separator)
+            : Math.round(current).toString()
+        );
+        if (step >= steps) {
+          clearInterval(interval);
+          setDisplay(value);
+        }
+      }, 1000 / fps);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [inView]);
+
+  return <span>{display}</span>;
+}
 
 /* ── Floor Plan ──────────────────────────────────────────────────── */
 function FloorPlan({ lang }: { lang: string }) {
@@ -149,20 +194,12 @@ export default function Yacht() {
           <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
             {tr.label}
           </p>
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-            <div>
-              <h2
-                className="font-manrope font-bold tracking-tight mb-6"
-                style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)", color: "var(--text)" }}
-              >
-                {tr.title}
-              </h2>
-              <span className="accent-line" />
-              <p className="font-playfair italic text-xl mt-8 max-w-xl" style={{ color: "var(--text-secondary)" }}>
-                {tr.subtitle}
-              </p>
-            </div>
-          </div>
+          <h2
+            className="font-manrope font-bold leading-tight"
+            style={{ fontSize: "clamp(2.5rem, 3.2vw, 3.75rem)", color: "var(--text)" }}
+          >
+            {tr.title}
+          </h2>
         </motion.div>
 
         {/* Gallery */}
@@ -201,16 +238,13 @@ export default function Yacht() {
                 <p className="text-[11px] tracking-[0.15em] uppercase mb-3 font-manrope" style={{ color: "var(--text-muted)" }}>
                   {spec.label}
                 </p>
-                <motion.p
+                <p
                   className="font-manrope font-bold"
                   style={{ fontSize: "1.4rem", color: "var(--text)", lineHeight: 1 }}
-                  initial={{ opacity: 0, filter: "blur(8px)", scale: 0.95 }}
-                  animate={specsInView ? { opacity: 1, filter: "blur(0px)", scale: 1 } : { opacity: 0, filter: "blur(8px)", scale: 0.95 }}
-                  transition={{ duration: 0.6, delay: 0.2 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  {spec.value}
+                  <CountUp value={spec.value} inView={specsInView} delay={200} />
                   {spec.unit && <span className="text-xs font-light ml-1.5" style={{ color: "var(--text-muted)" }}>{spec.unit}</span>}
-                </motion.p>
+                </p>
               </motion.div>
             ))}
           </div>

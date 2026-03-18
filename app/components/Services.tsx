@@ -64,36 +64,51 @@ function ServiceScrollItem({
   return (
     <div
       ref={ref}
-      className="cursor-default"
+      className="cursor-default relative"
       style={{ borderBottom: "1px solid rgba(255,255,255,0.09)" }}
       onMouseEnter={() => onActivate(index)}
     >
+      {/* Active indicator bar */}
       <div
-        className="py-4 md:py-5 transition-all duration-200"
-        style={{ paddingLeft: isActive ? "1rem" : "0" }}
+        className="absolute left-0 top-0 bottom-0 w-[2px] transition-all duration-300"
+        style={{ background: isActive ? "#4a7fb5" : "transparent" }}
+      />
+
+      <div
+        className="py-5 md:py-6 transition-all duration-300"
+        style={{ paddingLeft: isActive ? "1.25rem" : "0.25rem" }}
       >
-        <div className="flex items-baseline gap-4 lg:gap-7">
+        <div className="flex items-center gap-4 lg:gap-7">
           <span
-            className="font-manrope text-[13px] tracking-[0.15em] tabular-nums flex-shrink-0 transition-colors duration-200"
-            style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.22)" }}
+            className="font-manrope text-[12px] tracking-[0.15em] tabular-nums flex-shrink-0 transition-colors duration-300"
+            style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.2)" }}
           >
             {service.number}
           </span>
 
           <h3
-            className="font-manrope font-light flex-1 min-w-0 transition-all duration-200"
+            className="font-manrope flex-1 min-w-0 transition-all duration-300"
             style={{
               fontSize: "clamp(1.1rem, 2.8vw, 2.6rem)",
-              lineHeight: 1.06,
-              color: isActive ? "#ffffff" : "rgba(255,255,255,0.28)",
+              lineHeight: 1.15,
+              fontWeight: isActive ? 600 : 300,
+              color: isActive ? "#ffffff" : "rgba(255,255,255,0.25)",
+              letterSpacing: isActive ? "-0.01em" : "0",
             }}
           >
-            {service.title}
+            {service.title.includes(" / ") ? (
+              <span className="flex flex-col">
+                <span>{service.title.split(" / ")[0]} <span style={{ color: "rgba(255,255,255,0.2)", fontWeight: 200 }}>/</span></span>
+                <span style={{ fontSize: "0.78em", fontWeight: isActive ? 400 : 200, color: isActive ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.18)" }}>
+                  {service.title.split(" / ")[1]}
+                </span>
+              </span>
+            ) : service.title}
           </h3>
 
           <span
-            className="hidden lg:block text-[12px] tracking-[0.15em] uppercase flex-shrink-0 self-center transition-colors duration-200"
-            style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.14)" }}
+            className="hidden lg:block text-[11px] tracking-[0.18em] uppercase flex-shrink-0 transition-colors duration-300"
+            style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.12)" }}
           >
             {service.tag}
           </span>
@@ -164,11 +179,6 @@ export default function Services() {
   const handleActivate = useCallback((i: number) => setActiveIndex(i), []);
   const activeService = tr.items[activeIndex];
 
-  const leftSubtitle =
-    lang === "de"
-      ? "Private Katamaran-Erlebnisse,\nprofessioneller Segelunterricht\nund unvergessliche Momente auf See."
-      : "Private catamaran experiences,\nprofessional sailing instruction,\nand unforgettable moments at sea.";
-
   return (
     /*
       Background images are position:absolute so they scroll WITH the section.
@@ -216,7 +226,7 @@ export default function Services() {
         <div className="max-w-7xl mx-auto px-6 lg:px-14">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.65fr] lg:gap-x-20">
 
-            {/* Left: sticky text panel */}
+            {/* Left: sticky detail panel */}
             <div
               className="hidden lg:flex flex-col sticky self-start"
               style={{ top: "100px", paddingTop: "80px", paddingBottom: "2rem" }}
@@ -230,38 +240,47 @@ export default function Services() {
               >
                 {tr.title}
               </h2>
-              <div className="h-px w-10 mb-8" style={{ background: "#4a7fb5" }} />
-              <p className="text-sm font-light leading-relaxed mb-12 whitespace-pre-line" style={{ color: "rgba(255,255,255,0.52)" }}>
-                {leftSubtitle}
-              </p>
+              <div className="h-px w-10 mb-10" style={{ background: "#4a7fb5" }} />
 
-              <div style={{ borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: "1.75rem" }}>
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeIndex}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.3, ease }}
-                  >
-                    <p className="text-[12px] tracking-[0.18em] uppercase mb-3 font-medium" style={{ color: "rgba(255,255,255,0.38)" }}>
-                      {activeService?.tag}
+              {/* Active service detail */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeIndex}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3, ease }}
+                  className="flex flex-col gap-4"
+                >
+                  <p className="text-[11px] tracking-[0.22em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
+                    {activeService?.tag}
+                  </p>
+                  <p className="font-manrope font-bold text-white leading-snug" style={{ fontSize: "1.45rem" }}>
+                    {activeService?.title.includes(" / ")
+                      ? activeService.title.replace(" / ", "\n")
+                      : activeService?.title}
+                  </p>
+                  <p className="text-base font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>
+                    {activeService?.description}
+                  </p>
+                  {activeService?.dates && (
+                    <p className="text-[12px] tracking-[0.08em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
+                      {activeService.dates}
                     </p>
-                    <p className="text-sm font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }}>
-                      {activeService?.description}
+                  )}
+                  {activeService?.footer && (
+                    <p className="font-playfair italic text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>
+                      {activeService.footer}
                     </p>
-                    {activeService?.dates && (
-                      <p className="mt-3 text-[12px] tracking-[0.08em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
-                        {activeService.dates}
-                      </p>
-                    )}
-                    {activeService?.footer && (
-                      <p className="mt-3 font-playfair italic text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>
-                        {activeService.footer}
-                      </p>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Counter */}
+              <div className="mt-auto pt-10 flex items-center gap-3">
+                <span className="font-manrope text-[12px] tabular-nums font-light" style={{ color: "rgba(255,255,255,0.25)" }}>
+                  {String(activeIndex + 1).padStart(2, "0")} <span style={{ color: "rgba(255,255,255,0.12)" }}>/ {String(tr.items.length).padStart(2, "0")}</span>
+                </span>
               </div>
             </div>
 

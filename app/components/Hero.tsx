@@ -69,13 +69,21 @@ export default function Hero() {
 
       {/* Unified bottom block */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 z-10 px-6 lg:px-14 pb-10 md:pb-14"
+        className="absolute bottom-0 left-0 right-0 z-10 px-6 lg:px-14 pb-6 md:pb-8"
         style={{ opacity: contentOpacity, y: contentY }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.0, delay: 0.3, ease }}
       >
         <div className="max-w-7xl mx-auto">
+
+          {/* Subtitle, centered — above H1 */}
+          <p
+            className="font-manrope font-light text-[11px] md:text-[12px] tracking-[0.18em] uppercase mb-3 text-center"
+            style={{ color: "rgba(255,255,255,0.35)" }}
+          >
+            {tr.subtitle}
+          </p>
 
           {/* H1 — one line, centered */}
           <h1
@@ -93,14 +101,6 @@ export default function Hero() {
             </span>{" "}
             {tr.title3}
           </h1>
-
-          {/* Subtitle, centered */}
-          <p
-            className="font-manrope font-light text-[11px] md:text-[12px] tracking-[0.18em] uppercase mb-6 md:mb-8 text-center"
-            style={{ color: "rgba(255,255,255,0.4)" }}
-          >
-            {tr.subtitle}
-          </p>
 
           {/* Divider */}
           <div style={{ height: "1px", background: "rgba(255,255,255,0.15)", marginBottom: "20px" }} />

@@ -86,8 +86,8 @@ export const t = {
       ],
     },
     yacht: {
-      label: "The vessel",
-      title: "X5000 CATAMARAN",
+      label: "Step aboard",
+      title: "DISCOVER THE YACHT",
       subtitle: "50-foot premium sailing catamaran",
       description: "A modern catamaran built for both relaxed cruising and professional training. Spacious outdoor areas, comfortable cabins and full equipment for watersports and sailing instruction.",
       specs: [
@@ -277,8 +277,8 @@ export const t = {
       ],
     },
     yacht: {
-      label: "Das Schiff",
-      title: "X5000 KATAMARAN",
+      label: "Step aboard",
+      title: "DISCOVER THE YACHT",
       subtitle: "15 Meter Premium-Segelkatamaran",
       description: "Ein moderner Katamaran, gebaut für entspanntes Cruisen und professionelles Training. Großzügige Außenbereiche, komfortable Kabinen und vollständige Ausrüstung für Wassersport und Segelunterricht.",
       specs: [

@@ -57,7 +57,7 @@ function GalleryPanel({
   return (
     <div
       className="relative overflow-hidden cursor-pointer group"
-      style={{ aspectRatio: "3/4" }}
+      style={{ height: "70vh" }}
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
     >
@@ -309,24 +309,29 @@ function Lightbox({
                   </button>
                 </motion.div>
               ) : (
-                /* Grid view */
+                /* Grid view — viewport-constrained, no scroll */
                 <motion.div
                   key={`grid-${activeSection}`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute inset-0 overflow-y-auto p-8"
+                  className="absolute inset-0 p-6"
                 >
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-w-6xl mx-auto">
+                  <div
+                    className="h-full grid gap-2"
+                    style={{
+                      gridTemplateColumns: "repeat(3, 1fr)",
+                      gridAutoRows: "1fr",
+                    }}
+                  >
                     {images.map((src, i) => (
                       <button
                         key={i}
-                        className="relative overflow-hidden transition-opacity duration-200 hover:opacity-80"
-                        style={{ aspectRatio: "4/3" }}
+                        className="relative overflow-hidden transition-opacity duration-200 hover:opacity-80 min-h-0"
                         onClick={() => setSelectedImg(i)}
                       >
-                        <Image src={src} alt={`${activeSection} ${i + 1}`} fill className="object-cover" sizes="25vw" />
+                        <Image src={src} alt={`${activeSection} ${i + 1}`} fill className="object-cover" sizes="33vw" />
                       </button>
                     ))}
                   </div>
