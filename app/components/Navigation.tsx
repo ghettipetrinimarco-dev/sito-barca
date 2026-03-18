@@ -54,7 +54,7 @@ export default function Navigation() {
   const navRef = useRef<HTMLDivElement>(null);
 
   const leftNav = [
-    { label: tr.yacht, href: "#yacht", type: "link" },
+    { label: tr.yacht, type: "dropdown", items: tr.yachtItems },
     { label: tr.services, type: "dropdown", items: tr.servicesItems },
     { label: tr.about, type: "dropdown", items: tr.aboutItems },
   ];

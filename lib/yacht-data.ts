@@ -72,22 +72,22 @@ export const yachtSpecs: YachtSpec[] = [
   { label: "Length", value: "15.20", unit: "m" },
   { label: "Beam", value: "7.90", unit: "m" },
   { label: "Draft", value: "1.30", unit: "m" },
-  { label: "Weight", value: "14,500", unit: "kg" },
+  { label: "Weight", value: "14.5", unit: "t" },
   { label: "Main Sail", value: "97", unit: "m²" },
   { label: "Reacher", value: "120", unit: "m²" },
   { label: "Fuel Capacity", value: "400", unit: "L" },
-  { label: "Cruising Speed", value: "8–12", unit: "kn" },
+  { label: "Cruising Speed", value: "13", unit: "kn" },
 ];
 
 export const yachtSpecsDe: YachtSpec[] = [
   { label: "Länge", value: "15,20", unit: "m" },
   { label: "Breite", value: "7,90", unit: "m" },
   { label: "Tiefgang", value: "1,30", unit: "m" },
-  { label: "Gewicht", value: "14.500", unit: "kg" },
+  { label: "Gewicht", value: "14.5", unit: "t" },
   { label: "Großsegel", value: "97", unit: "m²" },
   { label: "Reacher", value: "120", unit: "m²" },
   { label: "Kraftstoffkapazität", value: "400", unit: "L" },
-  { label: "Reisegeschwindigkeit", value: "8–12", unit: "kn" },
+  { label: "Reisegeschwindigkeit", value: "13", unit: "kn" },
 ];
 
 export const yachtFeatures: YachtFeature[] = [

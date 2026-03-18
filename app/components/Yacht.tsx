@@ -166,16 +166,17 @@ export default function Yacht() {
         </motion.div>
 
         {/* Gallery */}
-        <YachtGallery />
+        <div id="yacht-gallery"><YachtGallery /></div>
 
         {/* ── Floor Plan ─────────────────────────────────────────── */}
         <FloorPlan lang={lang} />
 
         {/* ── Matterport ─────────────────────────────────────────── */}
-        <MatterportSection lang={lang} />
+        <div id="yacht-tour"><MatterportSection lang={lang} /></div>
 
         {/* ── Technical specs ────────────────────────────────────── */}
         <motion.div
+          id="yacht-specs"
           ref={specsRef}
           initial={{ opacity: 0, y: 24 }}
           animate={specsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
@@ -200,17 +201,23 @@ export default function Yacht() {
                 <p className="text-[11px] tracking-[0.15em] uppercase mb-3 font-manrope" style={{ color: "var(--text-muted)" }}>
                   {spec.label}
                 </p>
-                <p className="font-manrope font-bold" style={{ fontSize: "1.4rem", color: "var(--text)", lineHeight: 1 }}>
+                <motion.p
+                  className="font-manrope font-bold"
+                  style={{ fontSize: "1.4rem", color: "var(--text)", lineHeight: 1 }}
+                  initial={{ opacity: 0, filter: "blur(8px)", scale: 0.95 }}
+                  animate={specsInView ? { opacity: 1, filter: "blur(0px)", scale: 1 } : { opacity: 0, filter: "blur(8px)", scale: 0.95 }}
+                  transition={{ duration: 0.6, delay: 0.2 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
+                >
                   {spec.value}
                   {spec.unit && <span className="text-xs font-light ml-1.5" style={{ color: "var(--text-muted)" }}>{spec.unit}</span>}
-                </p>
+                </motion.p>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
         {/* ── Watersports included ───────────────────────────────── */}
-        <WatersportsIncluded lang={lang} specsInView={specsInView} />
+        <div id="yacht-watersports"><WatersportsIncluded lang={lang} specsInView={specsInView} /></div>
 
       </div>
     </section>

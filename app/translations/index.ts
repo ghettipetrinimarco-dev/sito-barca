@@ -199,6 +199,12 @@ export const t = {
       about: "Über uns",
       cruisePlan: "Reiseplan",
       contact: "Kontakt",
+      yachtItems: [
+        { label: "Galerie", href: "#yacht-gallery" },
+        { label: "Virtueller Rundgang", href: "#yacht-tour" },
+        { label: "Technische Daten", href: "#yacht-specs" },
+        { label: "Wassersport", href: "#yacht-watersports" },
+      ],
       servicesItems: [
         { label: "Meilentörn / Schlechtwetter-Training", href: "#services" },
         { label: "Urlaubstörn", href: "#services" },
