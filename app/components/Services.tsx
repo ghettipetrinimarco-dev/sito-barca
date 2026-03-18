@@ -1,243 +1,323 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect, useCallback } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-// images keyed by service number (static, not translated)
-const serviceImages: Record<string, string> = {
-  "01": "/Mileage Cruise.jpg",
-  "04": "/Yacht Survey.jpg",
-  "05": "/Wingfoil.webp",
-};
+const SERVICE_IMAGES = [
+  "/formentera day 1 9.JPG",                      // 01 Training
+  "/formentera day 1 6.JPG",                      // 02 Leisure
+  "/b5670d9e-6f50-48f5-8dab-9d8d89ace86d.JPG",  // 03 Course
+  "/Yacht Survey.jpg",                             // 04 Inspection
+  "/Wingfoil.webp",                                // 05 Watersports
+  "/49a42f90-1c6b-42e2-9196-980fa15f4f7d.JPG",  // 06 Culinary
+];
 
-function ServiceRow({
+interface ServiceItem {
+  number: string;
+  title: string;
+  description: string;
+  tag: string;
+  dates?: string;
+  footer?: string;
+}
+
+/* ── Single service row ─────────────────────────────────────────── */
+function ServiceScrollItem({
   service,
   index,
-  isHovered,
-  onEnter,
-  onLeave,
+  isActive,
+  onActivate,
+  onMount,
 }: {
-  service: { number: string; title: string; description: string; tag: string; dates?: string; footer?: string };
+  service: ServiceItem;
   index: number;
-  isHovered: boolean;
-  onEnter: () => void;
-  onLeave: () => void;
+  isActive: boolean;
+  onActivate: (i: number) => void;
+  onMount: (el: HTMLDivElement | null, i: number) => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-40px" });
+
+  useEffect(() => {
+    onMount(ref.current, index);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Mobile only: IntersectionObserver
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && window.innerWidth < 1024) onActivate(index);
+      },
+      { rootMargin: "-38% 0px -38% 0px", threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [index, onActivate]);
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.6, delay: index * 0.08, ease }}
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
-      className="group cursor-default"
-      style={{ borderBottom: "1px solid var(--border)" }}
+      className="cursor-default"
+      style={{ borderBottom: "1px solid rgba(255,255,255,0.09)" }}
+      onMouseEnter={() => onActivate(index)}
     >
       <div
-        className="flex items-center justify-between py-7 px-2 transition-all duration-300"
-        style={{
-          background: isHovered ? "var(--surface-alt)" : "transparent",
-          paddingLeft: isHovered ? "1.5rem" : "0.5rem",
-        }}
+        className="py-7 md:py-9 transition-all duration-200"
+        style={{ paddingLeft: isActive ? "1rem" : "0" }}
       >
-        {/* Left: number + title */}
-        <div className="flex items-center gap-6 min-w-0 flex-1 mr-8">
+        <div className="flex items-baseline gap-4 lg:gap-7">
           <span
-            className="text-xs font-mono tracking-widest flex-shrink-0 transition-colors duration-300"
-            style={{ color: isHovered ? "var(--accent)" : "var(--text-muted)" }}
+            className="font-manrope text-[11px] tracking-[0.3em] tabular-nums flex-shrink-0 transition-colors duration-200"
+            style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.22)" }}
           >
             {service.number}
           </span>
-          <div className="min-w-0">
-            <h3
-              className="font-manrope font-semibold leading-tight transition-all duration-300 truncate"
-              style={{
-                fontSize: "clamp(1rem, 1.8vw, 1.3rem)",
-                color: isHovered ? "var(--accent)" : "var(--text)",
-              }}
-            >
-              {service.title}
-            </h3>
-            <AnimatePresence>
-              {isHovered && (
-                <motion.p
-                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                  animate={{ opacity: 1, height: "auto", marginTop: "0.5rem" }}
-                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                  transition={{ duration: 0.35, ease }}
-                  className="text-sm font-light leading-relaxed overflow-hidden"
-                  style={{ color: "var(--text-secondary)" }}
-                >
-                  {service.description}
-                  {service.dates && (
-                    <span className="block mt-2 text-[10px] tracking-[0.2em] uppercase font-medium" style={{ color: "var(--accent)" }}>
-                      {service.dates}
-                    </span>
-                  )}
-                  {service.footer && (
-                    <span className="block mt-2 font-playfair italic text-xs" style={{ color: "var(--text-muted)" }}>
-                      {service.footer}
-                    </span>
-                  )}
-                </motion.p>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
 
-        {/* Right: tag + arrow */}
-        <div className="flex items-center gap-4 flex-shrink-0">
+          <h3
+            className="font-manrope font-light flex-1 min-w-0 transition-all duration-200"
+            style={{
+              fontSize: "clamp(1.1rem, 2.8vw, 2.6rem)",
+              lineHeight: 1.06,
+              color: isActive ? "#ffffff" : "rgba(255,255,255,0.28)",
+            }}
+          >
+            {service.title}
+          </h3>
+
           <span
-            className="text-[9px] tracking-[0.22em] uppercase hidden sm:block transition-colors duration-300"
-            style={{ color: isHovered ? "var(--accent)" : "var(--text-muted)" }}
+            className="hidden lg:block text-[10px] tracking-[0.3em] uppercase flex-shrink-0 self-center transition-colors duration-200"
+            style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.14)" }}
           >
             {service.tag}
           </span>
-          <motion.div
-            animate={{ x: isHovered ? 4 : 0, opacity: isHovered ? 1 : 0.3 }}
-            transition={{ duration: 0.25 }}
-          >
-            <svg className="w-4 h-4" style={{ color: "var(--accent)" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </motion.div>
+        </div>
+
+        {/* Description accordion — mobile only (desktop uses left panel) */}
+        <div
+          className="lg:hidden overflow-hidden transition-all duration-300"
+          style={{
+            maxHeight: isActive ? "160px" : "0px",
+            opacity: isActive ? 1 : 0,
+            marginTop: isActive ? "0.9rem" : "0",
+          }}
+        >
+          <div style={{ paddingLeft: "2.25rem" }}>
+            <p className="text-sm font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.62)" }}>
+              {service.description}
+            </p>
+            {service.dates && (
+              <p className="mt-2 text-[10px] tracking-[0.2em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
+                {service.dates}
+              </p>
+            )}
+            {service.footer && (
+              <p className="mt-2 font-playfair italic text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>
+                {service.footer}
+              </p>
+            )}
+          </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
+/* ── Main component ─────────────────────────────────────────────── */
 export default function Services() {
   const { lang } = useLang();
   const tr = t[lang].services;
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const titleRef = useRef<HTMLDivElement>(null);
-  const titleInView = useInView(titleRef, { once: true, margin: "-80px" });
+  const itemEls = useRef<Array<HTMLDivElement | null>>([]);
+  const registerEl = useCallback((el: HTMLDivElement | null, i: number) => {
+    itemEls.current[i] = el;
+  }, []);
 
-  const hoveredService = hoveredIndex !== null ? tr.items[hoveredIndex] : null;
-  const hoveredImage = hoveredService ? serviceImages[hoveredService.number] : undefined;
+  // Desktop: scroll listener — perfectly in sync, finds item closest to viewport center
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.innerWidth < 1024) return;
+      const mid = window.innerHeight / 2;
+      let bestIdx = 0;
+      let bestDist = Infinity;
+      itemEls.current.forEach((el, i) => {
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        const dist = Math.abs((r.top + r.bottom) / 2 - mid);
+        if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+      });
+      setActiveIndex(bestIdx);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    // Fire once so the active item is correct even when arriving mid-page
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const handleActivate = useCallback((i: number) => setActiveIndex(i), []);
+  const activeService = tr.items[activeIndex];
+
+  const leftSubtitle =
+    lang === "de"
+      ? "Private Katamaran-Erlebnisse,\nprofessioneller Segelunterricht\nund unvergessliche Momente auf See."
+      : "Private catamaran experiences,\nprofessional sailing instruction,\nand unforgettable moments at sea.";
 
   return (
-    <section id="services" className="py-32 px-6 lg:px-14" style={{ background: "var(--bg)" }}>
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div
-          ref={titleRef}
-          initial={{ opacity: 0, y: 28 }}
-          animate={titleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-          transition={{ duration: 0.9, ease }}
-          className="mb-16"
-        >
-          <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
-            {tr.label}
-          </p>
-          <h2 className="font-manrope font-bold tracking-tight mb-6" style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)", color: "var(--text)" }}>
-            {tr.title}
-          </h2>
-          <span className="accent-line" />
-        </motion.div>
+    /*
+      Background images are position:absolute so they scroll WITH the section.
+      No sticky trick needed — images naturally leave the viewport when the
+      section ends, exactly as the user expects.
+      Only the left-column TEXT is sticky (top: 148px) within the grid.
+    */
+    <section id="services" className="relative" style={{ background: "#0d1b2a" }}>
 
-        {/* Two-column layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-0 lg:gap-16 items-start">
-          {/* Service list */}
+      {/* ── Background images: absolute, fill section, scroll with it ── */}
+      <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 0 }}>
+        {SERVICE_IMAGES.map((src, i) => (
           <div
-            className="lg:col-span-3"
-            style={{ borderTop: "1px solid var(--border)" }}
+            key={i}
+            className="absolute inset-0"
+            style={{
+              opacity: activeIndex === i ? 1 : 0,
+              transform: activeIndex === i ? "scale(1)" : "scale(1.04)",
+              transition: "opacity 0.45s ease, transform 0.45s ease",
+              zIndex: activeIndex === i ? 2 : 1,
+            }}
           >
-            {tr.items.map((service, index) => (
-              <ServiceRow
-                key={index}
-                service={service}
-                index={index}
-                isHovered={hoveredIndex === index}
-                onEnter={() => setHoveredIndex(index)}
-                onLeave={() => setHoveredIndex(null)}
-              />
-            ))}
+            <Image
+              src={src}
+              alt={tr.items[i]?.title ?? ""}
+              fill
+              className="object-cover"
+              priority={i === 0}
+              sizes="100vw"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(105deg, rgba(5,15,30,0.85) 0%, rgba(5,15,30,0.52) 52%, rgba(5,15,30,0.22) 100%)",
+              }}
+            />
           </div>
+        ))}
+        <div className="absolute inset-0" style={{ background: "rgba(13,27,42,0.25)", zIndex: 3 }} />
+      </div>
 
-          {/* Image panel — sticky */}
-          <div className="hidden lg:block lg:col-span-2">
-            <div className="sticky top-28" style={{ height: "420px" }}>
-              <AnimatePresence mode="wait">
-                {hoveredImage ? (
+      {/* ── Content ── */}
+      <div className="relative" style={{ zIndex: 10 }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-14">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.65fr] lg:gap-x-20">
+
+            {/* Left: sticky text panel */}
+            <div
+              className="hidden lg:flex flex-col sticky self-start"
+              style={{ top: "148px", paddingTop: "120px", paddingBottom: "5rem" }}
+            >
+              <p className="text-[10px] tracking-[0.45em] uppercase mb-4 font-light" style={{ color: "rgba(255,255,255,0.5)" }}>
+                {tr.label}
+              </p>
+              <h2
+                className="font-manrope font-bold text-white leading-tight mb-5"
+                style={{ fontSize: "clamp(2.5rem, 3.2vw, 3.75rem)" }}
+              >
+                {tr.title}
+              </h2>
+              <div className="h-px w-10 mb-8" style={{ background: "#4a7fb5" }} />
+              <p className="text-sm font-light leading-relaxed mb-12 whitespace-pre-line" style={{ color: "rgba(255,255,255,0.52)" }}>
+                {leftSubtitle}
+              </p>
+
+              <div style={{ borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: "1.75rem" }}>
+                <AnimatePresence mode="wait">
                   <motion.div
-                    key={hoveredService!.number}
-                    initial={{ opacity: 0, scale: 1.04 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.04 }}
-                    transition={{ duration: 0.45, ease }}
-                    className="absolute inset-0 overflow-hidden"
-                    style={{ border: "1px solid var(--border)" }}
+                    key={activeIndex}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.3, ease }}
                   >
-                    <img
-                      src={hoveredImage}
-                      alt={hoveredService!.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div
-                      className="absolute bottom-0 left-0 right-0 p-5"
-                      style={{ background: "linear-gradient(to top, rgba(5,15,30,0.7), transparent)" }}
-                    >
-                      <p className="text-white font-manrope font-semibold text-sm">{hoveredService!.title}</p>
-                      <p className="text-[10px] tracking-[0.2em] uppercase mt-1" style={{ color: "rgba(255,255,255,0.55)" }}>
-                        {hoveredService!.tag}
+                    <p className="text-[10px] tracking-[0.35em] uppercase mb-3 font-medium" style={{ color: "rgba(255,255,255,0.38)" }}>
+                      {activeService?.tag}
+                    </p>
+                    <p className="text-sm font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }}>
+                      {activeService?.description}
+                    </p>
+                    {activeService?.dates && (
+                      <p className="mt-3 text-[10px] tracking-[0.2em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
+                        {activeService.dates}
                       </p>
-                    </div>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="placeholder"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="absolute inset-0 flex items-center justify-center"
-                    style={{
-                      border: "1px solid var(--border-light)",
-                      background: "var(--surface-alt)",
-                    }}
-                  >
-                    {hoveredService ? (
-                      <div className="p-10 text-center">
-                        <p className="text-[10px] tracking-[0.3em] uppercase mb-4" style={{ color: "var(--accent-light)" }}>
-                          {hoveredService.tag}
-                        </p>
-                        <p className="font-manrope font-semibold mb-4" style={{ color: "var(--text)", fontSize: "1.1rem" }}>
-                          {hoveredService.title}
-                        </p>
-                        <p className="text-sm font-light leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                          {hoveredService.description}
-                        </p>
-                        {hoveredService.footer && (
-                          <p className="font-playfair italic text-sm mt-6" style={{ color: "var(--text-muted)" }}>
-                            {hoveredService.footer}
-                          </p>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="text-center">
-                        <p className="text-[10px] tracking-[0.35em] uppercase" style={{ color: "var(--text-muted)" }}>
-                          {tr.placeholder}
-                        </p>
-                      </div>
+                    )}
+                    {activeService?.footer && (
+                      <p className="mt-3 font-playfair italic text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>
+                        {activeService.footer}
+                      </p>
                     )}
                   </motion.div>
-                )}
-              </AnimatePresence>
+                </AnimatePresence>
+              </div>
             </div>
+
+            {/* Right: scrollable list */}
+            <div className="pt-16 pb-24 lg:pt-[120px] lg:pb-28">
+
+              {/* Mobile header */}
+              <div className="lg:hidden mb-10">
+                <p className="text-[10px] tracking-[0.45em] uppercase mb-3 font-light" style={{ color: "rgba(255,255,255,0.5)" }}>
+                  {tr.label}
+                </p>
+                <h2 className="font-manrope font-bold text-white leading-tight mb-4" style={{ fontSize: "clamp(2rem, 8vw, 3rem)" }}>
+                  {tr.title}
+                </h2>
+                <div className="h-px w-8" style={{ background: "#4a7fb5" }} />
+              </div>
+
+              <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
+                {tr.items.map((service, i) => (
+                  <ServiceScrollItem
+                    key={i}
+                    service={service}
+                    index={i}
+                    isActive={activeIndex === i}
+                    onActivate={handleActivate}
+                    onMount={registerEl}
+                  />
+                ))}
+              </div>
+
+              <div className="mt-14 pt-10" style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-3 font-manrope font-semibold text-[11px] tracking-[0.22em] uppercase px-8 py-4 transition-all duration-300"
+                  style={{ background: "var(--accent)", color: "#fff", boxShadow: "0 4px 24px rgba(0,75,145,0.4)" }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)";
+                    (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 36px rgba(0,75,145,0.6)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.background = "var(--accent)";
+                    (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(0,75,145,0.4)";
+                  }}
+                >
+                  {lang === "de" ? "Kontakt aufnehmen" : "Get in touch"}
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
+
     </section>
   );
 }

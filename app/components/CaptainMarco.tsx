@@ -128,7 +128,7 @@ export default function CaptainMarco() {
           transition={{ duration: 0.9, ease }}
         >
           <p
-            className="text-[10px] tracking-[0.45em] uppercase mb-8 text-center font-manrope font-medium"
+            className="text-sm tracking-[0.4em] uppercase mb-8 text-center font-manrope font-medium"
             style={{ color: "var(--text-secondary)" }}
           >
             {tr.qualLabel}

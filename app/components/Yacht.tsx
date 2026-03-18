@@ -82,7 +82,7 @@ export default function Yacht() {
   const galleryInView = useInView(galleryRef, { once: true, margin: "-60px" });
 
   return (
-    <section id="yacht" className="py-32 px-6 lg:px-14 overflow-hidden" style={{ background: "var(--surface)" }}>
+    <section id="yacht" className="py-16 md:py-24 lg:py-32 px-6 lg:px-14 overflow-hidden" style={{ background: "var(--surface)" }}>
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
@@ -141,7 +141,7 @@ export default function Yacht() {
           {/* Main image */}
           <div
             className="relative overflow-hidden mb-3 select-none"
-            style={{ height: "520px", border: "1px solid var(--border)" }}
+            style={{ height: "clamp(240px, 55vw, 520px)", border: "1px solid var(--border)" }}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
@@ -216,6 +216,7 @@ export default function Yacht() {
 
             {/* Nav arrows */}
             <button
+              aria-label="Previous image"
               onClick={() => goTo((activeImg - 1 + yachtGallery.length) % yachtGallery.length)}
               className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all duration-200"
               style={{ background: "rgba(5,15,30,0.5)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.15)" }}
@@ -227,6 +228,7 @@ export default function Yacht() {
               </svg>
             </button>
             <button
+              aria-label="Next image"
               onClick={() => goTo((activeImg + 1) % yachtGallery.length)}
               className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all duration-200"
               style={{ background: "rgba(5,15,30,0.5)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.15)" }}
@@ -244,6 +246,7 @@ export default function Yacht() {
             {yachtGallery.map((img, i) => (
               <button
                 key={i}
+                aria-label={`View image ${i + 1}: ${img.alt}`}
                 onClick={() => goTo(i)}
                 className="relative overflow-hidden transition-all duration-200"
                 style={{

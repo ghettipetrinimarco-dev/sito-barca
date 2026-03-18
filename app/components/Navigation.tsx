@@ -82,7 +82,7 @@ export default function Navigation() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const onDark = !pastHero && !scrolled;
+  const onDark = !pastHero && !scrolled && !mobileOpen;
   const linkColor = onDark ? "rgba(255,255,255,0.75)" : "var(--text-secondary)";
   const linkHover = onDark ? "#fff" : "var(--accent)";
   const logoColor = onDark ? "#fff" : "var(--accent)";
@@ -96,7 +96,7 @@ export default function Navigation() {
       ref={navRef}
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-400"
       style={
-        scrolled
+        scrolled || mobileOpen
           ? {
               background: "rgba(255,255,255,0.97)",
               backdropFilter: "blur(16px)",

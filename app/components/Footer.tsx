@@ -43,8 +43,8 @@ export default function Footer() {
 
           {/* Contact */}
           <div className="text-right">
-            <p className="text-xs font-light" style={{ color: "rgba(255,255,255,0.35)" }}>ventum-sailing.ch</p>
-            <p className="text-xs font-light mt-1" style={{ color: "rgba(255,255,255,0.2)" }}>info@ventum-sailing.ch</p>
+            <a href="https://ventum-sailing.ch" target="_blank" rel="noopener noreferrer" className="text-xs font-light transition-colors duration-200 block" style={{ color: "rgba(255,255,255,0.35)" }} onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"} onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.35)"}>ventum-sailing.ch</a>
+            <a href="mailto:info@ventum-sailing.ch" className="text-xs font-light transition-colors duration-200 block mt-1" style={{ color: "rgba(255,255,255,0.2)" }} onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.55)"} onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.2)"}>info@ventum-sailing.ch</a>
           </div>
         </div>
 

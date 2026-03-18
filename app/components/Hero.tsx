@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+// useScroll/useTransform kept for contentOpacity/contentY parallax on text
 import { useRef, useState, useEffect } from "react";
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
@@ -30,29 +31,33 @@ export default function Hero() {
   const imgPosition = isMobile ? "45% 62%" : "62% 55%";
   const imgScale    = isMobile ? 1.08 : 1.25;
 
-  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const contentY = useTransform(scrollYProgress, [0, 0.5], ["0%", "8%"]);
 
   return (
     <section id="hero" ref={ref} className="relative min-h-screen flex items-center overflow-hidden">
 
-      {/* Parallax background */}
+      {/* Video background */}
       <div className="absolute inset-0 overflow-hidden">
-        <motion.img
-          src="/Copertina.jpg"
-          alt="Ventum catamaran sailing the Mediterranean"
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/Copertina.jpg"
           style={{
-            y: imageY,
-            scale: imgScale,
             position: "absolute",
-            inset: 0,
+            top: 0,
+            left: 0,
             width: "100%",
             height: "100%",
             objectFit: "cover",
             objectPosition: imgPosition,
+            zIndex: 0,
           }}
-        />
+        >
+          <source src="/hero-barca.mp4" type="video/mp4" />
+        </video>
       </div>
 
       {/* Gradient overlays */}
@@ -64,14 +69,14 @@ export default function Hero() {
 
       {/* Content */}
       <motion.div
-        className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-14 pt-24 pb-36"
+        className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-14 pt-20 pb-24 md:pt-24 md:pb-36"
         style={{ opacity: contentOpacity, y: contentY }}
       >
         {/* max-w-2xl keeps text left-anchored and never too wide */}
         <div className="max-w-2xl">
 
           <motion.p
-            className="text-[10px] tracking-[0.55em] uppercase font-light mb-6"
+            className="text-[10px] tracking-[0.55em] uppercase font-light mb-3 md:mb-6"
             style={{ color: "rgba(255,255,255,0.55)" }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -86,8 +91,8 @@ export default function Hero() {
             is wide enough for ~3.5rem bold text.
           */}
           <motion.h1
-            className="font-manrope font-bold text-white leading-[1.06] tracking-[-0.025em] mb-7"
-            style={{ fontSize: "clamp(1.75rem, 4.2vw, 3.5rem)" }}
+            className="font-manrope font-bold text-white leading-[1.06] tracking-[-0.025em] mb-4 md:mb-7"
+            style={{ fontSize: "clamp(1.6rem, 4.2vw, 3.5rem)" }}
             initial={{ opacity: 0, y: 36 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, delay: 0.32, ease }}
@@ -110,7 +115,7 @@ export default function Hero() {
           </motion.h1>
 
           <motion.p
-            className="font-playfair italic text-lg md:text-xl font-light mb-3"
+            className="font-playfair italic text-base md:text-xl font-light mb-2 md:mb-3"
             style={{ color: "rgba(255,255,255,0.5)" }}
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
@@ -120,7 +125,7 @@ export default function Hero() {
           </motion.p>
 
           <motion.p
-            className="text-sm font-light leading-relaxed mb-10"
+            className="text-xs md:text-sm font-light leading-relaxed mb-6 md:mb-10"
             style={{ color: "rgba(255,255,255,0.35)" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -130,14 +135,14 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-row flex-wrap gap-3 md:gap-4"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.82, ease }}
           >
             <a
               href="#cruise-plan"
-              className="group inline-flex items-center gap-3 text-white font-manrope font-semibold text-[11px] tracking-[0.2em] uppercase px-9 py-4 transition-all duration-300"
+              className="group inline-flex items-center gap-2 md:gap-3 text-white font-manrope font-semibold text-[10px] md:text-[11px] tracking-[0.2em] uppercase px-5 py-2.5 md:px-9 md:py-4 transition-all duration-300"
               style={{ background: "var(--accent)", boxShadow: "0 4px 24px rgba(0,75,145,0.45)" }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)";
@@ -155,7 +160,7 @@ export default function Hero() {
             </a>
             <a
               href="#services"
-              className="inline-flex items-center font-manrope font-light text-[11px] tracking-[0.2em] uppercase px-9 py-4 border transition-all duration-300"
+              className="inline-flex items-center font-manrope font-light text-[10px] md:text-[11px] tracking-[0.2em] uppercase px-5 py-2.5 md:px-9 md:py-4 border transition-all duration-300"
               style={{ color: "rgba(255,255,255,0.8)", borderColor: "rgba(255,255,255,0.3)" }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.7)";
@@ -175,7 +180,7 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
         style={{ color: "rgba(255,255,255,0.3)" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -195,7 +200,7 @@ export default function Hero() {
       {/* Bottom fade */}
       <div
         className="absolute bottom-0 left-0 right-0 h-36 pointer-events-none"
-        style={{ background: "linear-gradient(to top, var(--bg), transparent)" }}
+        style={{ background: "linear-gradient(to top, rgba(5,15,30,0.85), transparent)" }}
       />
     </section>
   );

@@ -42,7 +42,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-32 px-6 lg:px-14" style={{ background: "var(--bg)" }}>
+    <section id="contact" className="py-16 md:py-24 lg:py-32 px-6 lg:px-14" style={{ background: "var(--bg)" }}>
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           {/* Left */}
@@ -135,24 +135,24 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] tracking-[0.22em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.nameLabel}</label>
-                    <input type="text" required placeholder={tr.namePlaceholder} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
+                    <label htmlFor="contact-name" className="block text-[10px] tracking-[0.22em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.nameLabel}</label>
+                    <input id="contact-name" name="name" type="text" required placeholder={tr.namePlaceholder} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
                   </div>
                   <div>
-                    <label className="block text-[10px] tracking-[0.22em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.emailFieldLabel}</label>
-                    <input type="email" required placeholder={tr.emailPlaceholder} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
+                    <label htmlFor="contact-email" className="block text-[10px] tracking-[0.22em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.emailFieldLabel}</label>
+                    <input id="contact-email" name="email" type="email" required placeholder={tr.emailPlaceholder} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] tracking-[0.22em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.subjectLabel}</label>
-                  <select required value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} style={{ ...inputStyle, cursor: "pointer" }} onFocus={onFocus} onBlur={onBlur}>
+                  <label htmlFor="contact-subject" className="block text-[10px] tracking-[0.22em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.subjectLabel}</label>
+                  <select id="contact-subject" name="subject" required value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} style={{ ...inputStyle, cursor: "pointer" }} onFocus={onFocus} onBlur={onBlur}>
                     <option value="" disabled>{tr.subjectPlaceholder}</option>
                     {tr.subjects.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[10px] tracking-[0.22em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.messageLabel}</label>
-                  <textarea required rows={6} placeholder={tr.messagePlaceholder} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} style={{ ...inputStyle, resize: "none" }} onFocus={onFocus} onBlur={onBlur} />
+                  <label htmlFor="contact-message" className="block text-[10px] tracking-[0.22em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.messageLabel}</label>
+                  <textarea id="contact-message" name="message" required rows={6} placeholder={tr.messagePlaceholder} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} style={{ ...inputStyle, resize: "none" }} onFocus={onFocus} onBlur={onBlur} />
                 </div>
                 <button
                   type="submit"
