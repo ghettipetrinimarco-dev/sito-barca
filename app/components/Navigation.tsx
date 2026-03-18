@@ -153,10 +153,14 @@ export default function Navigation() {
           <div className="flex justify-center">
             <a
               href="#hero"
-              className="font-playfair transition-colors duration-400 hover:opacity-60"
-              style={{ fontSize: "1.65rem", color: logoColor, letterSpacing: "0.32em", fontWeight: 400 }}
+              className="transition-opacity duration-400 hover:opacity-60"
             >
-              VENTUM
+              <img
+                src="/logo-ventum.png"
+                alt="Ventum"
+                className="h-7 w-auto max-w-[160px] object-contain transition-all duration-400"
+                style={{ filter: onDark ? "brightness(0) invert(1)" : "brightness(0)" }}
+              />
             </a>
           </div>
 
@@ -205,10 +209,14 @@ export default function Navigation() {
         <div className="lg:hidden flex items-center justify-between h-20">
           <a
             href="#hero"
-            className="font-playfair"
-            style={{ fontSize: "1.5rem", color: logoColor, letterSpacing: "0.28em", fontWeight: 400 }}
+            className="transition-opacity duration-400 hover:opacity-60"
           >
-            VENTUM
+            <img
+              src="/logo-ventum.png"
+              alt="Ventum"
+              className="h-6 w-auto max-w-[140px] object-contain transition-all duration-400"
+              style={{ filter: onDark ? "brightness(0) invert(1)" : "brightness(0)" }}
+            />
           </a>
           <button className="p-2" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu">
             <div className="w-6 flex flex-col gap-[5px]">

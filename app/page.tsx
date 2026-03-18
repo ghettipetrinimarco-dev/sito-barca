@@ -1,4 +1,5 @@
 import Navigation from "./components/Navigation";
+import CustomScrollbar from "./components/CustomScrollbar";
 import ScrollReset from "./components/ScrollReset";
 import ScrollToTop from "./components/ScrollToTop";
 import Hero from "./components/Hero";
@@ -14,6 +15,7 @@ import Footer from "./components/Footer";
 export default function Home() {
   return (
     <main className="min-h-screen overflow-x-hidden" style={{ background: "var(--bg)" }}>
+      <CustomScrollbar />
       <ScrollReset />
       <ScrollToTop />
       <Navigation />

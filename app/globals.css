@@ -34,9 +34,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--border-light); }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
 
 /* Font utilities */
 .font-manrope { font-family: var(--font-manrope, 'Manrope', sans-serif); }
