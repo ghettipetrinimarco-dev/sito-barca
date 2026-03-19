@@ -6,12 +6,12 @@ import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
 
 const SERVICE_IMAGES = [
-  "/Mileage-Cruise-New.jpg",                       // 01 Mileage Cruise / Heavy Weather
-  "/Holiday-cruise-new.jpeg",                      // 02 Holiday Cruise
-  "/harbor maneuver course.jpg",                   // 03 Harbor Maneuver Course
-  "/Yacht Survey.jpg",                             // 04 Survey / Yacht Inspection
-  "/Wingfoil-course-new-1y.jpg",                   // 05 Wingfoil Courses
-  "/Sushi-sailor-new.jpg",                         // 06 Sushi Sailor
+  "/Mileage-Cruise-New.jpg",
+  "/Holiday-cruise-new.jpeg",
+  "/harbor maneuver course.jpg",
+  "/Yacht Survey.jpg",
+  "/Wingfoil-course-new-1y.jpg",
+  "/Sushi-sailor-new.jpg",
 ];
 
 interface ServiceItem {
@@ -28,13 +28,11 @@ function ServiceRow({
   service,
   index,
   isActive,
-  onActivate,
   onMount,
 }: {
   service: ServiceItem;
   index: number;
   isActive: boolean;
-  onActivate: (i: number) => void;
   onMount: (el: HTMLDivElement | null, i: number) => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -44,93 +42,79 @@ function ServiceRow({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const tx = "0.85s cubic-bezier(0.25,0.46,0.45,0.94)";
-
   return (
     <div
       ref={ref}
-      className="relative cursor-default"
-      style={{ borderBottom: "1px solid rgba(255,255,255,0.09)" }}
+      className="relative"
+      style={{
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
+        padding: "2.5rem 0",
+        transition: "opacity 0.6s ease",
+        opacity: isActive ? 1 : 0.28,
+      }}
     >
-      <div className="py-12 md:py-16">
+      <div className="text-center">
 
         {/* Number */}
-        <div className="flex justify-center mb-2">
-          <span
-            className="font-manrope text-[12px] tracking-[0.15em] tabular-nums"
-            style={{
-              color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.2)",
-              transition: `color ${tx}`,
-            }}
-          >
-            {service.number}
-          </span>
-        </div>
+        <p
+          className="font-manrope text-[11px] tracking-[0.2em] tabular-nums mb-3"
+          style={{
+            color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.4)",
+            transition: "color 0.6s ease",
+          }}
+        >
+          {service.number}
+        </p>
 
         {/* Title */}
         <h3
           className="font-manrope text-center"
           style={{
             fontSize: "clamp(1.3rem, 2.2vw, 2rem)",
-            lineHeight: 1.15,
+            lineHeight: 1.2,
             fontWeight: isActive ? 600 : 300,
-            color: isActive ? "#ffffff" : "rgba(255,255,255,0.25)",
+            color: isActive ? "#ffffff" : "rgba(255,255,255,0.9)",
             letterSpacing: isActive ? "-0.02em" : "0",
-            transform: isActive ? "scale(1.14)" : "scale(0.93)",
+            transform: isActive ? "scale(1.05)" : "scale(1)",
             transformOrigin: "center",
             display: "block",
-            filter: isActive ? "blur(0px)" : "blur(1.5px)",
-            transition: `transform ${tx}, color ${tx}, filter ${tx}`,
-            willChange: "transform, filter",
+            transition: "transform 0.6s ease, font-weight 0.6s ease, color 0.6s ease, letter-spacing 0.6s ease",
+            willChange: "transform",
           }}
         >
           {service.title.includes(" / ") ? (
-            <span className="flex flex-col items-center">
-              <span>
-                {service.title.split(" / ")[0]}{" "}
-                <span style={{ color: "rgba(255,255,255,0.2)", fontWeight: 200 }}>/</span>
-              </span>
-              <span style={{
-                fontSize: "0.75em",
-                fontWeight: isActive ? 400 : 200,
-                color: isActive ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.18)",
-                transition: `color ${tx}`,
-              }}>
+            <span className="flex flex-col items-center gap-0.5">
+              <span>{service.title.split(" / ")[0]}</span>
+              <span style={{ fontSize: "0.75em", fontWeight: 300, color: isActive ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.4)", transition: "color 0.6s ease" }}>
                 {service.title.split(" / ")[1]}
               </span>
             </span>
           ) : service.title}
         </h3>
 
-        {/* Description — grid-template-rows for smooth expand */}
-        <div
-          style={{ maxHeight: isActive ? "300px" : "0", overflow: "hidden" }}
+        {/* Description — always visible */}
+        <p
+          className="font-manrope leading-relaxed text-center max-w-lg mx-auto mt-4"
+          style={{
+            fontSize: "0.95rem",
+            fontWeight: 400,
+            color: isActive ? "rgba(255,255,255,0.82)" : "rgba(255,255,255,0.5)",
+            transition: "color 0.6s ease",
+          }}
         >
-          <div style={{
-            opacity: isActive ? 1 : 0,
-            transform: isActive ? "translateY(0)" : "translateY(5px)",
-            transition: "opacity 0.45s ease, transform 0.45s ease",
-          }}>
-            <div className="max-w-lg mx-auto pt-4 pb-1">
-              <p
-                className="font-manrope leading-relaxed text-center"
-                style={{ fontSize: "1.05rem", fontWeight: 400, color: "rgba(255,255,255,0.9)" }}
-              >
-                {service.description}
-              </p>
-              {service.dates && (
-                <p className="mt-3 text-[12px] tracking-[0.1em] uppercase font-medium text-center" style={{ color: "#4a7fb5" }}>
-                  {service.dates}
-                </p>
-              )}
-              {service.footer && (
-                <p className="mt-2 font-playfair italic text-sm text-center" style={{ color: "rgba(255,255,255,0.38)" }}>
-                  {service.footer}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
+          {service.description}
+        </p>
+
+        {service.dates && (
+          <p className="mt-3 text-[11px] tracking-[0.12em] uppercase font-medium text-center" style={{ color: "#4a7fb5" }}>
+            {service.dates}
+          </p>
+        )}
+        {service.footer && (
+          <p className="mt-2 font-playfair italic text-sm text-center" style={{ color: "rgba(255,255,255,0.35)" }}>
+            {service.footer}
+          </p>
+        )}
 
       </div>
     </div>
@@ -148,31 +132,25 @@ export default function Services() {
     itemEls.current[i] = el;
   }, []);
 
-  // Single IntersectionObserver — small delay for luxurious feel on slow scroll
-  const activationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           const i = itemEls.current.indexOf(entry.target as HTMLDivElement);
-          if (i === -1) return;
-          if (activationTimer.current) clearTimeout(activationTimer.current);
-          activationTimer.current = setTimeout(() => setActiveIndex(i), 220);
+          if (i !== -1) setActiveIndex(i);
         });
       },
-      { rootMargin: "-44% 0px -44% 0px", threshold: 0 }
+      { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
     );
     itemEls.current.forEach((el) => el && obs.observe(el));
-    return () => { obs.disconnect(); if (activationTimer.current) clearTimeout(activationTimer.current); };
+    return () => obs.disconnect();
   }, [tr.items.length]);
-
-  const handleActivate = useCallback((i: number) => setActiveIndex(i), []);
 
   return (
     <section id="services" className="relative" style={{ background: "#0d1b2a" }}>
 
-      {/* Background images — crossfade on active */}
+      {/* Background images */}
       <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 0 }}>
         {SERVICE_IMAGES.map((src, i) => (
           <div
@@ -181,84 +159,54 @@ export default function Services() {
             style={{
               opacity: activeIndex === i ? 1 : 0,
               transform: activeIndex === i ? "scale(1)" : "scale(1.04)",
-              transition: "opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1)",
+              transition: "opacity 0.8s ease, transform 0.8s ease",
               willChange: "opacity, transform",
               zIndex: activeIndex === i ? 2 : 1,
             }}
           >
-            <Image
-              src={src}
-              alt={tr.items[i]?.title ?? ""}
-              fill
-              className="object-cover"
-              priority={i === 0}
-              sizes="100vw"
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background: "linear-gradient(to right, rgba(5,15,30,0.88) 0%, rgba(5,15,30,0.60) 50%, rgba(5,15,30,0.30) 100%)",
-              }}
-            />
+            <Image src={src} alt={tr.items[i]?.title ?? ""} fill className="object-cover" priority={i === 0} sizes="100vw" />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(5,15,30,0.88) 0%, rgba(5,15,30,0.62) 50%, rgba(5,15,30,0.32) 100%)" }} />
           </div>
         ))}
-        <div className="absolute inset-0" style={{ background: "rgba(13,27,42,0.2)", zIndex: 3 }} />
+        <div className="absolute inset-0" style={{ background: "rgba(13,27,42,0.18)", zIndex: 3 }} />
       </div>
 
-      {/* Content — single centered column */}
+      {/* Content */}
       <div className="relative" style={{ zIndex: 10 }}>
         <div className="max-w-4xl mx-auto px-6 lg:px-8" style={{ paddingTop: "80px", paddingBottom: "80px" }}>
 
-          {/* Section header — centered */}
+          {/* Header */}
           <div className="mb-14 text-center">
-            <p
-              className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light"
-              style={{ color: "rgba(255,255,255,0.5)" }}
-            >
+            <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "rgba(255,255,255,0.5)" }}>
               {tr.label}
             </p>
-            <h2
-              className="font-manrope font-bold text-white leading-tight"
-              style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}
-            >
+            <h2 className="font-manrope font-bold text-white leading-tight" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
               {tr.title}
             </h2>
             <div className="h-px w-10 mt-5 mx-auto" style={{ background: "#4a7fb5" }} />
           </div>
 
-          {/* Service list */}
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
+          {/* List */}
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
             {tr.items.map((service, i) => (
               <ServiceRow
                 key={i}
                 service={service}
                 index={i}
                 isActive={activeIndex === i}
-                onActivate={handleActivate}
                 onMount={registerEl}
               />
             ))}
           </div>
 
           {/* CTA */}
-          <div className="mt-10 pt-8 flex justify-center">
+          <div className="mt-12 flex justify-center">
             <a
               href="#contact"
-              className="font-manrope font-semibold text-[13px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-700"
-              style={{
-                background: "var(--accent)",
-                color: "#fff",
-                boxShadow: "0 4px 24px rgba(0,75,145,0.4)",
-                borderRadius: "8px",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)";
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 36px rgba(0,75,145,0.6)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "var(--accent)";
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(0,75,145,0.4)";
-              }}
+              className="font-manrope font-semibold text-[13px] tracking-[0.1em] uppercase px-8 py-4"
+              style={{ background: "var(--accent)", color: "#fff", boxShadow: "0 4px 24px rgba(0,75,145,0.4)", borderRadius: "8px", transition: "background 0.3s ease, box-shadow 0.3s ease" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 36px rgba(0,75,145,0.6)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(0,75,145,0.4)"; }}
             >
               {lang === "de" ? "Kontakt aufnehmen" : "Get in touch"}
             </a>
