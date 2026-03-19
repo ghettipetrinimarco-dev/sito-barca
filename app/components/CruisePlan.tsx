@@ -1,14 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-// ViewBox: 0 0 1200 680
-// Scale: x=(lon+1)*100, y=(43.5-lat)*90.7
 const STOPS = [
   {
     id: "rapita",
@@ -16,12 +14,10 @@ const STOPS = [
     region: "Costa Daurada · Spain",
     month: "May",
     dates: "10 May 2026",
-    route: 1,
     x: 160, y: 263,
     image: "/images/cruise/la-rapita.jpg",
-    labelPos: "top" as const,
     en: "Our journey begins in the sheltered bay of La Ràpita — a quiet fishing village on the Costa Daurada, the perfect departure point before the open Mediterranean.",
-    de: "Unsere Reise beginnt in der geschützten Bucht von La Ràpita — ein ruhiges Fischerdorf an der Costa Daurada, der perfekte Ausgangspunkt für das offene Mittelmeer.",
+    de: "Unsere Reise beginnt in der geschützten Bucht von La Ràpita — ein ruhiges Fischerdorf an der Costa Daurada.",
   },
   {
     id: "mallorca",
@@ -29,10 +25,8 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "May",
     dates: "May – Jun 2026",
-    route: 1,
     x: 395, y: 345,
     image: "/images/cruise/mallorca.jpg",
-    labelPos: "bottom" as const,
     en: "The crown jewel of the Balearics. Dramatic cliffs, hidden coves and crystal waters make Mallorca an unmissable first stop of the island arc.",
     de: "Das Juwel der Balearen. Dramatische Klippen, versteckte Buchten und kristallklares Wasser.",
   },
@@ -42,10 +36,8 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun",
     dates: "May – Jun 2026",
-    route: 1,
     x: 505, y: 322,
     image: "/images/cruise/menorca.jpg",
-    labelPos: "top" as const,
     en: "Wilder and quieter than her sisters. Menorca's turquoise lagoons and UNESCO Biosphere Reserve offer raw Mediterranean nature at its finest.",
     de: "Wilder und ruhiger als ihre Schwestern. Menorcas türkisfarbene Lagunen und das UNESCO-Biosphärenreservat.",
   },
@@ -55,10 +47,8 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun",
     dates: "Jun 2026",
-    route: 1,
     x: 245, y: 417,
     image: "/images/cruise/ibiza.jpg",
-    labelPos: "left" as const,
     en: "Beyond the nightlife lies a magical island of ancient villages, pine forests and secret beaches bathed in golden Mediterranean light.",
     de: "Jenseits des Nachtlebens: eine magische Insel mit alten Dörfern, Pinienwäldern und geheimen Stränden.",
   },
@@ -68,10 +58,8 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun/Sep",
     dates: "Jun – Sep 2026",
-    route: 1,
     x: 250, y: 440,
     image: "/images/cruise/formentera.jpg",
-    labelPos: "left" as const,
     en: "The Caribbean of Europe. Formentera's shallow turquoise waters and white sand beaches are the crowning glory of the Balearic arc.",
     de: "Die Karibik Europas. Flache türkisfarbene Gewässer und weisse Sandstrände am Ende des Balearen-Bogens.",
   },
@@ -81,10 +69,8 @@ const STOPS = [
     region: "Sardinia · Italy",
     month: "Sep",
     dates: "Sep 2026",
-    route: 2,
     x: 1010, y: 390,
     image: "/images/cruise/cagliari.jpg",
-    labelPos: "right" as const,
     en: "Sardinia's ancient capital rises from a lagoon. Roman ruins, rooftop views and warm Sardinian hospitality before the crossing south.",
     de: "Sardiniens alte Hauptstadt über der Lagune. Römische Ruinen, Dachterrassen und sardische Gastfreundschaft.",
   },
@@ -94,12 +80,10 @@ const STOPS = [
     region: "Sardinia · Italy",
     month: "Sep",
     dates: "Sep 2026",
-    route: 2,
     x: 1050, y: 236,
     image: "/images/cruise/olbia.jpg",
-    labelPos: "right" as const,
     en: "Gateway to the Costa Smeralda. Where granite rocks tumble into emerald sea and the pace of life slows beautifully.",
-    de: "Tor zur Costa Smeralda. Wo Granitfelsen ins smaragdgrüne Meer stürzen und das Leben verlangsamt.",
+    de: "Tor zur Costa Smeralda. Wo Granitfelsen ins smaragdgrüne Meer stürzen.",
   },
   {
     id: "bizerte",
@@ -107,106 +91,126 @@ const STOPS = [
     region: "Northern Tunisia",
     month: "Oct",
     dates: "4 Oct 2026",
-    route: 2,
     x: 1090, y: 558,
     image: "/images/cruise/bizerte.jpg",
-    labelPos: "right" as const,
     en: "Our final destination. Tunisia's northernmost city blends French colonial charm with Medina colour — the perfect winter harbour for Ventum.",
-    de: "Unser letztes Ziel. Tunesiens nördlichste Stadt verbindet Kolonialcharm mit Medina-Farben — der perfekte Winterhafen.",
+    de: "Unser letztes Ziel. Tunesiens nördlichste Stadt — der perfekte Winterhafen für Ventum.",
   },
 ];
 
+// Camera viewBox [x, y, w, h] for each stop — smaller w = more zoomed in
+// Aspect ratio kept close to 1200/680 ≈ 1.765
+const CAMERAS: Record<string, [number, number, number, number]> = {
+  rapita:     [ -20,  55, 680, 385],
+  mallorca:   [ 160, 205, 460, 261],
+  menorca:    [ 300, 200, 400, 227],
+  ibiza:      [  80, 320, 310, 176],
+  formentera: [  90, 350, 290, 164],
+  cagliari:   [ 800, 265, 420, 238],
+  olbia:      [ 840, 118, 400, 227],
+  bizerte:    [ 870, 438, 400, 227],
+};
+
 const ROUTE_1 =
   "M 160,263 C 255,296 325,325 395,345 C 445,330 476,323 505,322 C 476,328 445,335 395,345 C 348,382 293,408 245,417 L 250,440";
-
 const ROUTE_2 =
   "M 250,440 L 245,417 C 305,392 352,368 395,345 C 592,380 798,400 1010,390 C 1028,318 1040,276 1050,236 C 1040,280 1028,326 1010,390 Q 1050,474 1090,558";
 
 export default function CruisePlan() {
   const { lang } = useLang();
   const [activeId, setActiveId] = useState("rapita");
-  const route1Ref = useRef<SVGPathElement>(null);
-  const route2Ref = useRef<SVGPathElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const currentVB = useRef<[number, number, number, number]>(CAMERAS.rapita);
+  const targetVB = useRef<[number, number, number, number]>(CAMERAS.rapita);
+  const rafRef = useRef<number | null>(null);
 
   const active = STOPS.find((s) => s.id === activeId) ?? STOPS[0];
 
-  // Animate routes drawing in on mount
-  useEffect(() => {
-    const r1 = route1Ref.current;
-    const r2 = route2Ref.current;
-    if (!r1 || !r2) return;
-
-    const len1 = r1.getTotalLength();
-    const len2 = r2.getTotalLength();
-
-    r1.style.strokeDasharray = String(len1);
-    r1.style.strokeDashoffset = String(len1);
-    r2.style.strokeDasharray = String(len2);
-    r2.style.strokeDashoffset = String(len2);
-
-    const t1 = setTimeout(() => {
-      r1.style.transition = "stroke-dashoffset 2.8s cubic-bezier(0.4,0,0.2,1)";
-      r1.style.strokeDashoffset = "0";
-      const t2 = setTimeout(() => {
-        r2.style.transition = "stroke-dashoffset 2.2s cubic-bezier(0.4,0,0.2,1)";
-        r2.style.strokeDashoffset = "0";
-      }, 3000);
-      return () => clearTimeout(t2);
-    }, 500);
-
-    return () => clearTimeout(t1);
+  // rAF-based lerp animation for viewBox
+  const startAnim = useCallback(() => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    const step = () => {
+      const c = currentVB.current;
+      const t = targetVB.current;
+      const sp = 0.072;
+      const next: [number, number, number, number] = [
+        c[0] + (t[0] - c[0]) * sp,
+        c[1] + (t[1] - c[1]) * sp,
+        c[2] + (t[2] - c[2]) * sp,
+        c[3] + (t[3] - c[3]) * sp,
+      ];
+      currentVB.current = next;
+      if (svgRef.current) svgRef.current.setAttribute("viewBox", next.join(" "));
+      if (next.some((v, i) => Math.abs(v - t[i]) > 0.08)) {
+        rafRef.current = requestAnimationFrame(step);
+      }
+    };
+    rafRef.current = requestAnimationFrame(step);
   }, []);
 
-  const labelOffset = (pos: "top" | "bottom" | "left" | "right") => {
-    if (pos === "top") return { dx: 0, dy: -16, anchor: "middle" as const };
-    if (pos === "bottom") return { dx: 0, dy: 22, anchor: "middle" as const };
-    if (pos === "left") return { dx: -14, dy: 4, anchor: "end" as const };
-    return { dx: 14, dy: 4, anchor: "start" as const };
-  };
+  // Update camera target when active stop changes
+  useEffect(() => {
+    targetVB.current = CAMERAS[activeId];
+    startAnim();
+  }, [activeId, startAnim]);
+
+  // Scroll → active stop
+  useEffect(() => {
+    const handleScroll = () => {
+      const section = sectionRef.current;
+      if (!section) return;
+      const { top, height } = section.getBoundingClientRect();
+      const scrollable = height - window.innerHeight;
+      if (scrollable <= 0) return;
+      const progress = Math.max(0, Math.min(1, -top / scrollable));
+      const idx = Math.min(
+        Math.floor(progress * STOPS.length),
+        STOPS.length - 1
+      );
+      setActiveId(STOPS[idx].id);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  const stopIndex = STOPS.findIndex((s) => s.id === activeId);
 
   return (
     <section
+      ref={sectionRef}
       id="cruise-plan"
-      className="relative overflow-hidden"
-      style={{ height: "100dvh", background: "#0a1628" }}
+      className="relative"
+      style={{ height: `${STOPS.length * 90}vh` }}
     >
-      {/* ── SVG Map ──────────────────────────────────────────────── */}
-      <div className="absolute inset-0" style={{ zIndex: 1 }}>
+      {/* ── Sticky map container ─────────────────────────────────── */}
+      <div
+        className="sticky top-0 overflow-hidden"
+        style={{ height: "100dvh", background: "#080f1c" }}
+      >
+        {/* ── SVG Map ────────────────────────────────────────────── */}
         <svg
-          viewBox="0 0 1200 680"
+          ref={svgRef}
+          viewBox="-20 55 680 385"
           preserveAspectRatio="xMidYMid slice"
-          className="w-full h-full"
+          className="absolute inset-0 w-full h-full"
         >
           <defs>
-            {/* Sea radial gradient */}
             <radialGradient id="seaGrad" cx="48%" cy="46%" r="68%">
               <stop offset="0%" stopColor="#0f2e4a" />
               <stop offset="100%" stopColor="#060d1a" />
             </radialGradient>
-            {/* Bathymetric halo blur */}
             <filter id="bathyBlur" x="-60%" y="-60%" width="220%" height="220%">
-              <feGaussianBlur stdDeviation="24" />
+              <feGaussianBlur stdDeviation="20" />
             </filter>
-            {/* Marker glow */}
             <radialGradient id="cpGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#4a9fd5" stopOpacity="0.35" />
+              <stop offset="0%" stopColor="#4a9fd5" stopOpacity="0.4" />
               <stop offset="100%" stopColor="#4a9fd5" stopOpacity="0" />
             </radialGradient>
-            {/* Topographic island fill — objectBoundingBox centers on each island automatically */}
-            <radialGradient id="islandFill" cx="50%" cy="38%" r="72%">
-              <stop offset="0%"   stopColor="#c8dff5" stopOpacity="0.32" />
-              <stop offset="55%"  stopColor="#7aaed8" stopOpacity="0.12" />
-              <stop offset="100%" stopColor="#3a6a9a" stopOpacity="0.04" />
-            </radialGradient>
-            {/* Route glow blur */}
-            <filter id="routeGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-            {/* Marker inner blur */}
             <filter id="cpBlur">
               <feGaussianBlur stdDeviation="1.5" result="blur" />
               <feMerge>
@@ -216,468 +220,234 @@ export default function CruisePlan() {
             </filter>
           </defs>
 
-          {/* ── 1. Sea background gradient ───────────────────────── */}
+          {/* Sea */}
           <rect width="1200" height="680" fill="url(#seaGrad)" />
 
-          {/* ── 2. Bathymetric halos (blurred shallow-water glow) ── */}
+          {/* Bathymetric halos */}
+          <ellipse cx="60"   cy="340" rx="110" ry="185" fill="rgba(35,110,185,0.11)" filter="url(#bathyBlur)" />
+          <ellipse cx="360"  cy="385" rx="195" ry="115" fill="rgba(35,110,185,0.13)" filter="url(#bathyBlur)" />
+          <ellipse cx="995"  cy="308" rx="160" ry="125" fill="rgba(35,110,185,0.11)" filter="url(#bathyBlur)" />
+          <ellipse cx="1100" cy="575" rx="105" ry="72"  fill="rgba(35,110,185,0.09)" filter="url(#bathyBlur)" />
+
+          {/* Graticule */}
+          <g stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" fill="none">
+            {[37,38,39,40,41,42,43].map((lat) => (
+              <line key={lat} x1="0" y1={(43.5-lat)*90.7} x2="1200" y2={(43.5-lat)*90.7} />
+            ))}
+            {[0,1,2,3,4,5,6,7,8,9,10,11].map((lon) => (
+              <line key={lon} x1={(lon+1)*100} y1="0" x2={(lon+1)*100} y2="680" />
+            ))}
+          </g>
+          <g fontFamily="var(--font-manrope,sans-serif)" fontSize="7" fill="rgba(255,255,255,0.18)" letterSpacing="0.04em">
+            {[38,39,40,41,42].map((lat) => (
+              <text key={lat} x="6" y={(43.5-lat)*90.7 - 3}>{lat}°N</text>
+            ))}
+            {[1,3,5,7,9].map((lon) => (
+              <text key={lon} x={(lon+1)*100+3} y="672">{lon}°E</text>
+            ))}
+          </g>
+
+          {/* ── Land masses ── vectorEffect keeps stroke crisp at any zoom */}
+
           {/* Spain coast */}
-          <ellipse cx="60" cy="340" rx="130" ry="220"
-            fill="rgba(35,110,185,0.13)" filter="url(#bathyBlur)" />
-          {/* Balearics group */}
-          <ellipse cx="360" cy="390" rx="210" ry="120"
-            fill="rgba(35,110,185,0.14)" filter="url(#bathyBlur)" />
-          {/* Sardinia */}
-          <ellipse cx="995" cy="308" rx="175" ry="135"
-            fill="rgba(35,110,185,0.12)" filter="url(#bathyBlur)" />
-          {/* Tunisia */}
-          <ellipse cx="1100" cy="580" rx="120" ry="80"
-            fill="rgba(35,110,185,0.1)" filter="url(#bathyBlur)" />
-
-          {/* ── 3. Graticule (lat/lon grid) ──────────────────────── */}
-          <g stroke="rgba(255,255,255,0.055)" strokeWidth="0.5" fill="none">
-            {/* Latitude lines — every 1° from 37N to 43N */}
-            {[37,38,39,40,41,42,43].map((lat) => {
-              const y = (43.5 - lat) * 90.7;
-              return <line key={`lat${lat}`} x1="0" y1={y} x2="1200" y2={y} />;
-            })}
-            {/* Longitude lines — every 1° from 0E to 11E */}
-            {[0,1,2,3,4,5,6,7,8,9,10,11].map((lon) => {
-              const x = (lon + 1) * 100;
-              return <line key={`lon${lon}`} x1={x} y1="0" x2={x} y2="680" />;
-            })}
-          </g>
-          {/* Graticule degree labels */}
-          <g fontFamily="var(--font-manrope,sans-serif)" fontSize="7.5" fill="rgba(255,255,255,0.2)" letterSpacing="0.04em">
-            {[38,39,40,41,42].map((lat) => {
-              const y = (43.5 - lat) * 90.7;
-              return <text key={`llat${lat}`} x="6" y={y - 3}>{lat}°N</text>;
-            })}
-            {[1,3,5,7,9].map((lon) => {
-              const x = (lon + 1) * 100;
-              return <text key={`llon${lon}`} x={x + 3} y="672">{lon}°E</text>;
-            })}
-          </g>
-
-          {/* ── 4. Land masses ───────────────────────────────────── */}
-
-          {/* Spain / Catalonia east coast */}
           <path
             d="M 0,0 L 420,0 L 375,40 L 345,82 L 316,138 L 298,165 L 268,190 L 225,218 L 200,237 L 160,263 L 120,296 L 88,330 L 65,358 L 50,400 L 42,454 L 0,510 Z"
-            fill="url(#islandFill)"
-            stroke="rgba(255,255,255,0.22)"
-            strokeWidth="1.0"
-          />
-
-          {/*
-            MALLORCA — 20 points
-            Key features: Cap de Formentor finger (NE), Badia de Palma (SW bay),
-            Cap de ses Salines (S tip), Cap de Ferrutx (NE coast)
-            Scale: x=(lon+1)*100  y=(43.5-lat)*90.7
-          */}
-          <path
-            d="M 330,330
-               L 352,320 L 368,317 L 382,318
-               L 397,323 L 422,318
-               L 422,330 L 408,332 L 420,330
-               L 448,342
-               L 447,356 L 438,368
-               L 425,380 L 405,387
-               L 387,383 L 370,376
-               L 354,368 L 362,358 L 349,367
-               L 338,360 L 330,344
-               Z"
-            fill="url(#islandFill)"
-            stroke="rgba(255,255,255,0.45)"
-            strokeWidth="1.6"
-            strokeLinejoin="round"
-          />
-
-          {/*
-            MENORCA — elongated E-W, slight N-coast bumps
-            W tip 39.82N 3.83E, NE tip 40.06N 4.34E
-          */}
-          <path
-            d="M 478,338
-               L 487,320 L 507,311 L 522,308 L 534,308
-               L 538,316 L 530,330 L 514,336 L 493,336
-               L 476,330
-               Z"
-            fill="url(#islandFill)"
-            stroke="rgba(255,255,255,0.42)"
-            strokeWidth="1.4"
-            strokeLinejoin="round"
-          />
-
-          {/*
-            IBIZA — triangular, wider center
-            N tip 39.08N 1.53E, S tip 38.67N 1.40E
-            W coast (Sant Antoni bay) 38.98N 1.30E
-          */}
-          <path
-            d="M 252,401
-               L 265,408 L 264,420 L 256,430
-               L 240,438
-               L 225,428 L 222,414
-               L 230,406
-               Z"
-            fill="url(#islandFill)"
-            stroke="rgba(255,255,255,0.4)"
-            strokeWidth="1.3"
-            strokeLinejoin="round"
-          />
-
-          {/*
-            FORMENTERA — elongated E-W, La Mola peninsula
-            La Savina N: 38.74N 1.41E, La Mola E tip: 38.67N 1.59E
-          */}
-          <path
-            d="M 233,435
-               L 241,430 L 252,430
-               L 262,436 L 257,442
-               L 244,442 L 238,438
-               Z"
-            fill="url(#islandFill)"
-            stroke="rgba(255,255,255,0.38)"
-            strokeWidth="1.2"
-            strokeLinejoin="round"
-          />
-
-          {/*
-            SARDINIA — 22 points
-            Key features: Golfo dell'Asinara (NW bay), Capo Testa (N tip),
-            La Maddalena (NE), Capo Carbonara (SE), Golfo di Cagliari (S),
-            Capo Teulada (SW), Penisola del Sinis (W), Capo Caccia (W)
-          */}
-          <path
-            d="M 921,226
-               L 938,234 L 940,238
-               L 970,234 L 978,243
-               L 1014,202
-               L 1048,217
-               L 1073,267 L 1083,308
-               L 1073,340 L 1063,367
-               L 1052,399
-               L 1025,404 L 1005,399 L 988,404
-               L 964,421
-               L 944,400 L 927,368
-               L 919,314
-               L 920,282 L 916,264
-               L 919,252
-               Z"
-            fill="url(#islandFill)"
+            fill="rgba(160,200,240,0.09)"
             stroke="rgba(255,255,255,0.28)"
-            strokeWidth="1.3"
-            strokeLinejoin="round"
+            strokeWidth="1"
+            vectorEffect="non-scaling-stroke"
           />
-
-          {/* Tunisia north cape */}
+          {/* Mallorca */}
+          <path
+            d="M 330,330 L 352,320 L 368,317 L 382,318 L 397,323 L 422,318 L 422,330 L 408,332 L 420,330 L 448,342 L 447,356 L 438,368 L 425,380 L 405,387 L 387,383 L 370,376 L 354,368 L 362,358 L 349,367 L 338,360 L 330,344 Z"
+            fill="rgba(160,200,240,0.11)"
+            stroke="rgba(255,255,255,0.45)"
+            strokeWidth="1"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+          />
+          {/* Menorca */}
+          <path
+            d="M 478,338 L 487,320 L 507,311 L 522,308 L 534,308 L 538,316 L 530,330 L 514,336 L 493,336 L 476,330 Z"
+            fill="rgba(160,200,240,0.11)"
+            stroke="rgba(255,255,255,0.42)"
+            strokeWidth="1"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+          />
+          {/* Ibiza */}
+          <path
+            d="M 252,401 L 265,408 L 264,420 L 256,430 L 240,438 L 225,428 L 222,414 L 230,406 Z"
+            fill="rgba(160,200,240,0.11)"
+            stroke="rgba(255,255,255,0.4)"
+            strokeWidth="1"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+          />
+          {/* Formentera */}
+          <path
+            d="M 233,435 L 241,430 L 252,430 L 262,436 L 257,442 L 244,442 L 238,438 Z"
+            fill="rgba(160,200,240,0.11)"
+            stroke="rgba(255,255,255,0.38)"
+            strokeWidth="1"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+          />
+          {/* Sardinia */}
+          <path
+            d="M 921,226 L 938,234 L 940,238 L 970,234 L 978,243 L 1014,202 L 1048,217 L 1073,267 L 1083,308 L 1073,340 L 1063,367 L 1052,399 L 1025,404 L 1005,399 L 988,404 L 964,421 L 944,400 L 927,368 L 919,314 L 920,282 L 916,264 L 919,252 Z"
+            fill="rgba(160,200,240,0.09)"
+            stroke="rgba(255,255,255,0.3)"
+            strokeWidth="1"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+          />
+          {/* Tunisia */}
           <path
             d="M 1000,680 L 1000,636 L 1058,608 L 1090,558 L 1150,572 L 1200,566 L 1200,680 Z"
-            fill="url(#islandFill)"
-            stroke="rgba(255,255,255,0.2)"
-            strokeWidth="1.0"
+            fill="rgba(160,200,240,0.09)"
+            stroke="rgba(255,255,255,0.22)"
+            strokeWidth="1"
+            vectorEffect="non-scaling-stroke"
           />
 
-          {/* ── Routes ───────────────────────────────────────────── */}
+          {/* ── Routes ─────────────────────────────────────────── */}
+          <path d={ROUTE_1} fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="1.2" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+          <path d={ROUTE_2} fill="none" stroke="rgba(100,185,255,0.7)" strokeWidth="1.2" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
 
-          {/* Route 1 glow layer */}
-          <path
-            d={ROUTE_1}
-            fill="none"
-            stroke="rgba(255,255,255,0.18)"
-            strokeWidth="5"
-            strokeLinecap="round"
-            filter="url(#routeGlow)"
-          />
-          {/* Route 1 — Spring: white */}
-          <path
-            ref={route1Ref}
-            d={ROUTE_1}
-            fill="none"
-            stroke="rgba(255,255,255,0.82)"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-          />
-
-          {/* Route 2 glow layer */}
-          <path
-            d={ROUTE_2}
-            fill="none"
-            stroke="rgba(100,185,255,0.2)"
-            strokeWidth="5"
-            strokeLinecap="round"
-            filter="url(#routeGlow)"
-          />
-          {/* Route 2 — Autumn: blue */}
-          <path
-            ref={route2Ref}
-            d={ROUTE_2}
-            fill="none"
-            stroke="rgba(100,185,255,0.78)"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-          />
-
-          {/* ── Stop markers ─────────────────────────────────────── */}
+          {/* ── Markers ────────────────────────────────────────── */}
           {STOPS.map((stop) => {
             const isActive = stop.id === activeId;
-            const { dx, dy, anchor } = labelOffset(stop.labelPos);
+            const labelPos = stop.id === "rapita" || stop.id === "menorca" || stop.id === "olbia" ? "top"
+              : stop.id === "mallorca" || stop.id === "cagliari" || stop.id === "bizerte" ? "bottom"
+              : "left";
+            const lx = labelPos === "left" ? stop.x - 12 : stop.x;
+            const ly = labelPos === "top" ? stop.y - 14 : labelPos === "bottom" ? stop.y + 20 : stop.y + 4;
+            const anchor = labelPos === "left" ? "end" : "middle";
             return (
-              <g
-                key={stop.id}
-                onClick={() => setActiveId(stop.id)}
-                onMouseEnter={() => setActiveId(stop.id)}
-                style={{ cursor: "pointer" }}
-              >
-                {/* Glow halo */}
-                {isActive && (
-                  <circle cx={stop.x} cy={stop.y} r="24" fill="url(#cpGlow)" />
-                )}
-                {/* Outer ring */}
-                <circle
-                  cx={stop.x}
-                  cy={stop.y}
-                  r={isActive ? 9 : 5.5}
-                  fill="none"
-                  stroke={isActive ? "#4a9fd5" : "rgba(255,255,255,0.3)"}
-                  strokeWidth={isActive ? 1.5 : 1}
-                  style={{ transition: "all 0.45s ease" }}
-                />
-                {/* Inner dot */}
-                <circle
-                  cx={stop.x}
-                  cy={stop.y}
-                  r={isActive ? 3.5 : 2}
-                  fill={isActive ? "#7ac8f5" : "rgba(255,255,255,0.65)"}
-                  filter={isActive ? "url(#cpBlur)" : undefined}
-                  style={{ transition: "all 0.45s ease" }}
-                />
-                {/* Label */}
-                <text
-                  x={stop.x + dx}
-                  y={stop.y + dy}
-                  textAnchor={anchor}
-                  fontSize="10"
-                  fontFamily="var(--font-manrope, sans-serif)"
-                  letterSpacing="0.06em"
-                  fill={isActive ? "#ffffff" : "rgba(255,255,255,0.42)"}
-                  style={{ transition: "fill 0.45s ease", userSelect: "none" }}
-                >
+              <g key={stop.id}>
+                {isActive && <circle cx={stop.x} cy={stop.y} r="20" fill="url(#cpGlow)" />}
+                <circle cx={stop.x} cy={stop.y} r={isActive ? 8 : 5} fill="none"
+                  stroke={isActive ? "#4a9fd5" : "rgba(255,255,255,0.32)"}
+                  strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                <circle cx={stop.x} cy={stop.y} r={isActive ? 3 : 2}
+                  fill={isActive ? "#7ac8f5" : "rgba(255,255,255,0.6)"}
+                  filter={isActive ? "url(#cpBlur)" : undefined} />
+                <text x={lx} y={ly} textAnchor={anchor} fontSize="9"
+                  fontFamily="var(--font-manrope,sans-serif)" letterSpacing="0.06em"
+                  fill={isActive ? "#fff" : "rgba(255,255,255,0.38)"}
+                  style={{ userSelect: "none" }}>
                   {stop.city === "San Carles de la Ràpita" ? "La Ràpita" : stop.city}
                 </text>
               </g>
             );
           })}
         </svg>
-      </div>
 
-      {/* ── Gradient overlays ────────────────────────────────────── */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to right, rgba(10,22,40,0.96) 0%, rgba(10,22,40,0.72) 32%, rgba(10,22,40,0.15) 65%, transparent 100%)",
-          zIndex: 2,
-        }}
-      />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(10,22,40,0.55) 0%, transparent 22%, transparent 68%, rgba(10,22,40,0.9) 100%)",
-          zIndex: 2,
-        }}
-      />
+        {/* ── Gradient overlays ──────────────────────────────────── */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: "linear-gradient(to right, rgba(8,15,28,0.92) 0%, rgba(8,15,28,0.6) 30%, rgba(8,15,28,0.1) 65%, transparent 100%)", zIndex: 2 }} />
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: "linear-gradient(to bottom, rgba(8,15,28,0.5) 0%, transparent 20%, transparent 72%, rgba(8,15,28,0.85) 100%)", zIndex: 2 }} />
 
-      {/* ── Header ───────────────────────────────────────────────── */}
-      <div className="absolute top-0 left-0 right-0 px-6 lg:px-14 pt-24" style={{ zIndex: 10 }}>
-        <div className="max-w-7xl mx-auto flex items-start justify-between">
-          <div>
-            <p
-              className="text-[11px] tracking-[0.28em] uppercase mb-3 font-light"
-              style={{ color: "rgba(255,255,255,0.38)" }}
-            >
+        {/* ── Header ─────────────────────────────────────────────── */}
+        <div className="absolute top-0 left-0 right-0 px-6 lg:px-14 pt-24" style={{ zIndex: 10 }}>
+          <div className="max-w-7xl mx-auto">
+            <p className="text-[11px] tracking-[0.28em] uppercase mb-2 font-light"
+              style={{ color: "rgba(255,255,255,0.38)" }}>
               {lang === "de" ? "Törn 2026" : "Cruise Plan 2026"}
             </p>
-            <h2
-              className="font-manrope font-bold text-white"
-              style={{ fontSize: "clamp(1.8rem, 2.8vw, 3rem)", lineHeight: 1.1 }}
-            >
+            <h2 className="font-manrope font-bold text-white"
+              style={{ fontSize: "clamp(1.6rem, 2.4vw, 2.8rem)", lineHeight: 1.1 }}>
               Mediterranean Route
             </h2>
           </div>
+        </div>
 
-          {/* Route legend */}
-          <div className="hidden lg:flex flex-col gap-2.5 pt-1">
-            {[
-              { label: "10 May – 07 Jun", color: "rgba(255,255,255,0.7)" },
-              { label: "06 Sep – 04 Oct", color: "rgba(100,185,255,0.65)" },
-            ].map((r) => (
-              <div key={r.label} className="flex items-center gap-2.5 justify-end">
-                <span
-                  className="text-[11px] tracking-[0.14em] uppercase font-light"
-                  style={{ color: "rgba(255,255,255,0.45)" }}
-                >
-                  {r.label}
-                </span>
-                <div
-                  style={{
-                    width: 28,
-                    height: 1.5,
-                    background: r.color,
-                    borderRadius: 1,
-                    flexShrink: 0,
-                  }}
-                />
+        {/* ── Stop info (bottom-left) ─────────────────────────────── */}
+        <div className="absolute px-6 lg:px-14" style={{ bottom: "10%", left: 0, zIndex: 10, maxWidth: "500px" }}>
+          <AnimatePresence mode="wait">
+            <motion.div key={activeId}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35, ease }}
+              className="flex items-end gap-5"
+            >
+              <div className="hidden lg:block relative flex-shrink-0 overflow-hidden"
+                style={{ width: 108, height: 72, borderRadius: 8, border: "1px solid rgba(255,255,255,0.1)" }}>
+                <Image src={active.image} alt={active.city} fill className="object-cover" sizes="108px" />
               </div>
-            ))}
-          </div>
+              <div>
+                <p className="font-manrope text-[10px] tracking-[0.36em] uppercase mb-1.5" style={{ color: "#4a9fd5" }}>
+                  {active.month} · {active.region}
+                </p>
+                <h3 className="font-manrope font-bold text-white mb-2"
+                  style={{ fontSize: "clamp(1.5rem, 2.8vw, 2.6rem)", lineHeight: 1 }}>
+                  {active.city}
+                </h3>
+                <p className="font-manrope font-light text-sm leading-relaxed"
+                  style={{ color: "rgba(255,255,255,0.58)", maxWidth: "21rem" }}>
+                  {lang === "de" ? active.de : active.en}
+                </p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
-      </div>
 
-      {/* ── Active stop info (bottom-left) ───────────────────────── */}
-      <div
-        className="absolute px-6 lg:px-14"
-        style={{ bottom: "88px", left: 0, zIndex: 10, maxWidth: "520px" }}
-      >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeId}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.32, ease }}
-            className="flex items-end gap-5"
-          >
-            {/* Thumbnail */}
-            <div
-              className="hidden lg:block relative flex-shrink-0 overflow-hidden"
-              style={{ width: 112, height: 76, borderRadius: 8, border: "1px solid rgba(255,255,255,0.12)" }}
-            >
-              <Image
-                src={active.image}
-                alt={active.city}
-                fill
-                className="object-cover"
-                sizes="112px"
-              />
-            </div>
-
-            {/* Text */}
-            <div>
-              <p
-                className="font-manrope text-[10px] tracking-[0.38em] uppercase mb-1.5"
-                style={{ color: "#4a9fd5" }}
-              >
-                {active.month} · {active.region}
-              </p>
-              <h3
-                className="font-manrope font-bold text-white mb-2"
-                style={{ fontSize: "clamp(1.6rem, 3vw, 2.8rem)", lineHeight: 1 }}
-              >
-                {active.city}
-              </h3>
-              <p
-                className="font-manrope font-light text-sm leading-relaxed"
-                style={{ color: "rgba(255,255,255,0.6)", maxWidth: "22rem" }}
-              >
-                {lang === "de" ? active.de : active.en}
-              </p>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* ── Bottom strip ─────────────────────────────────────────── */}
-      <div
-        className="absolute bottom-0 left-0 right-0 overflow-x-auto"
-        style={{
-          zIndex: 10,
-          background: "rgba(5,15,30,0.82)",
-          backdropFilter: "blur(14px)",
-          borderTop: "1px solid rgba(255,255,255,0.07)",
-        }}
-      >
-        <div className="flex items-stretch px-6 lg:px-14 justify-between min-w-max lg:min-w-0 w-full">
-          <div className="flex items-stretch">
-            {STOPS.map((stop) => {
-              const isActive = stop.id === activeId;
-              return (
-                <button
-                  key={stop.id}
-                  onClick={() => setActiveId(stop.id)}
-                  onMouseEnter={() => setActiveId(stop.id)}
-                  className="relative flex flex-col items-center px-4 lg:px-5 py-4 transition-colors duration-200"
-                  style={{ minWidth: 76 }}
-                >
-                  <div
-                    className="rounded-full mb-2 transition-all duration-350"
-                    style={{
-                      width: isActive ? 9 : 5,
-                      height: isActive ? 9 : 5,
-                      background: isActive ? "#4a9fd5" : "rgba(255,255,255,0.2)",
-                      boxShadow: isActive ? "0 0 0 3px rgba(74,159,213,0.22)" : "none",
-                    }}
-                  />
-                  <p
-                    className="font-manrope text-[9px] tracking-[0.2em] uppercase mb-0.5"
-                    style={{
-                      color: isActive ? "#4a9fd5" : "rgba(255,255,255,0.22)",
-                      transition: "color 0.3s ease",
-                    }}
-                  >
-                    {stop.month}
-                  </p>
-                  <p
-                    className="font-manrope text-[11.5px] whitespace-nowrap"
-                    style={{
-                      color: isActive ? "#ffffff" : "rgba(255,255,255,0.35)",
-                      fontWeight: isActive ? 600 : 300,
-                      transition: "color 0.3s ease",
-                    }}
-                  >
-                    {stop.city === "San Carles de la Ràpita" ? "La Ràpita" : stop.city}
-                  </p>
-                  <div
-                    className="absolute bottom-0 left-0 right-0 transition-all duration-300"
-                    style={{
-                      height: 2,
-                      background: isActive ? "#4a9fd5" : "transparent",
-                    }}
-                  />
-                </button>
-              );
-            })}
-          </div>
-
-          {/* CTA */}
-          <div
-            className="flex items-center pl-5 ml-3 flex-shrink-0"
-            style={{ borderLeft: "1px solid rgba(255,255,255,0.08)" }}
-          >
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 font-manrope font-semibold text-[12px] tracking-[0.1em] uppercase px-5 py-2.5 whitespace-nowrap transition-all duration-300"
+        {/* ── Progress dots (right side) ──────────────────────────── */}
+        <div className="absolute right-6 lg:right-10 top-1/2 -translate-y-1/2 flex flex-col gap-2.5" style={{ zIndex: 10 }}>
+          {STOPS.map((stop, i) => (
+            <div key={stop.id} className="rounded-full transition-all duration-400"
               style={{
-                background: "var(--accent)",
-                color: "#fff",
-                borderRadius: 8,
-                boxShadow: "0 4px 20px rgba(0,75,145,0.4)",
+                width:  activeId === stop.id ? 8 : 5,
+                height: activeId === stop.id ? 8 : 5,
+                background: activeId === stop.id ? "#4a9fd5" : "rgba(255,255,255,0.22)",
+                boxShadow: activeId === stop.id ? "0 0 0 2.5px rgba(74,159,213,0.25)" : "none",
+                alignSelf: "center",
               }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "var(--accent)";
-              }}
-            >
-              {lang === "de" ? "Reise buchen" : "Book your cruise"}
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          </div>
+            />
+          ))}
         </div>
+
+        {/* ── Scroll hint (first stop only) ──────────────────────── */}
+        <AnimatePresence>
+          {activeId === "rapita" && (
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+              style={{ zIndex: 10 }}
+            >
+              <p className="font-manrope text-[10px] tracking-[0.25em] uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>
+                {lang === "de" ? "Scrollen" : "Scroll"}
+              </p>
+              <div className="w-px h-8" style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0.3), transparent)" }} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ── Book CTA (last stop) ───────────────────────────────── */}
+        <AnimatePresence>
+          {activeId === "bizerte" && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+              className="absolute bottom-8 left-1/2 -translate-x-1/2"
+              style={{ zIndex: 10 }}
+            >
+              <a href="#contact"
+                className="inline-flex items-center gap-2.5 font-manrope font-semibold text-[12px] tracking-[0.1em] uppercase px-7 py-3.5 transition-all duration-300"
+                style={{ background: "var(--accent)", color: "#fff", borderRadius: 8, boxShadow: "0 4px 24px rgba(0,75,145,0.45)" }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
+              >
+                {lang === "de" ? "Reise buchen" : "Book your cruise"}
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
