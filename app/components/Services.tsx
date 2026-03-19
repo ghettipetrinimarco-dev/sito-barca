@@ -2,19 +2,16 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
 
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
 const SERVICE_IMAGES = [
-  "/formentera day 1 9.JPG",                      // 01 Training
-  "/formentera day 1 6.JPG",                      // 02 Leisure
-  "/b5670d9e-6f50-48f5-8dab-9d8d89ace86d.JPG",  // 03 Course
-  "/Yacht Survey.jpg",                             // 04 Inspection
-  "/Wingfoil.webp",                                // 05 Watersports
-  "/49a42f90-1c6b-42e2-9196-980fa15f4f7d.JPG",  // 06 Culinary
+  "/formentera day 1 9.JPG",
+  "/formentera day 1 6.JPG",
+  "/b5670d9e-6f50-48f5-8dab-9d8d89ace86d.JPG",
+  "/Yacht Survey.jpg",
+  "/Wingfoil.webp",
+  "/49a42f90-1c6b-42e2-9196-980fa15f4f7d.JPG",
 ];
 
 interface ServiceItem {
@@ -27,7 +24,7 @@ interface ServiceItem {
 }
 
 /* ── Single service row ─────────────────────────────────────────── */
-function ServiceScrollItem({
+function ServiceRow({
   service,
   index,
   isActive,
@@ -47,38 +44,25 @@ function ServiceScrollItem({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Mobile only: IntersectionObserver
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && window.innerWidth < 1024) onActivate(index);
-      },
-      { rootMargin: "-38% 0px -38% 0px", threshold: 0 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [index, onActivate]);
-
   return (
     <div
       ref={ref}
-      className="cursor-default relative"
+      className="relative cursor-default"
       style={{ borderBottom: "1px solid rgba(255,255,255,0.09)" }}
       onMouseEnter={() => onActivate(index)}
     >
-      {/* Active indicator bar */}
+      {/* Active left bar */}
       <div
         className="absolute left-0 top-0 bottom-0 w-[2px] transition-all duration-300"
         style={{ background: isActive ? "#4a7fb5" : "transparent" }}
       />
 
       <div
-        className="py-5 md:py-6 transition-all duration-300"
-        style={{ paddingLeft: isActive ? "1.25rem" : "0.25rem" }}
+        className="py-6 md:py-8 transition-all duration-300"
+        style={{ paddingLeft: isActive ? "1.5rem" : "0.25rem" }}
       >
-        <div className="flex items-center gap-4 lg:gap-7">
+        {/* Number + title + tag */}
+        <div className="flex items-baseline gap-5">
           <span
             className="font-manrope text-[12px] tracking-[0.15em] tabular-nums flex-shrink-0 transition-colors duration-300"
             style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.2)" }}
@@ -89,46 +73,63 @@ function ServiceScrollItem({
           <h3
             className="font-manrope flex-1 min-w-0 transition-all duration-300"
             style={{
-              fontSize: "clamp(1.1rem, 2.8vw, 2.6rem)",
+              fontSize: "clamp(1.5rem, 3.2vw, 2.8rem)",
               lineHeight: 1.15,
               fontWeight: isActive ? 600 : 300,
-              color: isActive ? "#ffffff" : "rgba(255,255,255,0.25)",
-              letterSpacing: isActive ? "-0.01em" : "0",
+              color: isActive ? "#ffffff" : "rgba(255,255,255,0.28)",
+              letterSpacing: isActive ? "-0.02em" : "0",
             }}
           >
             {service.title.includes(" / ") ? (
               <span className="flex flex-col">
-                <span>{service.title.split(" / ")[0]} <span style={{ color: "rgba(255,255,255,0.2)", fontWeight: 200 }}>/</span></span>
-                <span style={{ fontSize: "0.78em", fontWeight: isActive ? 400 : 200, color: isActive ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.18)" }}>
+                <span>
+                  {service.title.split(" / ")[0]}{" "}
+                  <span style={{ color: "rgba(255,255,255,0.2)", fontWeight: 200 }}>/</span>
+                </span>
+                <span
+                  style={{
+                    fontSize: "0.75em",
+                    fontWeight: isActive ? 400 : 200,
+                    color: isActive ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.18)",
+                  }}
+                >
                   {service.title.split(" / ")[1]}
                 </span>
               </span>
-            ) : service.title}
+            ) : (
+              service.title
+            )}
           </h3>
 
           <span
-            className="hidden lg:block text-[11px] tracking-[0.18em] uppercase flex-shrink-0 transition-colors duration-300"
+            className="text-[11px] tracking-[0.18em] uppercase flex-shrink-0 transition-colors duration-300"
             style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.12)" }}
           >
             {service.tag}
           </span>
         </div>
 
-        {/* Description — inline, visible on all screen sizes when active */}
+        {/* Description — expands below title when active */}
         <div
           className="overflow-hidden transition-all duration-300"
           style={{
-            maxHeight: isActive ? "200px" : "0px",
+            maxHeight: isActive ? "220px" : "0px",
             opacity: isActive ? 1 : 0,
-            marginTop: isActive ? "0.75rem" : "0",
+            marginTop: isActive ? "1rem" : "0",
           }}
         >
-          <div style={{ paddingLeft: "2.25rem" }}>
-            <p className="text-sm font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.7)" }}>
+          <div style={{ paddingLeft: "2.6rem" }}>
+            <p
+              className="font-manrope font-light leading-relaxed"
+              style={{ fontSize: "1rem", color: "rgba(255,255,255,0.78)" }}
+            >
               {service.description}
             </p>
             {service.dates && (
-              <p className="mt-2 text-[12px] tracking-[0.08em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
+              <p
+                className="mt-3 text-[12px] tracking-[0.1em] uppercase font-medium"
+                style={{ color: "#4a7fb5" }}
+              >
                 {service.dates}
               </p>
             )}
@@ -155,10 +156,9 @@ export default function Services() {
     itemEls.current[i] = el;
   }, []);
 
-  // Desktop: scroll listener — perfectly in sync, finds item closest to viewport center
+  // Scroll: activate item closest to viewport center
   useEffect(() => {
     const onScroll = () => {
-      if (window.innerWidth < 1024) return;
       const mid = window.innerHeight / 2;
       let bestIdx = 0;
       let bestDist = Infinity;
@@ -171,22 +171,16 @@ export default function Services() {
       setActiveIndex(bestIdx);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    // Fire once so the active item is correct even when arriving mid-page
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const handleActivate = useCallback((i: number) => setActiveIndex(i), []);
+
   return (
-    /*
-      Background images are position:absolute so they scroll WITH the section.
-      No sticky trick needed — images naturally leave the viewport when the
-      section ends, exactly as the user expects.
-      Only the left-column TEXT is sticky (top: 148px) within the grid.
-    */
     <section id="services" className="relative" style={{ background: "#0d1b2a" }}>
 
-      {/* ── Background images: absolute, fill section, scroll with it ── */}
+      {/* Background images — crossfade on active */}
       <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 0 }}>
         {SERVICE_IMAGES.map((src, i) => (
           <div
@@ -210,90 +204,76 @@ export default function Services() {
             <div
               className="absolute inset-0"
               style={{
-                background:
-                  "linear-gradient(105deg, rgba(5,15,30,0.85) 0%, rgba(5,15,30,0.52) 52%, rgba(5,15,30,0.22) 100%)",
+                background: "linear-gradient(to right, rgba(5,15,30,0.88) 0%, rgba(5,15,30,0.60) 50%, rgba(5,15,30,0.30) 100%)",
               }}
             />
           </div>
         ))}
-        <div className="absolute inset-0" style={{ background: "rgba(13,27,42,0.25)", zIndex: 3 }} />
+        <div className="absolute inset-0" style={{ background: "rgba(13,27,42,0.2)", zIndex: 3 }} />
       </div>
 
-      {/* ── Content ── */}
+      {/* Content — single centered column */}
       <div className="relative" style={{ zIndex: 10 }}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-14">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.65fr] lg:gap-x-20">
+        <div className="max-w-3xl mx-auto px-6 lg:px-8" style={{ paddingTop: "80px", paddingBottom: "80px" }}>
 
-            {/* Left: sticky header */}
-            <div
-              className="hidden lg:flex flex-col sticky self-start"
-              style={{ top: "120px", paddingTop: "80px", paddingBottom: "2rem" }}
+          {/* Section header */}
+          <div className="mb-14">
+            <p
+              className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light"
+              style={{ color: "rgba(255,255,255,0.5)" }}
             >
-              <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "rgba(255,255,255,0.5)" }}>
-                {tr.label}
-              </p>
-              <h2
-                className="font-manrope font-bold text-white leading-tight mb-5"
-                style={{ fontSize: "clamp(2.5rem, 3.2vw, 3.75rem)" }}
-              >
-                {tr.title}
-              </h2>
-              <div className="h-px w-10 mb-4" style={{ background: "#4a7fb5" }} />
-              <p className="text-sm font-light" style={{ color: "rgba(255,255,255,0.25)" }}>
-                {tr.placeholder}
-              </p>
-            </div>
-
-            {/* Right: scrollable list */}
-            <div className="pt-12 pb-16 lg:pt-[80px] lg:pb-16">
-
-              {/* Mobile header */}
-              <div className="lg:hidden mb-10">
-                <p className="text-[12px] tracking-[0.25em] uppercase mb-3 font-light" style={{ color: "rgba(255,255,255,0.5)" }}>
-                  {tr.label}
-                </p>
-                <h2 className="font-manrope font-bold text-white leading-tight mb-4" style={{ fontSize: "clamp(2rem, 8vw, 3rem)" }}>
-                  {tr.title}
-                </h2>
-                <div className="h-px w-8" style={{ background: "#4a7fb5" }} />
-              </div>
-
-              <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
-                {tr.items.map((service, i) => (
-                  <ServiceScrollItem
-                    key={i}
-                    service={service}
-                    index={i}
-                    isActive={activeIndex === i}
-                    onActivate={handleActivate}
-                    onMount={registerEl}
-                  />
-                ))}
-              </div>
-
-              <div className="mt-8 pt-7" style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
-                <a
-                  href="#contact"
-                  className="inline-flex items-center gap-3 font-manrope font-semibold text-[13px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-300"
-                  style={{ background: "var(--accent)", color: "#fff", boxShadow: "0 4px 24px rgba(0,75,145,0.4)", borderRadius: "8px" }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)";
-                    (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 36px rgba(0,75,145,0.6)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.background = "var(--accent)";
-                    (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(0,75,145,0.4)";
-                  }}
-                >
-                  {lang === "de" ? "Kontakt aufnehmen" : "Get in touch"}
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-
+              {tr.label}
+            </p>
+            <h2
+              className="font-manrope font-bold text-white leading-tight"
+              style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}
+            >
+              {tr.title}
+            </h2>
+            <div className="h-px w-10 mt-5" style={{ background: "#4a7fb5" }} />
           </div>
+
+          {/* Service list */}
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
+            {tr.items.map((service, i) => (
+              <ServiceRow
+                key={i}
+                service={service}
+                index={i}
+                isActive={activeIndex === i}
+                onActivate={handleActivate}
+                onMount={registerEl}
+              />
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div className="mt-10 pt-8" style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-3 font-manrope font-semibold text-[13px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-300"
+              style={{
+                background: "var(--accent)",
+                color: "#fff",
+                boxShadow: "0 4px 24px rgba(0,75,145,0.4)",
+                borderRadius: "8px",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 36px rgba(0,75,145,0.6)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "var(--accent)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(0,75,145,0.4)";
+              }}
+            >
+              {lang === "de" ? "Kontakt aufnehmen" : "Get in touch"}
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+
         </div>
       </div>
 
