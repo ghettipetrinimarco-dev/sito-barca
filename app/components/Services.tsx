@@ -78,7 +78,7 @@ function ServiceRow({
             transform: isActive ? "scale(1.05)" : "scale(1)",
             transformOrigin: "center",
             display: "block",
-            transition: "transform 0.6s ease, font-weight 0.6s ease, color 0.6s ease, letter-spacing 0.6s ease",
+            transition: "transform 0.6s ease, color 0.6s ease",
             willChange: "transform",
           }}
         >
