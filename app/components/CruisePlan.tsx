@@ -119,6 +119,7 @@ const ROUTE_2 =
 export default function CruisePlan() {
   const { lang } = useLang();
   const [activeId, setActiveId] = useState("rapita");
+  const [phase, setPhase] = useState<"before" | "active" | "after">("before");
   const sectionRef = useRef<HTMLElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const currentVB = useRef<[number, number, number, number]>(CAMERAS.rapita);
@@ -155,20 +156,25 @@ export default function CruisePlan() {
     startAnim();
   }, [activeId, startAnim]);
 
-  // Scroll → active stop
+  // Scroll → phase + active stop
   useEffect(() => {
     const handleScroll = () => {
       const section = sectionRef.current;
       if (!section) return;
       const { top, height } = section.getBoundingClientRect();
-      const scrollable = height - window.innerHeight;
-      if (scrollable <= 0) return;
-      const progress = Math.max(0, Math.min(1, -top / scrollable));
-      const idx = Math.min(
-        Math.floor(progress * STOPS.length),
-        STOPS.length - 1
-      );
-      setActiveId(STOPS[idx].id);
+      const vh = window.innerHeight;
+      const scrollable = height - vh;
+
+      if (top > 0) {
+        setPhase("before");
+      } else if (top <= 0 && top > -scrollable) {
+        setPhase("active");
+        const progress = Math.max(0, Math.min(1, -top / scrollable));
+        const idx = Math.min(Math.floor(progress * STOPS.length), STOPS.length - 1);
+        setActiveId(STOPS[idx].id);
+      } else {
+        setPhase("after");
+      }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
@@ -187,10 +193,18 @@ export default function CruisePlan() {
       className="relative"
       style={{ height: `${STOPS.length * 90}vh` }}
     >
-      {/* ── Sticky map container ─────────────────────────────────── */}
+      {/* ── Map container — fixed while active, absolute before/after ── */}
       <div
-        className="sticky top-0 overflow-hidden"
-        style={{ height: "100dvh", background: "#080f1c" }}
+        className="overflow-hidden"
+        style={{
+          position: phase === "active" ? "fixed" : "absolute",
+          top: phase === "after" ? "auto" : 0,
+          bottom: phase === "after" ? 0 : "auto",
+          left: 0,
+          right: 0,
+          height: "100vh",
+          background: "#080f1c",
+        }}
       >
         {/* ── SVG Map ────────────────────────────────────────────── */}
         <svg
