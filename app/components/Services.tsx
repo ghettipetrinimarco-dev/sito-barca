@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback, } from "react";
 import Image from "next/image";
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
@@ -36,6 +36,7 @@ function ServiceRow({
   onMount: (el: HTMLDivElement | null, i: number) => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     onMount(ref.current, index);
@@ -51,9 +52,19 @@ function ServiceRow({
         padding: "2.5rem 0",
         transition: "opacity 0.6s ease",
         opacity: isActive ? 1 : 0.28,
+        cursor: "default",
       }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      <div className="text-center">
+      <div
+        className="text-center"
+        style={{
+          transform: hovered ? "scale(1.04)" : "scale(1)",
+          transition: "transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94)",
+          willChange: "transform",
+        }}
+      >
 
         {/* Number */}
         <p
