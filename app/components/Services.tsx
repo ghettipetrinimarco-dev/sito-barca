@@ -114,17 +114,17 @@ function ServiceScrollItem({
           </span>
         </div>
 
-        {/* Description — visible on all screen sizes when active */}
+        {/* Description accordion — mobile only (desktop uses left panel) */}
         <div
-          className="overflow-hidden transition-all duration-300"
+          className="lg:hidden overflow-hidden transition-all duration-300"
           style={{
-            maxHeight: isActive ? "180px" : "0px",
+            maxHeight: isActive ? "160px" : "0px",
             opacity: isActive ? 1 : 0,
             marginTop: isActive ? "0.9rem" : "0",
           }}
         >
           <div style={{ paddingLeft: "2.25rem" }}>
-            <p className="text-sm font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.72)" }}>
+            <p className="text-sm font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.62)" }}>
               {service.description}
             </p>
             {service.dates && (
@@ -213,7 +213,7 @@ export default function Services() {
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(105deg, rgba(5,15,30,0.72) 0%, rgba(5,15,30,0.35) 52%, rgba(5,15,30,0.12) 100%)",
+                  "linear-gradient(105deg, rgba(5,15,30,0.85) 0%, rgba(5,15,30,0.52) 52%, rgba(5,15,30,0.22) 100%)",
               }}
             />
           </div>
@@ -226,7 +226,7 @@ export default function Services() {
         <div className="max-w-7xl mx-auto px-6 lg:px-14">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.65fr] lg:gap-x-20">
 
-            {/* Left: sticky panel — header + service image */}
+            {/* Left: sticky detail panel */}
             <div
               className="hidden lg:flex flex-col sticky self-start"
               style={{ top: "100px", paddingTop: "80px", paddingBottom: "2rem" }}
@@ -240,43 +240,47 @@ export default function Services() {
               >
                 {tr.title}
               </h2>
-              <div className="h-px w-10 mb-8" style={{ background: "#4a7fb5" }} />
+              <div className="h-px w-10 mb-10" style={{ background: "#4a7fb5" }} />
 
-              {/* Active service image */}
-              <div className="relative overflow-hidden" style={{ height: "300px", borderRadius: "4px" }}>
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeIndex}
-                    initial={{ opacity: 0, scale: 1.04 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.02 }}
-                    transition={{ duration: 0.45, ease }}
-                    className="absolute inset-0"
-                  >
-                    <Image
-                      src={SERVICE_IMAGES[activeIndex]}
-                      alt={tr.items[activeIndex]?.title ?? ""}
-                      fill
-                      className="object-cover"
-                      sizes="30vw"
-                    />
-                    <div
-                      className="absolute inset-0"
-                      style={{ background: "linear-gradient(to top, rgba(5,15,30,0.6) 0%, transparent 55%)" }}
-                    />
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Counter overlay */}
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between" style={{ zIndex: 2 }}>
-                  <p className="text-[11px] tracking-[0.22em] uppercase font-medium" style={{ color: "#7ab8f5" }}>
+              {/* Active service detail */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeIndex}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3, ease }}
+                  className="flex flex-col gap-4"
+                >
+                  <p className="text-[11px] tracking-[0.22em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
                     {activeService?.tag}
                   </p>
-                  <span className="font-manrope text-[12px] tabular-nums font-light" style={{ color: "rgba(255,255,255,0.4)" }}>
-                    {String(activeIndex + 1).padStart(2, "0")}
-                    <span style={{ color: "rgba(255,255,255,0.2)" }}> / {String(tr.items.length).padStart(2, "0")}</span>
-                  </span>
-                </div>
+                  <p className="font-manrope font-bold text-white leading-snug" style={{ fontSize: "1.45rem" }}>
+                    {activeService?.title.includes(" / ")
+                      ? activeService.title.replace(" / ", "\n")
+                      : activeService?.title}
+                  </p>
+                  <p className="text-base font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>
+                    {activeService?.description}
+                  </p>
+                  {activeService?.dates && (
+                    <p className="text-[12px] tracking-[0.08em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
+                      {activeService.dates}
+                    </p>
+                  )}
+                  {activeService?.footer && (
+                    <p className="font-playfair italic text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>
+                      {activeService.footer}
+                    </p>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Counter */}
+              <div className="mt-auto pt-10 flex items-center gap-3">
+                <span className="font-manrope text-[12px] tabular-nums font-light" style={{ color: "rgba(255,255,255,0.25)" }}>
+                  {String(activeIndex + 1).padStart(2, "0")} <span style={{ color: "rgba(255,255,255,0.12)" }}>/ {String(tr.items.length).padStart(2, "0")}</span>
+                </span>
               </div>
             </div>
 
