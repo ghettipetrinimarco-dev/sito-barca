@@ -178,10 +178,21 @@ export default function CruisePlan() {
           className="w-full h-full"
         >
           <defs>
+            {/* Sea radial gradient */}
+            <radialGradient id="seaGrad" cx="48%" cy="46%" r="68%">
+              <stop offset="0%" stopColor="#0f2e4a" />
+              <stop offset="100%" stopColor="#060d1a" />
+            </radialGradient>
+            {/* Bathymetric halo blur */}
+            <filter id="bathyBlur" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="24" />
+            </filter>
+            {/* Marker glow */}
             <radialGradient id="cpGlow" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stopColor="#4a9fd5" stopOpacity="0.35" />
               <stop offset="100%" stopColor="#4a9fd5" stopOpacity="0" />
             </radialGradient>
+            {/* Marker inner blur */}
             <filter id="cpBlur">
               <feGaussianBlur stdDeviation="1.5" result="blur" />
               <feMerge>
@@ -191,7 +202,49 @@ export default function CruisePlan() {
             </filter>
           </defs>
 
-          {/* ── Land masses ──────────────────────────────────────── */}
+          {/* ── 1. Sea background gradient ───────────────────────── */}
+          <rect width="1200" height="680" fill="url(#seaGrad)" />
+
+          {/* ── 2. Bathymetric halos (blurred shallow-water glow) ── */}
+          {/* Spain coast */}
+          <ellipse cx="60" cy="340" rx="130" ry="220"
+            fill="rgba(35,110,185,0.13)" filter="url(#bathyBlur)" />
+          {/* Balearics group */}
+          <ellipse cx="360" cy="390" rx="210" ry="120"
+            fill="rgba(35,110,185,0.14)" filter="url(#bathyBlur)" />
+          {/* Sardinia */}
+          <ellipse cx="995" cy="308" rx="175" ry="135"
+            fill="rgba(35,110,185,0.12)" filter="url(#bathyBlur)" />
+          {/* Tunisia */}
+          <ellipse cx="1100" cy="580" rx="120" ry="80"
+            fill="rgba(35,110,185,0.1)" filter="url(#bathyBlur)" />
+
+          {/* ── 3. Graticule (lat/lon grid) ──────────────────────── */}
+          <g stroke="rgba(255,255,255,0.055)" strokeWidth="0.5" fill="none">
+            {/* Latitude lines — every 1° from 37N to 43N */}
+            {[37,38,39,40,41,42,43].map((lat) => {
+              const y = (43.5 - lat) * 90.7;
+              return <line key={`lat${lat}`} x1="0" y1={y} x2="1200" y2={y} />;
+            })}
+            {/* Longitude lines — every 1° from 0E to 11E */}
+            {[0,1,2,3,4,5,6,7,8,9,10,11].map((lon) => {
+              const x = (lon + 1) * 100;
+              return <line key={`lon${lon}`} x1={x} y1="0" x2={x} y2="680" />;
+            })}
+          </g>
+          {/* Graticule degree labels */}
+          <g fontFamily="var(--font-manrope,sans-serif)" fontSize="7.5" fill="rgba(255,255,255,0.2)" letterSpacing="0.04em">
+            {[38,39,40,41,42].map((lat) => {
+              const y = (43.5 - lat) * 90.7;
+              return <text key={`llat${lat}`} x="6" y={y - 3}>{lat}°N</text>;
+            })}
+            {[1,3,5,7,9].map((lon) => {
+              const x = (lon + 1) * 100;
+              return <text key={`llon${lon}`} x={x + 3} y="672">{lon}°E</text>;
+            })}
+          </g>
+
+          {/* ── 4. Land masses ───────────────────────────────────── */}
 
           {/* Spain / Catalonia east coast — more coastal detail */}
           <path
