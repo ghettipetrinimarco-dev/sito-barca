@@ -49,7 +49,7 @@ function ServiceRow({
       ref={ref}
       className="relative cursor-default"
       style={{ borderBottom: "1px solid rgba(255,255,255,0.09)" }}
-      onMouseEnter={() => onActivate(index)}
+
     >
       <div className="py-6 md:py-8">
         {/* Number row */}
@@ -141,28 +141,20 @@ export default function Services() {
     itemEls.current[i] = el;
   }, []);
 
-  // Scroll: activate item closest to viewport center, debounced for smoothness
+  // IntersectionObserver: activate when item enters the center band of the viewport
   useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    const onScroll = () => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        const mid = window.innerHeight / 2;
-        let bestIdx = 0;
-        let bestDist = Infinity;
-        itemEls.current.forEach((el, i) => {
-          if (!el) return;
-          const r = el.getBoundingClientRect();
-          const dist = Math.abs((r.top + r.bottom) / 2 - mid);
-          if (dist < bestDist) { bestDist = dist; bestIdx = i; }
-        });
-        setActiveIndex(bestIdx);
-      }, 60);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => { window.removeEventListener("scroll", onScroll); clearTimeout(timer); };
-  }, []);
+    const observers: IntersectionObserver[] = [];
+    itemEls.current.forEach((el, i) => {
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveIndex(i); },
+        { rootMargin: "-42% 0px -42% 0px", threshold: 0 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach(o => o.disconnect());
+  }, [tr.items.length]);
 
   const handleActivate = useCallback((i: number) => setActiveIndex(i), []);
 
@@ -237,7 +229,7 @@ export default function Services() {
           </div>
 
           {/* CTA */}
-          <div className="mt-10 pt-8 flex justify-center" style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
+          <div className="mt-10 pt-8 flex justify-center">
             <a
               href="#contact"
               className="font-manrope font-semibold text-[13px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-500"
