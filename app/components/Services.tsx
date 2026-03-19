@@ -136,18 +136,22 @@ export default function Services() {
   }, []);
 
   useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const i = itemEls.current.indexOf(entry.target as HTMLDivElement);
-          if (i !== -1) setActiveIndex(i);
-        });
-      },
-      { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
-    );
-    itemEls.current.forEach((el) => el && obs.observe(el));
-    return () => obs.disconnect();
+    const handleScroll = () => {
+      const viewportCenter = window.scrollY + window.innerHeight * 0.5;
+      let closest = 0;
+      let minDist = Infinity;
+      itemEls.current.forEach((el, i) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const itemCenter = window.scrollY + rect.top + rect.height / 2;
+        const dist = Math.abs(viewportCenter - itemCenter);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      setActiveIndex(closest);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [tr.items.length]);
 
   return (
