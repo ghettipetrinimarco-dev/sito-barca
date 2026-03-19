@@ -107,8 +107,8 @@ function ServiceRow({
             maxHeight: isActive ? "300px" : "0",
             overflow: "hidden",
             opacity: isActive ? 1 : 0,
-            transform: isActive ? "translateY(0)" : "translateY(8px)",
-            transition: "opacity 0.5s ease, transform 0.5s ease",
+            transform: isActive ? "translateY(0)" : "translateY(6px)",
+            transition: "max-height 0.6s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.5s ease 0.05s, transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)",
           }}
         >
           <div>
