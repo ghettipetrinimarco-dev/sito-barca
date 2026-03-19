@@ -22,6 +22,11 @@ export const t = {
         { label: "Wingfoil Courses", href: "#services" },
         { label: "Sushi Sailor", href: "#services" },
       ],
+      cruisePlanItems: [
+        { label: "Holiday Cruise", href: "#cruise-plans-holiday" },
+        { label: "Mileage Cruise", href: "#cruise-plans-mileage" },
+        { label: "Harbor Maneuver Course", href: "#cruise-plans-harbor" },
+      ],
       aboutItems: [
         { label: "Ventum Story", href: "#ventum-story" },
         { label: "Captain Marco", href: "#captain-marco" },
@@ -162,7 +167,7 @@ export const t = {
       emailLabel: "Email",
       websiteLabel: "Website",
       baseLabel: "Base",
-      base: "Mediterranean Sea",
+      base: "Switzerland",
       phone: "+41 76 372 20 29",
       phoneLabel: "Phone",
       nameLabel: "Name",
@@ -213,6 +218,11 @@ export const t = {
         { label: "Wingfoil-Kurse", href: "#services" },
         { label: "Sushi Sailor", href: "#services" },
       ],
+      cruisePlanItems: [
+        { label: "Holiday Cruise", href: "#cruise-plans-holiday" },
+        { label: "Meilentörn", href: "#cruise-plans-mileage" },
+        { label: "Hafenmanöver-Kurs", href: "#cruise-plans-harbor" },
+      ],
       aboutItems: [
         { label: "Ventum Story", href: "#ventum-story" },
         { label: "Kapitän Marco", href: "#captain-marco" },
@@ -237,7 +247,7 @@ export const t = {
         {
           number: "01",
           title: "Meilentörn / Schlechtwetter-Training",
-          description: "Wenn der Wind in dieser Woche wirklich aufkommt, bleiben wir draußen und erleben die See in ihrer ungezähmten Form. Jedes Manöver muss schneller und völlig präzise sein. So entwickeln Sie die mentale Stärke und das Selbstvertrauen, das einen wahren Skipper ausmacht.",
+          description: "Wenn der Wind in dieser Woche wirklich aufkommt, bleiben wir draussen und erleben die See in ihrer ungezähmten Form. Jedes Manöver muss schneller und völlig präzise sein. So entwickeln Sie die mentale Stärke und das Selbstvertrauen, das einen wahren Skipper ausmacht.",
           tag: "Training",
         },
         {
@@ -280,7 +290,7 @@ export const t = {
       label: "Step aboard",
       title: "DISCOVER THE YACHT",
       subtitle: "15 Meter Premium-Segelkatamaran",
-      description: "Ein moderner Katamaran, gebaut für entspanntes Cruisen und professionelles Training. Großzügige Außenbereiche, komfortable Kabinen und vollständige Ausrüstung für Wassersport und Segelunterricht.",
+      description: "Ein moderner Katamaran, gebaut für entspanntes Cruisen und professionelles Training. Grosszügige Aussenbereiche, komfortable Kabinen und vollständige Ausrüstung für Wassersport und Segelunterricht.",
       specs: [
         { label: "Typ", value: "15m Segelkatamaran" },
         { label: "Kabinen", value: "3 Doppelkabinen" },
@@ -302,7 +312,7 @@ export const t = {
     watersports: {
       label: "Abenteuer wartet",
       title: "WASSERSPORT",
-      description: "Unser Katamaran ist nicht nur zum Segeln da. Ob Sie Geschwindigkeit suchen oder die Stille unter Wasser genießen möchten — wir haben für jeden etwas.",
+      description: "Unser Katamaran ist nicht nur zum Segeln da. Ob Sie Geschwindigkeit suchen oder die Stille unter Wasser geniessen möchten — wir haben für jeden etwas.",
     },
     cruisePlan: {
       label: "Mittelmeer 2026",
@@ -330,7 +340,7 @@ export const t = {
       p2: "Diese Leidenschaft trage ich als begeisterter Sushi-Meister weiter. Ich führe Sie sicher den Berg hinunter, über die Weltmeere und auf eine kulinarische Reise direkt nach Japan.",
       motto: "Immer in Bewegung wie das Meer — Marco",
       host: { title: "Gastgeber aus Leidenschaft", text: "Ein Katamaran ist mehr als ein Transportmittel; er ist ein Ort der Verbindung. Als Ihr Gastgeber schaffe ich eine Atmosphäre, in der Professionalität und echte Gastfreundschaft zusammenkommen." },
-      promise: { title: "Mein Versprechen", text: "Ob Sie Segeln lernen, Ihr Training fortsetzen, Urlaub genießen oder ein exklusives Dinner auf See erleben möchten — ich begleite Sie mit fundiertem Fachwissen und pädagogischem Einfühlungsvermögen zu Ihrem Ziel." },
+      promise: { title: "Mein Versprechen", text: "Ob Sie Segeln lernen, Ihr Training fortsetzen, Urlaub geniessen oder ein exklusives Dinner auf See erleben möchten — ich begleite Sie mit fundiertem Fachwissen und pädagogischem Einfühlungsvermögen zu Ihrem Ziel." },
       stats: [
         { value: "25", label: "Jahre Erfahrung" },
         { value: "28.000", label: "Seemeilen gesegelt" },
@@ -353,7 +363,7 @@ export const t = {
       emailLabel: "E-Mail",
       websiteLabel: "Website",
       baseLabel: "Standort",
-      base: "Mittelmeer",
+      base: "Schweiz",
       phone: "+41 76 372 20 29",
       phoneLabel: "Telefon",
       nameLabel: "Name",

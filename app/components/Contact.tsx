@@ -19,111 +19,121 @@ export default function Contact() {
 
   const handleSubmit = (e: FormEvent) => { e.preventDefault(); setSubmitted(true); };
 
-  const inputStyle: React.CSSProperties = {
+  const fieldStyle: React.CSSProperties = {
     width: "100%",
-    background: "var(--bg)",
-    border: "1px solid var(--border)",
+    background: "transparent",
+    border: "none",
+    borderBottom: "1px solid var(--border)",
     color: "var(--text)",
-    padding: "13px 16px",
-    fontSize: "0.875rem",
+    padding: "12px 0",
+    fontSize: "0.95rem",
     fontWeight: 300,
     outline: "none",
-    transition: "border-color 0.3s ease, background 0.3s ease",
-    borderRadius: "8px",
+    transition: "border-color 0.3s ease",
+    borderRadius: 0,
   };
 
   const onFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    e.currentTarget.style.borderColor = "var(--accent-light)";
-    e.currentTarget.style.background = "#fff";
+    e.currentTarget.style.borderBottomColor = "var(--accent)";
   };
   const onBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    e.currentTarget.style.borderColor = "var(--border)";
-    e.currentTarget.style.background = "var(--bg)";
+    e.currentTarget.style.borderBottomColor = "var(--border)";
   };
 
   return (
     <section id="contact" className="py-16 md:py-24 lg:py-32 px-6 lg:px-14" style={{ background: "var(--bg)" }}>
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-          {/* Left */}
-          <motion.div
-            ref={ref}
-            initial={{ opacity: 0, x: -28 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -28 }}
-            transition={{ duration: 0.95, ease }}
-          >
-            <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
-              {tr.label}
-            </p>
+      <div className="max-w-6xl mx-auto">
+
+        {/* Header — full width */}
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 24 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+          transition={{ duration: 0.9, ease }}
+          className="mb-16"
+        >
+          <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
+            {tr.label}
+          </p>
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
             <h2
-              className="font-manrope font-bold tracking-tight mb-6"
+              className="font-manrope font-bold leading-tight"
               style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)", color: "var(--text)" }}
             >
               {tr.title}
             </h2>
-            <span className="accent-line mb-8" />
-            <p className="font-playfair italic text-2xl font-light mt-8 mb-12" style={{ color: "var(--text-secondary)" }}>
+            <p className="font-manrope font-light text-base max-w-sm" style={{ color: "var(--text-secondary)" }}>
               {tr.subtitle}
             </p>
+          </div>
+        </motion.div>
 
-            <div className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-16 lg:gap-24">
+
+          {/* Left — contact details */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.9, delay: 0.1, ease }}
+          >
+            <div style={{ borderTop: "1px solid var(--border)" }}>
               {[
-                {
-                  icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />,
-                  label: tr.emailLabel, value: "info@ventum-sailing.ch",
-                },
-                {
-                  icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />,
-                  label: tr.websiteLabel, value: "ventum-sailing.ch",
-                },
-                {
-                  icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></>,
-                  label: tr.baseLabel, value: tr.base,
-                },
-                {
-                  icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />,
-                  label: tr.phoneLabel, value: tr.phone,
-                },
+                { label: tr.emailLabel, value: "info@ventum-sailing.ch", href: "mailto:info@ventum-sailing.ch" },
+                { label: tr.phoneLabel, value: tr.phone, href: null },
+                { label: tr.baseLabel, value: tr.base, href: null },
               ].map((item, i) => (
-                <div key={i} className="flex items-start gap-4">
-                  <div className="w-9 h-9 flex items-center justify-center flex-shrink-0 mt-0.5" style={{ border: "1px solid var(--border)", background: "var(--surface)", borderRadius: "8px" }}>
-                    <svg className="w-4 h-4" style={{ color: "var(--accent)" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">{item.icon}</svg>
-                  </div>
-                  <div>
-                    <p className="text-[12px] tracking-[0.08em] uppercase mb-1" style={{ color: "var(--text-muted)" }}>{item.label}</p>
-                    <p className="text-sm font-light" style={{ color: "var(--text-secondary)" }}>{item.value}</p>
-                  </div>
+                <div
+                  key={i}
+                  className="flex items-center justify-between py-5"
+                  style={{ borderBottom: "1px solid var(--border)" }}
+                >
+                  <p className="text-[11px] tracking-[0.2em] uppercase font-manrope" style={{ color: "var(--text-muted)" }}>
+                    {item.label}
+                  </p>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      className="font-manrope font-light transition-colors duration-200"
+                      style={{ color: "var(--text-secondary)" }}
+                      onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "var(--accent)"}
+                      onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)"}
+                    >
+                      {item.value}
+                    </a>
+                  ) : (
+                    <p className="font-manrope font-light" style={{ color: "var(--text-secondary)" }}>
+                      {item.value}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
           </motion.div>
 
-          {/* Form */}
+          {/* Right — form */}
           <motion.div
-            initial={{ opacity: 0, x: 28 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 28 }}
-            transition={{ duration: 0.95, delay: 0.2, ease }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.9, delay: 0.15, ease }}
           >
+
             {submitted ? (
               <motion.div
-                initial={{ opacity: 0, scale: 0.97 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="flex flex-col items-center justify-center min-h-[400px] text-center p-12"
-                style={{ border: "1px solid var(--border)", background: "var(--surface)", borderRadius: "8px" }}
+                className="flex flex-col justify-center min-h-[400px]"
               >
-                <div className="w-14 h-14 rounded-full flex items-center justify-center mb-6" style={{ border: "2px solid var(--accent)", background: "#eef4fb" }}>
-                  <svg className="w-6 h-6" style={{ color: "var(--accent)" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h3 className="font-manrope font-semibold text-xl mb-3" style={{ color: "var(--text)" }}>{tr.successTitle}</h3>
-                <p className="text-sm font-light max-w-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                <div className="w-10 h-[1px] mb-10" style={{ background: "var(--accent)" }} />
+                <h3 className="font-manrope font-bold text-2xl mb-4" style={{ color: "var(--text)" }}>
+                  {tr.successTitle}
+                </h3>
+                <p className="font-manrope font-light leading-relaxed mb-10" style={{ color: "var(--text-secondary)" }}>
                   {tr.successText}
                 </p>
                 <button
                   onClick={() => { setSubmitted(false); setForm({ name: "", email: "", subject: "", message: "" }); }}
-                  className="mt-8 text-[12px] tracking-[0.1em] uppercase pb-0.5 transition-colors duration-200"
+                  className="text-[12px] tracking-[0.15em] uppercase font-manrope self-start pb-0.5 transition-colors duration-200"
                   style={{ color: "var(--accent)", borderBottom: "1px solid rgba(0,75,145,0.3)" }}
                   onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.borderBottomColor = "var(--accent)"}
                   onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.borderBottomColor = "rgba(0,75,145,0.3)"}
@@ -132,40 +142,59 @@ export default function Contact() {
                 </button>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="contact-name" className="block text-[12px] tracking-[0.1em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.nameLabel}</label>
-                    <input id="contact-name" name="name" type="text" required placeholder={tr.namePlaceholder} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
-                  </div>
-                  <div>
-                    <label htmlFor="contact-email" className="block text-[12px] tracking-[0.1em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.emailFieldLabel}</label>
-                    <input id="contact-email" name="email" type="email" required placeholder={tr.emailPlaceholder} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
-                  </div>
+              <form onSubmit={handleSubmit} className="space-y-6">
+
+                <div className="grid grid-cols-2 gap-6">
+                  <input
+                    type="text" required
+                    placeholder={tr.namePlaceholder}
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    style={fieldStyle} onFocus={onFocus} onBlur={onBlur}
+                  />
+                  <input
+                    type="email" required
+                    placeholder={tr.emailPlaceholder}
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    style={fieldStyle} onFocus={onFocus} onBlur={onBlur}
+                  />
                 </div>
-                <div>
-                  <label htmlFor="contact-subject" className="block text-[12px] tracking-[0.1em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.subjectLabel}</label>
-                  <select id="contact-subject" name="subject" required value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} style={{ ...inputStyle, cursor: "pointer" }} onFocus={onFocus} onBlur={onBlur}>
-                    <option value="" disabled>{tr.subjectPlaceholder}</option>
-                    {tr.subjects.map((s) => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="contact-message" className="block text-[12px] tracking-[0.1em] uppercase mb-2 font-medium" style={{ color: "var(--text-secondary)" }}>{tr.messageLabel}</label>
-                  <textarea id="contact-message" name="message" required rows={6} placeholder={tr.messagePlaceholder} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} style={{ ...inputStyle, resize: "none" }} onFocus={onFocus} onBlur={onBlur} />
-                </div>
+
+                <select
+                  required
+                  value={form.subject}
+                  onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                  style={{ ...fieldStyle, cursor: "pointer", color: form.subject ? "var(--text)" : "var(--text-muted)" }}
+                  onFocus={onFocus} onBlur={onBlur}
+                >
+                  <option value="" disabled>{tr.subjectPlaceholder}</option>
+                  {tr.subjects.map((s) => <option key={s} value={s}>{s}</option>)}
+                </select>
+
+                <textarea
+                  required rows={5}
+                  placeholder={tr.messagePlaceholder}
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                  style={{ ...fieldStyle, resize: "none" }}
+                  onFocus={onFocus} onBlur={onBlur}
+                />
+
                 <button
                   type="submit"
-                  className="w-full text-white py-4 text-[13px] tracking-[0.1em] uppercase font-manrope font-semibold transition-all duration-300 mt-2"
-                  style={{ background: "var(--accent)", boxShadow: "0 4px 16px rgba(0,75,145,0.2)", borderRadius: "8px" }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 28px rgba(0,75,145,0.35)"; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(0,75,145,0.2)"; }}
+                  className="w-full text-white py-4 text-[13px] tracking-[0.12em] uppercase font-manrope font-semibold transition-all duration-300"
+                  style={{ background: "var(--accent)", boxShadow: "0 4px 20px rgba(0,75,145,0.25)", borderRadius: "8px" }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 32px rgba(0,75,145,0.4)"; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 20px rgba(0,75,145,0.25)"; }}
                 >
                   {tr.submitBtn}
                 </button>
+
               </form>
             )}
           </motion.div>
+
         </div>
       </div>
     </section>

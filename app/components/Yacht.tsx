@@ -73,17 +73,17 @@ function FloorPlan({ lang }: { lang: string }) {
         {[
           {
             src: "/floorplan-exterior.jpg",
-            label: lang === "de" ? "Außen" : "Exterior",
+            label: lang === "de" ? "Aussen" : "Exterior",
             text: lang === "de"
-              ? "3 Doppelkabinen mit privatem Bad für bis zu 6 Gäste. Offener Salon mit WLAN, Entertainment-Elektronik und voll ausgestatteter Küche."
-              : "3 double cabins with private bathroom for up to 6 guests. Open saloon with Wi-Fi, entertainment electronics and fully equipped galley.",
+              ? "Grosszügiges Sonnendeck zum Entspannen. Deckdusche, Luftkompressor für Tauchen und Wassersportausrüstung auf Anfrage."
+              : "Spacious sun deck for relaxing. Deck shower, air compressor for scuba diving and full watersports equipment available on request.",
           },
           {
             src: "/floorplan_interior.jpg",
             label: lang === "de" ? "Innen" : "Interior",
             text: lang === "de"
-              ? "Großzügiges Sonnendeck zum Entspannen. Deckdusche, Luftkompressor für Tauchen und Wassersportausrüstung auf Anfrage."
-              : "Spacious sun deck for relaxing. Deck shower, air compressor for scuba diving and full watersports equipment available on request.",
+              ? "3 Doppelkabinen mit privatem Bad für bis zu 6 Gäste. Offener Salon mit WLAN, Entertainment-Elektronik und voll ausgestatteter Küche."
+              : "3 double cabins with private bathroom for up to 6 guests. Open saloon with Wi-Fi, entertainment electronics and fully equipped galley.",
           },
         ].map((plan) => (
           <div key={plan.label} className="group relative overflow-hidden" style={{ border: "1px solid var(--border)", borderRadius: "10px", background: "var(--bg)" }}>
@@ -276,11 +276,11 @@ function WatersportsIncluded({ lang, specsInView }: { lang: string; specsInView:
       transition={{ duration: 0.9, delay: 0.2, ease }}
     >
       <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-manrope font-medium" style={{ color: "var(--text-secondary)" }}>
-        {lang === "de" ? "Inkludierter Wassersport" : "Included Watersports"}
+        {lang === "de" ? "Wassersport" : "Watersports"}
       </p>
       <p className="text-base font-light leading-relaxed mb-8 max-w-2xl" style={{ color: "var(--text-secondary)" }}>
         {lang === "de"
-          ? "Unser Katamaran ist nicht nur zum Segeln da. Ob Sie Geschwindigkeit suchen oder die Stille unter Wasser genießen möchten — wir haben für jeden etwas."
+          ? "Unser Katamaran ist nicht nur zum Segeln da. Ob Sie Geschwindigkeit suchen oder die Stille unter Wasser geniessen möchten — wir haben für jeden etwas."
           : "Our catamaran is not just for sailing. Whether you are looking for speed or want to enjoy the silence underwater, we have something for everyone."}
       </p>
       <div className="grid grid-cols-3 md:grid-cols-6 gap-3">

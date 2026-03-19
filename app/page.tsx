@@ -22,8 +22,8 @@ export default function Home() {
       <Hero />
       <Yacht />
       <Services />
-      <CruisePlan />
       <CruisePlans />
+      <CruisePlan />
       <VentumStory />
       <CaptainMarco />
       <Contact />

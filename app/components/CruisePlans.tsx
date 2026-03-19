@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
 
@@ -41,8 +41,24 @@ export default function CruisePlans() {
   const [active, setActive] = useState(0);
   const plan = PLANS[active];
 
+  // Deep-link: #cruise-plans-holiday / -mileage / -harbor
+  useEffect(() => {
+    const onHash = () => {
+      const hash = window.location.hash;
+      const idx = PLANS.findIndex((p) => hash === `#cruise-plans-${p.key}`);
+      if (idx !== -1) setActive(idx);
+    };
+    onHash();
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
   return (
-    <section id="cruise-plans" className="py-20 lg:py-28 px-6 lg:px-14" style={{ background: "var(--bg)" }}>
+    <section id="cruise-plans" className="relative py-20 lg:py-28 px-6 lg:px-14" style={{ background: "var(--bg)" }}>
+      {/* Anchor targets for each plan */}
+      {PLANS.map((p) => (
+        <span key={p.key} id={`cruise-plans-${p.key}`} className="absolute" style={{ top: "-80px" }} />
+      ))}
       <div className="max-w-5xl mx-auto">
 
         {/* Header */}

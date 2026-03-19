@@ -75,3 +75,13 @@ body {
 }
 .animate-float { animation: floatY 9s ease-in-out infinite; }
 .animate-float-slow { animation: floatY 13s ease-in-out infinite reverse; }
+
+@keyframes waterShimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+@keyframes waveMove {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-25px); }
+}

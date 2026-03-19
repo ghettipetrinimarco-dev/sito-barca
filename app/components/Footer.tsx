@@ -13,17 +13,14 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 mb-12">
           {/* Logo + tagline */}
           <div>
-            <a href="#hero" className="transition-opacity duration-300 hover:opacity-70 block mb-2">
+            <a href="#hero" className="transition-opacity duration-300 hover:opacity-70 block">
               <img
-                src="/logo-ventum.png"
-                alt="Ventum"
-                className="h-6 w-auto object-contain"
+                src="/Ventum-Sailing-Logo.png"
+                alt="Ventum Sailing"
+                className="h-10 w-auto object-contain"
                 style={{ filter: "brightness(0) invert(1)" }}
               />
             </a>
-            <p className="font-playfair italic text-sm" style={{ color: "rgba(255,255,255,0.35)" }}>
-              {tr.motto}
-            </p>
           </div>
 
           {/* Links */}

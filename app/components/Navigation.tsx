@@ -56,11 +56,11 @@ export default function Navigation() {
   const leftNav = [
     { label: tr.yacht, type: "dropdown", items: tr.yachtItems },
     { label: tr.services, type: "dropdown", items: tr.servicesItems },
-    { label: tr.about, type: "dropdown", items: tr.aboutItems },
+    { label: tr.cruisePlan, type: "dropdown", items: tr.cruisePlanItems },
   ];
 
   const rightNav = [
-    { label: tr.cruisePlan, href: "#cruise-plan", type: "link" },
+    { label: tr.about, type: "dropdown", items: tr.aboutItems },
     { label: tr.contact, href: "#contact", type: "link" },
   ];
 
@@ -170,16 +170,43 @@ export default function Navigation() {
           {/* Right nav */}
           <div className="flex items-center justify-end gap-8">
             {rightNav.map((item) => (
-              <a
+              <div
                 key={item.label}
-                href={item.href}
-                className="text-[13px] font-normal tracking-[0.08em] uppercase transition-colors duration-300"
-                style={{ color: linkColor }}
-                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = linkHover}
-                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = linkColor}
+                className="relative flex items-center"
+                onMouseEnter={() => item.type === "dropdown" && setOpenDropdown(item.label)}
+                onMouseLeave={() => item.type === "dropdown" && setOpenDropdown(null)}
               >
-                {item.label}
-              </a>
+                {item.type === "link" ? (
+                  <a
+                    href={(item as { href: string }).href}
+                    className="text-[13px] font-normal tracking-[0.08em] uppercase transition-colors duration-300"
+                    style={{ color: linkColor }}
+                    onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = linkHover}
+                    onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = linkColor}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <>
+                    <button
+                      className="flex items-center gap-1.5 text-[13px] font-normal tracking-[0.08em] uppercase transition-colors duration-300"
+                      style={{ color: openDropdown === item.label ? linkHover : linkColor }}
+                    >
+                      {item.label}
+                      <svg
+                        className={`w-2.5 h-2.5 transition-transform duration-200 ${openDropdown === item.label ? "rotate-180" : ""}`}
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    <Dropdown
+                      items={(item as { items: { label: string; href: string }[] }).items}
+                      isOpen={openDropdown === item.label}
+                    />
+                  </>
+                )}
+              </div>
             ))}
 
             {/* Language switcher */}
