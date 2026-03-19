@@ -11,7 +11,7 @@ const SERVICE_IMAGES = [
   "/harbor maneuver course.jpg",                   // 03 Harbor Maneuver Course
   "/Yacht Survey.jpg",                             // 04 Survey / Yacht Inspection
   "/Wingfoil-course-new.jpg",                      // 05 Wingfoil Courses
-  "/49a42f90-1c6b-42e2-9196-980fa15f4f7d.JPG",   // 06 Sushi Sailor
+  "/Sushi-sailor-new.jpg",                         // 06 Sushi Sailor
 ];
 
 interface ServiceItem {
