@@ -64,7 +64,7 @@ function ServiceRow({
 
         {/* Title — centered */}
         <h3
-          className="font-manrope text-center transition-all duration-300"
+          className="font-manrope text-center transition-all duration-500"
           style={{
             fontSize: "clamp(1.05rem, 1.6vw, 1.4rem)",
             lineHeight: 1.15,
@@ -96,7 +96,7 @@ function ServiceRow({
 
         {/* Description — expands below title when active */}
         <div
-          className="overflow-hidden transition-all duration-300"
+          className="overflow-hidden transition-all duration-500"
           style={{
             maxHeight: isActive ? "220px" : "0px",
             opacity: isActive ? 1 : 0,
@@ -106,7 +106,7 @@ function ServiceRow({
           <div className="max-w-lg mx-auto">
             <p
               className="font-manrope font-light leading-relaxed text-center"
-              style={{ fontSize: "1rem", color: "rgba(255,255,255,0.78)" }}
+              style={{ fontSize: "1.08rem", color: "rgba(255,255,255,0.78)" }}
             >
               {service.description}
             </p>
@@ -119,7 +119,7 @@ function ServiceRow({
               </p>
             )}
             {service.footer && (
-              <p className="mt-2 font-playfair italic text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>
+              <p className="mt-2 font-playfair italic text-sm text-center" style={{ color: "rgba(255,255,255,0.38)" }}>
                 {service.footer}
               </p>
             )}
@@ -141,23 +141,27 @@ export default function Services() {
     itemEls.current[i] = el;
   }, []);
 
-  // Scroll: activate item closest to viewport center
+  // Scroll: activate item closest to viewport center, debounced for smoothness
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
     const onScroll = () => {
-      const mid = window.innerHeight / 2;
-      let bestIdx = 0;
-      let bestDist = Infinity;
-      itemEls.current.forEach((el, i) => {
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        const dist = Math.abs((r.top + r.bottom) / 2 - mid);
-        if (dist < bestDist) { bestDist = dist; bestIdx = i; }
-      });
-      setActiveIndex(bestIdx);
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const mid = window.innerHeight / 2;
+        let bestIdx = 0;
+        let bestDist = Infinity;
+        itemEls.current.forEach((el, i) => {
+          if (!el) return;
+          const r = el.getBoundingClientRect();
+          const dist = Math.abs((r.top + r.bottom) / 2 - mid);
+          if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+        });
+        setActiveIndex(bestIdx);
+      }, 60);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => { window.removeEventListener("scroll", onScroll); clearTimeout(timer); };
   }, []);
 
   const handleActivate = useCallback((i: number) => setActiveIndex(i), []);
@@ -174,7 +178,7 @@ export default function Services() {
             style={{
               opacity: activeIndex === i ? 1 : 0,
               transform: activeIndex === i ? "scale(1)" : "scale(1.04)",
-              transition: "opacity 0.45s ease, transform 0.45s ease",
+              transition: "opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1)",
               zIndex: activeIndex === i ? 2 : 1,
             }}
           >
@@ -236,7 +240,7 @@ export default function Services() {
           <div className="mt-10 pt-8 flex justify-center" style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
             <a
               href="#contact"
-              className="font-manrope font-semibold text-[13px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-300"
+              className="font-manrope font-semibold text-[13px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-500"
               style={{
                 background: "var(--accent)",
                 color: "#fff",
