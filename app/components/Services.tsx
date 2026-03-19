@@ -75,7 +75,7 @@ function ServiceRow({
             transform: isActive ? "scale(1.18)" : "scale(0.9)",
             transformOrigin: "center",
             display: "block",
-            transition: "transform 0.7s cubic-bezier(0.16,1,0.3,1), color 0.7s ease, opacity 0.7s ease",
+            transition: "transform 0.85s cubic-bezier(0.25,0.46,0.45,0.94), color 0.7s ease, opacity 0.7s ease",
             willChange: "transform, color",
           }}
         >
@@ -107,7 +107,7 @@ function ServiceRow({
             maxHeight: isActive ? "220px" : "0px",
             opacity: isActive ? 1 : 0,
             marginTop: isActive ? "1rem" : "0",
-            transition: "max-height 0.7s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease, margin-top 0.7s ease",
+            transition: "max-height 0.85s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.5s ease, margin-top 0.7s ease",
           }}
         >
           <div className="max-w-lg mx-auto">
