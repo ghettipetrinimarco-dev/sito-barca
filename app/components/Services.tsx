@@ -142,13 +142,21 @@ export default function Services() {
   }, []);
 
   // IntersectionObserver: activate when item enters the center band of the viewport
+  // Cooldown prevents rapid successive changes while scrolling fast
+  const lastActivated = useRef<number>(0);
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
     itemEls.current.forEach((el, i) => {
       if (!el) return;
       const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveIndex(i); },
-        { rootMargin: "-42% 0px -42% 0px", threshold: 0 }
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          const now = Date.now();
+          if (now - lastActivated.current < 300) return;
+          lastActivated.current = now;
+          setActiveIndex(i);
+        },
+        { rootMargin: "-44% 0px -44% 0px", threshold: 0 }
       );
       obs.observe(el);
       observers.push(obs);
