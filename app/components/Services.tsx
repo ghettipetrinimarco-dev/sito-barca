@@ -44,26 +44,30 @@ function ServiceRow({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const tx = "0.85s cubic-bezier(0.25,0.46,0.45,0.94)";
+
   return (
     <div
       ref={ref}
       className="relative cursor-default"
       style={{ borderBottom: "1px solid rgba(255,255,255,0.09)" }}
-
     >
       <div className="py-12 md:py-16">
-        {/* Number row */}
-        <div className="flex items-center justify-center mb-2">
+
+        {/* Number */}
+        <div className="flex justify-center mb-2">
           <span
             className="font-manrope text-[12px] tracking-[0.15em] tabular-nums"
-          style={{ transition: "color 0.7s ease" }}
-            style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.2)" }}
+            style={{
+              color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.2)",
+              transition: `color ${tx}`,
+            }}
           >
             {service.number}
           </span>
         </div>
 
-        {/* Title — centered */}
+        {/* Title */}
         <h3
           className="font-manrope text-center"
           style={{
@@ -72,11 +76,11 @@ function ServiceRow({
             fontWeight: isActive ? 600 : 300,
             color: isActive ? "#ffffff" : "rgba(255,255,255,0.25)",
             letterSpacing: isActive ? "-0.02em" : "0",
-            transform: isActive ? "scale(1.18)" : "scale(0.9)",
+            transform: isActive ? "scale(1.14)" : "scale(0.93)",
             transformOrigin: "center",
             display: "block",
-            transition: "transform 0.85s cubic-bezier(0.25,0.46,0.45,0.94), color 0.7s ease, opacity 0.7s ease",
-            willChange: "transform, color",
+            transition: `transform ${tx}, color ${tx}, font-weight ${tx}`,
+            willChange: "transform",
           }}
         >
           {service.title.includes(" / ") ? (
@@ -85,53 +89,50 @@ function ServiceRow({
                 {service.title.split(" / ")[0]}{" "}
                 <span style={{ color: "rgba(255,255,255,0.2)", fontWeight: 200 }}>/</span>
               </span>
-              <span
-                style={{
-                  fontSize: "0.75em",
-                  fontWeight: isActive ? 400 : 200,
-                  color: isActive ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.18)",
-                }}
-              >
+              <span style={{
+                fontSize: "0.75em",
+                fontWeight: isActive ? 400 : 200,
+                color: isActive ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.18)",
+                transition: `color ${tx}`,
+              }}>
                 {service.title.split(" / ")[1]}
               </span>
             </span>
-          ) : (
-            service.title
-          )}
+          ) : service.title}
         </h3>
 
-        {/* Description — expands below title when active */}
+        {/* Description — grid-template-rows for smooth expand */}
         <div
-          className="overflow-hidden"
           style={{
-            maxHeight: isActive ? "220px" : "0px",
+            display: "grid",
+            gridTemplateRows: isActive ? "1fr" : "0fr",
             opacity: isActive ? 1 : 0,
             marginTop: isActive ? "1rem" : "0",
-            transition: "max-height 0.85s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.5s ease, margin-top 0.7s ease",
+            transition: `grid-template-rows ${tx}, opacity 0.6s ease, margin-top ${tx}`,
           }}
         >
-          <div className="max-w-lg mx-auto">
-            <p
-              className="font-manrope leading-relaxed text-center"
-              style={{ fontSize: "1.05rem", fontWeight: 400, color: "rgba(255,255,255,0.9)" }}
-            >
-              {service.description}
-            </p>
-            {service.dates && (
+          <div style={{ overflow: "hidden" }}>
+            <div className="max-w-lg mx-auto pb-1">
               <p
-                className="mt-3 text-[12px] tracking-[0.1em] uppercase font-medium text-center"
-                style={{ color: "#4a7fb5" }}
+                className="font-manrope leading-relaxed text-center"
+                style={{ fontSize: "1.05rem", fontWeight: 400, color: "rgba(255,255,255,0.9)" }}
               >
-                {service.dates}
+                {service.description}
               </p>
-            )}
-            {service.footer && (
-              <p className="mt-2 font-playfair italic text-sm text-center" style={{ color: "rgba(255,255,255,0.38)" }}>
-                {service.footer}
-              </p>
-            )}
+              {service.dates && (
+                <p className="mt-3 text-[12px] tracking-[0.1em] uppercase font-medium text-center" style={{ color: "#4a7fb5" }}>
+                  {service.dates}
+                </p>
+              )}
+              {service.footer && (
+                <p className="mt-2 font-playfair italic text-sm text-center" style={{ color: "rgba(255,255,255,0.38)" }}>
+                  {service.footer}
+                </p>
+              )}
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   );
