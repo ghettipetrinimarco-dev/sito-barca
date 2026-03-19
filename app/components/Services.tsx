@@ -6,12 +6,12 @@ import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
 
 const SERVICE_IMAGES = [
-  "/formentera day 1 9.JPG",
-  "/formentera day 1 6.JPG",
-  "/b5670d9e-6f50-48f5-8dab-9d8d89ace86d.JPG",
-  "/Yacht Survey.jpg",
-  "/Wingfoil.webp",
-  "/49a42f90-1c6b-42e2-9196-980fa15f4f7d.JPG",
+  "/Mileage-Cruise-New.jpg",                       // 01 Mileage Cruise / Heavy Weather
+  "/Holiday-cruise-new.jpeg",                      // 02 Holiday Cruise
+  "/harbor maneuver course.jpg",                   // 03 Harbor Maneuver Course
+  "/Yacht Survey.jpg",                             // 04 Survey / Yacht Inspection
+  "/Wingfoil-course-new.jpg",                      // 05 Wingfoil Courses
+  "/49a42f90-1c6b-42e2-9196-980fa15f4f7d.JPG",   // 06 Sushi Sailor
 ];
 
 interface ServiceItem {
@@ -51,63 +51,48 @@ function ServiceRow({
       style={{ borderBottom: "1px solid rgba(255,255,255,0.09)" }}
       onMouseEnter={() => onActivate(index)}
     >
-      {/* Active left bar */}
-      <div
-        className="absolute left-0 top-0 bottom-0 w-[2px] transition-all duration-300"
-        style={{ background: isActive ? "#4a7fb5" : "transparent" }}
-      />
-
-      <div
-        className="py-6 md:py-8 transition-all duration-300"
-        style={{ paddingLeft: isActive ? "1.5rem" : "0.25rem" }}
-      >
-        {/* Number + title + tag */}
-        <div className="flex items-baseline gap-5">
+      <div className="py-6 md:py-8">
+        {/* Number row */}
+        <div className="flex items-center justify-center mb-2">
           <span
-            className="font-manrope text-[12px] tracking-[0.15em] tabular-nums flex-shrink-0 transition-colors duration-300"
+            className="font-manrope text-[12px] tracking-[0.15em] tabular-nums transition-colors duration-300"
             style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.2)" }}
           >
             {service.number}
           </span>
-
-          <h3
-            className="font-manrope flex-1 min-w-0 transition-all duration-300"
-            style={{
-              fontSize: "clamp(1.5rem, 3.2vw, 2.8rem)",
-              lineHeight: 1.15,
-              fontWeight: isActive ? 600 : 300,
-              color: isActive ? "#ffffff" : "rgba(255,255,255,0.28)",
-              letterSpacing: isActive ? "-0.02em" : "0",
-            }}
-          >
-            {service.title.includes(" / ") ? (
-              <span className="flex flex-col">
-                <span>
-                  {service.title.split(" / ")[0]}{" "}
-                  <span style={{ color: "rgba(255,255,255,0.2)", fontWeight: 200 }}>/</span>
-                </span>
-                <span
-                  style={{
-                    fontSize: "0.75em",
-                    fontWeight: isActive ? 400 : 200,
-                    color: isActive ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.18)",
-                  }}
-                >
-                  {service.title.split(" / ")[1]}
-                </span>
-              </span>
-            ) : (
-              service.title
-            )}
-          </h3>
-
-          <span
-            className="text-[11px] tracking-[0.18em] uppercase flex-shrink-0 transition-colors duration-300"
-            style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.12)" }}
-          >
-            {service.tag}
-          </span>
         </div>
+
+        {/* Title — centered */}
+        <h3
+          className="font-manrope text-center transition-all duration-300"
+          style={{
+            fontSize: "clamp(1.05rem, 1.6vw, 1.4rem)",
+            lineHeight: 1.15,
+            fontWeight: isActive ? 600 : 300,
+            color: isActive ? "#ffffff" : "rgba(255,255,255,0.28)",
+            letterSpacing: isActive ? "-0.02em" : "0",
+          }}
+        >
+          {service.title.includes(" / ") ? (
+            <span className="flex flex-col items-center">
+              <span>
+                {service.title.split(" / ")[0]}{" "}
+                <span style={{ color: "rgba(255,255,255,0.2)", fontWeight: 200 }}>/</span>
+              </span>
+              <span
+                style={{
+                  fontSize: "0.75em",
+                  fontWeight: isActive ? 400 : 200,
+                  color: isActive ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.18)",
+                }}
+              >
+                {service.title.split(" / ")[1]}
+              </span>
+            </span>
+          ) : (
+            service.title
+          )}
+        </h3>
 
         {/* Description — expands below title when active */}
         <div
@@ -118,9 +103,9 @@ function ServiceRow({
             marginTop: isActive ? "1rem" : "0",
           }}
         >
-          <div style={{ paddingLeft: "2.6rem" }}>
+          <div className="max-w-lg mx-auto">
             <p
-              className="font-manrope font-light leading-relaxed"
+              className="font-manrope font-light leading-relaxed text-center"
               style={{ fontSize: "1rem", color: "rgba(255,255,255,0.78)" }}
             >
               {service.description}
@@ -214,10 +199,10 @@ export default function Services() {
 
       {/* Content — single centered column */}
       <div className="relative" style={{ zIndex: 10 }}>
-        <div className="max-w-3xl mx-auto px-6 lg:px-8" style={{ paddingTop: "80px", paddingBottom: "80px" }}>
+        <div className="max-w-4xl mx-auto px-6 lg:px-8" style={{ paddingTop: "80px", paddingBottom: "80px" }}>
 
-          {/* Section header */}
-          <div className="mb-14">
+          {/* Section header — centered */}
+          <div className="mb-14 text-center">
             <p
               className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light"
               style={{ color: "rgba(255,255,255,0.5)" }}
@@ -230,7 +215,7 @@ export default function Services() {
             >
               {tr.title}
             </h2>
-            <div className="h-px w-10 mt-5" style={{ background: "#4a7fb5" }} />
+            <div className="h-px w-10 mt-5 mx-auto" style={{ background: "#4a7fb5" }} />
           </div>
 
           {/* Service list */}
@@ -248,10 +233,10 @@ export default function Services() {
           </div>
 
           {/* CTA */}
-          <div className="mt-10 pt-8" style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
+          <div className="mt-10 pt-8 flex justify-center" style={{ borderTop: "1px solid rgba(255,255,255,0.09)" }}>
             <a
               href="#contact"
-              className="inline-flex items-center gap-3 font-manrope font-semibold text-[13px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-300"
+              className="font-manrope font-semibold text-[13px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-300"
               style={{
                 background: "var(--accent)",
                 color: "#fff",
@@ -268,9 +253,6 @@ export default function Services() {
               }}
             >
               {lang === "de" ? "Kontakt aufnehmen" : "Get in touch"}
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
             </a>
           </div>
 
