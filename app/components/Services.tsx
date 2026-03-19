@@ -148,20 +148,23 @@ export default function Services() {
     itemEls.current[i] = el;
   }, []);
 
-  // Single IntersectionObserver for all items
+  // Single IntersectionObserver — small delay for luxurious feel on slow scroll
+  const activationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           const i = itemEls.current.indexOf(entry.target as HTMLDivElement);
-          if (i !== -1) setActiveIndex(i);
+          if (i === -1) return;
+          if (activationTimer.current) clearTimeout(activationTimer.current);
+          activationTimer.current = setTimeout(() => setActiveIndex(i), 220);
         });
       },
       { rootMargin: "-44% 0px -44% 0px", threshold: 0 }
     );
     itemEls.current.forEach((el) => el && obs.observe(el));
-    return () => obs.disconnect();
+    return () => { obs.disconnect(); if (activationTimer.current) clearTimeout(activationTimer.current); };
   }, [tr.items.length]);
 
   const handleActivate = useCallback((i: number) => setActiveIndex(i), []);
