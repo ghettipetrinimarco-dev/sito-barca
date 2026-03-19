@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
 
@@ -114,17 +114,17 @@ function ServiceScrollItem({
           </span>
         </div>
 
-        {/* Description accordion — mobile only (desktop uses left panel) */}
+        {/* Description — inline, visible on all screen sizes when active */}
         <div
-          className="lg:hidden overflow-hidden transition-all duration-300"
+          className="overflow-hidden transition-all duration-300"
           style={{
-            maxHeight: isActive ? "160px" : "0px",
+            maxHeight: isActive ? "200px" : "0px",
             opacity: isActive ? 1 : 0,
-            marginTop: isActive ? "0.9rem" : "0",
+            marginTop: isActive ? "0.75rem" : "0",
           }}
         >
           <div style={{ paddingLeft: "2.25rem" }}>
-            <p className="text-sm font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.62)" }}>
+            <p className="text-sm font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.7)" }}>
               {service.description}
             </p>
             {service.dates && (
@@ -177,8 +177,6 @@ export default function Services() {
   }, []);
 
   const handleActivate = useCallback((i: number) => setActiveIndex(i), []);
-  const activeService = tr.items[activeIndex];
-
   return (
     /*
       Background images are position:absolute so they scroll WITH the section.
@@ -226,62 +224,24 @@ export default function Services() {
         <div className="max-w-7xl mx-auto px-6 lg:px-14">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.65fr] lg:gap-x-20">
 
-            {/* Left column */}
-            <div className="hidden lg:block">
-
-              {/* Header — scrolls naturally with the page */}
-              <div style={{ paddingTop: "80px", paddingBottom: "2.5rem" }}>
-                <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "rgba(255,255,255,0.5)" }}>
-                  {tr.label}
-                </p>
-                <h2
-                  className="font-manrope font-bold text-white leading-tight mb-5"
-                  style={{ fontSize: "clamp(2.5rem, 3.2vw, 3.75rem)" }}
-                >
-                  {tr.title}
-                </h2>
-                <div className="h-px w-10" style={{ background: "#4a7fb5" }} />
-              </div>
-
-              {/* Detail — sticky, vertically centered */}
-              <div className="sticky" style={{ top: "calc(50vh - 130px)" }}>
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeIndex}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.3, ease }}
-                    className="flex flex-col gap-4"
-                  >
-                    <p className="text-[11px] tracking-[0.22em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
-                      {activeService?.tag}
-                    </p>
-                    <p className="font-manrope font-bold text-white leading-snug" style={{ fontSize: "1.45rem" }}>
-                      {activeService?.title.includes(" / ")
-                        ? activeService.title.replace(" / ", "\n")
-                        : activeService?.title}
-                    </p>
-                    <p className="text-base font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>
-                      {activeService?.description}
-                    </p>
-                    {activeService?.dates && (
-                      <p className="text-[12px] tracking-[0.08em] uppercase font-medium" style={{ color: "#4a7fb5" }}>
-                        {activeService.dates}
-                      </p>
-                    )}
-                    {activeService?.footer && (
-                      <p className="font-playfair italic text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>
-                        {activeService.footer}
-                      </p>
-                    )}
-                    {/* Counter */}
-                    <p className="font-manrope text-[12px] tabular-nums font-light pt-6" style={{ color: "rgba(255,255,255,0.25)" }}>
-                      {String(activeIndex + 1).padStart(2, "0")} <span style={{ color: "rgba(255,255,255,0.12)" }}>/ {String(tr.items.length).padStart(2, "0")}</span>
-                    </p>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
+            {/* Left: sticky header */}
+            <div
+              className="hidden lg:flex flex-col sticky self-start"
+              style={{ top: "120px", paddingTop: "80px", paddingBottom: "2rem" }}
+            >
+              <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "rgba(255,255,255,0.5)" }}>
+                {tr.label}
+              </p>
+              <h2
+                className="font-manrope font-bold text-white leading-tight mb-5"
+                style={{ fontSize: "clamp(2.5rem, 3.2vw, 3.75rem)" }}
+              >
+                {tr.title}
+              </h2>
+              <div className="h-px w-10 mb-4" style={{ background: "#4a7fb5" }} />
+              <p className="text-sm font-light" style={{ color: "rgba(255,255,255,0.25)" }}>
+                {tr.placeholder}
+              </p>
             </div>
 
             {/* Right: scrollable list */}
