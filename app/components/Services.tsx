@@ -55,7 +55,8 @@ function ServiceRow({
         {/* Number row */}
         <div className="flex items-center justify-center mb-2">
           <span
-            className="font-manrope text-[12px] tracking-[0.15em] tabular-nums transition-colors duration-300"
+            className="font-manrope text-[12px] tracking-[0.15em] tabular-nums"
+          style={{ transition: "color 0.7s ease" }}
             style={{ color: isActive ? "#4a7fb5" : "rgba(255,255,255,0.2)" }}
           >
             {service.number}
@@ -64,7 +65,7 @@ function ServiceRow({
 
         {/* Title — centered */}
         <h3
-          className="font-manrope text-center transition-all duration-700"
+          className="font-manrope text-center"
           style={{
             fontSize: "clamp(1.3rem, 2.2vw, 2rem)",
             lineHeight: 1.15,
@@ -74,6 +75,8 @@ function ServiceRow({
             transform: isActive ? "scale(1.18)" : "scale(0.9)",
             transformOrigin: "center",
             display: "block",
+            transition: "transform 0.7s cubic-bezier(0.16,1,0.3,1), color 0.7s ease, opacity 0.7s ease",
+            willChange: "transform, color",
           }}
         >
           {service.title.includes(" / ") ? (
@@ -99,11 +102,12 @@ function ServiceRow({
 
         {/* Description — expands below title when active */}
         <div
-          className="overflow-hidden transition-all duration-700"
+          className="overflow-hidden"
           style={{
             maxHeight: isActive ? "220px" : "0px",
             opacity: isActive ? 1 : 0,
             marginTop: isActive ? "1rem" : "0",
+            transition: "max-height 0.7s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease, margin-top 0.7s ease",
           }}
         >
           <div className="max-w-lg mx-auto">
@@ -144,20 +148,20 @@ export default function Services() {
     itemEls.current[i] = el;
   }, []);
 
-  // IntersectionObserver: activate when item enters the center band of the viewport
-  // Cooldown prevents rapid successive changes while scrolling fast
+  // Single IntersectionObserver for all items
   useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-    itemEls.current.forEach((el, i) => {
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveIndex(i); },
-        { rootMargin: "-44% 0px -44% 0px", threshold: 0 }
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
-    return () => observers.forEach(o => o.disconnect());
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const i = itemEls.current.indexOf(entry.target as HTMLDivElement);
+          if (i !== -1) setActiveIndex(i);
+        });
+      },
+      { rootMargin: "-44% 0px -44% 0px", threshold: 0 }
+    );
+    itemEls.current.forEach((el) => el && obs.observe(el));
+    return () => obs.disconnect();
   }, [tr.items.length]);
 
   const handleActivate = useCallback((i: number) => setActiveIndex(i), []);
@@ -174,7 +178,8 @@ export default function Services() {
             style={{
               opacity: activeIndex === i ? 1 : 0,
               transform: activeIndex === i ? "scale(1)" : "scale(1.04)",
-              transition: "opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1)",
+              transition: "opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1)",
+              willChange: "opacity, transform",
               zIndex: activeIndex === i ? 2 : 1,
             }}
           >
