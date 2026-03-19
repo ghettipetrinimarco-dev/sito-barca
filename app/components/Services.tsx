@@ -107,12 +107,11 @@ function ServiceRow({
             display: "grid",
             gridTemplateRows: isActive ? "1fr" : "0fr",
             opacity: isActive ? 1 : 0,
-            marginTop: isActive ? "1rem" : "0",
-            transition: `grid-template-rows ${tx}, opacity 0.6s ease, margin-top ${tx}`,
+            transition: `grid-template-rows ${tx}, opacity 0.6s ease`,
           }}
         >
           <div style={{ overflow: "hidden" }}>
-            <div className="max-w-lg mx-auto pb-1">
+            <div className="max-w-lg mx-auto pt-4 pb-1">
               <p
                 className="font-manrope leading-relaxed text-center"
                 style={{ fontSize: "1.05rem", fontWeight: 400, color: "rgba(255,255,255,0.9)" }}
