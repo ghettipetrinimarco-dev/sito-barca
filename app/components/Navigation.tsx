@@ -35,7 +35,12 @@ function Dropdown({ items, isOpen }: { items: { label: string; href: string }[];
               (e.currentTarget as HTMLElement).style.background = "transparent";
             }}
           >
-            {item.label}
+            {item.label.includes(" / ") ? (
+              <span className="flex flex-col leading-snug">
+                <span>{item.label.split(" / ")[0]}</span>
+                <span style={{ fontSize: "0.85em", opacity: 0.55 }}>{item.label.split(" / ")[1]}</span>
+              </span>
+            ) : item.label}
           </a>
         ))}
       </div>

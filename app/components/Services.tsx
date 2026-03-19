@@ -112,7 +112,7 @@ function ServiceRow({
             </p>
             {service.dates && (
               <p
-                className="mt-3 text-[12px] tracking-[0.1em] uppercase font-medium"
+                className="mt-3 text-[12px] tracking-[0.1em] uppercase font-medium text-center"
                 style={{ color: "#4a7fb5" }}
               >
                 {service.dates}
