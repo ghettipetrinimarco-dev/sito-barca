@@ -104,13 +104,14 @@ function ServiceRow({
         {/* Description — grid-template-rows for smooth expand */}
         <div
           style={{
-            display: "grid",
-            gridTemplateRows: isActive ? "1fr" : "0fr",
+            maxHeight: isActive ? "300px" : "0",
+            overflow: "hidden",
             opacity: isActive ? 1 : 0,
-            transition: `grid-template-rows ${tx}, opacity 0.6s ease`,
+            transform: isActive ? "translateY(0)" : "translateY(8px)",
+            transition: "opacity 0.5s ease, transform 0.5s ease",
           }}
         >
-          <div style={{ overflow: "hidden" }}>
+          <div>
             <div className="max-w-lg mx-auto pt-4 pb-1">
               <p
                 className="font-manrope leading-relaxed text-center"
