@@ -192,6 +192,20 @@ export default function CruisePlan() {
               <stop offset="0%" stopColor="#4a9fd5" stopOpacity="0.35" />
               <stop offset="100%" stopColor="#4a9fd5" stopOpacity="0" />
             </radialGradient>
+            {/* Topographic island fill — objectBoundingBox centers on each island automatically */}
+            <radialGradient id="islandFill" cx="50%" cy="38%" r="72%">
+              <stop offset="0%"   stopColor="#c8dff5" stopOpacity="0.32" />
+              <stop offset="55%"  stopColor="#7aaed8" stopOpacity="0.12" />
+              <stop offset="100%" stopColor="#3a6a9a" stopOpacity="0.04" />
+            </radialGradient>
+            {/* Route glow blur */}
+            <filter id="routeGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
             {/* Marker inner blur */}
             <filter id="cpBlur">
               <feGaussianBlur stdDeviation="1.5" result="blur" />
@@ -246,12 +260,12 @@ export default function CruisePlan() {
 
           {/* ── 4. Land masses ───────────────────────────────────── */}
 
-          {/* Spain / Catalonia east coast — more coastal detail */}
+          {/* Spain / Catalonia east coast */}
           <path
             d="M 0,0 L 420,0 L 375,40 L 345,82 L 316,138 L 298,165 L 268,190 L 225,218 L 200,237 L 160,263 L 120,296 L 88,330 L 65,358 L 50,400 L 42,454 L 0,510 Z"
-            fill="rgba(255,255,255,0.048)"
-            stroke="rgba(255,255,255,0.1)"
-            strokeWidth="0.7"
+            fill="url(#islandFill)"
+            stroke="rgba(255,255,255,0.22)"
+            strokeWidth="1.0"
           />
 
           {/*
@@ -272,9 +286,9 @@ export default function CruisePlan() {
                L 354,368 L 362,358 L 349,367
                L 338,360 L 330,344
                Z"
-            fill="rgba(255,255,255,0.072)"
-            stroke="rgba(255,255,255,0.2)"
-            strokeWidth="0.85"
+            fill="url(#islandFill)"
+            stroke="rgba(255,255,255,0.45)"
+            strokeWidth="1.6"
             strokeLinejoin="round"
           />
 
@@ -288,9 +302,9 @@ export default function CruisePlan() {
                L 538,316 L 530,330 L 514,336 L 493,336
                L 476,330
                Z"
-            fill="rgba(255,255,255,0.072)"
-            stroke="rgba(255,255,255,0.2)"
-            strokeWidth="0.8"
+            fill="url(#islandFill)"
+            stroke="rgba(255,255,255,0.42)"
+            strokeWidth="1.4"
             strokeLinejoin="round"
           />
 
@@ -306,9 +320,9 @@ export default function CruisePlan() {
                L 225,428 L 222,414
                L 230,406
                Z"
-            fill="rgba(255,255,255,0.072)"
-            stroke="rgba(255,255,255,0.18)"
-            strokeWidth="0.8"
+            fill="url(#islandFill)"
+            stroke="rgba(255,255,255,0.4)"
+            strokeWidth="1.3"
             strokeLinejoin="round"
           />
 
@@ -322,9 +336,9 @@ export default function CruisePlan() {
                L 262,436 L 257,442
                L 244,442 L 238,438
                Z"
-            fill="rgba(255,255,255,0.072)"
-            stroke="rgba(255,255,255,0.18)"
-            strokeWidth="0.7"
+            fill="url(#islandFill)"
+            stroke="rgba(255,255,255,0.38)"
+            strokeWidth="1.2"
             strokeLinejoin="round"
           />
 
@@ -350,39 +364,57 @@ export default function CruisePlan() {
                L 920,282 L 916,264
                L 919,252
                Z"
-            fill="rgba(255,255,255,0.048)"
-            stroke="rgba(255,255,255,0.12)"
-            strokeWidth="0.8"
+            fill="url(#islandFill)"
+            stroke="rgba(255,255,255,0.28)"
+            strokeWidth="1.3"
             strokeLinejoin="round"
           />
 
           {/* Tunisia north cape */}
           <path
             d="M 1000,680 L 1000,636 L 1058,608 L 1090,558 L 1150,572 L 1200,566 L 1200,680 Z"
-            fill="rgba(255,255,255,0.048)"
-            stroke="rgba(255,255,255,0.1)"
-            strokeWidth="0.7"
+            fill="url(#islandFill)"
+            stroke="rgba(255,255,255,0.2)"
+            strokeWidth="1.0"
           />
 
           {/* ── Routes ───────────────────────────────────────────── */}
 
+          {/* Route 1 glow layer */}
+          <path
+            d={ROUTE_1}
+            fill="none"
+            stroke="rgba(255,255,255,0.18)"
+            strokeWidth="5"
+            strokeLinecap="round"
+            filter="url(#routeGlow)"
+          />
           {/* Route 1 — Spring: white */}
           <path
             ref={route1Ref}
             d={ROUTE_1}
             fill="none"
-            stroke="rgba(255,255,255,0.7)"
-            strokeWidth="1.4"
+            stroke="rgba(255,255,255,0.82)"
+            strokeWidth="1.6"
             strokeLinecap="round"
           />
 
+          {/* Route 2 glow layer */}
+          <path
+            d={ROUTE_2}
+            fill="none"
+            stroke="rgba(100,185,255,0.2)"
+            strokeWidth="5"
+            strokeLinecap="round"
+            filter="url(#routeGlow)"
+          />
           {/* Route 2 — Autumn: blue */}
           <path
             ref={route2Ref}
             d={ROUTE_2}
             fill="none"
-            stroke="rgba(100,185,255,0.65)"
-            strokeWidth="1.4"
+            stroke="rgba(100,185,255,0.78)"
+            strokeWidth="1.6"
             strokeLinecap="round"
           />
 
