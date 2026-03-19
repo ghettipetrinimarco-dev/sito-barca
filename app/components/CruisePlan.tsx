@@ -193,55 +193,117 @@ export default function CruisePlan() {
 
           {/* ── Land masses ──────────────────────────────────────── */}
 
-          {/* Spain / Catalonia coast */}
+          {/* Spain / Catalonia east coast — more coastal detail */}
           <path
-            d="M 0,0 L 480,0 L 400,50 L 350,90 L 310,155 L 320,191 L 225,218 L 160,263 L 60,363 L 50,454 L 0,500 Z"
+            d="M 0,0 L 420,0 L 375,40 L 345,82 L 316,138 L 298,165 L 268,190 L 225,218 L 200,237 L 160,263 L 120,296 L 88,330 L 65,358 L 50,400 L 42,454 L 0,510 Z"
             fill="rgba(255,255,255,0.048)"
             stroke="rgba(255,255,255,0.1)"
             strokeWidth="0.7"
           />
 
-          {/* Mallorca */}
+          {/*
+            MALLORCA — 20 points
+            Key features: Cap de Formentor finger (NE), Badia de Palma (SW bay),
+            Cap de ses Salines (S tip), Cap de Ferrutx (NE coast)
+            Scale: x=(lon+1)*100  y=(43.5-lat)*90.7
+          */}
           <path
-            d="M 336,320 L 378,311 L 422,316 L 452,334 L 456,358 L 440,382 L 408,396 L 376,393 L 348,378 L 332,355 Z"
-            fill="rgba(255,255,255,0.065)"
-            stroke="rgba(255,255,255,0.16)"
+            d="M 330,330
+               L 352,320 L 368,317 L 382,318
+               L 397,323 L 422,318
+               L 422,330 L 408,332 L 420,330
+               L 448,342
+               L 447,356 L 438,368
+               L 425,380 L 405,387
+               L 387,383 L 370,376
+               L 354,368 L 362,358 L 349,367
+               L 338,360 L 330,344
+               Z"
+            fill="rgba(255,255,255,0.072)"
+            stroke="rgba(255,255,255,0.2)"
+            strokeWidth="0.85"
+            strokeLinejoin="round"
+          />
+
+          {/*
+            MENORCA — elongated E-W, slight N-coast bumps
+            W tip 39.82N 3.83E, NE tip 40.06N 4.34E
+          */}
+          <path
+            d="M 478,338
+               L 487,320 L 507,311 L 522,308 L 534,308
+               L 538,316 L 530,330 L 514,336 L 493,336
+               L 476,330
+               Z"
+            fill="rgba(255,255,255,0.072)"
+            stroke="rgba(255,255,255,0.2)"
             strokeWidth="0.8"
+            strokeLinejoin="round"
           />
 
-          {/* Menorca */}
+          {/*
+            IBIZA — triangular, wider center
+            N tip 39.08N 1.53E, S tip 38.67N 1.40E
+            W coast (Sant Antoni bay) 38.98N 1.30E
+          */}
           <path
-            d="M 476,338 L 508,316 L 535,306 L 546,310 L 540,320 L 510,334 L 479,345 Z"
-            fill="rgba(255,255,255,0.065)"
-            stroke="rgba(255,255,255,0.16)"
+            d="M 252,401
+               L 265,408 L 264,420 L 256,430
+               L 240,438
+               L 225,428 L 222,414
+               L 230,406
+               Z"
+            fill="rgba(255,255,255,0.072)"
+            stroke="rgba(255,255,255,0.18)"
+            strokeWidth="0.8"
+            strokeLinejoin="round"
+          />
+
+          {/*
+            FORMENTERA — elongated E-W, La Mola peninsula
+            La Savina N: 38.74N 1.41E, La Mola E tip: 38.67N 1.59E
+          */}
+          <path
+            d="M 233,435
+               L 241,430 L 252,430
+               L 262,436 L 257,442
+               L 244,442 L 238,438
+               Z"
+            fill="rgba(255,255,255,0.072)"
+            stroke="rgba(255,255,255,0.18)"
             strokeWidth="0.7"
+            strokeLinejoin="round"
           />
 
-          {/* Ibiza */}
+          {/*
+            SARDINIA — 22 points
+            Key features: Golfo dell'Asinara (NW bay), Capo Testa (N tip),
+            La Maddalena (NE), Capo Carbonara (SE), Golfo di Cagliari (S),
+            Capo Teulada (SW), Penisola del Sinis (W), Capo Caccia (W)
+          */}
           <path
-            d="M 227,404 L 248,397 L 263,408 L 259,428 L 241,436 L 225,421 Z"
-            fill="rgba(255,255,255,0.065)"
-            stroke="rgba(255,255,255,0.14)"
-            strokeWidth="0.7"
-          />
-
-          {/* Formentera */}
-          <path
-            d="M 237,438 L 264,434 L 268,442 L 238,446 Z"
-            fill="rgba(255,255,255,0.065)"
-            stroke="rgba(255,255,255,0.14)"
-            strokeWidth="0.6"
-          />
-
-          {/* Sardinia */}
-          <path
-            d="M 992,200 L 1025,196 L 1062,220 L 1078,268 L 1075,318 L 1062,362 L 1045,396 L 1018,420 L 990,428 L 964,412 L 944,372 L 938,308 L 948,248 L 967,218 Z"
+            d="M 921,226
+               L 938,234 L 940,238
+               L 970,234 L 978,243
+               L 1014,202
+               L 1048,217
+               L 1073,267 L 1083,308
+               L 1073,340 L 1063,367
+               L 1052,399
+               L 1025,404 L 1005,399 L 988,404
+               L 964,421
+               L 944,400 L 927,368
+               L 919,314
+               L 920,282 L 916,264
+               L 919,252
+               Z"
             fill="rgba(255,255,255,0.048)"
-            stroke="rgba(255,255,255,0.1)"
-            strokeWidth="0.7"
+            stroke="rgba(255,255,255,0.12)"
+            strokeWidth="0.8"
+            strokeLinejoin="round"
           />
 
-          {/* Tunisia north */}
+          {/* Tunisia north cape */}
           <path
             d="M 1000,680 L 1000,636 L 1058,608 L 1090,558 L 1150,572 L 1200,566 L 1200,680 Z"
             fill="rgba(255,255,255,0.048)"
