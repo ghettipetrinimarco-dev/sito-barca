@@ -51,7 +51,7 @@ function ServiceRow({
       style={{ borderBottom: "1px solid rgba(255,255,255,0.09)" }}
 
     >
-      <div className="py-6 md:py-8">
+      <div className="py-12 md:py-16">
         {/* Number row */}
         <div className="flex items-center justify-center mb-2">
           <span
@@ -64,13 +64,16 @@ function ServiceRow({
 
         {/* Title — centered */}
         <h3
-          className="font-manrope text-center transition-all duration-500"
+          className="font-manrope text-center transition-all duration-700"
           style={{
-            fontSize: "clamp(1.05rem, 1.6vw, 1.4rem)",
+            fontSize: "clamp(1.3rem, 2.2vw, 2rem)",
             lineHeight: 1.15,
             fontWeight: isActive ? 600 : 300,
-            color: isActive ? "#ffffff" : "rgba(255,255,255,0.28)",
+            color: isActive ? "#ffffff" : "rgba(255,255,255,0.25)",
             letterSpacing: isActive ? "-0.02em" : "0",
+            transform: isActive ? "scale(1.18)" : "scale(0.9)",
+            transformOrigin: "center",
+            display: "block",
           }}
         >
           {service.title.includes(" / ") ? (
@@ -96,7 +99,7 @@ function ServiceRow({
 
         {/* Description — expands below title when active */}
         <div
-          className="overflow-hidden transition-all duration-500"
+          className="overflow-hidden transition-all duration-700"
           style={{
             maxHeight: isActive ? "220px" : "0px",
             opacity: isActive ? 1 : 0,
@@ -143,19 +146,12 @@ export default function Services() {
 
   // IntersectionObserver: activate when item enters the center band of the viewport
   // Cooldown prevents rapid successive changes while scrolling fast
-  const lastActivated = useRef<number>(0);
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
     itemEls.current.forEach((el, i) => {
       if (!el) return;
       const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry.isIntersecting) return;
-          const now = Date.now();
-          if (now - lastActivated.current < 300) return;
-          lastActivated.current = now;
-          setActiveIndex(i);
-        },
+        ([entry]) => { if (entry.isIntersecting) setActiveIndex(i); },
         { rootMargin: "-44% 0px -44% 0px", threshold: 0 }
       );
       obs.observe(el);
@@ -240,7 +236,7 @@ export default function Services() {
           <div className="mt-10 pt-8 flex justify-center">
             <a
               href="#contact"
-              className="font-manrope font-semibold text-[13px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-500"
+              className="font-manrope font-semibold text-[13px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-700"
               style={{
                 background: "var(--accent)",
                 color: "#fff",
