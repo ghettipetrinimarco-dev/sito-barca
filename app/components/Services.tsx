@@ -79,8 +79,9 @@ function ServiceRow({
             transform: isActive ? "scale(1.14)" : "scale(0.93)",
             transformOrigin: "center",
             display: "block",
-            transition: `transform ${tx}, color ${tx}, font-weight ${tx}`,
-            willChange: "transform",
+            filter: isActive ? "blur(0px)" : "blur(1.5px)",
+            transition: `transform ${tx}, color ${tx}, filter ${tx}`,
+            willChange: "transform, filter",
           }}
         >
           {service.title.includes(" / ") ? (
@@ -103,12 +104,13 @@ function ServiceRow({
 
         {/* Description — grid-template-rows for smooth expand */}
         <div
-          style={{
-            maxHeight: isActive ? "300px" : "0",
-            overflow: "hidden",
-          }}
+          style={{ maxHeight: isActive ? "300px" : "0", overflow: "hidden" }}
         >
-          <div>
+          <div style={{
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? "translateY(0)" : "translateY(5px)",
+            transition: "opacity 0.45s ease, transform 0.45s ease",
+          }}>
             <div className="max-w-lg mx-auto pt-4 pb-1">
               <p
                 className="font-manrope leading-relaxed text-center"
