@@ -10,7 +10,7 @@ const SERVICE_IMAGES = [
   "/Holiday-cruise-new.jpeg",                      // 02 Holiday Cruise
   "/harbor maneuver course.jpg",                   // 03 Harbor Maneuver Course
   "/Yacht Survey.jpg",                             // 04 Survey / Yacht Inspection
-  "/Wingfoil-course-new.jpg",                      // 05 Wingfoil Courses
+  "/Wingfoil-course-new-1y.jpg",                   // 05 Wingfoil Courses
   "/Sushi-sailor-new.jpg",                         // 06 Sushi Sailor
 ];
 
@@ -105,8 +105,8 @@ function ServiceRow({
         >
           <div className="max-w-lg mx-auto">
             <p
-              className="font-manrope font-light leading-relaxed text-center"
-              style={{ fontSize: "1.08rem", color: "rgba(255,255,255,0.78)" }}
+              className="font-manrope leading-relaxed text-center"
+              style={{ fontSize: "1.05rem", fontWeight: 400, color: "rgba(255,255,255,0.9)" }}
             >
               {service.description}
             </p>
