@@ -8,7 +8,7 @@ export default function Footer() {
   const tr = t[lang].footer;
 
   return (
-    <footer style={{ background: "var(--text)", color: "#fff" }}>
+    <footer style={{ background: "#050d16", color: "#fff" }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-14 py-16">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 mb-12">
           {/* Logo + tagline */}
