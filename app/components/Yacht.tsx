@@ -191,25 +191,24 @@ function MatterportSection({ tr }: { tr: Record<string, string> }) {
 
       {/* Mobile modal with iframe */}
       {modalOpen && (
-        <div className="fixed inset-0 z-[9999]" style={{ background: "#000" }}>
-          {/* Floating close button — always on top */}
-          <button
-            onClick={() => setModalOpen(false)}
-            className="fixed top-4 right-4 z-[10000] flex items-center justify-center font-manrope text-[11px] tracking-[0.15em] uppercase gap-2"
-            style={{
-              background: "rgba(5,15,30,0.75)",
-              backdropFilter: "blur(8px)",
-              border: "1px solid rgba(255,255,255,0.2)",
-              borderRadius: 8,
-              color: "#fff",
-              padding: "8px 14px",
-            }}
+        <div className="fixed inset-0 z-[9999] flex flex-col" style={{ background: "#000", paddingTop: "env(safe-area-inset-top)" }}>
+          {/* Header bar — outside iframe so always tappable */}
+          <div
+            className="flex items-center justify-between px-4 flex-shrink-0"
+            style={{ height: 48, borderBottom: "1px solid rgba(255,255,255,0.1)", background: "rgba(5,15,30,0.95)" }}
           >
-            {tr.closeGallery} ✕
-          </button>
+            <p className="font-manrope text-[11px] tracking-[0.2em] uppercase" style={{ color: "rgba(255,255,255,0.5)" }}>{tr.tour3D}</p>
+            <button
+              onClick={() => setModalOpen(false)}
+              className="font-manrope text-[11px] tracking-[0.15em] uppercase flex items-center gap-2"
+              style={{ color: "#fff", padding: "8px 0" }}
+            >
+              {tr.closeGallery} ✕
+            </button>
+          </div>
           <iframe
             src="https://my.matterport.com/show/?m=peYyiUWJ3NA"
-            style={{ width: "100%", height: "100%", border: "none" }}
+            style={{ flex: 1, width: "100%", border: "none" }}
             allow="xr-spatial-tracking"
             allowFullScreen
           />
