@@ -11,6 +11,8 @@ const PLANS = [
     key: "holiday",
     labelEn: "Holiday Cruise",
     labelDe: "Urlaubskreuzfahrt",
+    shortEn: "Holiday",
+    shortDe: "Urlaub",
     tagEn: "Leisure",
     tagDe: "Freizeit",
     descriptionEn: "Dates and details coming soon. Contact us to be notified when bookings open.",
@@ -20,6 +22,8 @@ const PLANS = [
     key: "mileage",
     labelEn: "Mileage Cruise",
     labelDe: "Meilentörn",
+    shortEn: "Mileage",
+    shortDe: "Meilen",
     tagEn: "Training",
     tagDe: "Training",
     descriptionEn: "Dates and details coming soon. Contact us to be notified when bookings open.",
@@ -29,6 +33,8 @@ const PLANS = [
     key: "harbor",
     labelEn: "Harbor Maneuver Course",
     labelDe: "Hafenmanöverkurs",
+    shortEn: "Harbor",
+    shortDe: "Hafen",
     tagEn: "Course",
     tagDe: "Kurs",
     descriptionEn: "Dates and details coming soon. Contact us to be notified when bookings open.",
@@ -83,7 +89,8 @@ export default function CruisePlans() {
                 className="font-manrope text-[11px] lg:text-[12px] tracking-[0.15em] lg:tracking-[0.2em] uppercase font-medium transition-colors duration-200 whitespace-nowrap"
                 style={{ color: active === i ? "var(--text)" : "var(--text-muted)" }}
               >
-                {lang === "de" ? p.labelDe : p.labelEn}
+                <span className="lg:hidden">{lang === "de" ? p.shortDe : p.shortEn}</span>
+                <span className="hidden lg:inline">{lang === "de" ? p.labelDe : p.labelEn}</span>
               </span>
               {active === i && (
                 <motion.div
