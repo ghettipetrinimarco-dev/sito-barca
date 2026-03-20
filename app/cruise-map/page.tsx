@@ -190,7 +190,7 @@ function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
       </div>
 
       {/* Map — sticky 16:9 box, stays visible while scrolling stops */}
-      <div style={{ position: "sticky", top: 46, zIndex: 5, width: "100%", paddingTop: "56.25%" }}>
+      <div style={{ position: "sticky", top: 54, zIndex: 5, width: "100%", paddingTop: "56.25%" }}>
         <div style={{ position: "absolute", inset: 0 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
