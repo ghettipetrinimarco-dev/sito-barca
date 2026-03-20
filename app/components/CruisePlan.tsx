@@ -15,7 +15,7 @@ const STOPS = [
     region: "Costa Daurada · Spain",
     month: "May",
     dates: "10 May 2026",
-    px: 233, py: 299,
+    px: 228, py: 301,
     image: "/images/cruise/la-rapita.jpg",
     en: "Our journey begins in the sheltered bay of La Ràpita — a quiet fishing village on the Costa Daurada, the perfect departure point before the open Mediterranean.",
     de: "Unsere Reise beginnt in der geschützten Bucht von La Ràpita — ein ruhiges Fischerdorf an der Costa Daurada.",
@@ -26,7 +26,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "May",
     dates: "May – Jun 2026",
-    px: 520, py: 418,
+    px: 518, py: 473,
     image: "/images/cruise/mallorca.jpg",
     en: "The crown jewel of the Balearics. Dramatic cliffs, hidden coves and crystal waters make Mallorca an unmissable first stop of the island arc.",
     de: "Das Juwel der Balearen. Dramatische Klippen, versteckte Buchten und kristallklares Wasser.",
@@ -37,7 +37,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun",
     dates: "May – Jun 2026",
-    px: 631, py: 352,
+    px: 638, py: 370,
     image: "/images/cruise/menorca.jpg",
     en: "Wilder and quieter than her sisters. Menorca's turquoise lagoons and UNESCO Biosphere Reserve offer raw Mediterranean nature at its finest.",
     de: "Wilder und ruhiger als ihre Schwestern. Menorcas türkisfarbene Lagunen und das UNESCO-Biosphärenreservat.",
@@ -48,7 +48,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun",
     dates: "Jun 2026",
-    px: 340, py: 532,
+    px: 336, py: 545,
     image: "/images/cruise/ibiza.jpg",
     en: "Beyond the nightlife lies a magical island of ancient villages, pine forests and secret beaches bathed in golden Mediterranean light.",
     de: "Jenseits des Nachtlebens: eine magische Insel mit alten Dörfern, Pinienwäldern und geheimen Stränden.",
@@ -59,7 +59,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun/Sep",
     dates: "Jun – Sep 2026",
-    px: 348, py: 571,
+    px: 344, py: 578,
     image: "/images/cruise/formentera.jpg",
     en: "The Caribbean of Europe. Formentera's shallow turquoise waters and white sand beaches are the crowning glory of the Balearic arc.",
     de: "Die Karibik Europas. Flache türkisfarbene Gewässer und weisse Sandstrände am Ende des Balearen-Bogens.",
@@ -70,7 +70,7 @@ const STOPS = [
     region: "Sardinia · Italy",
     month: "Sep",
     dates: "Sep 2026",
-    px: 1195, py: 381,
+    px: 1215, py: 387,
     image: "/images/cruise/cagliari.jpg",
     en: "Sardinia's ancient capital rises from a lagoon. Roman ruins, rooftop views and warm Sardinian hospitality before the crossing south.",
     de: "Sardiniens alte Hauptstadt über der Lagune. Römische Ruinen, Dachterrassen und sardische Gastfreundschaft.",
@@ -81,7 +81,7 @@ const STOPS = [
     region: "Sardinia · Italy",
     month: "Sep",
     dates: "Sep 2026",
-    px: 1213, py: 125,
+    px: 1234, py: 122,
     image: "/images/cruise/olbia.jpg",
     en: "Gateway to the Costa Smeralda. Where granite rocks tumble into emerald sea and the pace of life slows beautifully.",
     de: "Tor zur Costa Smeralda. Wo Granitfelsen ins smaragdgrüne Meer stürzen.",
@@ -92,7 +92,7 @@ const STOPS = [
     region: "Northern Tunisia",
     month: "Oct",
     dates: "4 Oct 2026",
-    px: 1336, py: 652,
+    px: 1357, py: 650,
     image: "/images/cruise/bizerte.jpg",
     en: "Our final destination. Tunisia's northernmost city blends French colonial charm with Medina colour — the perfect winter harbour for Ventum.",
     de: "Unser letztes Ziel. Tunesiens nördlichste Stadt — der perfekte Winterhafen für Ventum.",
@@ -101,7 +101,7 @@ const STOPS = [
 
 // Route path in 2048×1143 coordinate space
 const ROUTE =
-  "M 233,299 C 340,346 430,380 520,418 L 631,352 L 520,418 C 446,456 390,496 340,532 L 348,571 L 340,532 C 400,490 460,453 520,418 C 782,406 990,394 1195,381 L 1213,125 L 1195,381 Q 1265,516 1336,652";
+  "M 228,301 C 340,370 430,425 518,473 L 638,370 L 518,473 C 450,505 390,527 336,545 L 344,578 L 336,545 C 398,512 460,490 518,473 C 782,436 1000,412 1215,387 L 1234,122 L 1215,387 Q 1286,518 1357,650";
 
 export default function CruisePlan() {
   const { lang } = useLang();
