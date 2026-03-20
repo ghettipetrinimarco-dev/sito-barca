@@ -353,7 +353,7 @@ export default function CruiseMapPage() {
           position: "absolute", inset: 0,
           transformOrigin: "0 0",
           transform: mapTransform,
-          transition: "transform 2s cubic-bezier(0.25,1,0.5,1)",
+          transition: "transform 4s cubic-bezier(0.25,1,0.5,1)",
           zIndex: 1,
         }}
       >
