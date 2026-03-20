@@ -199,7 +199,7 @@ export default function CruisePlan() {
         className="overflow-hidden"
         style={{
           position: phase === "active" ? "fixed" : "absolute",
-          top: phase === "after" ? "auto" : 0,
+          top: phase === "after" ? "auto" : phase === "before" ? `${INTRO_VH}vh` : 0,
           bottom: phase === "after" ? 0 : "auto",
           left: 0, right: 0, height: "100vh",
           background: "#07101e",
