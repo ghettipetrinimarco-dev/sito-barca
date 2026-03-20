@@ -128,6 +128,25 @@ function FloorPlan({ tr }: { tr: Record<string, string> }) {
 function MatterportSection({ tr }: { tr: Record<string, string> }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const [modalOpen, setModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = modalOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [modalOpen]);
+
+  const handleClick = () => {
+    if (isMobile) setModalOpen(true);
+    else window.open("https://my.matterport.com/show/?m=peYyiUWJ3NA", "_blank");
+  };
 
   return (
     <motion.div
@@ -140,14 +159,11 @@ function MatterportSection({ tr }: { tr: Record<string, string> }) {
       <p className="text-[12px] tracking-[0.25em] uppercase font-manrope font-medium mb-8" style={{ color: "var(--text-secondary)" }}>
         {tr.virtualTourLabel}
       </p>
-      <a
-        href="https://my.matterport.com/show/?m=peYyiUWJ3NA"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group relative flex items-center justify-center w-full overflow-hidden transition-all duration-300"
+      <button
+        onClick={handleClick}
+        className="group relative flex items-center justify-center w-full overflow-hidden transition-all duration-300 cursor-pointer"
         style={{ aspectRatio: "16/9", borderRadius: "10px", border: "1px solid var(--border)" }}
       >
-        {/* Background image */}
         <Image
           src="/Boat/Interior/Interior-Cover.jpg"
           alt="Virtual Tour"
@@ -155,11 +171,8 @@ function MatterportSection({ tr }: { tr: Record<string, string> }) {
           className="object-cover transition-transform duration-700 group-hover:scale-105"
           sizes="100vw"
         />
-        {/* Dark overlay */}
         <div className="absolute inset-0" style={{ background: "rgba(5,15,30,0.55)" }} />
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "rgba(5,15,30,0.15)" }} />
-
-        {/* Content */}
         <div className="relative flex items-center gap-6">
           <div
             className="w-14 h-14 flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
@@ -170,15 +183,35 @@ function MatterportSection({ tr }: { tr: Record<string, string> }) {
             </svg>
           </div>
           <div>
-            <p className="font-manrope font-semibold text-white text-lg mb-0.5">
-              {tr.tour3D}
-            </p>
-            <p className="text-[12px] tracking-[0.1em] uppercase font-manrope" style={{ color: "rgba(255,255,255,0.55)" }}>
-              {tr.tourOpen}
-            </p>
+            <p className="font-manrope font-semibold text-white text-lg mb-0.5">{tr.tour3D}</p>
+            <p className="text-[12px] tracking-[0.1em] uppercase font-manrope" style={{ color: "rgba(255,255,255,0.55)" }}>{tr.tourOpen}</p>
           </div>
         </div>
-      </a>
+      </button>
+
+      {/* Mobile modal with iframe */}
+      {modalOpen && (
+        <div className="fixed inset-0 z-[9999] flex flex-col" style={{ background: "rgba(5,15,30,0.97)" }}>
+          <div className="flex items-center justify-between px-4 py-3 flex-shrink-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+            <p className="font-manrope text-[11px] tracking-[0.2em] uppercase text-white opacity-60">{tr.tour3D}</p>
+            <button
+              onClick={() => setModalOpen(false)}
+              className="font-manrope text-[11px] tracking-[0.2em] uppercase flex items-center gap-2"
+              style={{ color: "rgba(255,255,255,0.6)" }}
+            >
+              {tr.closeGallery} ✕
+            </button>
+          </div>
+          <div className="flex-1">
+            <iframe
+              src="https://my.matterport.com/show/?m=peYyiUWJ3NA"
+              className="w-full h-full"
+              allow="xr-spatial-tracking"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }
