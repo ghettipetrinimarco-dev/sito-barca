@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
@@ -236,10 +236,9 @@ export default function Navigation() {
               style={{ border: `1px solid ${borderColor}`, borderRadius: "20px" }}
             >
               {(["en", "de", "it", "fr"] as const).map((l, idx) => (
-                <>
-                  {idx > 0 && <span key={`sep-${l}`} className="text-xs" style={{ color: borderColor }}>|</span>}
+                <Fragment key={l}>
+                  {idx > 0 && <span className="text-xs" style={{ color: borderColor }}>|</span>}
                   <button
-                    key={l}
                     className="text-[12px] tracking-[0.08em] transition-colors duration-300"
                     style={{
                       fontWeight: lang === l ? 600 : 400,
@@ -251,7 +250,7 @@ export default function Navigation() {
                   >
                     {l.toUpperCase()}
                   </button>
-                </>
+                </Fragment>
               ))}
             </div>
           </div>
@@ -371,10 +370,9 @@ export default function Navigation() {
               {/* Language switcher */}
               <div className="flex items-center gap-4 pt-5 pb-2">
                 {(["en", "de", "it", "fr"] as const).map((l, idx) => (
-                  <>
-                    {idx > 0 && <span key={`sep-${l}`} style={{ color: "var(--border)", fontSize: "12px" }}>|</span>}
+                  <Fragment key={l}>
+                    {idx > 0 && <span style={{ color: "var(--border)", fontSize: "12px" }}>|</span>}
                     <button
-                      key={l}
                       className="text-[13px] tracking-[0.08em] uppercase"
                       style={{
                         fontWeight: lang === l ? 600 : 400,
@@ -384,7 +382,7 @@ export default function Navigation() {
                     >
                       {l.toUpperCase()}
                     </button>
-                  </>
+                  </Fragment>
                 ))}
               </div>
             </div>
