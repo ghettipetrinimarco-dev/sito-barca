@@ -23,8 +23,8 @@ export default function Contact() {
     width: "100%",
     background: "transparent",
     border: "none",
-    borderBottom: "1px solid var(--border)",
-    color: "var(--text)",
+    borderBottom: "1px solid rgba(255,255,255,0.12)",
+    color: "rgba(255,255,255,0.9)",
     padding: "12px 0",
     fontSize: "0.95rem",
     fontWeight: 300,
@@ -34,14 +34,14 @@ export default function Contact() {
   };
 
   const onFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    e.currentTarget.style.borderBottomColor = "var(--accent)";
+    e.currentTarget.style.borderBottomColor = "#4a7fb5";
   };
   const onBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    e.currentTarget.style.borderBottomColor = "var(--border)";
+    e.currentTarget.style.borderBottomColor = "rgba(255,255,255,0.12)";
   };
 
   return (
-    <section id="contact" className="py-16 md:py-24 lg:py-32 px-6 lg:px-14" style={{ background: "var(--bg)" }}>
+    <section id="contact" className="py-16 md:py-24 lg:py-32 px-6 lg:px-14" style={{ background: "#07101e" }}>
       <div className="max-w-6xl mx-auto">
 
         {/* Header — full width */}
@@ -52,17 +52,17 @@ export default function Contact() {
           transition={{ duration: 0.9, ease }}
           className="mb-16"
         >
-          <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "var(--accent-light)" }}>
+          <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-light" style={{ color: "rgba(255,255,255,0.4)" }}>
             {tr.label}
           </p>
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
             <h2
               className="font-manrope font-bold leading-tight"
-              style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)", color: "var(--text)" }}
+              style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)", color: "#fff" }}
             >
               {tr.title}
             </h2>
-            <p className="font-manrope font-light text-base max-w-sm" style={{ color: "var(--text-secondary)" }}>
+            <p className="font-manrope font-light text-base max-w-sm" style={{ color: "rgba(255,255,255,0.55)" }}>
               {tr.subtitle}
             </p>
           </div>
@@ -76,7 +76,7 @@ export default function Contact() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
             transition={{ duration: 0.9, delay: 0.1, ease }}
           >
-            <div style={{ borderTop: "1px solid var(--border)" }}>
+            <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}>
               {[
                 { label: tr.emailLabel, value: "info@ventum-sailing.ch", href: "mailto:info@ventum-sailing.ch" },
                 { label: tr.phoneLabel, value: tr.phone, href: null },
@@ -85,23 +85,23 @@ export default function Contact() {
                 <div
                   key={i}
                   className="flex items-center justify-between py-5"
-                  style={{ borderBottom: "1px solid var(--border)" }}
+                  style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}
                 >
-                  <p className="text-[11px] tracking-[0.2em] uppercase font-manrope" style={{ color: "var(--text-muted)" }}>
+                  <p className="text-[11px] tracking-[0.2em] uppercase font-manrope" style={{ color: "rgba(255,255,255,0.35)" }}>
                     {item.label}
                   </p>
                   {item.href ? (
                     <a
                       href={item.href}
                       className="font-manrope font-light transition-colors duration-200"
-                      style={{ color: "var(--text-secondary)" }}
-                      onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "var(--accent)"}
-                      onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)"}
+                      style={{ color: "rgba(255,255,255,0.65)" }}
+                      onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "#4a7fb5"}
+                      onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.65)"}
                     >
                       {item.value}
                     </a>
                   ) : (
-                    <p className="font-manrope font-light" style={{ color: "var(--text-secondary)" }}>
+                    <p className="font-manrope font-light" style={{ color: "rgba(255,255,255,0.65)" }}>
                       {item.value}
                     </p>
                   )}
@@ -125,10 +125,10 @@ export default function Contact() {
                 className="flex flex-col justify-center min-h-[400px]"
               >
                 <div className="w-10 h-[1px] mb-10" style={{ background: "var(--accent)" }} />
-                <h3 className="font-manrope font-bold text-2xl mb-4" style={{ color: "var(--text)" }}>
+                <h3 className="font-manrope font-bold text-2xl mb-4" style={{ color: "#fff" }}>
                   {tr.successTitle}
                 </h3>
-                <p className="font-manrope font-light leading-relaxed mb-10" style={{ color: "var(--text-secondary)" }}>
+                <p className="font-manrope font-light leading-relaxed mb-10" style={{ color: "rgba(255,255,255,0.55)" }}>
                   {tr.successText}
                 </p>
                 <button
@@ -165,7 +165,7 @@ export default function Contact() {
                   required
                   value={form.subject}
                   onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                  style={{ ...fieldStyle, cursor: "pointer", color: form.subject ? "var(--text)" : "var(--text-muted)" }}
+                  style={{ ...fieldStyle, cursor: "pointer", color: form.subject ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.35)", background: "#07101e" }}
                   onFocus={onFocus} onBlur={onBlur}
                 >
                   <option value="" disabled>{tr.subjectPlaceholder}</option>
