@@ -163,7 +163,7 @@ export default function CruisePlan() {
       ref={sectionRef}
       id="cruise-plan"
       className="relative"
-      style={{ height: mapUnlocked ? `${INTRO_VH + STOPS.length * 130}vh` : `${INTRO_VH}vh` }}
+      style={{ height: mapUnlocked ? `${INTRO_VH + STOPS.length * 80}vh` : `${INTRO_VH}vh` }}
     >
       {/* ── Intro panel — sticky for its 100vh zone ─────────────── */}
       <div style={{
@@ -292,6 +292,25 @@ export default function CruisePlan() {
           background: "linear-gradient(to right, rgba(7,16,30,0.7) 0%, transparent 40%)",
           zIndex: 2,
         }} />
+
+        {/* ── Exit button ─────────────────────────────────────────── */}
+        <button
+          onClick={() => {
+            const section = sectionRef.current;
+            if (!section) return;
+            const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({ top: sectionTop + section.offsetHeight + 10, behavior: "smooth" });
+          }}
+          className="absolute top-6 right-6 lg:top-8 lg:right-10 font-manrope text-[11px] tracking-[0.15em] uppercase flex items-center gap-2 transition-opacity duration-300 hover:opacity-100"
+          style={{ zIndex: 20, color: "rgba(255,255,255,0.45)", background: "none", border: "none", cursor: "pointer", opacity: 0.45 }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = "0.45"; }}
+        >
+          {lang === "de" ? "Schliessen" : "Close map"}
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+            <path d="M2 2l10 10M12 2L2 12" />
+          </svg>
+        </button>
 
         {/* ── Stop info — bottom left ──────────────────────────────── */}
         <div className="absolute bottom-0 left-0 px-6 lg:px-10"
