@@ -161,44 +161,45 @@ function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
 }) {
   return (
     <div style={{ minHeight: "100vh", background: "#07101e", color: "#fff" }}>
-      {/* Header */}
-      <div style={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "0.9rem 1.25rem",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
-        position: "sticky", top: 0, zIndex: 20,
-        background: "rgba(7,16,30,0.95)", backdropFilter: "blur(10px)",
-      }}>
-        <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: "var(--font-manrope)" }}>
-          {lang === "de" ? "Törn 2026" : "Cruise 2026"}
-        </p>
-        <button
-          onClick={() => window.close()}
-          style={{
-            color: "rgba(255,255,255,0.75)", fontSize: "0.6rem", letterSpacing: "0.15em",
-            textTransform: "uppercase", display: "flex", alignItems: "center", gap: "6px",
-            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: "6px", padding: "6px 12px", cursor: "pointer",
-            fontFamily: "var(--font-manrope)",
-          }}
-        >
-          {lang === "de" ? "Schliessen" : "Close map"}
-          <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-            <path d="M2 2l10 10M12 2L2 12" />
-          </svg>
-        </button>
-      </div>
+      {/* Header + Map — single sticky block, no gap */}
+      <div style={{ position: "sticky", top: 0, zIndex: 20, background: "#07101e" }}>
+        {/* Header */}
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "0.9rem 1.25rem",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
+        }}>
+          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: "var(--font-manrope)" }}>
+            {lang === "de" ? "Törn 2026" : "Cruise 2026"}
+          </p>
+          <button
+            onClick={() => window.close()}
+            style={{
+              color: "rgba(255,255,255,0.75)", fontSize: "0.6rem", letterSpacing: "0.15em",
+              textTransform: "uppercase", display: "flex", alignItems: "center", gap: "6px",
+              background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
+              borderRadius: "6px", padding: "6px 12px", cursor: "pointer",
+              fontFamily: "var(--font-manrope)",
+            }}
+          >
+            {lang === "de" ? "Schliessen" : "Close map"}
+            <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+              <path d="M2 2l10 10M12 2L2 12" />
+            </svg>
+          </button>
+        </div>
 
-      {/* Map — sticky 16:9 box, stays visible while scrolling stops */}
-      <div style={{ position: "sticky", top: 62, zIndex: 5, width: "100%", paddingTop: "56.25%" }}>
-        <div style={{ position: "absolute", inset: 0 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/mediterranean-map.jpg"
-            alt=""
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", filter: "saturate(0.2) brightness(0.82)" }}
-          />
-          <MapOverlay activeId={activeId} stopIndex={stopIndex} />
+        {/* Map — 16:9 box */}
+        <div style={{ position: "relative", width: "100%", paddingTop: "56.25%" }}>
+          <div style={{ position: "absolute", inset: 0 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/mediterranean-map.jpg"
+              alt=""
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", filter: "saturate(0.2) brightness(0.82)" }}
+            />
+            <MapOverlay activeId={activeId} stopIndex={stopIndex} />
+          </div>
         </div>
       </div>
 
