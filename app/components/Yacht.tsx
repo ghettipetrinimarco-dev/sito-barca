@@ -57,6 +57,24 @@ function CountUp({ value, inView, delay = 0 }: { value: string; inView: boolean;
 function FloorPlan({ lang }: { lang: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const [activeLabel, setActiveLabel] = useState<string | null>(null);
+
+  const plans = [
+    {
+      src: "/floorplan-exterior.jpg",
+      label: lang === "de" ? "Aussen" : "Exterior",
+      text: lang === "de"
+        ? "Grosszügiges Sonnendeck zum Entspannen. Deckdusche, Luftkompressor für Tauchen und Wassersportausrüstung auf Anfrage."
+        : "Spacious sun deck for relaxing. Deck shower, air compressor for scuba diving and full watersports equipment available on request.",
+    },
+    {
+      src: "/floorplan_interior.jpg",
+      label: lang === "de" ? "Innen" : "Interior",
+      text: lang === "de"
+        ? "3 Doppelkabinen mit privatem Bad für bis zu 6 Gäste. Offener Salon mit WLAN, Entertainment-Elektronik und voll ausgestatteter Küche."
+        : "3 double cabins with private bathroom for up to 6 guests. Open saloon with Wi-Fi, entertainment electronics and fully equipped galley.",
+    },
+  ];
 
   return (
     <motion.div
@@ -70,38 +88,48 @@ function FloorPlan({ lang }: { lang: string }) {
         {lang === "de" ? "Grundriss" : "Floor Plan"}
       </p>
       <div className="grid grid-cols-1 gap-4">
-        {[
-          {
-            src: "/floorplan-exterior.jpg",
-            label: lang === "de" ? "Aussen" : "Exterior",
-            text: lang === "de"
-              ? "Grosszügiges Sonnendeck zum Entspannen. Deckdusche, Luftkompressor für Tauchen und Wassersportausrüstung auf Anfrage."
-              : "Spacious sun deck for relaxing. Deck shower, air compressor for scuba diving and full watersports equipment available on request.",
-          },
-          {
-            src: "/floorplan_interior.jpg",
-            label: lang === "de" ? "Innen" : "Interior",
-            text: lang === "de"
-              ? "3 Doppelkabinen mit privatem Bad für bis zu 6 Gäste. Offener Salon mit WLAN, Entertainment-Elektronik und voll ausgestatteter Küche."
-              : "3 double cabins with private bathroom for up to 6 guests. Open saloon with Wi-Fi, entertainment electronics and fully equipped galley.",
-          },
-        ].map((plan) => (
-          <div key={plan.label} className="group relative overflow-hidden" style={{ border: "1px solid var(--border)", borderRadius: "10px", background: "var(--bg)" }}>
-            <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
-              <Image src={plan.src} alt={plan.label} fill className="object-contain p-4 transition-opacity duration-300 group-hover:opacity-20" sizes="50vw" style={{ mixBlendMode: "multiply" }} />
+        {plans.map((plan) => {
+          const isActive = activeLabel === plan.label;
+          return (
+            <div
+              key={plan.label}
+              className="relative overflow-hidden cursor-pointer"
+              style={{ border: "1px solid var(--border)", borderRadius: "10px", background: "var(--bg)" }}
+              onClick={() => setActiveLabel(isActive ? null : plan.label)}
+              onMouseEnter={() => setActiveLabel(plan.label)}
+              onMouseLeave={() => setActiveLabel(null)}
+            >
+              <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+                <Image
+                  src={plan.src}
+                  alt={plan.label}
+                  fill
+                  className="object-contain p-4 transition-opacity duration-300"
+                  style={{ mixBlendMode: "multiply", opacity: isActive ? 0.15 : 1 }}
+                  sizes="100vw"
+                />
+              </div>
+              {/* Hint */}
+              <div className="absolute top-3 right-3 transition-opacity duration-300" style={{ opacity: isActive ? 0 : 1 }}>
+                <span style={{ color: "var(--accent)", fontSize: "16px" }}>ⓘ</span>
+              </div>
+              <p
+                className="text-[11px] tracking-[0.18em] uppercase font-manrope text-center pb-3 transition-opacity duration-300"
+                style={{ color: "var(--text-muted)", opacity: isActive ? 0 : 1 }}
+              >
+                {plan.label}
+              </p>
+              {/* Overlay */}
+              <div
+                className="absolute inset-0 flex flex-col items-center justify-center px-6 transition-opacity duration-300"
+                style={{ opacity: isActive ? 1 : 0 }}
+              >
+                <p className="text-[11px] tracking-[0.18em] uppercase font-manrope mb-3" style={{ color: "var(--accent)" }}>{plan.label}</p>
+                <p className="text-sm font-light leading-relaxed text-center" style={{ color: "var(--text-secondary)" }}>{plan.text}</p>
+              </div>
             </div>
-            {/* Hint */}
-            <div className="absolute top-3 right-3 transition-opacity duration-300 group-hover:opacity-0">
-              <span style={{ color: "var(--accent)", fontSize: "16px" }}>ⓘ</span>
-            </div>
-            <p className="text-[11px] tracking-[0.18em] uppercase font-manrope text-center pb-3 transition-opacity duration-300 group-hover:opacity-0" style={{ color: "var(--text-muted)" }}>{plan.label}</p>
-            {/* Hover overlay */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <p className="text-[11px] tracking-[0.18em] uppercase font-manrope mb-3" style={{ color: "var(--accent)" }}>{plan.label}</p>
-              <p className="text-sm font-light leading-relaxed text-center" style={{ color: "var(--text-secondary)" }}>{plan.text}</p>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </motion.div>
   );
