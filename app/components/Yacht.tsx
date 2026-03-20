@@ -145,7 +145,7 @@ function MatterportSection({ tr }: { tr: Record<string, string> }) {
         target="_blank"
         rel="noopener noreferrer"
         className="group relative flex items-center justify-center w-full overflow-hidden transition-all duration-300"
-        style={{ aspectRatio: "21/6", borderRadius: "10px", border: "1px solid var(--border)" }}
+        style={{ aspectRatio: "16/6", borderRadius: "10px", border: "1px solid var(--border)" }}
       >
         {/* Background image */}
         <Image
