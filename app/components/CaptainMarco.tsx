@@ -93,30 +93,30 @@ export default function CaptainMarco() {
               </div>
             </div>
 
-          </motion.div>
-        </div>
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-3">
+              {tr.stats.map((stat, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                  transition={{ duration: 0.45, delay: 0.4 + i * 0.08, ease }}
+                  className="px-5 py-5 transition-colors duration-200"
+                  style={{ border: "1px solid var(--border)", borderRadius: 10, background: "var(--bg)" }}
+                  onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.background = "var(--surface-alt)"}
+                  onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.background = "var(--bg)"}
+                >
+                  <p className="text-[11px] tracking-[0.15em] uppercase mb-3 font-manrope" style={{ color: "var(--text-muted)" }}>
+                    {stat.label}
+                  </p>
+                  <p className="font-manrope font-bold text-2xl" style={{ color: "var(--accent)", lineHeight: 1 }}>
+                    <CountUpStat value={stat.value} inView={isInView} duration={2.4} />
+                  </p>
+                </motion.div>
+              ))}
+            </div>
 
-        {/* ── Stats — same style as Yacht specs ── */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-24">
-          {tr.stats.map((stat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.45, delay: i * 0.05, ease }}
-              className="px-5 py-5 transition-colors duration-200"
-              style={{ border: "1px solid var(--border)", borderRadius: 10, background: "var(--bg)" }}
-              onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.background = "var(--surface-alt)"}
-              onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.background = "var(--bg)"}
-            >
-              <p className="text-[11px] tracking-[0.15em] uppercase mb-3 font-manrope" style={{ color: "var(--text-muted)" }}>
-                {stat.label}
-              </p>
-              <p className="font-manrope font-bold" style={{ fontSize: "1.4rem", color: "var(--text)", lineHeight: 1 }}>
-                <CountUpStat value={stat.value} inView={isInView} duration={2.4} />
-              </p>
-            </motion.div>
-          ))}
+          </motion.div>
         </div>
 
         {/* ── Qualifications ── */}
@@ -125,22 +125,27 @@ export default function CaptainMarco() {
           initial={{ opacity: 0, y: 24 }}
           animate={qualInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
           transition={{ duration: 0.9, ease }}
+          className="mb-0"
         >
-          <p className="text-[11px] tracking-[0.3em] uppercase mb-6 font-manrope font-medium" style={{ color: "var(--text-secondary)" }}>
+          <p className="text-[12px] tracking-[0.25em] uppercase mb-8 font-manrope font-medium" style={{ color: "var(--text-secondary)" }}>
             {tr.qualLabel}
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {tr.qualifications.map((qual, i) => (
-              <motion.span
+              <motion.div
                 key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={qualInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, delay: i * 0.05, ease }}
-                className="font-manrope font-light text-[12px] tracking-[0.06em] px-4 py-2"
-                style={{ border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-secondary)", background: "var(--bg)" }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={qualInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                transition={{ duration: 0.45, delay: i * 0.06, ease }}
+                className="px-5 py-4 transition-colors duration-200"
+                style={{ border: "1px solid var(--border)", borderRadius: 10, background: "var(--bg)" }}
+                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.background = "var(--surface-alt)"}
+                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.background = "var(--bg)"}
               >
-                {qual}
-              </motion.span>
+                <p className="font-manrope font-light text-sm" style={{ color: "var(--text-secondary)" }}>
+                  {qual}
+                </p>
+              </motion.div>
             ))}
           </div>
         </motion.div>
