@@ -104,7 +104,8 @@ export default function CruisePlan() {
   const { lang } = useLang();
   const [activeId, setActiveId] = useState("rapita");
   const [phase, setPhase] = useState<"before" | "active" | "after">("before");
-  const [introVisible, setIntroVisible] = useState(true);
+  const [introVisible, setIntroVisible] = useState(false);
+  const introDismissed = useRef(false);
   const sectionRef = useRef<HTMLElement>(null);
   const activeIdxRef = useRef(0);
 
@@ -132,16 +133,22 @@ export default function CruisePlan() {
       if (top > 0) {
         setPhase("before");
       } else if (top <= 0 && top > -scrollable) {
-        setPhase("active");
-        const progress = Math.max(0, Math.min(1, -top / scrollable));
-        const zoneSize = 1 / STOPS.length;
-        const buf = zoneSize * 0.12;
-        const rawIdx = Math.min(Math.floor(progress * STOPS.length), STOPS.length - 1);
-        const cur = activeIdxRef.current;
-        let next = cur;
-        if (rawIdx > cur && progress >= rawIdx * zoneSize + buf) next = rawIdx;
-        else if (rawIdx < cur && progress <= (rawIdx + 1) * zoneSize - buf) next = rawIdx;
-        if (next !== cur) { activeIdxRef.current = next; setActiveId(STOPS[next].id); }
+        if (!introDismissed.current) {
+          // Show intro, don't activate map yet
+          setIntroVisible(true);
+          setPhase("before");
+        } else {
+          setPhase("active");
+          const progress = Math.max(0, Math.min(1, -top / scrollable));
+          const zoneSize = 1 / STOPS.length;
+          const buf = zoneSize * 0.12;
+          const rawIdx = Math.min(Math.floor(progress * STOPS.length), STOPS.length - 1);
+          const cur = activeIdxRef.current;
+          let next = cur;
+          if (rawIdx > cur && progress >= rawIdx * zoneSize + buf) next = rawIdx;
+          else if (rawIdx < cur && progress <= (rawIdx + 1) * zoneSize - buf) next = rawIdx;
+          if (next !== cur) { activeIdxRef.current = next; setActiveId(STOPS[next].id); }
+        }
       } else {
         setPhase("after");
       }
@@ -187,7 +194,7 @@ export default function CruisePlan() {
               </motion.h2>
               <motion.button
                 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8 }}
-                onClick={() => setIntroVisible(false)}
+                onClick={() => { introDismissed.current = true; setIntroVisible(false); }}
                 className="font-manrope font-semibold text-[12px] tracking-[0.12em] uppercase px-8 py-3.5 mt-2 transition-all duration-300"
                 style={{ background: "var(--accent)", color: "#fff", borderRadius: 8 }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
