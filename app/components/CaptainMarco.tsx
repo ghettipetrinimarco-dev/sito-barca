@@ -103,23 +103,21 @@ export default function CaptainMarco() {
             <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-manrope font-medium" style={{ color: "var(--text-secondary)" }}>
               {tr.qualLabel}
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-col">
               {tr.qualifications.map((qual, i) => (
-                <motion.span
+                <motion.div
                   key={i}
-                  initial={{ opacity: 0, scale: 0.92 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.92 }}
-                  transition={{ duration: 0.35, delay: 0.5 + i * 0.04, ease }}
-                  className="font-manrope font-light text-[12px] tracking-[0.04em] px-3 py-1.5"
-                  style={{
-                    border: "1px solid var(--border)",
-                    borderRadius: 6,
-                    color: "var(--text-secondary)",
-                    background: "var(--bg)",
-                  }}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
+                  transition={{ duration: 0.4, delay: 0.5 + i * 0.05, ease }}
+                  className="flex items-center gap-3 py-2.5"
+                  style={{ borderBottom: i < tr.qualifications.length - 1 ? "1px solid var(--border-light)" : "none" }}
                 >
-                  {qual}
-                </motion.span>
+                  <span style={{ width: 4, height: 4, borderRadius: "50%", background: "var(--accent)", flexShrink: 0 }} />
+                  <p className="font-manrope font-light text-sm" style={{ color: "var(--text-secondary)" }}>
+                    {qual}
+                  </p>
+                </motion.div>
               ))}
             </div>
 
