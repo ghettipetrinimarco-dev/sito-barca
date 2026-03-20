@@ -20,15 +20,10 @@ export default function Hero() {
 
   const [isMobile, setIsMobile] = useState(false);
   const [heroHeight, setHeroHeight] = useState<string>("100svh");
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 768);
-    check();
-    window.addEventListener("resize", check, { passive: true });
-    return () => window.removeEventListener("resize", check);
-  }, []);
 
-  // Fix Chrome mobile toolbar jump: set height once on mount
+  // Check once on mount only — no resize listener to avoid Chrome toolbar reflow
   useEffect(() => {
+    setIsMobile(window.innerWidth <= 768);
     setHeroHeight(`${window.innerHeight}px`);
   }, []);
 
