@@ -81,8 +81,12 @@ function FloorPlan({ tr }: { tr: Record<string, string> }) {
           return (
             <div
               key={plan.label}
-              className="relative overflow-hidden cursor-pointer"
-              style={{ border: "1px solid var(--border)", borderRadius: "10px", background: "var(--bg)" }}
+              className="relative overflow-hidden cursor-pointer transition-all duration-300"
+              style={{
+                border: isActive ? "1px solid var(--accent)" : "1px solid var(--border)",
+                borderRadius: "10px",
+                background: "var(--bg)",
+              }}
               onClick={() => setActiveLabel(plan.label)}
               onMouseEnter={() => setActiveLabel(plan.label)}
               onMouseLeave={() => setActiveLabel(null)}
@@ -97,11 +101,7 @@ function FloorPlan({ tr }: { tr: Record<string, string> }) {
                   sizes="100vw"
                 />
               </div>
-              {/* Hint icon — finger on mobile, ⓘ on desktop */}
-              <div className="absolute top-3 right-3 transition-opacity duration-300" style={{ opacity: isActive ? 0 : 1 }}>
-                <span className="lg:hidden" style={{ color: "var(--accent)", fontSize: "18px" }}>👆</span>
-                <span className="hidden lg:inline" style={{ color: "var(--accent)", fontSize: "16px" }}>ⓘ</span>
-              </div>
+
               <p
                 className="text-[11px] tracking-[0.18em] uppercase font-manrope text-center pb-3 transition-opacity duration-300"
                 style={{ color: "var(--text-muted)", opacity: isActive ? 0 : 1 }}
