@@ -104,6 +104,7 @@ export default function CruisePlan() {
   const { lang } = useLang();
   const [activeId, setActiveId] = useState("rapita");
   const [phase, setPhase] = useState<"before" | "intro" | "active" | "after">("before");
+  const [mapUnlocked, setMapUnlocked] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const activeIdxRef = useRef(0);
   const INTRO_VH = 100;
@@ -162,7 +163,7 @@ export default function CruisePlan() {
       ref={sectionRef}
       id="cruise-plan"
       className="relative"
-      style={{ height: `${INTRO_VH + STOPS.length * 130}vh` }}
+      style={{ height: mapUnlocked ? `${INTRO_VH + STOPS.length * 130}vh` : `${INTRO_VH}vh` }}
     >
       {/* ── Intro panel — sticky for its 100vh zone ─────────────── */}
       <div style={{
@@ -183,10 +184,14 @@ export default function CruisePlan() {
           </h2>
           <button
             onClick={() => {
+              setMapUnlocked(true);
               const section = sectionRef.current;
               if (!section) return;
               const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-              window.scrollTo({ top: sectionTop + window.innerHeight * (INTRO_VH / 100) + 8, behavior: "smooth" });
+              // Small delay to let the section expand before scrolling
+              setTimeout(() => {
+                window.scrollTo({ top: sectionTop + window.innerHeight * (INTRO_VH / 100) + 8, behavior: "smooth" });
+              }, 30);
             }}
             className="font-manrope font-semibold text-[12px] tracking-[0.12em] uppercase px-8 py-3.5 mt-2 transition-all duration-300"
             style={{ background: "var(--accent)", color: "#fff", borderRadius: 8 }}
