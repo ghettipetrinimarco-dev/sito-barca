@@ -235,10 +235,10 @@ export default function CruisePlan() {
           {/* Satellite map background */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <image
-            href="/mediterranean-map.jpg"
+            href="/mediterranean-map-new.jpg"
             x="0" y="0"
             width="1200" height="680"
-            preserveAspectRatio="xMidYMid slice"
+            preserveAspectRatio="none"
             filter="url(#mapTint)"
           />
 
