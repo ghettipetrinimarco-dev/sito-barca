@@ -130,7 +130,7 @@ export default function Navigation() {
               >
                 {item.type === "link" ? (
                   <a
-                    href={(item as { href: string }).href}
+                    href={(item as unknown as { href: string }).href}
                     className="text-[13px] font-normal tracking-[0.08em] uppercase transition-colors duration-300"
                     style={{ color: linkColor }}
                     onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = linkHover}
@@ -185,7 +185,7 @@ export default function Navigation() {
               >
                 {item.type === "link" ? (
                   <a
-                    href={(item as { href: string }).href}
+                    href={(item as unknown as { href: string }).href}
                     className="text-[13px] font-normal tracking-[0.08em] uppercase transition-colors duration-300"
                     style={{ color: linkColor }}
                     onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = linkHover}
@@ -289,7 +289,7 @@ export default function Navigation() {
                   return (
                     <a
                       key={item.label}
-                      href={(item as { href: string }).href}
+                      href={(item as unknown as { href: string }).href}
                       onClick={() => setMobileOpen(false)}
                       className="flex items-center h-12 text-[13px] tracking-[0.08em] uppercase font-medium"
                       style={{ color: "var(--text)", borderBottom: "1px solid var(--border-light)" }}
