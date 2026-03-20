@@ -23,6 +23,7 @@ export const t = {
         { label: "Sushi Sailor", href: "#services" },
       ],
       cruisePlanItems: [
+        { label: "Interactive Map", href: "#cruise-plan" },
         { label: "Holiday Cruise", href: "#cruise-plans-holiday" },
         { label: "Mileage Cruise", href: "#cruise-plans-mileage" },
         { label: "Harbor Maneuver Course", href: "#cruise-plans-harbor" },
@@ -219,6 +220,7 @@ export const t = {
         { label: "Sushi Sailor", href: "#services" },
       ],
       cruisePlanItems: [
+        { label: "Interaktive Karte", href: "#cruise-plan" },
         { label: "Holiday Cruise", href: "#cruise-plans-holiday" },
         { label: "Meilentörn", href: "#cruise-plans-mileage" },
         { label: "Hafenmanöver-Kurs", href: "#cruise-plans-harbor" },
