@@ -228,7 +228,7 @@ function Lightbox({
         >
           {/* Header */}
           <div
-            className="flex items-center justify-between px-8 py-5 flex-shrink-0"
+            className="flex items-center justify-between px-4 md:px-8 py-4 flex-shrink-0"
             style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
           >
             <div className="flex items-center gap-8">
