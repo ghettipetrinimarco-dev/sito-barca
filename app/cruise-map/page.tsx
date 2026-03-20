@@ -121,7 +121,7 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
             vectorEffect="non-scaling-stroke"
             initial={false}
             animate={{ pathLength: drawn ? 1 : 0 }}
-            transition={{ duration: 1.8, ease: [0.25, 1, 0.5, 1] }}
+            transition={{ duration: 1.6, ease: [0.25, 1, 0.5, 1] }}
           />
         );
       })}
