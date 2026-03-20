@@ -21,12 +21,13 @@ export default function ScrollToTop() {
           exit={{ opacity: 0, y: 12 }}
           transition={{ duration: 0.35 }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-8 right-8 z-40 w-10 h-10 flex items-center justify-center transition-all duration-300"
+          className="fixed bottom-8 right-8 z-40 w-11 h-11 flex items-center justify-center transition-all duration-300"
           style={{
-            background: "rgba(255,255,255,0.7)",
+            background: "rgba(255,255,255,0.75)",
             backdropFilter: "blur(10px)",
-            border: "1px solid rgba(0,75,145,0.18)",
+            border: "1px solid rgba(0,75,145,0.15)",
             boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+            borderRadius: "50%",
             color: "var(--accent)",
           }}
           onMouseEnter={(e) => {
@@ -38,20 +39,15 @@ export default function ScrollToTop() {
           }}
           onMouseLeave={(e) => {
             const el = e.currentTarget as HTMLElement;
-            el.style.background = "rgba(255,255,255,0.7)";
-            el.style.borderColor = "rgba(0,75,145,0.18)";
+            el.style.background = "rgba(255,255,255,0.75)";
+            el.style.borderColor = "rgba(0,75,145,0.15)";
             el.style.boxShadow = "0 4px 20px rgba(0,0,0,0.08)";
             el.style.color = "var(--accent)";
           }}
           aria-label="Scroll to top"
         >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M5 15l7-7 7 7" />
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor">
+            <path d="M2 11 Q8 3 14 11" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </motion.button>
       )}
