@@ -35,7 +35,7 @@ export default function Hero() {
   const contentY = useTransform(scrollYProgress, [0, 0.5], ["0%", "8%"]);
 
   return (
-    <section id="hero" ref={ref} className="relative min-h-dvh flex items-end overflow-hidden">
+    <section id="hero" ref={ref} className="relative min-h-svh flex items-end overflow-hidden">
 
       {/* Video background */}
       <div className="absolute inset-0 overflow-hidden">
