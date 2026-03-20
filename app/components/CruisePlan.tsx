@@ -248,16 +248,17 @@ export default function CruisePlan() {
           style={{ zIndex: 10, paddingBottom: "clamp(2rem, 5vh, 4rem)" }}>
           <AnimatePresence mode="wait">
             <motion.div key={activeId}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.4, ease }}
-              className="flex items-end gap-5"
+              className="flex flex-col"
+              style={{ width: "clamp(260px, 28vw, 380px)" }}
             >
               {/* Photo */}
-              <div className="relative flex-shrink-0 overflow-hidden hidden lg:block"
-                style={{ width: 160, height: 106, borderRadius: 8, border: "1px solid rgba(255,255,255,0.18)" }}>
-                <Image src={active.image} alt={active.city} fill className="object-cover" sizes="160px" />
+              <div className="relative w-full overflow-hidden"
+                style={{ aspectRatio: "3/2", borderRadius: 10, border: "1px solid rgba(255,255,255,0.15)", marginBottom: "1rem" }}>
+                <Image src={active.image} alt={active.city} fill className="object-cover" sizes="380px" />
               </div>
 
               {/* Text */}
@@ -267,11 +268,11 @@ export default function CruisePlan() {
                   {active.month} · {active.region}
                 </p>
                 <h3 className="font-manrope font-bold text-white mb-2"
-                  style={{ fontSize: "clamp(1.6rem, 3vw, 2.8rem)", lineHeight: 1 }}>
+                  style={{ fontSize: "clamp(1.4rem, 2.4vw, 2.2rem)", lineHeight: 1 }}>
                   {active.city === "San Carles de la Ràpita" ? "La Ràpita" : active.city}
                 </h3>
-                <p className="font-manrope font-light leading-relaxed line-clamp-3"
-                  style={{ color: "rgba(255,255,255,0.72)", fontSize: "clamp(0.78rem, 1vw, 0.88rem)", maxWidth: "26rem" }}>
+                <p className="font-manrope font-light leading-relaxed line-clamp-2"
+                  style={{ color: "rgba(255,255,255,0.65)", fontSize: "clamp(0.75rem, 0.9vw, 0.85rem)" }}>
                   {lang === "de" ? active.de : active.en}
                 </p>
                 {activeId === "bizerte" && (
