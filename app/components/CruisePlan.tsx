@@ -105,6 +105,7 @@ export default function CruisePlan() {
   const [activeId, setActiveId] = useState("rapita");
   const [phase, setPhase] = useState<"before" | "intro" | "active" | "after">("before");
   const [mapUnlocked, setMapUnlocked] = useState(false);
+  const [introVisible, setIntroVisible] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
   const activeIdxRef = useRef(0);
   const INTRO_VH = 100;
@@ -165,44 +166,51 @@ export default function CruisePlan() {
       className="relative"
       style={{ height: mapUnlocked ? `${INTRO_VH + STOPS.length * 80}vh` : `${INTRO_VH}vh` }}
     >
-      {/* ── Intro panel — sticky for its 100vh zone ─────────────── */}
-      <div style={{
-        position: "absolute",
-        top: 0, left: 0, right: 0, height: "100vh",
-        zIndex: 30, background: "#07101e",
-      }}>
-        <img src="/mediterranean-map.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", filter: "saturate(0.15) brightness(0.5)" }} />
-        <div style={{ position: "absolute", inset: 0, background: "rgba(7,16,30,0.55)" }} />
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
-          <p className="font-manrope text-[11px] tracking-[0.3em] uppercase font-light" style={{ color: "rgba(255,255,255,0.4)" }}>
-            {lang === "de" ? "Törn 2026" : "Cruise Plan 2026"}
-          </p>
-          <h2 className="font-manrope font-bold text-white text-center" style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", lineHeight: 1.1 }}>
-            Mediterranean Route
-          </h2>
-          <button
-            onClick={() => {
-              setMapUnlocked(true);
-              const section = sectionRef.current;
-              if (!section) return;
-              const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-              // Small delay to let the section expand before scrolling
-              setTimeout(() => {
-                window.scrollTo({ top: sectionTop + window.innerHeight * (INTRO_VH / 100) + 8, behavior: "smooth" });
-              }, 30);
-            }}
-            className="font-manrope font-semibold text-[12px] tracking-[0.12em] uppercase px-8 py-3.5 mt-2 transition-all duration-300"
-            style={{ background: "var(--accent)", color: "#fff", borderRadius: 8 }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
+      {/* ── Intro panel ──────────────────────────────────────────── */}
+      <AnimatePresence>
+        {introVisible && (
+          <motion.div
+            key="intro"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.1, ease: [0.25, 1, 0.5, 1] }}
+            style={{ position: "absolute", top: 0, left: 0, right: 0, height: "100vh", zIndex: 30, background: "#07101e" }}
           >
-            {lang === "de" ? "Reise beginnen" : "Start the journey"}
-            <svg className="inline-block w-3.5 h-3.5 ml-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-        </div>
-      </div>
+            <img src="/mediterranean-map.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", filter: "saturate(0.15) brightness(0.5)" }} />
+            <div style={{ position: "absolute", inset: 0, background: "rgba(7,16,30,0.55)" }} />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
+              <p className="font-manrope text-[11px] tracking-[0.3em] uppercase font-light" style={{ color: "rgba(255,255,255,0.4)" }}>
+                {lang === "de" ? "Törn 2026" : "Cruise Plan 2026"}
+              </p>
+              <h2 className="font-manrope font-bold text-white text-center" style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", lineHeight: 1.1 }}>
+                Mediterranean Route
+              </h2>
+              <button
+                onClick={() => {
+                  // Unlock map first so it renders behind the dissolving intro
+                  setMapUnlocked(true);
+                  setTimeout(() => {
+                    setIntroVisible(false);
+                    const section = sectionRef.current;
+                    if (!section) return;
+                    const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+                    window.scrollTo({ top: sectionTop + window.innerHeight * (INTRO_VH / 100) + 8, behavior: "smooth" });
+                  }, 50);
+                }}
+                className="font-manrope font-semibold text-[12px] tracking-[0.12em] uppercase px-8 py-3.5 mt-2 transition-all duration-300"
+                style={{ background: "var(--accent)", color: "#fff", borderRadius: 8 }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
+              >
+                {lang === "de" ? "Reise beginnen" : "Start the journey"}
+                <svg className="inline-block w-3.5 h-3.5 ml-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {mapUnlocked && <div
         className="overflow-hidden"
