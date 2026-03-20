@@ -358,8 +358,8 @@ export default function YachtGallery() {
   return (
     <>
       <div id="yacht-gallery" className="mb-20">
-        {/* Two-panel grid */}
-        <div className="grid grid-cols-2 gap-3 mb-5">
+        {/* Stacked panels — Exterior first, Interior below */}
+        <div className="flex flex-col gap-3 mb-5">
           <GalleryPanel label="Exterior" images={yachtExteriorImages} onClick={() => open("exterior")} delay={0} />
           <GalleryPanel label="Interior" images={yachtInteriorImages} onClick={() => open("interior")} delay={0} />
         </div>
