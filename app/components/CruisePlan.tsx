@@ -34,9 +34,15 @@ export default function CruisePlan() {
         <h2 className="font-manrope font-bold text-white text-center" style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", lineHeight: 1.1 }}>
           Mediterranean Route
         </h2>
+        <style>{`
+          @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+          }
+        `}</style>
         <button
           onClick={() => window.open("/cruise-map", "_blank")}
-          className="group relative font-manrope font-semibold text-[12px] tracking-[0.15em] uppercase px-8 py-4 mt-2 overflow-hidden transition-all duration-500"
+          className="relative font-manrope font-semibold text-[12px] tracking-[0.15em] uppercase px-8 py-4 mt-2 overflow-hidden transition-all duration-500"
           style={{
             background: "transparent",
             color: "#fff",
@@ -44,28 +50,18 @@ export default function CruisePlan() {
             border: "1px solid rgba(255,255,255,0.4)",
             backdropFilter: "blur(6px)",
           }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget as HTMLElement;
-            el.style.borderColor = "rgba(255,255,255,0.85)";
-            el.style.letterSpacing = "0.2em";
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget as HTMLElement;
-            el.style.borderColor = "rgba(255,255,255,0.4)";
-            el.style.letterSpacing = "0.15em";
-          }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.85)"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.4)"; }}
         >
-          {/* Shimmer sweep */}
+          {/* Continuous shimmer */}
           <span
-            className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"
-            style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)" }}
+            className="absolute inset-0"
+            style={{
+              background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%)",
+              animation: "shimmer 2.2s ease-in-out infinite",
+            }}
           />
-          <span className="relative flex items-center gap-3">
-            {tr.cta}
-            <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </span>
+          <span className="relative">{tr.cta}</span>
         </button>
       </div>
     </section>
