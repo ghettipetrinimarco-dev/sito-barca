@@ -105,9 +105,12 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
   const boatX = useTransform(progress, [0, 1], [prevStop.px, activeStop.px]);
   const boatY = useTransform(progress, [0, 1], [prevStop.py, activeStop.py]);
   const currentSegRef = useRef<SVGPathElement>(null);
+  const resetting = useRef(false);
 
   useEffect(() => {
+    resetting.current = true;
     progress.set(0);
+    resetting.current = false;
     const controls = animate(progress, 1, { duration: 2.4, ease: "linear" });
     return () => controls.stop();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -115,12 +118,11 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
 
   // Update current segment endpoint directly in DOM — perfectly in sync with boat
   useMotionValueEvent(boatX, "change", () => {
-    if (currentSegRef.current) {
-      currentSegRef.current.setAttribute(
-        "d",
-        `M ${prevStop.px},${prevStop.py} L ${boatX.get()},${boatY.get()}`
-      );
-    }
+    if (resetting.current || !currentSegRef.current) return;
+    currentSegRef.current.setAttribute(
+      "d",
+      `M ${prevStop.px},${prevStop.py} L ${boatX.get()},${boatY.get()}`
+    );
   });
 
   return (
