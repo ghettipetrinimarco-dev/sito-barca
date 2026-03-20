@@ -98,17 +98,16 @@ const STOPS = [
   },
 ];
 
-// Camera viewBox [x, y, w, h] for each stop — smaller w = more zoomed in
-// Aspect ratio kept close to 1200/680 ≈ 1.765
+// Camera viewBox [x, y, w, h] — zoom capped ~1.8x to preserve image quality
 const CAMERAS: Record<string, [number, number, number, number]> = {
-  rapita:     [ -20,  55, 680, 385],
-  mallorca:   [ 160, 205, 460, 261],
-  menorca:    [ 300, 200, 400, 227],
-  ibiza:      [  80, 320, 310, 176],
-  formentera: [  90, 350, 290, 164],
-  cagliari:   [ 800, 265, 420, 238],
-  olbia:      [ 840, 118, 400, 227],
-  bizerte:    [ 870, 438, 400, 227],
+  rapita:     [ -30,  30, 740, 419],
+  mallorca:   [  60, 160, 640, 362],
+  menorca:    [ 170, 150, 640, 362],
+  ibiza:      [ -20, 250, 620, 351],
+  formentera: [  -5, 270, 600, 340],
+  cagliari:   [ 600, 200, 660, 374],
+  olbia:      [ 640,  70, 640, 362],
+  bizerte:    [ 630, 330, 660, 374],
 };
 
 const ROUTE_1 =
@@ -203,7 +202,7 @@ export default function CruisePlan() {
           left: 0,
           right: 0,
           height: "100vh",
-          background: "#080f1c",
+          background: "#07101e",
         }}
       >
         {/* ── SVG Map ────────────────────────────────────────────── */}
@@ -214,12 +213,13 @@ export default function CruisePlan() {
           className="absolute inset-0 w-full h-full"
         >
           <defs>
-            <radialGradient id="seaGrad" cx="48%" cy="46%" r="68%">
-              <stop offset="0%" stopColor="#0f2e4a" />
-              <stop offset="100%" stopColor="#060d1a" />
-            </radialGradient>
-            <filter id="bathyBlur" x="-60%" y="-60%" width="220%" height="220%">
-              <feGaussianBlur stdDeviation="20" />
+            <filter id="mapTint" colorInterpolationFilters="sRGB">
+              <feColorMatrix type="saturate" values="0.22" />
+              <feComponentTransfer>
+                <feFuncR type="linear" slope="0.86" />
+                <feFuncG type="linear" slope="0.86" />
+                <feFuncB type="linear" slope="0.86" />
+              </feComponentTransfer>
             </filter>
             <radialGradient id="cpGlow" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stopColor="#4a9fd5" stopOpacity="0.4" />
@@ -234,95 +234,14 @@ export default function CruisePlan() {
             </filter>
           </defs>
 
-          {/* Sea */}
-          <rect width="1200" height="680" fill="url(#seaGrad)" />
-
-          {/* Bathymetric halos */}
-          <ellipse cx="60"   cy="340" rx="110" ry="185" fill="rgba(35,110,185,0.11)" filter="url(#bathyBlur)" />
-          <ellipse cx="360"  cy="385" rx="195" ry="115" fill="rgba(35,110,185,0.13)" filter="url(#bathyBlur)" />
-          <ellipse cx="995"  cy="308" rx="160" ry="125" fill="rgba(35,110,185,0.11)" filter="url(#bathyBlur)" />
-          <ellipse cx="1100" cy="575" rx="105" ry="72"  fill="rgba(35,110,185,0.09)" filter="url(#bathyBlur)" />
-
-          {/* Graticule */}
-          <g stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" fill="none">
-            {[37,38,39,40,41,42,43].map((lat) => (
-              <line key={lat} x1="0" y1={(43.5-lat)*90.7} x2="1200" y2={(43.5-lat)*90.7} />
-            ))}
-            {[0,1,2,3,4,5,6,7,8,9,10,11].map((lon) => (
-              <line key={lon} x1={(lon+1)*100} y1="0" x2={(lon+1)*100} y2="680" />
-            ))}
-          </g>
-          <g fontFamily="var(--font-manrope,sans-serif)" fontSize="7" fill="rgba(255,255,255,0.18)" letterSpacing="0.04em">
-            {[38,39,40,41,42].map((lat) => (
-              <text key={lat} x="6" y={(43.5-lat)*90.7 - 3}>{lat}°N</text>
-            ))}
-            {[1,3,5,7,9].map((lon) => (
-              <text key={lon} x={(lon+1)*100+3} y="672">{lon}°E</text>
-            ))}
-          </g>
-
-          {/* ── Land masses ── vectorEffect keeps stroke crisp at any zoom */}
-
-          {/* Spain coast */}
-          <path
-            d="M 0,0 L 420,0 L 375,40 L 345,82 L 316,138 L 298,165 L 268,190 L 225,218 L 200,237 L 160,263 L 120,296 L 88,330 L 65,358 L 50,400 L 42,454 L 0,510 Z"
-            fill="rgba(160,200,240,0.09)"
-            stroke="rgba(255,255,255,0.28)"
-            strokeWidth="1"
-            vectorEffect="non-scaling-stroke"
-          />
-          {/* Mallorca */}
-          <path
-            d="M 330,330 L 352,320 L 368,317 L 382,318 L 397,323 L 422,318 L 422,330 L 408,332 L 420,330 L 448,342 L 447,356 L 438,368 L 425,380 L 405,387 L 387,383 L 370,376 L 354,368 L 362,358 L 349,367 L 338,360 L 330,344 Z"
-            fill="rgba(160,200,240,0.11)"
-            stroke="rgba(255,255,255,0.45)"
-            strokeWidth="1"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-          />
-          {/* Menorca */}
-          <path
-            d="M 478,338 L 487,320 L 507,311 L 522,308 L 534,308 L 538,316 L 530,330 L 514,336 L 493,336 L 476,330 Z"
-            fill="rgba(160,200,240,0.11)"
-            stroke="rgba(255,255,255,0.42)"
-            strokeWidth="1"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-          />
-          {/* Ibiza */}
-          <path
-            d="M 252,401 L 265,408 L 264,420 L 256,430 L 240,438 L 225,428 L 222,414 L 230,406 Z"
-            fill="rgba(160,200,240,0.11)"
-            stroke="rgba(255,255,255,0.4)"
-            strokeWidth="1"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-          />
-          {/* Formentera */}
-          <path
-            d="M 233,435 L 241,430 L 252,430 L 262,436 L 257,442 L 244,442 L 238,438 Z"
-            fill="rgba(160,200,240,0.11)"
-            stroke="rgba(255,255,255,0.38)"
-            strokeWidth="1"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-          />
-          {/* Sardinia */}
-          <path
-            d="M 921,226 L 938,234 L 940,238 L 970,234 L 978,243 L 1014,202 L 1048,217 L 1073,267 L 1083,308 L 1073,340 L 1063,367 L 1052,399 L 1025,404 L 1005,399 L 988,404 L 964,421 L 944,400 L 927,368 L 919,314 L 920,282 L 916,264 L 919,252 Z"
-            fill="rgba(160,200,240,0.09)"
-            stroke="rgba(255,255,255,0.3)"
-            strokeWidth="1"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-          />
-          {/* Tunisia */}
-          <path
-            d="M 1000,680 L 1000,636 L 1058,608 L 1090,558 L 1150,572 L 1200,566 L 1200,680 Z"
-            fill="rgba(160,200,240,0.09)"
-            stroke="rgba(255,255,255,0.22)"
-            strokeWidth="1"
-            vectorEffect="non-scaling-stroke"
+          {/* Satellite map background */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <image
+            href="/mediterranean-map.jpg"
+            x="0" y="0"
+            width="1200" height="680"
+            preserveAspectRatio="xMidYMid slice"
+            filter="url(#mapTint)"
           />
 
           {/* ── Routes ─────────────────────────────────────────── */}
