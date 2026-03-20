@@ -462,7 +462,7 @@ export default function CruiseMapPage() {
       </div>
 
       {/* City list — right */}
-      <div className="absolute right-14 flex flex-col items-end gap-3" style={{ zIndex: 60, bottom: "clamp(2rem, 4vh, 3.5rem)" }}>
+      <div className="absolute right-14 flex flex-col items-end gap-3" style={{ zIndex: 60, bottom: "clamp(4rem, 7vh, 6rem)" }}>
         {STOPS.map((stop, i) => {
           const isActive = activeId === stop.id;
           const label = stop.city === "San Carles de la Ràpita" ? "La Ràpita" : stop.city;
