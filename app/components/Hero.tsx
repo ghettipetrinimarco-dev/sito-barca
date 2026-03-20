@@ -108,7 +108,7 @@ export default function Hero() {
           {/* CTA row */}
           <div className="flex items-center justify-center gap-4">
             <a
-              href="#cruise-plan"
+              href="#cruise-plans"
               className="group inline-flex items-center gap-2 text-white font-manrope font-semibold text-[12px] md:text-[13px] tracking-[0.08em] uppercase px-6 py-3 md:px-8 md:py-3.5 transition-all duration-300"
               style={{ background: "var(--accent)", boxShadow: "0 4px 24px rgba(0,75,145,0.45)", borderRadius: "8px" }}
               onMouseEnter={(e) => {
