@@ -99,9 +99,12 @@ const STOPS = [
   },
 ];
 
-// Route path in 2048×1143 coordinate space
-const ROUTE =
-  "M 312,407 L 696,641 L 829,493 L 476,731 L 472,784 L 1653,522 L 1655,151 L 1837,880";
+// Build progressive route path up to active stop index
+function buildRoute(upToIndex: number): string {
+  const pts = STOPS.map((s) => `${s.px},${s.py}`);
+  if (upToIndex <= 0) return "";
+  return "M " + pts.slice(0, upToIndex + 1).join(" L ");
+}
 
 export default function CruisePlan() {
   const { lang } = useLang();
@@ -112,6 +115,9 @@ export default function CruisePlan() {
   const active = STOPS.find((s) => s.id === activeId) ?? STOPS[0];
 
   // Pan+zoom: translate to center the stop, clamped so image always fills viewport
+  const stopIndex = STOPS.findIndex((s) => s.id === activeId);
+  const route = buildRoute(stopIndex);
+
   const fx = active.px / 2048;
   const fy = active.py / 1143;
   const z = active.zoom;
@@ -188,7 +194,7 @@ export default function CruisePlan() {
             style={{ pointerEvents: "none" }}
           >
             <path
-              d={ROUTE}
+              d={route}
               fill="none"
               stroke="rgba(255,255,255,0.4)"
               strokeWidth="1.5"
