@@ -221,23 +221,24 @@ export default function Navigation() {
               className="flex items-center gap-1 px-3 py-1.5"
               style={{ border: `1px solid ${borderColor}`, borderRadius: "20px" }}
             >
-              <button
-                className="text-[12px] tracking-[0.08em] font-semibold transition-colors duration-300"
-                style={{ color: lang === "en" ? (onDark ? "#fff" : "var(--accent)") : langColor }}
-                onClick={() => setLang("en")}
-              >
-                EN
-              </button>
-              <span className="text-xs" style={{ color: borderColor }}>|</span>
-              <button
-                className="text-[12px] tracking-[0.08em] transition-colors duration-300"
-                style={{ color: lang === "de" ? (onDark ? "#fff" : "var(--accent)") : langColor }}
-                onClick={() => setLang("de")}
-                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = linkHover}
-                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = lang === "de" ? (onDark ? "#fff" : "var(--accent)") : langColor}
-              >
-                DE
-              </button>
+              {(["en", "de", "it", "fr"] as const).map((l, idx) => (
+                <>
+                  {idx > 0 && <span key={`sep-${l}`} className="text-xs" style={{ color: borderColor }}>|</span>}
+                  <button
+                    key={l}
+                    className="text-[12px] tracking-[0.08em] transition-colors duration-300"
+                    style={{
+                      fontWeight: lang === l ? 600 : 400,
+                      color: lang === l ? (onDark ? "#fff" : "var(--accent)") : langColor,
+                    }}
+                    onClick={() => setLang(l)}
+                    onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = linkHover}
+                    onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = lang === l ? (onDark ? "#fff" : "var(--accent)") : langColor}
+                  >
+                    {l.toUpperCase()}
+                  </button>
+                </>
+              ))}
             </div>
           </div>
         </div>
@@ -355,21 +356,22 @@ export default function Navigation() {
 
               {/* Language switcher */}
               <div className="flex items-center gap-4 pt-5 pb-2">
-                <button
-                  className="text-[13px] tracking-[0.08em] font-semibold uppercase"
-                  style={{ color: lang === "en" ? "var(--accent)" : "var(--text-muted)" }}
-                  onClick={() => setLang("en")}
-                >
-                  EN
-                </button>
-                <span style={{ color: "var(--border)", fontSize: "12px" }}>|</span>
-                <button
-                  className="text-[13px] tracking-[0.08em] uppercase"
-                  style={{ color: lang === "de" ? "var(--accent)" : "var(--text-muted)" }}
-                  onClick={() => setLang("de")}
-                >
-                  DE
-                </button>
+                {(["en", "de", "it", "fr"] as const).map((l, idx) => (
+                  <>
+                    {idx > 0 && <span key={`sep-${l}`} style={{ color: "var(--border)", fontSize: "12px" }}>|</span>}
+                    <button
+                      key={l}
+                      className="text-[13px] tracking-[0.08em] uppercase"
+                      style={{
+                        fontWeight: lang === l ? 600 : 400,
+                        color: lang === l ? "var(--accent)" : "var(--text-muted)",
+                      }}
+                      onClick={() => setLang(l)}
+                    >
+                      {l.toUpperCase()}
+                    </button>
+                  </>
+                ))}
               </div>
             </div>
           </motion.div>
