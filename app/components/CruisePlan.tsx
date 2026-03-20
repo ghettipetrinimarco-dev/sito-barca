@@ -228,25 +228,13 @@ export default function CruisePlan() {
 
         {/* ── Gradients ──────────────────────────────────────────── */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: "linear-gradient(to bottom, rgba(7,16,30,0.35) 0%, transparent 22%, transparent 55%, rgba(7,16,30,0.96) 100%)",
+          background: "linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(7,16,30,0.85) 75%, rgba(7,16,30,0.98) 100%)",
           zIndex: 2,
         }} />
         <div className="absolute inset-0 pointer-events-none" style={{
           background: "linear-gradient(to right, rgba(7,16,30,0.7) 0%, transparent 40%)",
           zIndex: 2,
         }} />
-
-        {/* ── Header top-left ─────────────────────────────────────── */}
-        <div className="absolute top-0 left-0 px-6 lg:px-12 flex flex-col" style={{ zIndex: 10, paddingTop: "clamp(2rem, 4vh, 3.5rem)" }}>
-          <p className="font-manrope text-[10px] tracking-[0.3em] uppercase font-light"
-            style={{ color: "rgba(255,255,255,0.35)" }}>
-            {lang === "de" ? "Törn 2026" : "Cruise Plan 2026"}
-          </p>
-          <h2 className="font-manrope font-bold text-white mt-1"
-            style={{ fontSize: "clamp(1.4rem, 2vw, 2.2rem)", lineHeight: 1.1 }}>
-            Mediterranean Route
-          </h2>
-        </div>
 
         {/* ── Stop info — bottom left ──────────────────────────────── */}
         <div className="absolute bottom-0 left-0 px-6 lg:px-12"
@@ -261,14 +249,14 @@ export default function CruisePlan() {
             >
               {/* Photo */}
               <div className="relative flex-shrink-0 overflow-hidden hidden lg:block"
-                style={{ width: 130, height: 86, borderRadius: 6, border: "1px solid rgba(255,255,255,0.1)" }}>
-                <Image src={active.image} alt={active.city} fill className="object-cover" sizes="130px" />
+                style={{ width: 160, height: 106, borderRadius: 8, border: "1px solid rgba(255,255,255,0.18)" }}>
+                <Image src={active.image} alt={active.city} fill className="object-cover" sizes="160px" />
               </div>
 
               {/* Text */}
               <div>
                 <p className="font-manrope text-[10px] tracking-[0.36em] uppercase mb-1.5"
-                  style={{ color: "rgba(255,255,255,0.4)" }}>
+                  style={{ color: "rgba(255,255,255,0.6)" }}>
                   {active.month} · {active.region}
                 </p>
                 <h3 className="font-manrope font-bold text-white mb-2"
@@ -276,7 +264,7 @@ export default function CruisePlan() {
                   {active.city === "San Carles de la Ràpita" ? "La Ràpita" : active.city}
                 </h3>
                 <p className="font-manrope font-light leading-relaxed"
-                  style={{ color: "rgba(255,255,255,0.5)", fontSize: "clamp(0.78rem, 1vw, 0.88rem)", maxWidth: "26rem" }}>
+                  style={{ color: "rgba(255,255,255,0.72)", fontSize: "clamp(0.78rem, 1vw, 0.88rem)", maxWidth: "26rem" }}>
                   {lang === "de" ? active.de : active.en}
                 </p>
                 {activeId === "bizerte" && (
