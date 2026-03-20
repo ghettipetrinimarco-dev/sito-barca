@@ -217,8 +217,8 @@ function Lightbox({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[9999] flex flex-col"
-          style={{ background: "rgba(5,15,30,0.97)", backdropFilter: "blur(10px)", paddingTop: "env(safe-area-inset-top)", paddingBottom: "env(safe-area-inset-bottom)" }}
+          className="fixed inset-0 z-[9999] flex flex-col overflow-hidden"
+          style={{ background: "rgba(5,15,30,0.97)", backdropFilter: "blur(10px)", paddingTop: "env(safe-area-inset-top)", paddingBottom: "env(safe-area-inset-bottom)", overscrollBehavior: "none" }}
         >
           {/* Header */}
           <div
