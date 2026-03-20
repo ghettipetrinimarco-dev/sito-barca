@@ -98,12 +98,15 @@ const STOPS = [
 
 /* ── Shared SVG overlay (route + dots) ─────────────────────────── */
 function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: number }) {
+  const activeStop = STOPS.find((s) => s.id === activeId) ?? STOPS[0];
+
   return (
     <svg
       viewBox="0 0 2048 1143"
       preserveAspectRatio="none"
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
     >
+      {/* Route lines */}
       {STOPS.slice(0, -1).map((stop, i) => {
         const next = STOPS[i + 1];
         const drawn = stopIndex > i;
@@ -122,25 +125,29 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
           />
         );
       })}
-      {STOPS.map((stop) => {
-        const isActive = stop.id === activeId;
-        return (
-          <g key={stop.id}>
-            {isActive ? (
-              <>
-                <circle cx={stop.px} cy={stop.py} r="14" fill="none"
-                  stroke="rgba(255,255,255,0.8)" strokeWidth="1"
-                  vectorEffect="non-scaling-stroke" />
-                <circle cx={stop.px} cy={stop.py} r="4" fill="white" />
-              </>
-            ) : (
-              <circle cx={stop.px} cy={stop.py} r="4"
-                fill="rgba(255,255,255,0.35)"
-                vectorEffect="non-scaling-stroke" />
-            )}
-          </g>
-        );
-      })}
+
+      {/* Static dots for all stops */}
+      {STOPS.map((stop) => (
+        <circle
+          key={stop.id}
+          cx={stop.px}
+          cy={stop.py}
+          r="4"
+          fill={stop.id === activeId ? "white" : "rgba(255,255,255,0.35)"}
+          vectorEffect="non-scaling-stroke"
+        />
+      ))}
+
+      {/* Active ring — animates smoothly between positions */}
+      <motion.circle
+        r="14"
+        fill="none"
+        stroke="rgba(255,255,255,0.8)"
+        strokeWidth="1"
+        vectorEffect="non-scaling-stroke"
+        animate={{ cx: activeStop.px, cy: activeStop.py }}
+        transition={{ duration: 1.6, ease: [0.25, 1, 0.5, 1] }}
+      />
     </svg>
   );
 }
