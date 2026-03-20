@@ -81,13 +81,16 @@ function FloorPlan({ tr }: { tr: Record<string, string> }) {
           return (
             <div
               key={plan.label}
-              className="relative overflow-hidden cursor-pointer"
+              className="overflow-hidden"
               style={{ border: "1px solid var(--border)", borderRadius: "10px", background: "var(--bg)" }}
-              onClick={() => setActiveLabel(isActive ? null : plan.label)}
-              onMouseEnter={() => setActiveLabel(plan.label)}
-              onMouseLeave={() => setActiveLabel(null)}
             >
-              <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+              {/* Image + desktop hover overlay */}
+              <div
+                className="relative w-full cursor-pointer"
+                style={{ aspectRatio: "16/9" }}
+                onMouseEnter={() => setActiveLabel(plan.label)}
+                onMouseLeave={() => setActiveLabel(null)}
+              >
                 <Image
                   src={plan.src}
                   alt={plan.label}
@@ -96,25 +99,33 @@ function FloorPlan({ tr }: { tr: Record<string, string> }) {
                   style={{ mixBlendMode: "multiply", opacity: isActive ? 0.15 : 1 }}
                   sizes="100vw"
                 />
+                {/* Desktop overlay — hidden on mobile */}
+                <div
+                  className="absolute inset-0 hidden lg:flex flex-col items-center justify-center px-6 transition-opacity duration-300"
+                  style={{ opacity: isActive ? 1 : 0 }}
+                >
+                  <p className="text-[11px] tracking-[0.18em] uppercase font-manrope mb-3" style={{ color: "var(--accent)" }}>{plan.label}</p>
+                  <p className="text-sm font-light leading-relaxed text-center" style={{ color: "var(--text-secondary)" }}>{plan.text}</p>
+                </div>
+                {/* Desktop hint icon */}
+                <div className="absolute top-3 right-3 hidden lg:block transition-opacity duration-300" style={{ opacity: isActive ? 0 : 1 }}>
+                  <span style={{ color: "var(--accent)", fontSize: "16px" }}>ⓘ</span>
+                </div>
               </div>
-              {/* Hint */}
-              <div className="absolute top-3 right-3 transition-opacity duration-300" style={{ opacity: isActive ? 0 : 1 }}>
-                <span style={{ color: "var(--accent)", fontSize: "16px" }}>ⓘ</span>
+
+              {/* Mobile: always-visible label + text */}
+              <div className="lg:hidden px-4 pb-4 pt-2">
+                <p className="text-[11px] tracking-[0.18em] uppercase font-manrope mb-1.5" style={{ color: "var(--accent)" }}>{plan.label}</p>
+                <p className="text-sm font-light leading-relaxed" style={{ color: "var(--text-secondary)" }}>{plan.text}</p>
               </div>
+
+              {/* Desktop label below image (no hover) */}
               <p
-                className="text-[11px] tracking-[0.18em] uppercase font-manrope text-center pb-3 transition-opacity duration-300"
+                className="hidden lg:block text-[11px] tracking-[0.18em] uppercase font-manrope text-center pb-3 transition-opacity duration-300"
                 style={{ color: "var(--text-muted)", opacity: isActive ? 0 : 1 }}
               >
                 {plan.label}
               </p>
-              {/* Overlay */}
-              <div
-                className="absolute inset-0 flex flex-col items-center justify-center px-6 transition-opacity duration-300"
-                style={{ opacity: isActive ? 1 : 0 }}
-              >
-                <p className="text-[11px] tracking-[0.18em] uppercase font-manrope mb-3" style={{ color: "var(--accent)" }}>{plan.label}</p>
-                <p className="text-sm font-light leading-relaxed text-center" style={{ color: "var(--text-secondary)" }}>{plan.text}</p>
-              </div>
             </div>
           );
         })}
