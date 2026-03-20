@@ -250,7 +250,7 @@ export default function CruiseMapPage() {
       {/* Close button */}
       <button
         onClick={() => window.close()}
-        className="absolute top-6 right-6 lg:top-8 lg:right-10 font-manrope text-[11px] tracking-[0.15em] uppercase flex items-center gap-2 transition-all duration-300"
+        className="absolute top-6 right-6 lg:top-8 lg:right-14 font-manrope text-[11px] tracking-[0.15em] uppercase flex items-center gap-2 transition-all duration-300"
         style={{
           zIndex: 60, cursor: "pointer",
           color: "rgba(255,255,255,0.85)",
@@ -281,7 +281,7 @@ export default function CruiseMapPage() {
       </button>
 
       {/* Stop info card — bottom left */}
-      <div className="absolute left-0 px-6 lg:px-10"
+      <div className="absolute left-0 px-6 lg:px-14"
         style={{ zIndex: 10, bottom: "clamp(2rem, 4vh, 3.5rem)" }}>
         <AnimatePresence mode="wait">
           <motion.div key={activeId}
@@ -338,7 +338,7 @@ export default function CruiseMapPage() {
       </div>
 
       {/* Vertical city list right */}
-      <div className="absolute right-6 lg:right-10 flex flex-col items-end gap-3" style={{ zIndex: 60, bottom: "clamp(2rem, 4vh, 3.5rem)" }}>
+      <div className="absolute right-6 lg:right-14 flex flex-col items-end gap-3" style={{ zIndex: 60, bottom: "clamp(2rem, 4vh, 3.5rem)" }}>
         {STOPS.map((stop, i) => {
           const isActive = activeId === stop.id;
           const label = stop.city === "San Carles de la Ràpita" ? "La Ràpita" : stop.city;
