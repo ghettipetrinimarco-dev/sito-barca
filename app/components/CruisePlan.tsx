@@ -110,10 +110,8 @@ const CAMERAS: Record<string, [number, number, number, number]> = {
   bizerte:    [ 630, 330, 660, 374],
 };
 
-const ROUTE_1 =
-  "M 160,263 C 255,296 325,325 395,345 C 445,330 476,323 505,322 C 476,328 445,335 395,345 C 348,382 293,408 245,417 L 250,440";
-const ROUTE_2 =
-  "M 250,440 L 245,417 C 305,392 352,368 395,345 C 592,380 798,400 1010,390 C 1028,318 1040,276 1050,236 C 1040,280 1028,326 1010,390 Q 1050,474 1090,558";
+const ROUTE =
+  "M 160,263 C 255,296 325,325 395,345 C 445,330 476,323 505,322 C 476,328 445,335 395,345 C 348,382 293,408 245,417 L 250,440 C 305,392 352,368 395,345 C 592,380 798,400 1010,390 C 1028,318 1040,276 1050,236 C 1040,280 1028,326 1010,390 Q 1050,474 1090,558";
 
 export default function CruisePlan() {
   const { lang } = useLang();
@@ -244,34 +242,24 @@ export default function CruisePlan() {
             filter="url(#mapTint)"
           />
 
-          {/* ── Routes ─────────────────────────────────────────── */}
-          <path d={ROUTE_1} fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="1.2" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-          <path d={ROUTE_2} fill="none" stroke="rgba(100,185,255,0.7)" strokeWidth="1.2" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+          {/* ── Route ──────────────────────────────────────────── */}
+          <path d={ROUTE} fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="1" strokeLinecap="round" strokeDasharray="4 6" vectorEffect="non-scaling-stroke" />
 
           {/* ── Markers ────────────────────────────────────────── */}
           {STOPS.map((stop) => {
             const isActive = stop.id === activeId;
-            const labelPos = stop.id === "rapita" || stop.id === "menorca" || stop.id === "olbia" ? "top"
-              : stop.id === "mallorca" || stop.id === "cagliari" || stop.id === "bizerte" ? "bottom"
-              : "left";
-            const lx = labelPos === "left" ? stop.x - 12 : stop.x;
-            const ly = labelPos === "top" ? stop.y - 14 : labelPos === "bottom" ? stop.y + 20 : stop.y + 4;
-            const anchor = labelPos === "left" ? "end" : "middle";
             return (
               <g key={stop.id}>
-                {isActive && <circle cx={stop.x} cy={stop.y} r="20" fill="url(#cpGlow)" />}
-                <circle cx={stop.x} cy={stop.y} r={isActive ? 8 : 5} fill="none"
-                  stroke={isActive ? "#4a9fd5" : "rgba(255,255,255,0.32)"}
-                  strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                <circle cx={stop.x} cy={stop.y} r={isActive ? 3 : 2}
-                  fill={isActive ? "#7ac8f5" : "rgba(255,255,255,0.6)"}
-                  filter={isActive ? "url(#cpBlur)" : undefined} />
-                <text x={lx} y={ly} textAnchor={anchor} fontSize="9"
-                  fontFamily="var(--font-manrope,sans-serif)" letterSpacing="0.06em"
-                  fill={isActive ? "#fff" : "rgba(255,255,255,0.38)"}
-                  style={{ userSelect: "none" }}>
-                  {stop.city === "San Carles de la Ràpita" ? "La Ràpita" : stop.city}
-                </text>
+                {isActive ? (
+                  <>
+                    <circle cx={stop.x} cy={stop.y} r="7" fill="none"
+                      stroke="rgba(255,255,255,0.9)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                    <circle cx={stop.x} cy={stop.y} r="2.5" fill="white" />
+                  </>
+                ) : (
+                  <circle cx={stop.x} cy={stop.y} r="2.5"
+                    fill="rgba(255,255,255,0.45)" vectorEffect="non-scaling-stroke" />
+                )}
               </g>
             );
           })}
@@ -312,7 +300,7 @@ export default function CruisePlan() {
                 <Image src={active.image} alt={active.city} fill className="object-cover" sizes="108px" />
               </div>
               <div>
-                <p className="font-manrope text-[10px] tracking-[0.36em] uppercase mb-1.5" style={{ color: "#4a9fd5" }}>
+                <p className="font-manrope text-[10px] tracking-[0.36em] uppercase mb-1.5" style={{ color: "rgba(255,255,255,0.45)" }}>
                   {active.month} · {active.region}
                 </p>
                 <h3 className="font-manrope font-bold text-white mb-2"
@@ -335,8 +323,8 @@ export default function CruisePlan() {
               style={{
                 width:  activeId === stop.id ? 8 : 5,
                 height: activeId === stop.id ? 8 : 5,
-                background: activeId === stop.id ? "#4a9fd5" : "rgba(255,255,255,0.22)",
-                boxShadow: activeId === stop.id ? "0 0 0 2.5px rgba(74,159,213,0.25)" : "none",
+                background: activeId === stop.id ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.2)",
+                boxShadow: "none",
                 alignSelf: "center",
               }}
             />
