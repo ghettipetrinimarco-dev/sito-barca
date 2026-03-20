@@ -294,7 +294,7 @@ export default function CruisePlan() {
         </div>
 
         {/* ── Progress dots right ──────────────────────────────────── */}
-        <div className="absolute right-6 lg:right-10 top-1/2 -translate-y-1/2 flex flex-col gap-2.5" style={{ zIndex: 10 }}>
+        <div className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 flex flex-col" style={{ zIndex: 10 }}>
           {STOPS.map((stop, i) => (
             <button
               key={stop.id}
@@ -307,17 +307,25 @@ export default function CruisePlan() {
                 const zoneSize = 1 / STOPS.length;
                 window.scrollTo({ top: sectionTop + (i * zoneSize + zoneSize * 0.5) * scrollable, behavior: "smooth" });
               }}
-              className="rounded-full transition-all duration-300 cursor-pointer"
               style={{
-                width:  activeId === stop.id ? 8 : 4,
-                height: activeId === stop.id ? 8 : 4,
-                background: activeId === stop.id ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.25)",
-                alignSelf: "center",
-                border: "none",
-                padding: 0,
-                outline: "none",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                width: 32, height: 32,
+                background: "none", border: "none", cursor: "pointer", outline: "none", padding: 0,
               }}
-            />
+            >
+              <span className="rounded-full transition-all duration-300" style={{
+                display: "block",
+                width:  activeId === stop.id ? 8 : 5,
+                height: activeId === stop.id ? 8 : 5,
+                background: activeId === stop.id ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.3)",
+              }} />
+              {activeId === stop.id && (
+                <span className="font-manrope text-[10px] tracking-[0.12em] uppercase absolute right-10"
+                  style={{ color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap" }}>
+                  {stop.city === "San Carles de la Ràpita" ? "La Ràpita" : stop.city}
+                </span>
+              )}
+            </button>
           ))}
         </div>
       </div>
