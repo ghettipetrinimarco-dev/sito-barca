@@ -105,6 +105,7 @@ export default function CruisePlan() {
   const [activeId, setActiveId] = useState("rapita");
   const [phase, setPhase] = useState<"before" | "active" | "after">("before");
   const sectionRef = useRef<HTMLElement>(null);
+  const activeIdxRef = useRef(0);
 
   const active = STOPS.find((s) => s.id === activeId) ?? STOPS[0];
 
@@ -132,8 +133,14 @@ export default function CruisePlan() {
       } else if (top <= 0 && top > -scrollable) {
         setPhase("active");
         const progress = Math.max(0, Math.min(1, -top / scrollable));
-        const idx = Math.min(Math.floor(progress * STOPS.length), STOPS.length - 1);
-        setActiveId(STOPS[idx].id);
+        const zoneSize = 1 / STOPS.length;
+        const buf = zoneSize * 0.12; // 12% buffer — avoids jitter at zone boundaries
+        const rawIdx = Math.min(Math.floor(progress * STOPS.length), STOPS.length - 1);
+        const cur = activeIdxRef.current;
+        let next = cur;
+        if (rawIdx > cur && progress >= rawIdx * zoneSize + buf) next = rawIdx;
+        else if (rawIdx < cur && progress <= (rawIdx + 1) * zoneSize - buf) next = rawIdx;
+        if (next !== cur) { activeIdxRef.current = next; setActiveId(STOPS[next].id); }
       } else {
         setPhase("after");
       }
@@ -263,7 +270,7 @@ export default function CruisePlan() {
                   style={{ fontSize: "clamp(1.6rem, 3vw, 2.8rem)", lineHeight: 1 }}>
                   {active.city === "San Carles de la Ràpita" ? "La Ràpita" : active.city}
                 </h3>
-                <p className="font-manrope font-light leading-relaxed"
+                <p className="font-manrope font-light leading-relaxed line-clamp-3"
                   style={{ color: "rgba(255,255,255,0.72)", fontSize: "clamp(0.78rem, 1vw, 0.88rem)", maxWidth: "26rem" }}>
                   {lang === "de" ? active.de : active.en}
                 </p>
@@ -288,13 +295,27 @@ export default function CruisePlan() {
 
         {/* ── Progress dots right ──────────────────────────────────── */}
         <div className="absolute right-6 lg:right-10 top-1/2 -translate-y-1/2 flex flex-col gap-2.5" style={{ zIndex: 10 }}>
-          {STOPS.map((stop) => (
-            <div key={stop.id} className="rounded-full transition-all duration-300"
+          {STOPS.map((stop, i) => (
+            <button
+              key={stop.id}
+              aria-label={stop.city}
+              onClick={() => {
+                const section = sectionRef.current;
+                if (!section) return;
+                const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+                const scrollable = section.offsetHeight - window.innerHeight;
+                const zoneSize = 1 / STOPS.length;
+                window.scrollTo({ top: sectionTop + (i * zoneSize + zoneSize * 0.5) * scrollable, behavior: "smooth" });
+              }}
+              className="rounded-full transition-all duration-300 cursor-pointer"
               style={{
-                width:  activeId === stop.id ? 7 : 4,
-                height: activeId === stop.id ? 7 : 4,
-                background: activeId === stop.id ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.2)",
+                width:  activeId === stop.id ? 8 : 4,
+                height: activeId === stop.id ? 8 : 4,
+                background: activeId === stop.id ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.25)",
                 alignSelf: "center",
+                border: "none",
+                padding: 0,
+                outline: "none",
               }}
             />
           ))}
