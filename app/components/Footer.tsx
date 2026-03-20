@@ -9,22 +9,24 @@ export default function Footer() {
 
   return (
     <footer style={{ background: "#050d16", color: "#fff" }}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-14 py-16">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 mb-12">
-          {/* Logo + tagline */}
-          <div>
-            <a href="#hero" className="transition-opacity duration-300 hover:opacity-70 block">
-              <img
-                src="/Ventum-Sailing-Logo.png"
-                alt="Ventum Sailing"
-                className="h-10 w-auto object-contain"
-                style={{ filter: "brightness(0) invert(1)" }}
-              />
-            </a>
-          </div>
+      <div className="max-w-7xl mx-auto px-6 lg:px-14 py-12 lg:py-16">
 
+        {/* Logo */}
+        <div className="mb-10">
+          <a href="#hero" className="transition-opacity duration-300 hover:opacity-70 inline-block">
+            <img
+              src="/Ventum-Sailing-Logo.png"
+              alt="Ventum Sailing"
+              className="h-8 lg:h-10 w-auto object-contain"
+              style={{ filter: "brightness(0) invert(1)" }}
+            />
+          </a>
+        </div>
+
+        {/* Links + Contact */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
           {/* Links */}
-          <div className="flex flex-wrap gap-8">
+          <div className="flex flex-wrap gap-x-6 gap-y-3">
             {tr.links.map((link) => (
               <a
                 key={link.label}
@@ -40,21 +42,21 @@ export default function Footer() {
           </div>
 
           {/* Contact */}
-          <div className="text-right">
-            <a href="https://ventum-sailing.ch" target="_blank" rel="noopener noreferrer" className="text-xs font-light transition-colors duration-200 block" style={{ color: "rgba(255,255,255,0.35)" }} onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"} onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.35)"}>ventum-sailing.ch</a>
-            <a href="mailto:info@ventum-sailing.ch" className="text-xs font-light transition-colors duration-200 block mt-1" style={{ color: "rgba(255,255,255,0.2)" }} onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.55)"} onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.2)"}>info@ventum-sailing.ch</a>
+          <div className="flex flex-col gap-1">
+            <a href="https://ventum-sailing.ch" target="_blank" rel="noopener noreferrer" className="text-xs font-light transition-colors duration-200" style={{ color: "rgba(255,255,255,0.35)" }} onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"} onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.35)"}>ventum-sailing.ch</a>
+            <a href="mailto:info@ventum-sailing.ch" className="text-xs font-light transition-colors duration-200" style={{ color: "rgba(255,255,255,0.2)" }} onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.55)"} onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.2)"}>info@ventum-sailing.ch</a>
           </div>
         </div>
 
         {/* Bottom */}
         <div
-          className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4"
+          className="pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2"
           style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
         >
-          <p className="text-[13px] font-light" style={{ color: "rgba(255,255,255,0.2)" }}>
+          <p className="text-[12px] font-light" style={{ color: "rgba(255,255,255,0.2)" }}>
             &copy; 2026 Ventum. {tr.rights}
           </p>
-          <p className="text-[13px] font-light" style={{ color: "rgba(255,255,255,0.15)" }}>
+          <p className="text-[12px] font-light" style={{ color: "rgba(255,255,255,0.15)" }}>
             Mediterranean Sea
           </p>
         </div>
