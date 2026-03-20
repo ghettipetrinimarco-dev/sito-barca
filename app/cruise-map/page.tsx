@@ -5,8 +5,6 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
 
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
 const STOPS = [
   {
     id: "rapita",
@@ -98,11 +96,180 @@ const STOPS = [
   },
 ];
 
+/* ── Shared SVG overlay (route + dots) ─────────────────────────── */
+function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: number }) {
+  return (
+    <svg
+      viewBox="0 0 2048 1143"
+      preserveAspectRatio="none"
+      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
+    >
+      {STOPS.slice(0, -1).map((stop, i) => {
+        const next = STOPS[i + 1];
+        const drawn = stopIndex > i;
+        return (
+          <motion.path
+            key={`seg-${i}`}
+            d={`M ${stop.px},${stop.py} L ${next.px},${next.py}`}
+            fill="none"
+            stroke="rgba(255,255,255,0.45)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+            initial={false}
+            animate={{ pathLength: drawn ? 1 : 0 }}
+            transition={{ duration: 1.8, ease: [0.25, 1, 0.5, 1] }}
+          />
+        );
+      })}
+      {STOPS.map((stop) => {
+        const isActive = stop.id === activeId;
+        return (
+          <g key={stop.id}>
+            {isActive ? (
+              <>
+                <circle cx={stop.px} cy={stop.py} r="14" fill="none"
+                  stroke="rgba(255,255,255,0.8)" strokeWidth="1"
+                  vectorEffect="non-scaling-stroke" />
+                <circle cx={stop.px} cy={stop.py} r="4" fill="white" />
+              </>
+            ) : (
+              <circle cx={stop.px} cy={stop.py} r="4"
+                fill="rgba(255,255,255,0.35)"
+                vectorEffect="non-scaling-stroke" />
+            )}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+/* ── Mobile layout ──────────────────────────────────────────────── */
+function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
+  lang: string;
+  activeId: string;
+  setActiveId: (id: string) => void;
+  stopIndex: number;
+}) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#07101e", color: "#fff" }}>
+      {/* Header */}
+      <div style={{
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        padding: "0.9rem 1.25rem",
+        borderBottom: "1px solid rgba(255,255,255,0.06)",
+        position: "sticky", top: 0, zIndex: 10,
+        background: "rgba(7,16,30,0.95)", backdropFilter: "blur(10px)",
+      }}>
+        <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: "var(--font-manrope)" }}>
+          {lang === "de" ? "Törn 2026" : "Cruise 2026"}
+        </p>
+        <button
+          onClick={() => window.close()}
+          style={{
+            color: "rgba(255,255,255,0.75)", fontSize: "0.6rem", letterSpacing: "0.15em",
+            textTransform: "uppercase", display: "flex", alignItems: "center", gap: "6px",
+            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
+            borderRadius: "6px", padding: "6px 12px", cursor: "pointer",
+            fontFamily: "var(--font-manrope)",
+          }}
+        >
+          {lang === "de" ? "Schliessen" : "Close map"}
+          <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+            <path d="M2 2l10 10M12 2L2 12" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Map — 16:9 box, correct proportions */}
+      <div style={{ position: "relative", width: "100%", paddingTop: "56.25%" }}>
+        <div style={{ position: "absolute", inset: 0 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/mediterranean-map.jpg"
+            alt=""
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", filter: "saturate(0.2) brightness(0.82)" }}
+          />
+          <MapOverlay activeId={activeId} stopIndex={stopIndex} />
+        </div>
+      </div>
+
+      {/* Stop list */}
+      <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        {STOPS.map((stop, i) => {
+          const isActive = activeId === stop.id;
+          const label = stop.city === "San Carles de la Ràpita" ? "La Ràpita" : stop.city;
+          return (
+            <div
+              key={stop.id}
+              onClick={() => setActiveId(stop.id)}
+              style={{
+                display: "flex", gap: "1rem", padding: "0.9rem 1.25rem",
+                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                background: isActive ? "rgba(255,255,255,0.05)" : "transparent",
+                cursor: "pointer", transition: "background 0.2s", alignItems: "center",
+              }}
+            >
+              {/* Thumbnail */}
+              <div style={{ position: "relative", width: 64, height: 44, borderRadius: 8, overflow: "hidden", flexShrink: 0 }}>
+                <Image src={stop.image} alt={label} fill className="object-cover" sizes="64px" />
+              </div>
+              {/* Info */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.58rem", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 3, fontFamily: "var(--font-manrope)" }}>
+                  {stop.month} · {stop.region}
+                </p>
+                <p style={{
+                  color: isActive ? "#fff" : "rgba(255,255,255,0.65)",
+                  fontWeight: isActive ? 600 : 400,
+                  fontSize: "0.88rem",
+                  fontFamily: "var(--font-manrope)",
+                  whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                }}>
+                  {label}
+                </p>
+                {isActive && (
+                  <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.72rem", fontFamily: "var(--font-manrope)", fontWeight: 300, lineHeight: 1.4, marginTop: 4 }}>
+                    {lang === "de" ? stop.de : stop.en}
+                  </p>
+                )}
+              </div>
+              {/* Active dot */}
+              <div style={{
+                width: 6, height: 6, borderRadius: "50%",
+                background: isActive ? "var(--accent)" : "rgba(255,255,255,0.12)",
+                flexShrink: 0, transition: "background 0.3s",
+              }} />
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Book CTA */}
+      <div style={{ padding: "1.5rem 1.25rem 2rem" }}>
+        <a
+          href="/#contact"
+          style={{
+            display: "block", textAlign: "center",
+            background: "var(--accent)", color: "#fff", borderRadius: 8,
+            padding: "14px", fontFamily: "var(--font-manrope)",
+            fontWeight: 600, fontSize: "0.72rem", letterSpacing: "0.1em",
+            textTransform: "uppercase",
+          }}
+        >
+          {lang === "de" ? "Reise buchen" : "Book your cruise"}
+        </a>
+      </div>
+    </div>
+  );
+}
+
+/* ── Main page ──────────────────────────────────────────────────── */
 export default function CruiseMapPage() {
   const { lang } = useLang();
   const [activeId, setActiveId] = useState("rapita");
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const activeIdxRef = useRef(0);
 
@@ -118,15 +285,16 @@ export default function CruiseMapPage() {
 
   const fx = active.px / 2048;
   const fy = active.py / 1143;
-  const z = isMobile ? 1 : active.zoom;
+  const z = active.zoom;
   const rawTx = (0.5 - fx * z) * 100;
   const rawTy = (0.5 - fy * z) * 100;
-  const tx = isMobile ? 0 : Math.min(0, Math.max(-(z - 1) * 100, rawTx));
-  const ty = isMobile ? 0 : Math.min(0, Math.max(-(z - 1) * 100, rawTy));
+  const tx = Math.min(0, Math.max(-(z - 1) * 100, rawTx));
+  const ty = Math.min(0, Math.max(-(z - 1) * 100, rawTy));
   const mapTransform = `translate(${tx}%, ${ty}%) scale(${z})`;
 
-  // Scroll-driven stop selection within the scrollable container
+  // Scroll-driven stop selection (desktop only)
   useEffect(() => {
+    if (isMobile) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -144,14 +312,13 @@ export default function CruiseMapPage() {
       else if (rawIdx < cur && progress <= (rawIdx + 1) * zoneSize - buf) next = rawIdx;
       if (next !== cur) {
         activeIdxRef.current = next;
-        setActiveIdx(next);
         setActiveId(STOPS[next].id);
       }
     };
 
     container.addEventListener("scroll", handleScroll, { passive: true });
     return () => container.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isMobile]);
 
   const scrollToStop = (i: number) => {
     const container = containerRef.current;
@@ -161,24 +328,26 @@ export default function CruiseMapPage() {
     container.scrollTo({ top: (i * zoneSize + zoneSize * 0.5) * totalScrollable, behavior: "smooth" });
   };
 
+  // Avoid hydration mismatch — render nothing until client knows screen size
+  if (isMobile === null) return <div style={{ position: "fixed", inset: 0, background: "#07101e" }} />;
+
+  // ── Mobile ──
+  if (isMobile) {
+    return <MobileLayout lang={lang} activeId={activeId} setActiveId={setActiveId} stopIndex={stopIndex} />;
+  }
+
+  // ── Desktop ──
   return (
     <div style={{ position: "fixed", inset: 0, background: "#07101e", overflow: "hidden", zIndex: 9999 }}>
-      {/* Scrollable driver — invisible, sits on top to capture scroll */}
+      {/* Scrollable driver */}
       <div
         ref={containerRef}
-        style={{
-          position: "absolute", inset: 0,
-          overflowY: "scroll",
-          zIndex: 50,
-          // Make it invisible but scrollable
-          color: "transparent",
-        }}
+        style={{ position: "absolute", inset: 0, overflowY: "scroll", zIndex: 50, color: "transparent" }}
       >
-        {/* Tall content to scroll through */}
         <div style={{ height: `${STOPS.length * 80}vh` }} />
       </div>
 
-      {/* Map + SVG in zoomable wrapper */}
+      {/* Map + SVG */}
       <div
         style={{
           position: "absolute", inset: 0,
@@ -192,57 +361,9 @@ export default function CruiseMapPage() {
         <img
           src="/mediterranean-map.jpg"
           alt=""
-          style={{
-            position: "absolute", inset: 0,
-            width: "100%", height: "100%",
-            objectFit: "fill",
-            filter: "saturate(0.2) brightness(0.82)",
-          }}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", filter: "saturate(0.2) brightness(0.82)" }}
         />
-        <svg
-          viewBox="0 0 2048 1143"
-          preserveAspectRatio="none"
-          className="absolute inset-0 w-full h-full"
-          style={{ pointerEvents: "none" }}
-        >
-          {STOPS.slice(0, -1).map((stop, i) => {
-            const next = STOPS[i + 1];
-            const drawn = stopIndex > i;
-            return (
-              <motion.path
-                key={`seg-${i}`}
-                d={`M ${stop.px},${stop.py} L ${next.px},${next.py}`}
-                fill="none"
-                stroke="rgba(255,255,255,0.45)"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                vectorEffect="non-scaling-stroke"
-                initial={false}
-                animate={{ pathLength: drawn ? 1 : 0 }}
-                transition={{ duration: 1.8, ease: [0.25, 1, 0.5, 1] }}
-              />
-            );
-          })}
-          {STOPS.map((stop) => {
-            const isActive = stop.id === activeId;
-            return (
-              <g key={stop.id}>
-                {isActive ? (
-                  <>
-                    <circle cx={stop.px} cy={stop.py} r="14" fill="none"
-                      stroke="rgba(255,255,255,0.8)" strokeWidth="1"
-                      vectorEffect="non-scaling-stroke" />
-                    <circle cx={stop.px} cy={stop.py} r="4" fill="white" />
-                  </>
-                ) : (
-                  <circle cx={stop.px} cy={stop.py} r="4"
-                    fill="rgba(255,255,255,0.35)"
-                    vectorEffect="non-scaling-stroke" />
-                )}
-              </g>
-            );
-          })}
-        </svg>
+        <MapOverlay activeId={activeId} stopIndex={stopIndex} />
       </div>
 
       {/* Gradients */}
@@ -258,7 +379,7 @@ export default function CruiseMapPage() {
       {/* Close button */}
       <button
         onClick={() => window.close()}
-        className="absolute top-6 right-6 lg:top-8 lg:right-14 font-manrope text-[11px] tracking-[0.15em] uppercase flex items-center gap-2 transition-all duration-300"
+        className="absolute top-8 right-14 font-manrope text-[11px] tracking-[0.15em] uppercase flex items-center gap-2 transition-all duration-300"
         style={{
           zIndex: 60, cursor: "pointer",
           color: "rgba(255,255,255,0.85)",
@@ -289,47 +410,36 @@ export default function CruiseMapPage() {
       </button>
 
       {/* Stop info card — bottom left */}
-      <div className="absolute left-0 right-0 lg:right-auto px-6 lg:px-14"
-        style={{ zIndex: 10, bottom: "clamp(2rem, 4vh, 3.5rem)" }}>
+      <div className="absolute left-0 right-auto px-14" style={{ zIndex: 10, bottom: "clamp(2rem, 4vh, 3.5rem)" }}>
         <AnimatePresence mode="wait">
           <motion.div key={activeId}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
-            className="flex flex-col lg:flex-col"
             style={{
-              width: "min(100%, 300px)",
-              background: "rgba(7,16,30,0.6)",
+              width: 300,
+              background: "rgba(7,16,30,0.45)",
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
               borderRadius: 14,
               border: "1px solid rgba(255,255,255,0.08)",
               overflow: "hidden",
               pointerEvents: "none",
-              zIndex: 10,
             }}
           >
-            {/* Hide photo on mobile to save space */}
-            <div className="relative w-full overflow-hidden hidden lg:block" style={{ aspectRatio: "3/2" }}>
+            <div className="relative w-full overflow-hidden" style={{ aspectRatio: "3/2" }}>
               <Image src={active.image} alt={active.city} fill className="object-cover" sizes="300px" />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 60%, rgba(7,16,30,0.4) 100%)" }} />
             </div>
-            <div style={{ padding: "0.9rem 1.1rem 1rem" }}>
-              <p className="font-manrope text-[10px] tracking-[0.36em] uppercase mb-1.5"
-                style={{ color: "rgba(255,255,255,0.6)" }}>
+            <div style={{ padding: "1rem 1.1rem 1.2rem" }}>
+              <p className="font-manrope text-[10px] tracking-[0.36em] uppercase mb-1.5" style={{ color: "rgba(255,255,255,0.6)" }}>
                 {active.month} · {active.region}
               </p>
-              <h3 className="font-manrope font-bold text-white mb-2"
-                style={{ fontSize: "clamp(1.2rem, 2.4vw, 2.2rem)", lineHeight: 1 }}>
+              <h3 className="font-manrope font-bold text-white mb-2" style={{ fontSize: "clamp(1.4rem, 2.4vw, 2.2rem)", lineHeight: 1 }}>
                 {active.city === "San Carles de la Ràpita" ? "La Ràpita" : active.city}
               </h3>
-              <p className="font-manrope font-light leading-relaxed hidden lg:block"
-                style={{ color: "rgba(255,255,255,0.65)", fontSize: "clamp(0.75rem, 0.9vw, 0.85rem)" }}>
-                {lang === "de" ? active.de : active.en}
-              </p>
-              <p className="font-manrope font-light leading-relaxed lg:hidden text-sm"
-                style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.78rem" }}>
+              <p className="font-manrope font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.65)", fontSize: "clamp(0.75rem, 0.9vw, 0.85rem)" }}>
                 {lang === "de" ? active.de : active.en}
               </p>
               {activeId === "bizerte" && (
@@ -347,8 +457,8 @@ export default function CruiseMapPage() {
         </AnimatePresence>
       </div>
 
-      {/* Vertical city list right — hidden on mobile */}
-      <div className="absolute right-6 lg:right-14 hidden lg:flex flex-col items-end gap-3" style={{ zIndex: 60, bottom: "clamp(2rem, 4vh, 3.5rem)" }}>
+      {/* City list — right */}
+      <div className="absolute right-14 flex flex-col items-end gap-3" style={{ zIndex: 60, bottom: "clamp(2rem, 4vh, 3.5rem)" }}>
         {STOPS.map((stop, i) => {
           const isActive = activeId === stop.id;
           const label = stop.city === "San Carles de la Ràpita" ? "La Ràpita" : stop.city;
