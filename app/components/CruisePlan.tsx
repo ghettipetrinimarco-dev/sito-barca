@@ -14,7 +14,7 @@ const STOPS = [
     region: "Costa Daurada · Spain",
     month: "May",
     dates: "10 May 2026",
-    x: 160, y: 263,
+    x: 160, y: 285,
     image: "/images/cruise/la-rapita.jpg",
     en: "Our journey begins in the sheltered bay of La Ràpita — a quiet fishing village on the Costa Daurada, the perfect departure point before the open Mediterranean.",
     de: "Unsere Reise beginnt in der geschützten Bucht von La Ràpita — ein ruhiges Fischerdorf an der Costa Daurada.",
@@ -36,7 +36,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun",
     dates: "May – Jun 2026",
-    x: 505, y: 322,
+    x: 535, y: 308,
     image: "/images/cruise/menorca.jpg",
     en: "Wilder and quieter than her sisters. Menorca's turquoise lagoons and UNESCO Biosphere Reserve offer raw Mediterranean nature at its finest.",
     de: "Wilder und ruhiger als ihre Schwestern. Menorcas türkisfarbene Lagunen und das UNESCO-Biosphärenreservat.",
@@ -47,7 +47,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun",
     dates: "Jun 2026",
-    x: 245, y: 417,
+    x: 255, y: 445,
     image: "/images/cruise/ibiza.jpg",
     en: "Beyond the nightlife lies a magical island of ancient villages, pine forests and secret beaches bathed in golden Mediterranean light.",
     de: "Jenseits des Nachtlebens: eine magische Insel mit alten Dörfern, Pinienwäldern und geheimen Stränden.",
@@ -58,7 +58,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun/Sep",
     dates: "Jun – Sep 2026",
-    x: 250, y: 440,
+    x: 262, y: 464,
     image: "/images/cruise/formentera.jpg",
     en: "The Caribbean of Europe. Formentera's shallow turquoise waters and white sand beaches are the crowning glory of the Balearic arc.",
     de: "Die Karibik Europas. Flache türkisfarbene Gewässer und weisse Sandstrände am Ende des Balearen-Bogens.",
@@ -80,7 +80,7 @@ const STOPS = [
     region: "Sardinia · Italy",
     month: "Sep",
     dates: "Sep 2026",
-    x: 1050, y: 236,
+    x: 1022, y: 198,
     image: "/images/cruise/olbia.jpg",
     en: "Gateway to the Costa Smeralda. Where granite rocks tumble into emerald sea and the pace of life slows beautifully.",
     de: "Tor zur Costa Smeralda. Wo Granitfelsen ins smaragdgrüne Meer stürzen.",
@@ -91,7 +91,7 @@ const STOPS = [
     region: "Northern Tunisia",
     month: "Oct",
     dates: "4 Oct 2026",
-    x: 1090, y: 558,
+    x: 1055, y: 542,
     image: "/images/cruise/bizerte.jpg",
     en: "Our final destination. Tunisia's northernmost city blends French colonial charm with Medina colour — the perfect winter harbour for Ventum.",
     de: "Unser letztes Ziel. Tunesiens nördlichste Stadt — der perfekte Winterhafen für Ventum.",
@@ -111,7 +111,7 @@ const CAMERAS: Record<string, [number, number, number, number]> = {
 };
 
 const ROUTE =
-  "M 160,263 C 255,296 325,325 395,345 C 445,330 476,323 505,322 C 476,328 445,335 395,345 C 348,382 293,408 245,417 L 250,440 C 305,392 352,368 395,345 C 592,380 798,400 1010,390 C 1028,318 1040,276 1050,236 C 1040,280 1028,326 1010,390 Q 1050,474 1090,558";
+  "M 160,285 C 260,308 330,328 395,345 L 535,308 L 395,345 C 350,385 295,420 255,445 L 262,464 L 255,445 C 310,408 355,378 395,345 C 590,378 795,400 1010,390 L 1022,198 L 1010,390 C 1030,460 1042,500 1055,542";
 
 export default function CruisePlan() {
   const { lang } = useLang();
@@ -243,7 +243,7 @@ export default function CruisePlan() {
           />
 
           {/* ── Route ──────────────────────────────────────────── */}
-          <path d={ROUTE} fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="1" strokeLinecap="round" strokeDasharray="4 6" vectorEffect="non-scaling-stroke" />
+          <path d={ROUTE} fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
 
           {/* ── Markers ────────────────────────────────────────── */}
           {STOPS.map((stop) => {
