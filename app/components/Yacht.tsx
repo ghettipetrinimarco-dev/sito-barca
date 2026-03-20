@@ -75,7 +75,7 @@ function FloorPlan({ tr }: { tr: Record<string, string> }) {
       <p className="text-[12px] tracking-[0.25em] uppercase font-manrope font-medium mb-8" style={{ color: "var(--text-secondary)" }}>
         {tr.floorPlanLabel}
       </p>
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {plans.map((plan) => {
           const isActive = activeLabel === plan.label;
           return (
