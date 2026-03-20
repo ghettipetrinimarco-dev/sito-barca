@@ -280,7 +280,7 @@ export default function CruisePlan() {
                   style={{ fontSize: "clamp(1.4rem, 2.4vw, 2.2rem)", lineHeight: 1 }}>
                   {active.city === "San Carles de la Ràpita" ? "La Ràpita" : active.city}
                 </h3>
-                <p className="font-manrope font-light leading-relaxed line-clamp-2"
+                <p className="font-manrope font-light leading-relaxed"
                   style={{ color: "rgba(255,255,255,0.65)", fontSize: "clamp(0.75rem, 0.9vw, 0.85rem)" }}>
                   {lang === "de" ? active.de : active.en}
                 </p>
