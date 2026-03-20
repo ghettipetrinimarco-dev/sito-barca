@@ -268,7 +268,7 @@ export default function Yacht() {
                 </p>
                 <p
                   className="font-manrope font-bold"
-                  style={{ fontSize: "1.4rem", color: "var(--text)", lineHeight: 1 }}
+                  style={{ fontSize: "1.4rem", color: "var(--accent)", lineHeight: 1 }}
                 >
                   <CountUp value={spec.value} inView={specsInView} delay={200} />
                   {spec.unit && <span className="text-xs font-light ml-1.5" style={{ color: "var(--text-muted)" }}>{spec.unit}</span>}
