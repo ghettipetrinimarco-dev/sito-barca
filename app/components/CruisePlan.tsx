@@ -99,12 +99,6 @@ const STOPS = [
   },
 ];
 
-// Build progressive route path up to active stop index
-function buildRoute(upToIndex: number): string {
-  const pts = STOPS.map((s) => `${s.px},${s.py}`);
-  if (upToIndex <= 0) return "";
-  return "M " + pts.slice(0, upToIndex + 1).join(" L ");
-}
 
 export default function CruisePlan() {
   const { lang } = useLang();
@@ -116,7 +110,6 @@ export default function CruisePlan() {
 
   // Pan+zoom: translate to center the stop, clamped so image always fills viewport
   const stopIndex = STOPS.findIndex((s) => s.id === activeId);
-  const route = buildRoute(stopIndex);
 
   const fx = active.px / 2048;
   const fy = active.py / 1143;
@@ -193,15 +186,24 @@ export default function CruisePlan() {
             className="absolute inset-0 w-full h-full"
             style={{ pointerEvents: "none" }}
           >
-            <path
-              d={route}
-              fill="none"
-              stroke="rgba(255,255,255,0.4)"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              vectorEffect="non-scaling-stroke"
-            />
+            {STOPS.slice(0, -1).map((stop, i) => {
+              const next = STOPS[i + 1];
+              const drawn = stopIndex > i;
+              return (
+                <motion.path
+                  key={`seg-${i}`}
+                  d={`M ${stop.px},${stop.py} L ${next.px},${next.py}`}
+                  fill="none"
+                  stroke="rgba(255,255,255,0.45)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  vectorEffect="non-scaling-stroke"
+                  initial={false}
+                  animate={{ pathLength: drawn ? 1 : 0 }}
+                  transition={{ duration: 1.8, ease: [0.25, 1, 0.5, 1] }}
+                />
+              );
+            })}
             {STOPS.map((stop) => {
               const isActive = stop.id === activeId;
               return (
