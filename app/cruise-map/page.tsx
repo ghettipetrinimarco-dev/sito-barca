@@ -166,7 +166,7 @@ function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "0.9rem 1.25rem",
         borderBottom: "1px solid rgba(255,255,255,0.06)",
-        position: "sticky", top: 0, zIndex: 10,
+        position: "sticky", top: 0, zIndex: 20,
         background: "rgba(7,16,30,0.95)", backdropFilter: "blur(10px)",
       }}>
         <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: "var(--font-manrope)" }}>
@@ -189,8 +189,8 @@ function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
         </button>
       </div>
 
-      {/* Map — 16:9 box, correct proportions */}
-      <div style={{ position: "relative", width: "100%", paddingTop: "56.25%" }}>
+      {/* Map — sticky 16:9 box, stays visible while scrolling stops */}
+      <div style={{ position: "sticky", top: 0, zIndex: 5, width: "100%", paddingTop: "56.25%" }}>
         <div style={{ position: "absolute", inset: 0 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
