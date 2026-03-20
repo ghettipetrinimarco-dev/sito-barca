@@ -87,11 +87,7 @@ function FloorPlan({ tr }: { tr: Record<string, string> }) {
                 borderRadius: "10px",
                 background: "var(--bg)",
               }}
-              onClick={(e) => {
-                if ((e.nativeEvent as PointerEvent).pointerType !== "mouse") {
-                  setActiveLabel(isActive ? null : plan.label);
-                }
-              }}
+              onClick={() => setActiveLabel(isActive ? null : plan.label)}
               onPointerEnter={(e) => { if (e.pointerType === "mouse") setActiveLabel(plan.label); }}
               onPointerLeave={(e) => { if (e.pointerType === "mouse") setActiveLabel(null); }}
             >
