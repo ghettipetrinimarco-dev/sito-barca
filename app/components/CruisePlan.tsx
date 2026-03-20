@@ -228,7 +228,7 @@ export default function CruisePlan() {
 
         {/* ── Gradients ──────────────────────────────────────────── */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: "linear-gradient(to bottom, rgba(7,16,30,0.55) 0%, transparent 18%, transparent 55%, rgba(7,16,30,0.96) 100%)",
+          background: "linear-gradient(to bottom, rgba(7,16,30,0.35) 0%, transparent 22%, transparent 55%, rgba(7,16,30,0.96) 100%)",
           zIndex: 2,
         }} />
         <div className="absolute inset-0 pointer-events-none" style={{
@@ -236,8 +236,8 @@ export default function CruisePlan() {
           zIndex: 2,
         }} />
 
-        {/* ── Header top-center ───────────────────────────────────── */}
-        <div className="absolute top-0 left-0 right-0 flex flex-col items-center" style={{ zIndex: 10, paddingTop: "clamp(5rem, 10vh, 8rem)" }}>
+        {/* ── Header top-left ─────────────────────────────────────── */}
+        <div className="absolute top-0 left-0 px-6 lg:px-12 flex flex-col" style={{ zIndex: 10, paddingTop: "clamp(2rem, 4vh, 3.5rem)" }}>
           <p className="font-manrope text-[10px] tracking-[0.3em] uppercase font-light"
             style={{ color: "rgba(255,255,255,0.35)" }}>
             {lang === "de" ? "Törn 2026" : "Cruise Plan 2026"}
