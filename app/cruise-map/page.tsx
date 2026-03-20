@@ -146,7 +146,7 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
         strokeWidth="1"
         vectorEffect="non-scaling-stroke"
         animate={{ cx: activeStop.px, cy: activeStop.py }}
-        transition={{ duration: 1.6, ease: [0.25, 1, 0.5, 1] }}
+        transition={{ duration: 1.0, ease: [0.25, 1, 0.5, 1] }}
       />
     </svg>
   );
