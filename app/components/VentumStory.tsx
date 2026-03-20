@@ -68,25 +68,6 @@ export default function VentumStory() {
             ))}
           </div>
 
-          <motion.a
-            href="#captain-marco"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="inline-flex items-center gap-3 mt-10 text-[12px] tracking-[0.1em] uppercase font-manrope pb-1 transition-all duration-300 self-start"
-            style={{ color: "var(--accent)", borderBottom: "1px solid rgba(0,75,145,0.3)" }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.borderBottomColor = "var(--accent)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.borderBottomColor = "rgba(0,75,145,0.3)";
-            }}
-          >
-            {tr.cta}
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </motion.a>
         </motion.div>
 
         {/* Image */}
