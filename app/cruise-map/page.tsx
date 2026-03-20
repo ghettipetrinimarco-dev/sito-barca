@@ -140,6 +140,7 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
 
       {/* Sailboat icon — animates smoothly between positions */}
       <motion.g
+        initial={{ x: STOPS[0].px, y: STOPS[0].py }}
         animate={{ x: activeStop.px, y: activeStop.py }}
         transition={{ duration: 2.4, ease: "linear" }}
       >
