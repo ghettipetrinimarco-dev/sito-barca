@@ -131,6 +131,10 @@ export default function CruisePlan() {
       const vh = window.innerHeight;
       const scrollable = height - vh;
       if (top > 0) {
+        // Reset intro when scrolling back above the section
+        introDismissed.current = false;
+        activeIdxRef.current = 0;
+        setIntroVisible(false);
         setPhase("before");
       } else if (top <= 0 && top > -scrollable) {
         if (!introDismissed.current) {
@@ -194,7 +198,17 @@ export default function CruisePlan() {
               </motion.h2>
               <motion.button
                 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8 }}
-                onClick={() => { introDismissed.current = true; setIntroVisible(false); }}
+                onClick={() => {
+                  introDismissed.current = true;
+                  setIntroVisible(false);
+                  // Scroll to start of section so interactive map begins at stop 1
+                  const section = sectionRef.current;
+                  if (section) {
+                    const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+                    window.scrollTo({ top: sectionTop, behavior: "instant" });
+                  }
+                  setTimeout(() => window.dispatchEvent(new Event("scroll")), 50);
+                }}
                 className="font-manrope font-semibold text-[12px] tracking-[0.12em] uppercase px-8 py-3.5 mt-2 transition-all duration-300"
                 style={{ background: "var(--accent)", color: "#fff", borderRadius: 8 }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
