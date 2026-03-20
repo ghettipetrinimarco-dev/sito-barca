@@ -78,21 +78,6 @@ export default function CaptainMarco() {
               <p className="font-playfair italic text-sm pt-2" style={{ color: "var(--accent)" }}>{tr.motto}</p>
             </div>
 
-            <div className="space-y-8 mb-12">
-              <div className="pl-6" style={{ borderLeft: "2px solid var(--accent)" }}>
-                <h3 className="font-manrope text-sm tracking-[0.18em] uppercase mb-3 font-semibold" style={{ color: "var(--text)" }}>
-                  {tr.host.title}
-                </h3>
-                <p className="font-light text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{tr.host.text}</p>
-              </div>
-              <div className="pl-6" style={{ borderLeft: "2px solid var(--border)" }}>
-                <h3 className="font-manrope text-sm tracking-[0.18em] uppercase mb-3 font-semibold" style={{ color: "var(--text)" }}>
-                  {tr.promise.title}
-                </h3>
-                <p className="font-light text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{tr.promise.text}</p>
-              </div>
-            </div>
-
             {/* Stats */}
             <div className="grid grid-cols-2 gap-3">
               {tr.stats.map((stat, i) => (
