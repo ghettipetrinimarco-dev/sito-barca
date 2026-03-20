@@ -47,7 +47,7 @@ export default function ScrollToTop() {
           aria-label="Scroll to top"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor">
-            <path d="M2 11 Q8 3 14 11" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2.5 11.5 L8 3.5 L13.5 11.5" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </motion.button>
       )}
