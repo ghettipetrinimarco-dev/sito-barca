@@ -17,12 +17,12 @@ export default function VentumStory() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="ventum-story" className="py-0 relative overflow-hidden" style={{ background: "var(--surface)" }}>
-      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
+    <section id="ventum-story" className="py-16 md:py-24 lg:py-32 relative overflow-hidden" style={{ background: "var(--surface)" }}>
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 px-6 lg:px-14 items-center">
         {/* Text */}
         <motion.div
           ref={ref}
-          className="flex flex-col justify-center px-12 lg:px-16 xl:px-20 py-24"
+          className="flex flex-col justify-center"
           initial={{ opacity: 0, x: -36 }}
           animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -36 }}
           transition={{ duration: 0.95, ease }}
@@ -53,13 +53,17 @@ export default function VentumStory() {
                 initial={{ opacity: 0, y: 14 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
                 transition={{ duration: 0.6, delay: 0.4 + i * 0.08, ease }}
-                className="p-4"
+                className="px-5 py-5 transition-colors duration-200"
                 style={{ border: "1px solid var(--border)", background: "var(--bg)", borderRadius: "10px" }}
+                onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.background = "var(--surface-alt)"}
+                onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.background = "var(--bg)"}
               >
-                <p className="font-manrope font-bold text-2xl" style={{ color: "var(--accent)" }}>
+                <p className="text-[11px] tracking-[0.15em] uppercase mb-3 font-manrope" style={{ color: "var(--text-muted)" }}>
+                  {stat.label}
+                </p>
+                <p className="font-manrope font-bold text-2xl" style={{ color: "var(--accent)", lineHeight: 1 }}>
                   <CountUpStat value={stat.value} inView={isInView} duration={2.4} />
                 </p>
-                <p className="text-[12px] tracking-[0.08em] uppercase mt-1" style={{ color: "var(--text-muted)" }}>{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -88,7 +92,7 @@ export default function VentumStory() {
         {/* Image */}
         <motion.div
           className="relative overflow-hidden"
-          style={{ minHeight: "500px" }}
+          style={{ borderRadius: 12, border: "1px solid var(--border)", aspectRatio: "4/3" }}
           initial={{ opacity: 0, x: 36 }}
           animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 36 }}
           transition={{ duration: 0.95, delay: 0.2, ease }}
@@ -98,10 +102,6 @@ export default function VentumStory() {
             alt="Ventum catamaran at sunset"
             fill
             className="object-cover"
-          />
-          <div
-            className="absolute inset-0"
-            style={{ background: "linear-gradient(to left, transparent 60%, var(--surface) 100%)" }}
           />
         </motion.div>
       </div>
