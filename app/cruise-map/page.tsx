@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useMotionValue, animate, useMotionValueEvent } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
+import { t } from "../translations";
 
 const STOPS = [
   {
@@ -196,6 +197,7 @@ function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
   setActiveId: (id: string) => void;
   stopIndex: number;
 }) {
+  const trMap = t[lang as keyof typeof t].cruiseMap;
   return (
     <div style={{ minHeight: "100vh", background: "#07101e", color: "#fff" }}>
       {/* Header + Map — single sticky block, no gap */}
@@ -207,7 +209,7 @@ function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
           borderBottom: "1px solid rgba(255,255,255,0.06)",
         }}>
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: "var(--font-manrope)" }}>
-            {lang === "de" ? "Törn 2026" : "Cruise 2026"}
+            {trMap.header}
           </p>
           <button
             onClick={() => window.close()}
@@ -219,7 +221,7 @@ function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
               fontFamily: "var(--font-manrope)",
             }}
           >
-            {lang === "de" ? "Schliessen" : "Close map"}
+            {trMap.close}
             <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
               <path d="M2 2l10 10M12 2L2 12" />
             </svg>
@@ -276,7 +278,7 @@ function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
                 </p>
                 {isActive && (
                   <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.72rem", fontFamily: "var(--font-manrope)", fontWeight: 300, lineHeight: 1.4, marginTop: 4 }}>
-                    {lang === "de" ? stop.de : stop.en}
+                    {lang === "de" ? stop.de : stop.en /* IT/FR: fallback to EN */}
                   </p>
                 )}
               </div>
@@ -303,7 +305,7 @@ function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
             textTransform: "uppercase",
           }}
         >
-          {lang === "de" ? "Reise buchen" : "Book your cruise"}
+          {trMap.book}
         </a>
       </div>
     </div>
@@ -313,6 +315,7 @@ function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
 /* ── Main page ──────────────────────────────────────────────────── */
 export default function CruiseMapPage() {
   const { lang } = useLang();
+  const trMap = t[lang as keyof typeof t].cruiseMap;
   const [activeId, setActiveId] = useState("rapita");
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
@@ -407,7 +410,7 @@ export default function CruiseMapPage() {
           el.style.color = "rgba(255,255,255,0.85)";
         }}
       >
-        {lang === "de" ? "Schliessen" : "Close map"}
+        {trMap.close}
         <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
           <path d="M2 2l10 10M12 2L2 12" />
         </svg>
@@ -444,7 +447,7 @@ export default function CruiseMapPage() {
                 {active.city === "San Carles de la Ràpita" ? "La Ràpita" : active.city}
               </h3>
               <p className="font-manrope font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.65)", fontSize: "clamp(0.75rem, 0.9vw, 0.85rem)" }}>
-                {lang === "de" ? active.de : active.en}
+                {lang === "de" ? active.de : active.en /* IT/FR: fallback to EN */}
               </p>
               {activeId === "bizerte" && (
                 <a href="/#contact"
@@ -453,7 +456,7 @@ export default function CruiseMapPage() {
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
                 >
-                  {lang === "de" ? "Reise buchen" : "Book your cruise"}
+                  {trMap.book}
                 </a>
               )}
             </div>

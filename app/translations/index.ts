@@ -48,6 +48,7 @@ export const t = {
       label: "What we offer",
       title: "SERVICES",
       placeholder: "Hover a service",
+      cta: "Get in touch",
       items: [
         {
           number: "01",
@@ -95,6 +96,17 @@ export const t = {
       label: "Step aboard",
       title: "DISCOVER THE YACHT",
       subtitle: "50-foot premium sailing catamaran",
+      floorPlanLabel: "Floor Plan",
+      exterior: "Exterior",
+      exteriorText: "Spacious sun deck for relaxing. Deck shower, air compressor for scuba diving and full watersports equipment available on request.",
+      interior: "Interior",
+      interiorText: "3 double cabins with private bathroom for up to 6 guests. Open saloon with Wi-Fi, entertainment electronics and fully equipped galley.",
+      virtualTourLabel: "Virtual Tour",
+      tour3D: "3D Virtual Tour",
+      tourOpen: "Open in new tab",
+      specsLabel: "Technical Specifications",
+      watersportsLabel: "Watersports",
+      watersportsDesc: "Our catamaran is not just for sailing. Whether you are looking for speed or want to enjoy the silence underwater, we have something for everyone.",
       description: "A modern catamaran built for both relaxed cruising and professional training. Spacious outdoor areas, comfortable cabins and full equipment for watersports and sailing instruction.",
       specs: [
         { label: "Type", value: "50ft Sailing Catamaran" },
@@ -122,6 +134,8 @@ export const t = {
     cruisePlan: {
       label: "Mediterranean 2026",
       title: "CRUISE PLAN 2026",
+      headerLabel: "Cruise Plan 2026",
+      cta: "Start the journey",
       description: "We start in May in La Ràpita and end our journey in Bizerte. A long stopover takes us to the Balearic Islands — Mallorca, Menorca, Cabrera, Ibiza, and Formentera, the pearls of the Mediterranean. In September we continue to Sardinia, before departing for Tunisia for winter.",
     },
     ventumStory: {
@@ -183,6 +197,21 @@ export const t = {
       sendAnother: "Send another message",
       subjects: ["Holiday Cruise", "Mileage Cruise", "Harbor Maneuver Course", "Wingfoil Course", "Survey / Inspection", "Sushi Sailor", "Other"],
     },
+    cruisePlansSection: {
+      header: "Plans 2026",
+      cta: "Get in touch",
+      placeholder: "Dates / PDF coming soon",
+      plans: [
+        { label: "Holiday Cruise", short: "Holiday", tag: "Leisure", description: "Dates and details coming soon. Contact us to be notified when bookings open." },
+        { label: "Mileage Cruise", short: "Mileage", tag: "Training", description: "Dates and details coming soon. Contact us to be notified when bookings open." },
+        { label: "Harbor Maneuver Course", short: "Harbor", tag: "Course", description: "Dates and details coming soon. Contact us to be notified when bookings open." },
+      ],
+    },
+    cruiseMap: {
+      header: "Cruise 2026",
+      close: "Close map",
+      book: "Book your cruise",
+    },
     footer: {
       motto: "Always in motion like the ocean",
       rights: "All rights reserved.",
@@ -243,6 +272,7 @@ export const t = {
       label: "Was wir bieten",
       title: "LEISTUNGEN",
       placeholder: "Leistung auswählen",
+      cta: "Kontakt aufnehmen",
       items: [
         {
           number: "01",
@@ -290,6 +320,17 @@ export const t = {
       label: "An Bord gehen",
       title: "DIE YACHT ENTDECKEN",
       subtitle: "15 Meter Premium-Segelkatamaran",
+      floorPlanLabel: "Grundriss",
+      exterior: "Aussen",
+      exteriorText: "Grosszügiges Sonnendeck zum Entspannen. Deckdusche, Luftkompressor für Tauchen und Wassersportausrüstung auf Anfrage.",
+      interior: "Innen",
+      interiorText: "3 Doppelkabinen mit privatem Bad für bis zu 6 Gäste. Offener Salon mit WLAN, Entertainment-Elektronik und voll ausgestatteter Küche.",
+      virtualTourLabel: "Virtueller Rundgang",
+      tour3D: "3D Rundgang",
+      tourOpen: "In neuem Tab öffnen",
+      specsLabel: "Technische Daten",
+      watersportsLabel: "Wassersport",
+      watersportsDesc: "Unser Katamaran ist nicht nur zum Segeln da. Ob Sie Geschwindigkeit suchen oder die Stille unter Wasser geniessen möchten — wir haben für jeden etwas.",
       description: "Ein moderner Katamaran, gebaut für entspanntes Cruisen und professionelles Training. Grosszügige Aussenbereiche, komfortable Kabinen und vollständige Ausrüstung für Wassersport und Segelunterricht.",
       specs: [
         { label: "Typ", value: "15m Segelkatamaran" },
@@ -317,6 +358,8 @@ export const t = {
     cruisePlan: {
       label: "Mittelmeer 2026",
       title: "REISEPLAN 2026",
+      headerLabel: "Törn 2026",
+      cta: "Reise beginnen",
       description: "Wir starten im Mai in La Ràpita und beenden unsere Reise in Bizerte. Ein langer Aufenthalt führt uns zu den Balearen — Mallorca, Menorca, Cabrera, Ibiza und Formentera, die Perlen des Mittelmeers. Im September fahren wir weiter nach Sardinien, bevor wir Ende September in Richtung Tunesien aufbrechen.",
     },
     ventumStory: {
@@ -378,6 +421,21 @@ export const t = {
       sendAnother: "Weitere Nachricht senden",
       subjects: ["Urlaubstörn", "Meilentörn", "Hafenmanöver-Kurs", "Wingfoil-Kurs", "Gutachten / Inspektion", "Sushi Sailor", "Sonstiges"],
     },
+    cruisePlansSection: {
+      header: "Angebote 2026",
+      cta: "Anfragen",
+      placeholder: "Termine / PDF folgt in Kürze",
+      plans: [
+        { label: "Urlaubskreuzfahrt", short: "Urlaub", tag: "Freizeit", description: "Termine und Details folgen in Kürze. Kontaktieren Sie uns, um benachrichtigt zu werden." },
+        { label: "Meilentörn", short: "Meilen", tag: "Training", description: "Termine und Details folgen in Kürze. Kontaktieren Sie uns, um benachrichtigt zu werden." },
+        { label: "Hafenmanöverkurs", short: "Hafen", tag: "Kurs", description: "Termine und Details folgen in Kürze. Kontaktieren Sie uns, um benachrichtigt zu werden." },
+      ],
+    },
+    cruiseMap: {
+      header: "Törn 2026",
+      close: "Schliessen",
+      book: "Reise buchen",
+    },
     footer: {
       motto: "Immer in Bewegung wie das Meer",
       rights: "Alle Rechte vorbehalten.",
@@ -438,6 +496,7 @@ export const t = {
       label: "Cosa offriamo",
       title: "SERVIZI",
       placeholder: "Seleziona un servizio",
+      cta: "Contattaci",
       items: [
         {
           number: "01",
@@ -485,6 +544,17 @@ export const t = {
       label: "Sali a bordo",
       title: "SCOPRI LO YACHT",
       subtitle: "Catamarano a vela premium da 15 metri",
+      floorPlanLabel: "Planimetria",
+      exterior: "Esterno",
+      exteriorText: "Ampio ponte di coperta per rilassarsi. Doccia in coperta, compressore d'aria per immersioni e attrezzatura per sport acquatici disponibile su richiesta.",
+      interior: "Interno",
+      interiorText: "3 cabine matrimoniali con bagno privato per un massimo di 6 ospiti. Salone aperto con Wi-Fi, elettronica di intrattenimento e cucina completamente attrezzata.",
+      virtualTourLabel: "Tour virtuale",
+      tour3D: "Tour virtuale 3D",
+      tourOpen: "Apri in nuova scheda",
+      specsLabel: "Specifiche tecniche",
+      watersportsLabel: "Sport acquatici",
+      watersportsDesc: "Il nostro catamarano non è solo per veleggiare. Che tu cerchi velocità o voglia goderti il silenzio sott'acqua, abbiamo qualcosa per tutti.",
       description: "Un catamarano moderno costruito per crociere rilassate e formazione professionale. Ampi spazi esterni, cabine confortevoli e dotazione completa per sport acquatici e istruzione velistica.",
       specs: [
         { label: "Tipo", value: "Catamarano a vela 15m" },
@@ -512,6 +582,8 @@ export const t = {
     cruisePlan: {
       label: "Mediterraneo 2026",
       title: "PIANO DI ROTTA 2026",
+      headerLabel: "Piano di rotta 2026",
+      cta: "Inizia il viaggio",
       description: "Partiamo a maggio da La Ràpita e concludiamo il viaggio a Biserta. Una lunga sosta ci porta alle Isole Baleari — Maiorca, Minorca, Cabrera, Ibiza e Formentera, le perle del Mediterraneo. A settembre proseguiamo verso la Sardegna, prima di partire per la Tunisia per l'inverno.",
     },
     ventumStory: {
@@ -573,6 +645,21 @@ export const t = {
       sendAnother: "Invia un altro messaggio",
       subjects: ["Crociera vacanze", "Crociera a miglia", "Corso manovre in porto", "Corso wingfoil", "Perizia / Ispezione", "Sushi Sailor", "Altro"],
     },
+    cruisePlansSection: {
+      header: "Offerte 2026",
+      cta: "Contattaci",
+      placeholder: "Date / PDF in arrivo",
+      plans: [
+        { label: "Crociera vacanze", short: "Vacanze", tag: "Leisure", description: "Date e dettagli in arrivo. Contattaci per essere avvisato quando le prenotazioni apriranno." },
+        { label: "Crociera a miglia", short: "Miglia", tag: "Formazione", description: "Date e dettagli in arrivo. Contattaci per essere avvisato quando le prenotazioni apriranno." },
+        { label: "Corso manovre in porto", short: "Porto", tag: "Corso", description: "Date e dettagli in arrivo. Contattaci per essere avvisato quando le prenotazioni apriranno." },
+      ],
+    },
+    cruiseMap: {
+      header: "Crociera 2026",
+      close: "Chiudi mappa",
+      book: "Prenota la crociera",
+    },
     footer: {
       motto: "Sempre in movimento come il mare",
       rights: "Tutti i diritti riservati.",
@@ -633,6 +720,7 @@ export const t = {
       label: "Ce que nous proposons",
       title: "SERVICES",
       placeholder: "Choisir un service",
+      cta: "Nous contacter",
       items: [
         {
           number: "01",
@@ -680,6 +768,17 @@ export const t = {
       label: "Montez à bord",
       title: "DÉCOUVREZ LE YACHT",
       subtitle: "Catamaran à voile premium de 15 mètres",
+      floorPlanLabel: "Plan de pont",
+      exterior: "Extérieur",
+      exteriorText: "Vaste pont soleil pour se détendre. Douche de pont, compresseur d'air pour la plongée et équipement de sports nautiques disponible sur demande.",
+      interior: "Intérieur",
+      interiorText: "3 cabines doubles avec salle de bain privée pour jusqu'à 6 passagers. Salon ouvert avec Wi-Fi, électronique de divertissement et cuisine entièrement équipée.",
+      virtualTourLabel: "Visite virtuelle",
+      tour3D: "Visite virtuelle 3D",
+      tourOpen: "Ouvrir dans un nouvel onglet",
+      specsLabel: "Caractéristiques techniques",
+      watersportsLabel: "Sports nautiques",
+      watersportsDesc: "Notre catamaran n'est pas seulement fait pour naviguer. Que vous recherchiez la vitesse ou souhaitiez profiter du silence sous l'eau, nous avons quelque chose pour tout le monde.",
       description: "Un catamaran moderne conçu pour des croisières détendues et une formation professionnelle. Vastes espaces extérieurs, cabines confortables et équipement complet pour les sports nautiques et l'instruction à la voile.",
       specs: [
         { label: "Type", value: "Catamaran à voile 15m" },
@@ -707,6 +806,8 @@ export const t = {
     cruisePlan: {
       label: "Méditerranée 2026",
       title: "PLAN DE CROISIÈRE 2026",
+      headerLabel: "Plan de croisière 2026",
+      cta: "Commencer le voyage",
       description: "Nous partons en mai de La Ràpita et terminons notre voyage à Bizerte. Une longue escale nous emmène aux Îles Baléares — Majorque, Minorque, Cabrera, Ibiza et Formentera, les joyaux de la Méditerranée. En septembre, nous continuons vers la Sardaigne avant de partir pour la Tunisie pour l'hiver.",
     },
     ventumStory: {
@@ -767,6 +868,21 @@ export const t = {
       successText: "Votre message a bien été reçu. Nous vous répondrons dans les plus brefs délais.",
       sendAnother: "Envoyer un autre message",
       subjects: ["Croisière de vacances", "Croisière de milles", "Cours de manœuvres portuaires", "Cours de wingfoil", "Expertise / Inspection", "Sushi Sailor", "Autre"],
+    },
+    cruisePlansSection: {
+      header: "Offres 2026",
+      cta: "Nous contacter",
+      placeholder: "Dates / PDF bientôt disponible",
+      plans: [
+        { label: "Croisière de vacances", short: "Vacances", tag: "Loisirs", description: "Dates et détails bientôt disponibles. Contactez-nous pour être informé à l'ouverture des réservations." },
+        { label: "Croisière de milles", short: "Milles", tag: "Formation", description: "Dates et détails bientôt disponibles. Contactez-nous pour être informé à l'ouverture des réservations." },
+        { label: "Cours de manœuvres portuaires", short: "Port", tag: "Cours", description: "Dates et détails bientôt disponibles. Contactez-nous pour être informé à l'ouverture des réservations." },
+      ],
+    },
+    cruiseMap: {
+      header: "Croisière 2026",
+      close: "Fermer la carte",
+      book: "Réserver votre croisière",
     },
     footer: {
       motto: "Toujours en mouvement comme l'océan",

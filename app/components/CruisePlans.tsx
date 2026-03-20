@@ -3,55 +3,23 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
+import { t } from "../translations";
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const PLANS = [
-  {
-    key: "holiday",
-    labelEn: "Holiday Cruise",
-    labelDe: "Urlaubskreuzfahrt",
-    shortEn: "Holiday",
-    shortDe: "Urlaub",
-    tagEn: "Leisure",
-    tagDe: "Freizeit",
-    descriptionEn: "Dates and details coming soon. Contact us to be notified when bookings open.",
-    descriptionDe: "Termine und Details folgen in Kürze. Kontaktieren Sie uns, um benachrichtigt zu werden.",
-  },
-  {
-    key: "mileage",
-    labelEn: "Mileage Cruise",
-    labelDe: "Meilentörn",
-    shortEn: "Mileage",
-    shortDe: "Meilen",
-    tagEn: "Training",
-    tagDe: "Training",
-    descriptionEn: "Dates and details coming soon. Contact us to be notified when bookings open.",
-    descriptionDe: "Termine und Details folgen in Kürze. Kontaktieren Sie uns, um benachrichtigt zu werden.",
-  },
-  {
-    key: "harbor",
-    labelEn: "Harbor Maneuver Course",
-    labelDe: "Hafenmanöverkurs",
-    shortEn: "Harbor",
-    shortDe: "Hafen",
-    tagEn: "Course",
-    tagDe: "Kurs",
-    descriptionEn: "Dates and details coming soon. Contact us to be notified when bookings open.",
-    descriptionDe: "Termine und Details folgen in Kürze. Kontaktieren Sie uns, um benachrichtigt zu werden.",
-  },
-];
+const PLAN_KEYS = ["holiday", "mileage", "harbor"];
 
 export default function CruisePlans() {
   const { lang } = useLang();
+  const tr = t[lang].cruisePlansSection;
   const [active, setActive] = useState(0);
-  const plan = PLANS[active];
+  const plan = tr.plans[active];
 
   // Deep-link: #cruise-plans-holiday / -mileage / -harbor
   useEffect(() => {
     const onHash = () => {
       const hash = window.location.hash;
-      const idx = PLANS.findIndex((p) => hash === `#cruise-plans-${p.key}`);
+      const idx = PLAN_KEYS.findIndex((key) => hash === `#cruise-plans-${key}`);
       if (idx !== -1) setActive(idx);
     };
     onHash();
@@ -62,15 +30,15 @@ export default function CruisePlans() {
   return (
     <section id="cruise-plans" className="relative py-20 lg:py-28 px-6 lg:px-14" style={{ background: "var(--bg)" }}>
       {/* Anchor targets for each plan */}
-      {PLANS.map((p) => (
-        <span key={p.key} id={`cruise-plans-${p.key}`} className="absolute" style={{ top: "-80px" }} />
+      {PLAN_KEYS.map((key) => (
+        <span key={key} id={`cruise-plans-${key}`} className="absolute" style={{ top: "-80px" }} />
       ))}
       <div className="max-w-5xl mx-auto">
 
         {/* Header */}
         <div className="mb-12">
           <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-manrope font-medium" style={{ color: "var(--accent-light)" }}>
-            {lang === "de" ? "Angebote 2026" : "Plans 2026"}
+            {tr.header}
           </p>
           <h2 className="font-manrope font-bold leading-tight" style={{ fontSize: "clamp(2.5rem, 3.2vw, 3.75rem)", color: "var(--text)" }}>
             CRUISE PLAN
@@ -79,9 +47,9 @@ export default function CruisePlans() {
 
         {/* Tabs */}
         <div className="flex gap-0 mb-12 overflow-x-auto scrollbar-none" style={{ borderBottom: "1px solid var(--border)" }}>
-          {PLANS.map((p, i) => (
+          {PLAN_KEYS.map((key, i) => (
             <button
-              key={p.key}
+              key={key}
               onClick={() => setActive(i)}
               className="relative pb-4 mr-6 lg:mr-8 text-left flex-shrink-0 transition-colors duration-200"
             >
@@ -89,8 +57,8 @@ export default function CruisePlans() {
                 className="font-manrope text-[11px] lg:text-[12px] tracking-[0.15em] lg:tracking-[0.2em] uppercase font-medium transition-colors duration-200 whitespace-nowrap"
                 style={{ color: active === i ? "var(--text)" : "var(--text-muted)" }}
               >
-                <span className="lg:hidden">{lang === "de" ? p.shortDe : p.shortEn}</span>
-                <span className="hidden lg:inline">{lang === "de" ? p.labelDe : p.labelEn}</span>
+                <span className="lg:hidden">{tr.plans[i].short}</span>
+                <span className="hidden lg:inline">{tr.plans[i].label}</span>
               </span>
               {active === i && (
                 <motion.div
@@ -119,15 +87,15 @@ export default function CruisePlans() {
                 className="inline-block text-[11px] tracking-[0.2em] uppercase font-manrope font-medium px-3 py-1 mb-6"
                 style={{ background: "var(--surface)", color: "var(--accent-light)", borderRadius: "4px" }}
               >
-                {lang === "de" ? plan.tagDe : plan.tagEn}
+                {plan.tag}
               </span>
 
               <h3 className="font-manrope font-bold mb-4" style={{ fontSize: "1.6rem", color: "var(--text)" }}>
-                {lang === "de" ? plan.labelDe : plan.labelEn}
+                {plan.label}
               </h3>
 
               <p className="font-manrope font-light text-base leading-relaxed mb-8" style={{ color: "var(--text-secondary)" }}>
-                {lang === "de" ? plan.descriptionDe : plan.descriptionEn}
+                {plan.description}
               </p>
 
               <a
@@ -137,7 +105,7 @@ export default function CruisePlans() {
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
               >
-                {lang === "de" ? "Anfragen" : "Get in touch"}
+                {tr.cta}
               </a>
             </div>
 
@@ -147,7 +115,7 @@ export default function CruisePlans() {
               style={{ minHeight: "120px", background: "var(--surface)", border: "1px dashed var(--border)" }}
             >
               <p className="font-manrope text-[12px] tracking-[0.15em] uppercase text-center" style={{ color: "var(--text-muted)" }}>
-                {lang === "de" ? "Termine / PDF folgt in Kürze" : "Dates / PDF coming soon"}
+                {tr.placeholder}
               </p>
             </div>
           </motion.div>

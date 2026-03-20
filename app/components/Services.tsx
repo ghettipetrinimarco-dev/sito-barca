@@ -215,7 +215,7 @@ export default function Services() {
               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 36px rgba(0,75,145,0.6)"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(0,75,145,0.4)"; }}
             >
-              {lang === "de" ? "Kontakt aufnehmen" : "Get in touch"}
+              {tr.cta}
             </a>
           </div>
 

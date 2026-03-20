@@ -1,9 +1,11 @@
 "use client";
 
 import { useLang } from "../context/LanguageContext";
+import { t } from "../translations";
 
 export default function CruisePlan() {
   const { lang } = useLang();
+  const tr = t[lang].cruisePlan;
 
   return (
     <section
@@ -27,7 +29,7 @@ export default function CruisePlan() {
 
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
         <p className="font-manrope text-[11px] tracking-[0.3em] uppercase font-light" style={{ color: "rgba(255,255,255,0.4)" }}>
-          {lang === "de" ? "Törn 2026" : "Cruise Plan 2026"}
+          {tr.headerLabel}
         </p>
         <h2 className="font-manrope font-bold text-white text-center" style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", lineHeight: 1.1 }}>
           Mediterranean Route
@@ -39,7 +41,7 @@ export default function CruisePlan() {
           onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
           onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
         >
-          {lang === "de" ? "Reise beginnen" : "Start the journey"}
+          {tr.cta}
         </button>
       </div>
     </section>

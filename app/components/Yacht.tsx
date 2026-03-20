@@ -54,26 +54,14 @@ function CountUp({ value, inView, delay = 0 }: { value: string; inView: boolean;
 }
 
 /* ── Floor Plan ──────────────────────────────────────────────────── */
-function FloorPlan({ lang }: { lang: string }) {
+function FloorPlan({ tr }: { tr: Record<string, string> }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const [activeLabel, setActiveLabel] = useState<string | null>(null);
 
   const plans = [
-    {
-      src: "/floorplan-exterior.jpg",
-      label: lang === "de" ? "Aussen" : "Exterior",
-      text: lang === "de"
-        ? "Grosszügiges Sonnendeck zum Entspannen. Deckdusche, Luftkompressor für Tauchen und Wassersportausrüstung auf Anfrage."
-        : "Spacious sun deck for relaxing. Deck shower, air compressor for scuba diving and full watersports equipment available on request.",
-    },
-    {
-      src: "/floorplan_interior.jpg",
-      label: lang === "de" ? "Innen" : "Interior",
-      text: lang === "de"
-        ? "3 Doppelkabinen mit privatem Bad für bis zu 6 Gäste. Offener Salon mit WLAN, Entertainment-Elektronik und voll ausgestatteter Küche."
-        : "3 double cabins with private bathroom for up to 6 guests. Open saloon with Wi-Fi, entertainment electronics and fully equipped galley.",
-    },
+    { src: "/floorplan-exterior.jpg", label: tr.exterior, text: tr.exteriorText },
+    { src: "/floorplan_interior.jpg", label: tr.interior, text: tr.interiorText },
   ];
 
   return (
@@ -85,7 +73,7 @@ function FloorPlan({ lang }: { lang: string }) {
       className="mb-24"
     >
       <p className="text-[12px] tracking-[0.25em] uppercase font-manrope font-medium mb-8" style={{ color: "var(--text-secondary)" }}>
-        {lang === "de" ? "Grundriss" : "Floor Plan"}
+        {tr.floorPlanLabel}
       </p>
       <div className="grid grid-cols-1 gap-4">
         {plans.map((plan) => {
@@ -136,7 +124,7 @@ function FloorPlan({ lang }: { lang: string }) {
 }
 
 /* ── Matterport ──────────────────────────────────────────────────── */
-function MatterportSection({ lang }: { lang: string }) {
+function MatterportSection({ tr }: { tr: Record<string, string> }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
@@ -149,7 +137,7 @@ function MatterportSection({ lang }: { lang: string }) {
       className="mb-24"
     >
       <p className="text-[12px] tracking-[0.25em] uppercase font-manrope font-medium mb-8" style={{ color: "var(--text-secondary)" }}>
-        {lang === "de" ? "Virtueller Rundgang" : "Virtual Tour"}
+        {tr.virtualTourLabel}
       </p>
       <a
         href="https://my.matterport.com/show/?m=peYyiUWJ3NA"
@@ -182,10 +170,10 @@ function MatterportSection({ lang }: { lang: string }) {
           </div>
           <div>
             <p className="font-manrope font-semibold text-white text-lg mb-0.5">
-              {lang === "de" ? "3D Rundgang" : "3D Virtual Tour"}
+              {tr.tour3D}
             </p>
             <p className="text-[12px] tracking-[0.1em] uppercase font-manrope" style={{ color: "rgba(255,255,255,0.55)" }}>
-              {lang === "de" ? "In neuem Tab öffnen" : "Open in new tab"}
+              {tr.tourOpen}
             </p>
           </div>
         </div>
@@ -234,10 +222,10 @@ export default function Yacht() {
         <div id="yacht-gallery"><YachtGallery /></div>
 
         {/* ── Floor Plan ─────────────────────────────────────────── */}
-        <FloorPlan lang={lang} />
+        <FloorPlan tr={tr as unknown as Record<string, string>} />
 
         {/* ── Matterport ─────────────────────────────────────────── */}
-        <div id="yacht-tour"><MatterportSection lang={lang} /></div>
+        <div id="yacht-tour"><MatterportSection tr={tr as unknown as Record<string, string>} /></div>
 
         {/* ── Technical specs ────────────────────────────────────── */}
         <motion.div
@@ -249,7 +237,7 @@ export default function Yacht() {
           className="mb-24"
         >
           <p className="text-[12px] tracking-[0.25em] uppercase mb-8 font-manrope font-medium" style={{ color: "var(--text-secondary)" }}>
-            {lang === "de" ? "Technische Daten" : "Technical Specifications"}
+            {tr.specsLabel}
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {specs.map((spec, i) => (
@@ -279,7 +267,7 @@ export default function Yacht() {
         </motion.div>
 
         {/* ── Watersports included ───────────────────────────────── */}
-        <div id="yacht-watersports"><WatersportsIncluded lang={lang} specsInView={specsInView} /></div>
+        <div id="yacht-watersports"><WatersportsIncluded tr={tr as unknown as Record<string, string>} specsInView={specsInView} lang={lang} /></div>
 
       </div>
     </section>
@@ -287,15 +275,15 @@ export default function Yacht() {
 }
 
 const ACTIVITIES = [
-  { key: "Wakeboard",   img: "/wakeboard-new.avif",  labelDe: "Wakeboard" },
-  { key: "Water Ski",   img: "/water-ski.jpg",       labelDe: "Wasserski" },
-  { key: "Shock Wave",  img: "/Shockwave-new.webp",  labelDe: "Shock Wave" },
-  { key: "Snorkeling",  img: "/Snorkeling_new.jpg",  labelDe: "Schnorcheln" },
-  { key: "Diving",      img: "/diving-new.avif", labelDe: "Tauchen" },
-  { key: "Fishing",     img: "/fishing-new.jpg", labelDe: "Angeln" },
+  { key: "Wakeboard",   img: "/wakeboard-new.avif",  labelDe: "Wakeboard",   labelIt: "Wakeboard",   labelFr: "Wakeboard" },
+  { key: "Water Ski",   img: "/water-ski.jpg",       labelDe: "Wasserski",   labelIt: "Sci d'acqua", labelFr: "Ski nautique" },
+  { key: "Shock Wave",  img: "/Shockwave-new.webp",  labelDe: "Shock Wave",  labelIt: "Shock Wave",  labelFr: "Shock Wave" },
+  { key: "Snorkeling",  img: "/Snorkeling_new.jpg",  labelDe: "Schnorcheln", labelIt: "Snorkeling",  labelFr: "Snorkeling" },
+  { key: "Diving",      img: "/diving-new.avif",     labelDe: "Tauchen",     labelIt: "Immersione",  labelFr: "Plongée" },
+  { key: "Fishing",     img: "/fishing-new.jpg",     labelDe: "Angeln",      labelIt: "Pesca",       labelFr: "Pêche" },
 ];
 
-function WatersportsIncluded({ lang, specsInView }: { lang: string; specsInView: boolean }) {
+function WatersportsIncluded({ tr, specsInView, lang }: { tr: Record<string, string>; specsInView: boolean; lang: string }) {
   const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
   return (
     <motion.div
@@ -304,12 +292,10 @@ function WatersportsIncluded({ lang, specsInView }: { lang: string; specsInView:
       transition={{ duration: 0.9, delay: 0.2, ease }}
     >
       <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-manrope font-medium" style={{ color: "var(--text-secondary)" }}>
-        {lang === "de" ? "Wassersport" : "Watersports"}
+        {tr.watersportsLabel}
       </p>
       <p className="text-base font-light leading-relaxed mb-8 max-w-2xl" style={{ color: "var(--text-secondary)" }}>
-        {lang === "de"
-          ? "Unser Katamaran ist nicht nur zum Segeln da. Ob Sie Geschwindigkeit suchen oder die Stille unter Wasser geniessen möchten — wir haben für jeden etwas."
-          : "Our catamaran is not just for sailing. Whether you are looking for speed or want to enjoy the silence underwater, we have something for everyone."}
+        {tr.watersportsDesc}
       </p>
       <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
         {ACTIVITIES.map((a, i) => (
@@ -330,7 +316,7 @@ function WatersportsIncluded({ lang, specsInView }: { lang: string; specsInView:
             />
             <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(5,15,30,0.75) 0%, transparent 60%)" }} />
             <p className="absolute bottom-2 left-0 right-0 text-center text-[10px] tracking-[0.08em] uppercase font-manrope font-medium text-white">
-              {lang === "de" ? a.labelDe : a.key}
+              {lang === "de" ? a.labelDe : lang === "it" ? a.labelIt : lang === "fr" ? a.labelFr : a.key}
             </p>
           </motion.div>
         ))}
