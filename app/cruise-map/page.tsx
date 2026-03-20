@@ -353,8 +353,11 @@ export default function CruiseMapPage() {
       const rawIdx = Math.min(Math.floor(progress * STOPS.length), STOPS.length - 1);
       const cur = activeIdxRef.current;
       let next = cur;
-      if (rawIdx > cur && progress >= rawIdx * zoneSize + buf) next = rawIdx;
-      else if (rawIdx < cur && progress <= (rawIdx + 1) * zoneSize - buf) next = rawIdx;
+
+      // Advance only one step at a time to avoid skipping stops
+      if (rawIdx > cur && progress >= (cur + 1) * zoneSize + buf) next = cur + 1;
+      else if (rawIdx < cur && progress <= cur * zoneSize - buf) next = cur - 1;
+
       if (next !== cur) {
         activeIdxRef.current = next;
         setActiveId(STOPS[next].id);
