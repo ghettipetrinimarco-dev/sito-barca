@@ -11,7 +11,7 @@ export default function CruisePlan() {
     <section
       id="cruise-plan"
       className="relative"
-      style={{ height: "100vh" }}
+      style={{ height: "60vh" }}
     >
       {/* Background map */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -21,7 +21,7 @@ export default function CruisePlan() {
         style={{
           position: "absolute", inset: 0,
           width: "100%", height: "100%",
-          objectFit: "fill",
+          objectFit: "cover",
           filter: "saturate(0.15) brightness(0.5)",
         }}
       />
