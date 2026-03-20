@@ -101,7 +101,7 @@ const STOPS = [
 
 // Route path in 2048×1143 coordinate space
 const ROUTE =
-  "M 312,407 C 460,500 578,572 696,641 L 829,493 L 696,641 C 618,676 544,707 476,731 L 472,784 L 476,731 C 556,698 626,668 696,641 C 1055,594 1358,556 1653,522 L 1655,151 L 1653,522 Q 1745,700 1837,880";
+  "M 312,407 L 696,641 L 829,493 L 476,731 L 472,784 L 1653,522 L 1655,151 L 1837,880";
 
 export default function CruisePlan() {
   const { lang } = useLang();
@@ -220,7 +220,11 @@ export default function CruisePlan() {
 
         {/* ── Gradients ──────────────────────────────────────────── */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: "linear-gradient(to bottom, rgba(7,16,30,0.55) 0%, transparent 18%, transparent 42%, rgba(7,16,30,0.98) 100%)",
+          background: "linear-gradient(to bottom, rgba(7,16,30,0.55) 0%, transparent 18%, transparent 55%, rgba(7,16,30,0.96) 100%)",
+          zIndex: 2,
+        }} />
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "linear-gradient(to right, rgba(7,16,30,0.7) 0%, transparent 40%)",
           zIndex: 2,
         }} />
 
@@ -236,48 +240,51 @@ export default function CruisePlan() {
           </h2>
         </div>
 
-        {/* ── Stop info — centered bottom title card ───────────────── */}
-        <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center text-center px-6"
+        {/* ── Stop info — bottom left ──────────────────────────────── */}
+        <div className="absolute bottom-0 left-0 px-6 lg:px-12"
           style={{ zIndex: 10, paddingBottom: "clamp(2rem, 5vh, 4rem)" }}>
           <AnimatePresence mode="wait">
             <motion.div key={activeId}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.4, ease }}
-              className="flex flex-col items-center"
+              className="flex items-end gap-5"
             >
-              {/* Location photo */}
-              <div className="relative mb-4 overflow-hidden"
-                style={{ width: "clamp(140px,14vw,200px)", height: "clamp(88px,9vw,126px)", borderRadius: 6, border: "1px solid rgba(255,255,255,0.12)" }}>
-                <Image src={active.image} alt={active.city} fill className="object-cover" sizes="200px" />
+              {/* Photo */}
+              <div className="relative flex-shrink-0 overflow-hidden hidden lg:block"
+                style={{ width: 130, height: 86, borderRadius: 6, border: "1px solid rgba(255,255,255,0.1)" }}>
+                <Image src={active.image} alt={active.city} fill className="object-cover" sizes="130px" />
               </div>
 
-              <p className="font-manrope text-[10px] tracking-[0.38em] uppercase mb-2"
-                style={{ color: "rgba(255,255,255,0.4)" }}>
-                {active.month} · {active.region}
-              </p>
-              <h3 className="font-manrope font-bold text-white mb-3"
-                style={{ fontSize: "clamp(1.8rem, 3.5vw, 3.2rem)", lineHeight: 1 }}>
-                {active.city === "San Carles de la Ràpita" ? "La Ràpita" : active.city}
-              </h3>
-              <p className="font-manrope font-light leading-relaxed"
-                style={{ color: "rgba(255,255,255,0.5)", fontSize: "clamp(0.78rem, 1vw, 0.9rem)", maxWidth: "32rem" }}>
-                {lang === "de" ? active.de : active.en}
-              </p>
-              {activeId === "bizerte" && (
-                <a href="#contact"
-                  className="inline-flex items-center gap-2.5 font-manrope font-semibold text-[12px] tracking-[0.1em] uppercase px-7 py-3.5 mt-5 transition-all duration-300"
-                  style={{ background: "var(--accent)", color: "#fff", borderRadius: 8 }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
-                >
-                  {lang === "de" ? "Reise buchen" : "Book your cruise"}
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
-              )}
+              {/* Text */}
+              <div>
+                <p className="font-manrope text-[10px] tracking-[0.36em] uppercase mb-1.5"
+                  style={{ color: "rgba(255,255,255,0.4)" }}>
+                  {active.month} · {active.region}
+                </p>
+                <h3 className="font-manrope font-bold text-white mb-2"
+                  style={{ fontSize: "clamp(1.6rem, 3vw, 2.8rem)", lineHeight: 1 }}>
+                  {active.city === "San Carles de la Ràpita" ? "La Ràpita" : active.city}
+                </h3>
+                <p className="font-manrope font-light leading-relaxed"
+                  style={{ color: "rgba(255,255,255,0.5)", fontSize: "clamp(0.78rem, 1vw, 0.88rem)", maxWidth: "26rem" }}>
+                  {lang === "de" ? active.de : active.en}
+                </p>
+                {activeId === "bizerte" && (
+                  <a href="#contact"
+                    className="inline-flex items-center gap-2.5 font-manrope font-semibold text-[12px] tracking-[0.1em] uppercase px-6 py-3 mt-4 transition-all duration-300"
+                    style={{ background: "var(--accent)", color: "#fff", borderRadius: 8 }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
+                  >
+                    {lang === "de" ? "Reise buchen" : "Book your cruise"}
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </a>
+                )}
+              </div>
             </motion.div>
           </AnimatePresence>
 
