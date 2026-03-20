@@ -14,7 +14,7 @@ const STOPS = [
     region: "Costa Daurada · Spain",
     month: "May",
     dates: "10 May 2026",
-    x: 160, y: 285,
+    x: 137, y: 178,
     image: "/images/cruise/la-rapita.jpg",
     en: "Our journey begins in the sheltered bay of La Ràpita — a quiet fishing village on the Costa Daurada, the perfect departure point before the open Mediterranean.",
     de: "Unsere Reise beginnt in der geschützten Bucht von La Ràpita — ein ruhiges Fischerdorf an der Costa Daurada.",
@@ -25,7 +25,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "May",
     dates: "May – Jun 2026",
-    x: 395, y: 345,
+    x: 305, y: 249,
     image: "/images/cruise/mallorca.jpg",
     en: "The crown jewel of the Balearics. Dramatic cliffs, hidden coves and crystal waters make Mallorca an unmissable first stop of the island arc.",
     de: "Das Juwel der Balearen. Dramatische Klippen, versteckte Buchten und kristallklares Wasser.",
@@ -36,7 +36,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun",
     dates: "May – Jun 2026",
-    x: 535, y: 308,
+    x: 370, y: 210,
     image: "/images/cruise/menorca.jpg",
     en: "Wilder and quieter than her sisters. Menorca's turquoise lagoons and UNESCO Biosphere Reserve offer raw Mediterranean nature at its finest.",
     de: "Wilder und ruhiger als ihre Schwestern. Menorcas türkisfarbene Lagunen und das UNESCO-Biosphärenreservat.",
@@ -47,7 +47,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun",
     dates: "Jun 2026",
-    x: 255, y: 445,
+    x: 199, y: 317,
     image: "/images/cruise/ibiza.jpg",
     en: "Beyond the nightlife lies a magical island of ancient villages, pine forests and secret beaches bathed in golden Mediterranean light.",
     de: "Jenseits des Nachtlebens: eine magische Insel mit alten Dörfern, Pinienwäldern und geheimen Stränden.",
@@ -58,7 +58,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun/Sep",
     dates: "Jun – Sep 2026",
-    x: 262, y: 464,
+    x: 204, y: 340,
     image: "/images/cruise/formentera.jpg",
     en: "The Caribbean of Europe. Formentera's shallow turquoise waters and white sand beaches are the crowning glory of the Balearic arc.",
     de: "Die Karibik Europas. Flache türkisfarbene Gewässer und weisse Sandstrände am Ende des Balearen-Bogens.",
@@ -69,7 +69,7 @@ const STOPS = [
     region: "Sardinia · Italy",
     month: "Sep",
     dates: "Sep 2026",
-    x: 1010, y: 390,
+    x: 700, y: 227,
     image: "/images/cruise/cagliari.jpg",
     en: "Sardinia's ancient capital rises from a lagoon. Roman ruins, rooftop views and warm Sardinian hospitality before the crossing south.",
     de: "Sardiniens alte Hauptstadt über der Lagune. Römische Ruinen, Dachterrassen und sardische Gastfreundschaft.",
@@ -80,7 +80,7 @@ const STOPS = [
     region: "Sardinia · Italy",
     month: "Sep",
     dates: "Sep 2026",
-    x: 1022, y: 198,
+    x: 711, y: 74,
     image: "/images/cruise/olbia.jpg",
     en: "Gateway to the Costa Smeralda. Where granite rocks tumble into emerald sea and the pace of life slows beautifully.",
     de: "Tor zur Costa Smeralda. Wo Granitfelsen ins smaragdgrüne Meer stürzen.",
@@ -91,27 +91,27 @@ const STOPS = [
     region: "Northern Tunisia",
     month: "Oct",
     dates: "4 Oct 2026",
-    x: 1055, y: 542,
+    x: 783, y: 388,
     image: "/images/cruise/bizerte.jpg",
     en: "Our final destination. Tunisia's northernmost city blends French colonial charm with Medina colour — the perfect winter harbour for Ventum.",
     de: "Unser letztes Ziel. Tunesiens nördlichste Stadt — der perfekte Winterhafen für Ventum.",
   },
 ];
 
-// Camera viewBox [x, y, w, h] — zoom capped ~1.8x to preserve image quality
+// Camera viewBox [x, y, w, h] — centered on each stop, zoom ~1.7x
 const CAMERAS: Record<string, [number, number, number, number]> = {
-  rapita:     [ -30,  30, 740, 419],
-  mallorca:   [  60, 160, 640, 362],
-  menorca:    [ 170, 150, 640, 362],
-  ibiza:      [ -20, 250, 620, 351],
-  formentera: [  -5, 270, 600, 340],
-  cagliari:   [ 600, 200, 660, 374],
-  olbia:      [ 640,  70, 640, 362],
-  bizerte:    [ 630, 330, 660, 374],
+  rapita:     [ -50,  10, 720, 408],
+  mallorca:   [ -30,  70, 660, 374],
+  menorca:    [  40,  60, 640, 362],
+  ibiza:      [ -80, 130, 600, 340],
+  formentera: [ -70, 150, 580, 329],
+  cagliari:   [ 350,  50, 680, 385],
+  olbia:      [ 370, -30, 660, 374],
+  bizerte:    [ 430, 200, 660, 374],
 };
 
 const ROUTE =
-  "M 160,285 C 260,308 330,328 395,345 L 535,308 L 395,345 C 350,385 295,420 255,445 L 262,464 L 255,445 C 310,408 355,378 395,345 C 590,378 795,400 1010,390 L 1022,198 L 1010,390 C 1030,460 1042,500 1055,542";
+  "M 137,178 C 200,206 255,228 305,249 L 370,210 L 305,249 C 268,276 232,298 199,317 L 204,340 L 199,317 C 255,294 280,271 305,249 C 460,242 582,237 700,227 L 711,74 L 700,227 Q 742,308 783,388";
 
 export default function CruisePlan() {
   const { lang } = useLang();
