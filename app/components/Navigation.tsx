@@ -14,9 +14,6 @@ function Dropdown({ items, isOpen }: { items: { label: string; href: string }[];
           0% { transform: translateX(-100%); }
           100% { transform: translateX(100%); }
         }
-        .nav-dropdown-item:hover .nav-shimmer {
-          animation: shimmerNav 0.6s ease-in-out;
-        }
       `}</style>
       <div
         style={{
@@ -27,37 +24,42 @@ function Dropdown({ items, isOpen }: { items: { label: string; href: string }[];
           overflow: "hidden",
         }}
       >
-        {items.map((item, i) => (
-          <a
-            key={i}
-            href={item.href}
-            target={item.href.startsWith("/") ? "_blank" : undefined}
-            rel={item.href.startsWith("/") ? "noopener noreferrer" : undefined}
-            className="nav-dropdown-item relative block px-5 py-3 text-[12px] tracking-[0.08em] uppercase overflow-hidden transition-all duration-200"
-            style={{
-              color: "var(--text-secondary)",
-              borderBottom: i < items.length - 1 ? "1px solid var(--border-light)" : "none",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.color = "var(--accent)";
-              (e.currentTarget as HTMLElement).style.background = "var(--surface-alt)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
-              (e.currentTarget as HTMLElement).style.background = "transparent";
-            }}
-          >
-            <span className="nav-shimmer absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(90deg, transparent 0%, rgba(74,127,181,0.12) 50%, transparent 100%)" }} />
-            <span className="relative">
-              {item.label.includes(" / ") ? (
-                <span className="flex flex-col leading-snug">
-                  <span>{item.label.split(" / ")[0]}</span>
-                  <span style={{ fontSize: "0.85em", opacity: 0.55 }}>{item.label.split(" / ")[1]}</span>
-                </span>
-              ) : item.label}
-            </span>
-          </a>
-        ))}
+        {items.map((item, i) => {
+          const isMap = item.href === "/cruise-map";
+          return (
+            <a
+              key={i}
+              href={item.href}
+              target={item.href.startsWith("/") ? "_blank" : undefined}
+              rel={item.href.startsWith("/") ? "noopener noreferrer" : undefined}
+              className="relative block px-5 py-3 text-[12px] tracking-[0.08em] uppercase overflow-hidden transition-all duration-200"
+              style={{
+                color: "var(--text-secondary)",
+                borderBottom: i < items.length - 1 ? "1px solid var(--border-light)" : "none",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.color = "var(--accent)";
+                (e.currentTarget as HTMLElement).style.background = "var(--surface-alt)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
+                (e.currentTarget as HTMLElement).style.background = "transparent";
+              }}
+            >
+              {isMap && (
+                <span className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(90deg, transparent 0%, rgba(74,127,181,0.12) 50%, transparent 100%)", animation: "shimmerNav 2.2s ease-in-out infinite" }} />
+              )}
+              <span className="relative">
+                {item.label.includes(" / ") ? (
+                  <span className="flex flex-col leading-snug">
+                    <span>{item.label.split(" / ")[0]}</span>
+                    <span style={{ fontSize: "0.85em", opacity: 0.55 }}>{item.label.split(" / ")[1]}</span>
+                  </span>
+                ) : item.label}
+              </span>
+            </a>
+          );
+        })}
       </div>
     </div>
   );
