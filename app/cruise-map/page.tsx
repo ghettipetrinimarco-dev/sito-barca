@@ -102,19 +102,27 @@ export default function CruiseMapPage() {
   const { lang } = useLang();
   const [activeId, setActiveId] = useState("rapita");
   const [activeIdx, setActiveIdx] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const activeIdxRef = useRef(0);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const active = STOPS.find((s) => s.id === activeId) ?? STOPS[0];
   const stopIndex = STOPS.findIndex((s) => s.id === activeId);
 
   const fx = active.px / 2048;
   const fy = active.py / 1143;
-  const z = active.zoom;
+  const z = isMobile ? 1 : active.zoom;
   const rawTx = (0.5 - fx * z) * 100;
   const rawTy = (0.5 - fy * z) * 100;
-  const tx = Math.min(0, Math.max(-(z - 1) * 100, rawTx));
-  const ty = Math.min(0, Math.max(-(z - 1) * 100, rawTy));
+  const tx = isMobile ? 0 : Math.min(0, Math.max(-(z - 1) * 100, rawTx));
+  const ty = isMobile ? 0 : Math.min(0, Math.max(-(z - 1) * 100, rawTy));
   const mapTransform = `translate(${tx}%, ${ty}%) scale(${z})`;
 
   // Scroll-driven stop selection within the scrollable container
@@ -289,10 +297,10 @@ export default function CruiseMapPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
-            className="flex flex-col"
+            className="flex flex-col lg:flex-col"
             style={{
               width: "min(100%, 300px)",
-              background: "rgba(7,16,30,0.45)",
+              background: "rgba(7,16,30,0.6)",
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
               borderRadius: 14,
@@ -302,21 +310,26 @@ export default function CruiseMapPage() {
               zIndex: 10,
             }}
           >
-            <div className="relative w-full overflow-hidden" style={{ aspectRatio: "3/2" }}>
+            {/* Hide photo on mobile to save space */}
+            <div className="relative w-full overflow-hidden hidden lg:block" style={{ aspectRatio: "3/2" }}>
               <Image src={active.image} alt={active.city} fill className="object-cover" sizes="300px" />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 60%, rgba(7,16,30,0.4) 100%)" }} />
             </div>
-            <div style={{ padding: "1rem 1.1rem 1.2rem" }}>
+            <div style={{ padding: "0.9rem 1.1rem 1rem" }}>
               <p className="font-manrope text-[10px] tracking-[0.36em] uppercase mb-1.5"
                 style={{ color: "rgba(255,255,255,0.6)" }}>
                 {active.month} · {active.region}
               </p>
               <h3 className="font-manrope font-bold text-white mb-2"
-                style={{ fontSize: "clamp(1.4rem, 2.4vw, 2.2rem)", lineHeight: 1 }}>
+                style={{ fontSize: "clamp(1.2rem, 2.4vw, 2.2rem)", lineHeight: 1 }}>
                 {active.city === "San Carles de la Ràpita" ? "La Ràpita" : active.city}
               </h3>
-              <p className="font-manrope font-light leading-relaxed"
+              <p className="font-manrope font-light leading-relaxed hidden lg:block"
                 style={{ color: "rgba(255,255,255,0.65)", fontSize: "clamp(0.75rem, 0.9vw, 0.85rem)" }}>
+                {lang === "de" ? active.de : active.en}
+              </p>
+              <p className="font-manrope font-light leading-relaxed lg:hidden text-sm"
+                style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.78rem" }}>
                 {lang === "de" ? active.de : active.en}
               </p>
               {activeId === "bizerte" && (
