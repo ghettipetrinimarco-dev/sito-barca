@@ -287,8 +287,8 @@ export const t = {
       ],
     },
     yacht: {
-      label: "Step aboard",
-      title: "DISCOVER THE YACHT",
+      label: "An Bord gehen",
+      title: "DIE YACHT ENTDECKEN",
       subtitle: "15 Meter Premium-Segelkatamaran",
       description: "Ein moderner Katamaran, gebaut für entspanntes Cruisen und professionelles Training. Grosszügige Aussenbereiche, komfortable Kabinen und vollständige Ausrüstung für Wassersport und Segelunterricht.",
       specs: [
@@ -449,7 +449,7 @@ export const t = {
           number: "02",
           title: "Crociera vacanze",
           description: "Naviga i mari a bordo del tuo yacht, lontano dalle rotte turistiche affollate, e scopri spiagge nascoste. Vivi il cielo notturno sull'acqua e decidi tu stesso se preferisci cucinare o essere cucinato.",
-          tag: "Leisure",
+          tag: "Vacanza",
         },
         {
           number: "03",
