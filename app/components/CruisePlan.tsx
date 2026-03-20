@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
 
@@ -219,7 +220,7 @@ export default function CruisePlan() {
 
         {/* ── Gradients ──────────────────────────────────────────── */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: "linear-gradient(to bottom, rgba(7,16,30,0.55) 0%, transparent 18%, transparent 55%, rgba(7,16,30,0.97) 100%)",
+          background: "linear-gradient(to bottom, rgba(7,16,30,0.55) 0%, transparent 18%, transparent 42%, rgba(7,16,30,0.98) 100%)",
           zIndex: 2,
         }} />
 
@@ -236,30 +237,37 @@ export default function CruisePlan() {
         </div>
 
         {/* ── Stop info — centered bottom title card ───────────────── */}
-        <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center text-center pb-12 px-6"
-          style={{ zIndex: 10 }}>
+        <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center text-center px-6"
+          style={{ zIndex: 10, paddingBottom: "clamp(2rem, 5vh, 4rem)" }}>
           <AnimatePresence mode="wait">
             <motion.div key={activeId}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.4, ease }}
+              className="flex flex-col items-center"
             >
-              <p className="font-manrope text-[10px] tracking-[0.38em] uppercase mb-3"
+              {/* Location photo */}
+              <div className="relative mb-4 overflow-hidden"
+                style={{ width: "clamp(140px,14vw,200px)", height: "clamp(88px,9vw,126px)", borderRadius: 6, border: "1px solid rgba(255,255,255,0.12)" }}>
+                <Image src={active.image} alt={active.city} fill className="object-cover" sizes="200px" />
+              </div>
+
+              <p className="font-manrope text-[10px] tracking-[0.38em] uppercase mb-2"
                 style={{ color: "rgba(255,255,255,0.4)" }}>
                 {active.month} · {active.region}
               </p>
               <h3 className="font-manrope font-bold text-white mb-3"
-                style={{ fontSize: "clamp(2rem, 4vw, 3.6rem)", lineHeight: 1 }}>
+                style={{ fontSize: "clamp(1.8rem, 3.5vw, 3.2rem)", lineHeight: 1 }}>
                 {active.city === "San Carles de la Ràpita" ? "La Ràpita" : active.city}
               </h3>
               <p className="font-manrope font-light leading-relaxed"
-                style={{ color: "rgba(255,255,255,0.52)", fontSize: "clamp(0.8rem, 1.1vw, 0.95rem)", maxWidth: "34rem" }}>
+                style={{ color: "rgba(255,255,255,0.5)", fontSize: "clamp(0.78rem, 1vw, 0.9rem)", maxWidth: "32rem" }}>
                 {lang === "de" ? active.de : active.en}
               </p>
               {activeId === "bizerte" && (
                 <a href="#contact"
-                  className="inline-flex items-center gap-2.5 font-manrope font-semibold text-[12px] tracking-[0.1em] uppercase px-7 py-3.5 mt-6 transition-all duration-300"
+                  className="inline-flex items-center gap-2.5 font-manrope font-semibold text-[12px] tracking-[0.1em] uppercase px-7 py-3.5 mt-5 transition-all duration-300"
                   style={{ background: "var(--accent)", color: "#fff", borderRadius: 8 }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
