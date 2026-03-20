@@ -244,25 +244,34 @@ export default function CruisePlan() {
         }} />
 
         {/* ── Stop info — bottom left ──────────────────────────────── */}
-        <div className="absolute bottom-0 left-0 px-6 lg:px-12"
-          style={{ zIndex: 10, paddingBottom: "clamp(2rem, 5vh, 4rem)" }}>
+        <div className="absolute bottom-0 left-0 px-6 lg:px-10"
+          style={{ zIndex: 10, paddingBottom: "clamp(2rem, 4vh, 3.5rem)" }}>
           <AnimatePresence mode="wait">
             <motion.div key={activeId}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.4, ease }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
               className="flex flex-col"
-              style={{ width: "clamp(220px, 22vw, 300px)" }}
+              style={{
+                width: "clamp(220px, 22vw, 300px)",
+                background: "rgba(7,16,30,0.45)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                borderRadius: 14,
+                border: "1px solid rgba(255,255,255,0.08)",
+                overflow: "hidden",
+              }}
             >
               {/* Photo */}
               <div className="relative w-full overflow-hidden"
-                style={{ aspectRatio: "3/2", borderRadius: 10, border: "1px solid rgba(255,255,255,0.15)", marginBottom: "1rem" }}>
-                <Image src={active.image} alt={active.city} fill className="object-cover" sizes="380px" />
+                style={{ aspectRatio: "3/2" }}>
+                <Image src={active.image} alt={active.city} fill className="object-cover" sizes="300px" />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 60%, rgba(7,16,30,0.4) 100%)" }} />
               </div>
 
               {/* Text */}
-              <div>
+              <div style={{ padding: "1rem 1.1rem 1.2rem" }}>
                 <p className="font-manrope text-[10px] tracking-[0.36em] uppercase mb-1.5"
                   style={{ color: "rgba(255,255,255,0.6)" }}>
                   {active.month} · {active.region}
