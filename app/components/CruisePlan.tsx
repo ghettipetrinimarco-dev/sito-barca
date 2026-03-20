@@ -204,7 +204,7 @@ export default function CruisePlan() {
         </div>
       </div>
 
-      <div
+      {mapUnlocked && <div
         className="overflow-hidden"
         style={{
           position: phase === "active" ? "fixed" : "absolute",
@@ -402,7 +402,7 @@ export default function CruisePlan() {
             );
           })}
         </div>
-      </div>
+      </div>}
     </section>
   );
 }
