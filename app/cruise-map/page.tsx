@@ -414,7 +414,7 @@ export default function CruiseMapPage() {
       </button>
 
       {/* Stop info card — bottom left */}
-      <div className="absolute left-0 right-auto px-14" style={{ zIndex: 10, bottom: "clamp(2rem, 4vh, 3.5rem)" }}>
+      <div className="absolute left-0 right-auto px-14" style={{ zIndex: 10, bottom: "clamp(4rem, 7vh, 6rem)" }}>
         <AnimatePresence mode="wait">
           <motion.div key={activeId}
             initial={{ opacity: 0, y: 16 }}
@@ -432,7 +432,7 @@ export default function CruiseMapPage() {
               pointerEvents: "none",
             }}
           >
-            <div className="relative w-full overflow-hidden" style={{ aspectRatio: "3/2" }}>
+            <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16/7" }}>
               <Image src={active.image} alt={active.city} fill className="object-cover" sizes="300px" />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 60%, rgba(7,16,30,0.4) 100%)" }} />
             </div>
