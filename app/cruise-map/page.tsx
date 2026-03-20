@@ -315,8 +315,6 @@ export default function CruiseMapPage() {
   const { lang } = useLang();
   const [activeId, setActiveId] = useState("rapita");
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const activeIdxRef = useRef(0);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 1024);
@@ -337,43 +335,9 @@ export default function CruiseMapPage() {
   const ty = Math.min(0, Math.max(-(z - 1) * 100, rawTy));
   const mapTransform = `translate(${tx}%, ${ty}%) scale(${z})`;
 
-  // Scroll-driven stop selection (desktop only)
-  useEffect(() => {
-    if (isMobile) return;
-    const container = containerRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      const scrollTop = container.scrollTop;
-      const totalScrollable = container.scrollHeight - container.clientHeight;
-      const progress = Math.max(0, Math.min(1, scrollTop / totalScrollable));
-
-      const zoneSize = 1 / STOPS.length;
-      const buf = zoneSize * 0.12;
-      const rawIdx = Math.min(Math.floor(progress * STOPS.length), STOPS.length - 1);
-      const cur = activeIdxRef.current;
-      let next = cur;
-
-      // Advance only one step at a time to avoid skipping stops
-      if (rawIdx > cur && progress >= (cur + 1) * zoneSize + buf) next = cur + 1;
-      else if (rawIdx < cur && progress <= cur * zoneSize - buf) next = cur - 1;
-
-      if (next !== cur) {
-        activeIdxRef.current = next;
-        setActiveId(STOPS[next].id);
-      }
-    };
-
-    container.addEventListener("scroll", handleScroll, { passive: true });
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, [isMobile]);
-
-  const scrollToStop = (i: number) => {
-    const container = containerRef.current;
-    if (!container) return;
-    const totalScrollable = container.scrollHeight - container.clientHeight;
-    const zoneSize = 1 / STOPS.length;
-    container.scrollTo({ top: (i * zoneSize + zoneSize * 0.5) * totalScrollable, behavior: "smooth" });
+  const goTo = (i: number) => {
+    const clamped = Math.max(0, Math.min(STOPS.length - 1, i));
+    setActiveId(STOPS[clamped].id);
   };
 
   // Avoid hydration mismatch — render nothing until client knows screen size
@@ -387,14 +351,6 @@ export default function CruiseMapPage() {
   // ── Desktop ──
   return (
     <div style={{ position: "fixed", inset: 0, background: "#07101e", overflow: "hidden", zIndex: 9999 }}>
-      {/* Scrollable driver */}
-      <div
-        ref={containerRef}
-        style={{ position: "absolute", inset: 0, overflowY: "scroll", zIndex: 50, color: "transparent" }}
-      >
-        <div style={{ height: `${STOPS.length * 80}vh` }} />
-      </div>
-
       {/* Map + SVG */}
       <div
         style={{
@@ -513,7 +469,7 @@ export default function CruiseMapPage() {
           return (
             <button
               key={stop.id}
-              onClick={() => scrollToStop(i)}
+              onClick={() => goTo(i)}
               className="font-manrope transition-all duration-500 cursor-pointer text-right"
               style={{
                 background: "none", border: "none", outline: "none", padding: 0,
@@ -521,13 +477,49 @@ export default function CruiseMapPage() {
                 fontWeight: isActive ? 600 : 300,
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                color: isActive ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.22)",
+                color: isActive ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.45)",
               }}
             >
               {label}
             </button>
           );
         })}
+
+        {/* Prev / Next arrows */}
+        <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+          <button
+            onClick={() => goTo(stopIndex - 1)}
+            disabled={stopIndex === 0}
+            style={{
+              width: 36, height: 36, borderRadius: "50%", cursor: stopIndex === 0 ? "default" : "pointer",
+              background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              opacity: stopIndex === 0 ? 0.25 : 1, transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => { if (stopIndex > 0) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.15)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.07)"; }}
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9,2 4,7 9,12" />
+            </svg>
+          </button>
+          <button
+            onClick={() => goTo(stopIndex + 1)}
+            disabled={stopIndex === STOPS.length - 1}
+            style={{
+              width: 36, height: 36, borderRadius: "50%", cursor: stopIndex === STOPS.length - 1 ? "default" : "pointer",
+              background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              opacity: stopIndex === STOPS.length - 1 ? 0.25 : 1, transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => { if (stopIndex < STOPS.length - 1) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.15)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.07)"; }}
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="5,2 10,7 5,12" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );
