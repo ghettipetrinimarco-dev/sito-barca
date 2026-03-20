@@ -253,7 +253,7 @@ export default function CruisePlan() {
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.4, ease }}
               className="flex flex-col"
-              style={{ width: "clamp(260px, 28vw, 380px)" }}
+              style={{ width: "clamp(220px, 22vw, 300px)" }}
             >
               {/* Photo */}
               <div className="relative w-full overflow-hidden"
