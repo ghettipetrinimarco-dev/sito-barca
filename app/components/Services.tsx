@@ -94,10 +94,10 @@ function ServiceRow({
 
         {/* Description — always visible */}
         <p
-          className="font-manrope leading-relaxed text-center max-w-lg mx-auto mt-4"
+          className="font-manrope leading-relaxed text-center max-w-xl mx-auto mt-4"
           style={{
-            fontSize: "0.95rem",
-            fontWeight: 400,
+            fontSize: "1.05rem",
+            fontWeight: 300,
             color: isActive ? "rgba(255,255,255,0.82)" : "rgba(255,255,255,0.5)",
             transform: isActive ? "scale(1.04)" : "scale(1)",
             transformOrigin: "center",
