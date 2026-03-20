@@ -139,7 +139,7 @@ export const t = {
       label: "Mediterranean 2026",
       title: "CRUISE PLAN 2026",
       headerLabel: "Cruise Plan 2026",
-      cta: "Start the journey",
+      cta: "Explore the interactive map",
       description: "We start in May in La Ràpita and end our journey in Bizerte. A long stopover takes us to the Balearic Islands — Mallorca, Menorca, Cabrera, Ibiza, and Formentera, the pearls of the Mediterranean. In September we continue to Sardinia, before departing for Tunisia for winter.",
     },
     ventumStory: {
@@ -367,7 +367,7 @@ export const t = {
       label: "Mittelmeer 2026",
       title: "REISEPLAN 2026",
       headerLabel: "Törn 2026",
-      cta: "Reise beginnen",
+      cta: "Interaktive Karte erkunden",
       description: "Wir starten im Mai in La Ràpita und beenden unsere Reise in Bizerte. Ein langer Aufenthalt führt uns zu den Balearen — Mallorca, Menorca, Cabrera, Ibiza und Formentera, die Perlen des Mittelmeers. Im September fahren wir weiter nach Sardinien, bevor wir Ende September in Richtung Tunesien aufbrechen.",
     },
     ventumStory: {
@@ -595,7 +595,7 @@ export const t = {
       label: "Mediterraneo 2026",
       title: "PIANO DI ROTTA 2026",
       headerLabel: "Piano di rotta 2026",
-      cta: "Inizia il viaggio",
+      cta: "Esplora la mappa interattiva",
       description: "Partiamo a maggio da La Ràpita e concludiamo il viaggio a Biserta. Una lunga sosta ci porta alle Isole Baleari — Maiorca, Minorca, Cabrera, Ibiza e Formentera, le perle del Mediterraneo. A settembre proseguiamo verso la Sardegna, prima di partire per la Tunisia per l'inverno.",
     },
     ventumStory: {
@@ -823,7 +823,7 @@ export const t = {
       label: "Méditerranée 2026",
       title: "PLAN DE CROISIÈRE 2026",
       headerLabel: "Plan de croisière 2026",
-      cta: "Commencer le voyage",
+      cta: "Explorer la carte interactive",
       description: "Nous partons en mai de La Ràpita et terminons notre voyage à Bizerte. Une longue escale nous emmène aux Îles Baléares — Majorque, Minorque, Cabrera, Ibiza et Formentera, les joyaux de la Méditerranée. En septembre, nous continuons vers la Sardaigne avant de partir pour la Tunisie pour l'hiver.",
     },
     ventumStory: {
