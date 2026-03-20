@@ -225,7 +225,7 @@ export default function CruisePlan() {
         }} />
 
         {/* ── Header top-center ───────────────────────────────────── */}
-        <div className="absolute top-0 left-0 right-0 flex flex-col items-center pt-20" style={{ zIndex: 10 }}>
+        <div className="absolute top-0 left-0 right-0 flex flex-col items-center" style={{ zIndex: 10, paddingTop: "clamp(5rem, 10vh, 8rem)" }}>
           <p className="font-manrope text-[10px] tracking-[0.3em] uppercase font-light"
             style={{ color: "rgba(255,255,255,0.35)" }}>
             {lang === "de" ? "Törn 2026" : "Cruise Plan 2026"}
