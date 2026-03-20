@@ -250,13 +250,32 @@ export default function CruiseMapPage() {
       {/* Close button */}
       <button
         onClick={() => window.close()}
-        className="absolute top-6 right-6 lg:top-8 lg:right-10 font-manrope text-[11px] tracking-[0.15em] uppercase flex items-center gap-2"
-        style={{ zIndex: 60, color: "rgba(255,255,255,0.45)", background: "none", border: "none", cursor: "pointer", opacity: 0.45, transition: "opacity 0.3s" }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = "0.45"; }}
+        className="absolute top-6 right-6 lg:top-8 lg:right-10 font-manrope text-[11px] tracking-[0.15em] uppercase flex items-center gap-2 transition-all duration-300"
+        style={{
+          zIndex: 60, cursor: "pointer",
+          color: "rgba(255,255,255,0.85)",
+          background: "rgba(7,16,30,0.55)",
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+          border: "1px solid rgba(255,255,255,0.12)",
+          borderRadius: 8,
+          padding: "8px 14px",
+        }}
+        onMouseEnter={(e) => {
+          const el = e.currentTarget as HTMLElement;
+          el.style.background = "rgba(255,255,255,0.12)";
+          el.style.borderColor = "rgba(255,255,255,0.3)";
+          el.style.color = "#fff";
+        }}
+        onMouseLeave={(e) => {
+          const el = e.currentTarget as HTMLElement;
+          el.style.background = "rgba(7,16,30,0.55)";
+          el.style.borderColor = "rgba(255,255,255,0.12)";
+          el.style.color = "rgba(255,255,255,0.85)";
+        }}
       >
         {lang === "de" ? "Schliessen" : "Close map"}
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
           <path d="M2 2l10 10M12 2L2 12" />
         </svg>
       </button>
