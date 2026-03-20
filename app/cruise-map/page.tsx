@@ -17,6 +17,8 @@ const STOPS = [
     image: "/LaRapita-new.jpg",
     en: "Our journey begins in the sheltered bay of La Ràpita — a quiet fishing village on the Costa Daurada, the perfect departure point before the open Mediterranean.",
     de: "Unsere Reise beginnt in der geschützten Bucht von La Ràpita — ein ruhiges Fischerdorf an der Costa Daurada.",
+    it: "Il nostro viaggio inizia nella baia protetta di La Ràpita — un tranquillo villaggio di pescatori sulla Costa Daurada, il punto di partenza perfetto prima del Mediterraneo aperto.",
+    fr: "Notre voyage commence dans la baie protégée de La Ràpita — un paisible village de pêcheurs sur la Costa Daurada, le point de départ idéal avant la Méditerranée ouverte.",
   },
   {
     id: "mallorca",
@@ -28,6 +30,8 @@ const STOPS = [
     image: "/images/cruise/mallorca.jpg",
     en: "The crown jewel of the Balearics. Dramatic cliffs, hidden coves and crystal waters make Mallorca an unmissable first stop of the island arc.",
     de: "Das Juwel der Balearen. Dramatische Klippen, versteckte Buchten und kristallklares Wasser.",
+    it: "Il gioiello della corona delle Baleari. Scogliere drammatiche, calette nascoste e acque cristalline rendono Maiorca una prima tappa imperdibile dell'arco insulare.",
+    fr: "Le joyau des Baléares. Falaises dramatiques, criques cachées et eaux cristallines font de Majorque une première escale incontournable de l'arc insulaire.",
   },
   {
     id: "menorca",
@@ -39,6 +43,8 @@ const STOPS = [
     image: "/Menorca-new.webp",
     en: "Wilder and quieter than her sisters. Menorca's turquoise lagoons and UNESCO Biosphere Reserve offer raw Mediterranean nature at its finest.",
     de: "Wilder und ruhiger als ihre Schwestern. Menorcas türkisfarbene Lagunen und das UNESCO-Biosphärenreservat.",
+    it: "Più selvaggia e silenziosa delle sue sorelle. Le lagune turchesi di Minorca e la riserva della biosfera UNESCO offrono la natura mediterranea più autentica.",
+    fr: "Plus sauvage et plus tranquille que ses sœurs. Les lagunes turquoise de Minorque et la réserve de biosphère UNESCO offrent la nature méditerranéenne dans toute sa splendeur.",
   },
   {
     id: "ibiza",
@@ -50,6 +56,8 @@ const STOPS = [
     image: "/ibiza-new.jpg",
     en: "Beyond the nightlife lies a magical island of ancient villages, pine forests and secret beaches bathed in golden Mediterranean light.",
     de: "Jenseits des Nachtlebens: eine magische Insel mit alten Dörfern, Pinienwäldern und geheimen Stränden.",
+    it: "Al di là della vita notturna si nasconde un'isola magica di villaggi antichi, foreste di pini e spiagge segrete bagnate dalla luce dorata del Mediterraneo.",
+    fr: "Au-delà de la vie nocturne se cache une île magique de villages anciens, de forêts de pins et de plages secrètes baignées dans la lumière dorée méditerranéenne.",
   },
   {
     id: "formentera",
@@ -61,6 +69,8 @@ const STOPS = [
     image: "/formentera-new.jpg",
     en: "The Caribbean of Europe. Formentera's shallow turquoise waters and white sand beaches are the crowning glory of the Balearic arc.",
     de: "Die Karibik Europas. Flache türkisfarbene Gewässer und weisse Sandstrände am Ende des Balearen-Bogens.",
+    it: "I Caraibi d'Europa. Le acque turchesi poco profonde e le spiagge di sabbia bianca di Formentera sono il coronamento dell'arco balearico.",
+    fr: "Les Caraïbes de l'Europe. Les eaux turquoise peu profondes et les plages de sable blanc de Formentera sont le joyau de l'arc des Baléares.",
   },
   {
     id: "olbia",
@@ -72,6 +82,8 @@ const STOPS = [
     image: "/olbia-new.jpg",
     en: "Gateway to the Costa Smeralda. Where granite rocks tumble into emerald sea and the pace of life slows beautifully.",
     de: "Tor zur Costa Smeralda. Wo Granitfelsen ins smaragdgrüne Meer stürzen.",
+    it: "Porta d'accesso alla Costa Smeralda. Dove le rocce di granito si tuffano nel mare smeraldo e il ritmo della vita rallenta magnificamente.",
+    fr: "Porte d'entrée de la Costa Smeralda. Là où les rochers de granit plongent dans la mer émeraude et où le rythme de vie ralentit magnifiquement.",
   },
   {
     id: "cagliari",
@@ -83,6 +95,8 @@ const STOPS = [
     image: "/cagliari-new.jpg",
     en: "Sardinia's ancient capital rises from a lagoon. Roman ruins, rooftop views and warm Sardinian hospitality before the crossing south.",
     de: "Sardiniens alte Hauptstadt über der Lagune. Römische Ruinen, Dachterrassen und sardische Gastfreundschaft.",
+    it: "L'antica capitale della Sardegna si erge da una laguna. Rovine romane, terrazze panoramiche e la calorosa ospitalità sarda prima della traversata verso sud.",
+    fr: "L'antique capitale de la Sardaigne surgit d'une lagune. Ruines romaines, toits-terrasses et chaleureuse hospitalité sarde avant la traversée vers le sud.",
   },
   {
     id: "bizerte",
@@ -94,6 +108,8 @@ const STOPS = [
     image: "/Bizerte-new.jpg",
     en: "Our final destination. Tunisia's northernmost city blends French colonial charm with Medina colour — the perfect winter harbour for Ventum.",
     de: "Unser letztes Ziel. Tunesiens nördlichste Stadt — der perfekte Winterhafen für Ventum.",
+    it: "La nostra destinazione finale. La città più settentrionale della Tunisia fonde il fascino coloniale francese con i colori della Medina — il porto invernale perfetto per Ventum.",
+    fr: "Notre destination finale. La ville la plus septentrionale de Tunisie mêle charme colonial français et couleurs de la Médina — le port d'hivernage parfait pour Ventum.",
   },
 ];
 
@@ -278,7 +294,7 @@ function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
                 </p>
                 {isActive && (
                   <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.72rem", fontFamily: "var(--font-manrope)", fontWeight: 300, lineHeight: 1.4, marginTop: 4 }}>
-                    {lang === "de" ? stop.de : stop.en /* IT/FR: fallback to EN */}
+                    {lang === "de" ? stop.de : lang === "it" ? stop.it : lang === "fr" ? stop.fr : stop.en}
                   </p>
                 )}
               </div>
@@ -447,7 +463,7 @@ export default function CruiseMapPage() {
                 {active.city === "San Carles de la Ràpita" ? "La Ràpita" : active.city}
               </h3>
               <p className="font-manrope font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.65)", fontSize: "clamp(0.75rem, 0.9vw, 0.85rem)" }}>
-                {lang === "de" ? active.de : active.en /* IT/FR: fallback to EN */}
+                {lang === "de" ? active.de : lang === "it" ? active.it : lang === "fr" ? active.fr : active.en}
               </p>
               {activeId === "bizerte" && (
                 <a href="/#contact"
