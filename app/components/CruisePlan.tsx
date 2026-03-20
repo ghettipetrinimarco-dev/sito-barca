@@ -103,11 +103,10 @@ const STOPS = [
 export default function CruisePlan() {
   const { lang } = useLang();
   const [activeId, setActiveId] = useState("rapita");
-  const [phase, setPhase] = useState<"before" | "active" | "after">("before");
-  const [introVisible, setIntroVisible] = useState(false);
-  const introDismissed = useRef(false);
+  const [phase, setPhase] = useState<"before" | "intro" | "active" | "after">("before");
   const sectionRef = useRef<HTMLElement>(null);
   const activeIdxRef = useRef(0);
+  const INTRO_VH = 100;
 
   const active = STOPS.find((s) => s.id === activeId) ?? STOPS[0];
 
@@ -129,30 +128,26 @@ export default function CruisePlan() {
       if (!section) return;
       const { top, height } = section.getBoundingClientRect();
       const vh = window.innerHeight;
-      const scrollable = height - vh;
+      const introHeight = (INTRO_VH / 100) * vh;
+      const scrollable = height - vh - introHeight;
+
       if (top > 0) {
-        // Reset intro when scrolling back above the section
-        introDismissed.current = false;
-        activeIdxRef.current = 0;
-        setIntroVisible(false);
         setPhase("before");
-      } else if (top <= 0 && top > -scrollable) {
-        if (!introDismissed.current) {
-          // Show intro, don't activate map yet
-          setIntroVisible(true);
-          setPhase("before");
-        } else {
-          setPhase("active");
-          const progress = Math.max(0, Math.min(1, -top / scrollable));
-          const zoneSize = 1 / STOPS.length;
-          const buf = zoneSize * 0.12;
-          const rawIdx = Math.min(Math.floor(progress * STOPS.length), STOPS.length - 1);
-          const cur = activeIdxRef.current;
-          let next = cur;
-          if (rawIdx > cur && progress >= rawIdx * zoneSize + buf) next = rawIdx;
-          else if (rawIdx < cur && progress <= (rawIdx + 1) * zoneSize - buf) next = rawIdx;
-          if (next !== cur) { activeIdxRef.current = next; setActiveId(STOPS[next].id); }
-        }
+      } else if (top <= 0 && top > -introHeight) {
+        // Intro zone — sticky intro, user can scroll through freely
+        setPhase("intro");
+      } else if (top <= -introHeight && top > -introHeight - scrollable) {
+        // Interactive zone
+        setPhase("active");
+        const progress = Math.max(0, Math.min(1, (-top - introHeight) / scrollable));
+        const zoneSize = 1 / STOPS.length;
+        const buf = zoneSize * 0.12;
+        const rawIdx = Math.min(Math.floor(progress * STOPS.length), STOPS.length - 1);
+        const cur = activeIdxRef.current;
+        let next = cur;
+        if (rawIdx > cur && progress >= rawIdx * zoneSize + buf) next = rawIdx;
+        else if (rawIdx < cur && progress <= (rawIdx + 1) * zoneSize - buf) next = rawIdx;
+        if (next !== cur) { activeIdxRef.current = next; setActiveId(STOPS[next].id); }
       } else {
         setPhase("after");
       }
@@ -167,68 +162,50 @@ export default function CruisePlan() {
       ref={sectionRef}
       id="cruise-plan"
       className="relative"
-      style={{ height: `${STOPS.length * 130}vh` }}
+      style={{ height: `${INTRO_VH + STOPS.length * 130}vh` }}
     >
-      {/* ── Intro overlay (fixed, fades out on click) ────────────── */}
-      <AnimatePresence>
-        {introVisible && (
-          <motion.div
-            key="intro"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1] }}
-            style={{ position: "fixed", inset: 0, zIndex: 50, background: "#07101e" }}
+      {/* ── Intro panel — sticky while in intro zone ─────────────── */}
+      <div style={{
+        position: phase === "intro" ? "fixed" : "absolute",
+        top: 0, left: 0, right: 0, height: "100vh",
+        zIndex: 30, background: "#07101e",
+        pointerEvents: phase === "intro" ? "auto" : "none",
+        opacity: phase === "intro" ? 1 : 0,
+      }}>
+        <img src="/mediterranean-map.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", filter: "saturate(0.15) brightness(0.5)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "rgba(7,16,30,0.55)" }} />
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
+          <p className="font-manrope text-[11px] tracking-[0.3em] uppercase font-light" style={{ color: "rgba(255,255,255,0.4)" }}>
+            {lang === "de" ? "Törn 2026" : "Cruise Plan 2026"}
+          </p>
+          <h2 className="font-manrope font-bold text-white text-center" style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", lineHeight: 1.1 }}>
+            Mediterranean Route
+          </h2>
+          <button
+            onClick={() => {
+              const section = sectionRef.current;
+              if (!section) return;
+              const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({ top: sectionTop + window.innerHeight * (INTRO_VH / 100) + 8, behavior: "smooth" });
+            }}
+            className="font-manrope font-semibold text-[12px] tracking-[0.12em] uppercase px-8 py-3.5 mt-2 transition-all duration-300"
+            style={{ background: "var(--accent)", color: "#fff", borderRadius: 8 }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
           >
-            <img src="/mediterranean-map.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", filter: "saturate(0.15) brightness(0.5)" }} />
-            <div style={{ position: "absolute", inset: 0, background: "rgba(7,16,30,0.55)" }} />
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
-              <motion.p
-                initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }}
-                className="font-manrope text-[11px] tracking-[0.3em] uppercase font-light"
-                style={{ color: "rgba(255,255,255,0.4)" }}
-              >
-                {lang === "de" ? "Törn 2026" : "Cruise Plan 2026"}
-              </motion.p>
-              <motion.h2
-                initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.9 }}
-                className="font-manrope font-bold text-white text-center"
-                style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", lineHeight: 1.1 }}
-              >
-                Mediterranean Route
-              </motion.h2>
-              <motion.button
-                initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8 }}
-                onClick={() => {
-                  introDismissed.current = true;
-                  setIntroVisible(false);
-                  // Scroll to start of section so interactive map begins at stop 1
-                  const section = sectionRef.current;
-                  if (section) {
-                    const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-                    window.scrollTo({ top: sectionTop, behavior: "instant" });
-                  }
-                  setTimeout(() => window.dispatchEvent(new Event("scroll")), 50);
-                }}
-                className="font-manrope font-semibold text-[12px] tracking-[0.12em] uppercase px-8 py-3.5 mt-2 transition-all duration-300"
-                style={{ background: "var(--accent)", color: "#fff", borderRadius: 8 }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
-              >
-                {lang === "de" ? "Reise beginnen" : "Start the journey"}
-                <svg className="inline-block w-3.5 h-3.5 ml-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
-                </svg>
-              </motion.button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {lang === "de" ? "Reise beginnen" : "Start the journey"}
+            <svg className="inline-block w-3.5 h-3.5 ml-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
+      </div>
 
       <div
         className="overflow-hidden"
         style={{
           position: phase === "active" ? "fixed" : "absolute",
-          top: phase === "after" ? "auto" : 0,
+          top: phase === "after" ? "auto" : `${INTRO_VH}vh`,
           bottom: phase === "after" ? 0 : "auto",
           left: 0, right: 0, height: "100vh",
           background: "#07101e",
