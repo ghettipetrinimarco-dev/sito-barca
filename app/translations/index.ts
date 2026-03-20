@@ -132,9 +132,7 @@ export const t = {
       cta: "Meet Captain Marco",
       stats: [
         { value: "8+", label: "Years at sea" },
-        { value: "2", label: "Brothers" },
         { value: "2018", label: "Founded" },
-        { value: "Med", label: "Our home" },
       ],
     },
     captainMarco: {
@@ -329,9 +327,7 @@ export const t = {
       cta: "Kapitän Marco kennenlernen",
       stats: [
         { value: "8+", label: "Jahre auf See" },
-        { value: "2", label: "Brüder" },
         { value: "2018", label: "Gegründet" },
-        { value: "Med", label: "Unser Zuhause" },
       ],
     },
     captainMarco: {
