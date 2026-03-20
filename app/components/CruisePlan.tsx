@@ -106,9 +106,7 @@ export default function CruisePlan() {
   const [phase, setPhase] = useState<"before" | "active" | "after">("before");
   const sectionRef = useRef<HTMLElement>(null);
   const activeIdxRef = useRef(0);
-  const lastScrollY = useRef(0);
-  const lastScrollTime = useRef(Date.now());
-  const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const INTRO_VH = 100; // intro panel height before scroll-driven stops begin
 
   const active = STOPS.find((s) => s.id === activeId) ?? STOPS[0];
 
@@ -125,17 +123,21 @@ export default function CruisePlan() {
   const mapTransform = `translate(${tx}%, ${ty}%) scale(${z})`;
 
   useEffect(() => {
-    const VELOCITY_THRESHOLD = 1.8; // px/ms — above this = fast scroll, skip activation
-
-    const activate = () => {
+    const handleScroll = () => {
       const section = sectionRef.current;
       if (!section) return;
       const { top, height } = section.getBoundingClientRect();
       const vh = window.innerHeight;
-      const scrollable = height - vh;
-      if (top <= 0 && top > -scrollable) {
+      // The interactive zone starts after the intro panel
+      const introHeight = (INTRO_VH / 100) * vh;
+      const interactiveStart = -introHeight;
+      const scrollable = height - vh - introHeight;
+
+      if (top > 0) {
+        setPhase("before");
+      } else if (top <= interactiveStart && top > interactiveStart - scrollable) {
         setPhase("active");
-        const progress = Math.max(0, Math.min(1, -top / scrollable));
+        const progress = Math.max(0, Math.min(1, (-top - introHeight) / scrollable));
         const zoneSize = 1 / STOPS.length;
         const buf = zoneSize * 0.12;
         const rawIdx = Math.min(Math.floor(progress * STOPS.length), STOPS.length - 1);
@@ -144,46 +146,15 @@ export default function CruisePlan() {
         if (rawIdx > cur && progress >= rawIdx * zoneSize + buf) next = rawIdx;
         else if (rawIdx < cur && progress <= (rawIdx + 1) * zoneSize - buf) next = rawIdx;
         if (next !== cur) { activeIdxRef.current = next; setActiveId(STOPS[next].id); }
-      }
-    };
-
-    const handleScroll = () => {
-      const section = sectionRef.current;
-      if (!section) return;
-      const { top, height } = section.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const scrollable = height - vh;
-
-      // Velocity check
-      const now = Date.now();
-      const dt = Math.max(1, now - lastScrollTime.current);
-      const velocity = Math.abs(window.scrollY - lastScrollY.current) / dt;
-      lastScrollY.current = window.scrollY;
-      lastScrollTime.current = now;
-
-      if (top > 0) {
-        if (slowTimerRef.current) clearTimeout(slowTimerRef.current);
-        setPhase("before");
-      } else if (top <= 0 && top > -scrollable) {
-        if (velocity > VELOCITY_THRESHOLD) {
-          // Fast scroll — defer activation until user slows down
-          if (slowTimerRef.current) clearTimeout(slowTimerRef.current);
-          slowTimerRef.current = setTimeout(activate, 120);
-        } else {
-          if (slowTimerRef.current) clearTimeout(slowTimerRef.current);
-          activate();
-        }
+      } else if (top > interactiveStart) {
+        setPhase("before"); // inside intro panel, not yet active
       } else {
-        if (slowTimerRef.current) clearTimeout(slowTimerRef.current);
         setPhase("after");
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (slowTimerRef.current) clearTimeout(slowTimerRef.current);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -191,8 +162,39 @@ export default function CruisePlan() {
       ref={sectionRef}
       id="cruise-plan"
       className="relative"
-      style={{ height: `${STOPS.length * 130}vh` }}
+      style={{ height: `${INTRO_VH + STOPS.length * 130}vh` }}
     >
+      {/* ── Intro panel ─────────────────────────────────────────── */}
+      <div className="absolute top-0 left-0 right-0 overflow-hidden" style={{ height: `${INTRO_VH}vh` }}>
+        <img src="/mediterranean-map.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", filter: "saturate(0.15) brightness(0.6)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(7,16,30,0.3) 0%, rgba(7,16,30,0.7) 100%)" }} />
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
+          <p className="font-manrope text-[11px] tracking-[0.3em] uppercase font-light" style={{ color: "rgba(255,255,255,0.4)" }}>
+            {lang === "de" ? "Törn 2026" : "Cruise Plan 2026"}
+          </p>
+          <h2 className="font-manrope font-bold text-white text-center" style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", lineHeight: 1.1 }}>
+            Mediterranean Route
+          </h2>
+          <button
+            onClick={() => {
+              const section = sectionRef.current;
+              if (!section) return;
+              const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({ top: sectionTop + window.innerHeight * (INTRO_VH / 100) + 10, behavior: "smooth" });
+            }}
+            className="font-manrope font-semibold text-[12px] tracking-[0.12em] uppercase px-8 py-3.5 mt-2 transition-all duration-300"
+            style={{ background: "var(--accent)", color: "#fff", borderRadius: 8 }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
+          >
+            {lang === "de" ? "Reise beginnen" : "Start the journey"}
+            <svg className="inline-block w-3.5 h-3.5 ml-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
       <div
         className="overflow-hidden"
         style={{
