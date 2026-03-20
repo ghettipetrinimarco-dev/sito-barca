@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
 
@@ -218,116 +217,88 @@ export default function CruisePlan() {
           </svg>
         </div>
 
-        {/* ── Gradient overlays ──────────────────────────────────── */}
+        {/* ── Gradients ──────────────────────────────────────────── */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: "linear-gradient(to right, rgba(7,16,30,0.92) 0%, rgba(7,16,30,0.6) 30%, rgba(7,16,30,0.1) 65%, transparent 100%)",
-          zIndex: 2,
-        }} />
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: "linear-gradient(to bottom, rgba(7,16,30,0.5) 0%, transparent 20%, transparent 72%, rgba(7,16,30,0.85) 100%)",
+          background: "linear-gradient(to bottom, rgba(7,16,30,0.55) 0%, transparent 18%, transparent 55%, rgba(7,16,30,0.97) 100%)",
           zIndex: 2,
         }} />
 
-        {/* ── Header ─────────────────────────────────────────────── */}
-        <div className="absolute top-0 left-0 right-0 px-6 lg:px-14 pt-24" style={{ zIndex: 10 }}>
-          <div className="max-w-7xl mx-auto">
-            <p className="text-[11px] tracking-[0.28em] uppercase mb-2 font-light"
-              style={{ color: "rgba(255,255,255,0.38)" }}>
-              {lang === "de" ? "Törn 2026" : "Cruise Plan 2026"}
-            </p>
-            <h2 className="font-manrope font-bold text-white"
-              style={{ fontSize: "clamp(1.6rem, 2.4vw, 2.8rem)", lineHeight: 1.1 }}>
-              Mediterranean Route
-            </h2>
-          </div>
+        {/* ── Header top-left ─────────────────────────────────────── */}
+        <div className="absolute top-0 left-0 right-0 px-6 lg:px-14 pt-20" style={{ zIndex: 10 }}>
+          <p className="text-[10px] tracking-[0.3em] uppercase font-light"
+            style={{ color: "rgba(255,255,255,0.35)" }}>
+            {lang === "de" ? "Törn 2026" : "Cruise Plan 2026"}
+          </p>
+          <h2 className="font-manrope font-bold text-white mt-1"
+            style={{ fontSize: "clamp(1.4rem, 2vw, 2.2rem)", lineHeight: 1.1 }}>
+            Mediterranean Route
+          </h2>
         </div>
 
-        {/* ── Stop info (bottom-left) ─────────────────────────────── */}
-        <div className="absolute px-6 lg:px-14" style={{ bottom: "10%", left: 0, zIndex: 10, maxWidth: "500px" }}>
+        {/* ── Stop info — centered bottom title card ───────────────── */}
+        <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center text-center pb-12 px-6"
+          style={{ zIndex: 10 }}>
           <AnimatePresence mode="wait">
             <motion.div key={activeId}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35, ease }}
-              className="flex items-end gap-5"
+              transition={{ duration: 0.4, ease }}
             >
-              <div className="hidden lg:block relative flex-shrink-0 overflow-hidden"
-                style={{ width: 108, height: 72, borderRadius: 8, border: "1px solid rgba(255,255,255,0.1)" }}>
-                <Image src={active.image} alt={active.city} fill className="object-cover" sizes="108px" />
-              </div>
-              <div>
-                <p className="font-manrope text-[10px] tracking-[0.36em] uppercase mb-1.5"
-                  style={{ color: "rgba(255,255,255,0.45)" }}>
-                  {active.month} · {active.region}
-                </p>
-                <h3 className="font-manrope font-bold text-white mb-2"
-                  style={{ fontSize: "clamp(1.5rem, 2.8vw, 2.6rem)", lineHeight: 1 }}>
-                  {active.city}
-                </h3>
-                <p className="font-manrope font-light text-sm leading-relaxed"
-                  style={{ color: "rgba(255,255,255,0.58)", maxWidth: "21rem" }}>
-                  {lang === "de" ? active.de : active.en}
-                </p>
-              </div>
+              <p className="font-manrope text-[10px] tracking-[0.38em] uppercase mb-3"
+                style={{ color: "rgba(255,255,255,0.4)" }}>
+                {active.month} · {active.region}
+              </p>
+              <h3 className="font-manrope font-bold text-white mb-3"
+                style={{ fontSize: "clamp(2rem, 4vw, 3.6rem)", lineHeight: 1 }}>
+                {active.city === "San Carles de la Ràpita" ? "La Ràpita" : active.city}
+              </h3>
+              <p className="font-manrope font-light leading-relaxed"
+                style={{ color: "rgba(255,255,255,0.52)", fontSize: "clamp(0.8rem, 1.1vw, 0.95rem)", maxWidth: "34rem" }}>
+                {lang === "de" ? active.de : active.en}
+              </p>
+              {activeId === "bizerte" && (
+                <a href="#contact"
+                  className="inline-flex items-center gap-2.5 font-manrope font-semibold text-[12px] tracking-[0.1em] uppercase px-7 py-3.5 mt-6 transition-all duration-300"
+                  style={{ background: "var(--accent)", color: "#fff", borderRadius: 8 }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
+                >
+                  {lang === "de" ? "Reise buchen" : "Book your cruise"}
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+              )}
             </motion.div>
           </AnimatePresence>
+
+          {/* Scroll hint */}
+          {activeId === "rapita" && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="absolute bottom-4 flex flex-col items-center gap-1.5">
+              <p className="font-manrope text-[9px] tracking-[0.3em] uppercase"
+                style={{ color: "rgba(255,255,255,0.25)" }}>
+                {lang === "de" ? "Scrollen" : "Scroll"}
+              </p>
+              <div className="w-px h-6" style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0.25), transparent)" }} />
+            </motion.div>
+          )}
         </div>
 
-        {/* ── Progress dots ────────────────────────────────────────── */}
+        {/* ── Progress dots right ──────────────────────────────────── */}
         <div className="absolute right-6 lg:right-10 top-1/2 -translate-y-1/2 flex flex-col gap-2.5" style={{ zIndex: 10 }}>
           {STOPS.map((stop) => (
-            <div key={stop.id} className="rounded-full transition-all duration-400"
+            <div key={stop.id} className="rounded-full transition-all duration-300"
               style={{
-                width:  activeId === stop.id ? 8 : 5,
-                height: activeId === stop.id ? 8 : 5,
+                width:  activeId === stop.id ? 7 : 4,
+                height: activeId === stop.id ? 7 : 4,
                 background: activeId === stop.id ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.2)",
                 alignSelf: "center",
               }}
             />
           ))}
         </div>
-
-        {/* ── Scroll hint ──────────────────────────────────────────── */}
-        <AnimatePresence>
-          {activeId === "rapita" && (
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-              style={{ zIndex: 10 }}
-            >
-              <p className="font-manrope text-[10px] tracking-[0.25em] uppercase"
-                style={{ color: "rgba(255,255,255,0.3)" }}>
-                {lang === "de" ? "Scrollen" : "Scroll"}
-              </p>
-              <div className="w-px h-8"
-                style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0.3), transparent)" }} />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* ── Book CTA (last stop) ─────────────────────────────────── */}
-        <AnimatePresence>
-          {activeId === "bizerte" && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-              className="absolute bottom-8 left-1/2 -translate-x-1/2"
-              style={{ zIndex: 10 }}
-            >
-              <a href="#contact"
-                className="inline-flex items-center gap-2.5 font-manrope font-semibold text-[12px] tracking-[0.1em] uppercase px-7 py-3.5 transition-all duration-300"
-                style={{ background: "var(--accent)", color: "#fff", borderRadius: 8, boxShadow: "0 4px 24px rgba(0,75,145,0.45)" }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-hover)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
-              >
-                {lang === "de" ? "Reise buchen" : "Book your cruise"}
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </section>
   );
