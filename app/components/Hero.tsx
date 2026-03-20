@@ -19,11 +19,17 @@ export default function Hero() {
   });
 
   const [isMobile, setIsMobile] = useState(false);
+  const [heroHeight, setHeroHeight] = useState<string>("100svh");
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768);
     check();
     window.addEventListener("resize", check, { passive: true });
     return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // Fix Chrome mobile toolbar jump: set height once on mount
+  useEffect(() => {
+    setHeroHeight(`${window.innerHeight}px`);
   }, []);
 
   // Desktop: boat is ~60% from left — keep it right-of-center
@@ -35,7 +41,7 @@ export default function Hero() {
   const contentY = useTransform(scrollYProgress, [0, 0.5], ["0%", "8%"]);
 
   return (
-    <section id="hero" ref={ref} className="relative min-h-svh flex items-end overflow-hidden">
+    <section id="hero" ref={ref} className="relative flex items-end overflow-hidden" style={{ minHeight: heroHeight }}>
 
       {/* Video background */}
       <div className="absolute inset-0 overflow-hidden">
