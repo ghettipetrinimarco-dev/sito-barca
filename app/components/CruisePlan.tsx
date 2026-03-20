@@ -111,6 +111,12 @@ export default function CruisePlan() {
 
   const active = STOPS.find((s) => s.id === activeId) ?? STOPS[0];
 
+  // Pan+zoom: translate to center the stop, then scale
+  // transform-origin stays at 0 0 — only `transform` animates, no jump
+  const fx = active.px / 2048;
+  const fy = active.py / 1143;
+  const mapTransform = `translate(${(0.5 - fx * active.zoom) * 100}%, ${(0.5 - fy * active.zoom) * 100}%) scale(${active.zoom})`;
+
   useEffect(() => {
     const handleScroll = () => {
       const section = sectionRef.current;
@@ -155,9 +161,9 @@ export default function CruisePlan() {
         <div
           style={{
             position: "absolute", inset: 0,
-            transformOrigin: `${(active.px / 2048) * 100}% ${(active.py / 1143) * 100}%`,
-            transform: `scale(${active.zoom})`,
-            transition: "transform 1.1s cubic-bezier(0.16,1,0.3,1), transform-origin 1.1s cubic-bezier(0.16,1,0.3,1)",
+            transformOrigin: "0 0",
+            transform: mapTransform,
+            transition: "transform 1.4s cubic-bezier(0.16,1,0.3,1)",
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
