@@ -21,7 +21,7 @@ export default function ScrollToTop() {
           exit={{ opacity: 0, y: 12 }}
           transition={{ duration: 0.35 }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-8 right-8 z-40 w-11 h-11 flex items-center justify-center transition-all duration-300"
+          className="hidden lg:flex fixed bottom-8 right-8 z-40 w-11 h-11 items-center justify-center transition-all duration-300"
           style={{
             background: "rgba(255,255,255,0.75)",
             backdropFilter: "blur(10px)",
