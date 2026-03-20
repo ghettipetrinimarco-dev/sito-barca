@@ -11,7 +11,7 @@ export default function CruisePlan() {
     <section
       id="cruise-plan"
       className="relative"
-      style={{ height: "60vh" }}
+      style={{ height: "80vh" }}
     >
       {/* Background map */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
