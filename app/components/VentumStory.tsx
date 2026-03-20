@@ -31,14 +31,13 @@ export default function VentumStory() {
             {tr.label}
           </p>
           <h2
-            className="font-manrope font-bold tracking-tight mb-6"
-            style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)", color: "var(--text)" }}
+            className="font-manrope font-bold tracking-tight mb-8"
+            style={{ fontSize: "clamp(2rem, 4vw, 3.25rem)", color: "var(--text)" }}
           >
             {tr.title}
           </h2>
-          <span className="accent-line mb-8" />
 
-          <p className="text-lg font-light leading-relaxed mt-2" style={{ color: "var(--text-secondary)" }}>
+          <p className="text-lg font-light leading-relaxed" style={{ color: "var(--text-secondary)" }}>
             {tr.p1}
           </p>
           <p className="text-lg font-light leading-relaxed mt-6" style={{ color: "var(--text-secondary)" }}>
