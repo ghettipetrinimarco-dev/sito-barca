@@ -88,13 +88,12 @@ function FloorPlan({ tr }: { tr: Record<string, string> }) {
                 background: "var(--bg)",
               }}
               onClick={(e) => {
-                // Touch: toggle. Mouse: handled by hover
                 if ((e.nativeEvent as PointerEvent).pointerType !== "mouse") {
                   setActiveLabel(isActive ? null : plan.label);
                 }
               }}
-              onMouseEnter={() => setActiveLabel(plan.label)}
-              onMouseLeave={() => setActiveLabel(null)}
+              onPointerEnter={(e) => { if (e.pointerType === "mouse") setActiveLabel(plan.label); }}
+              onPointerLeave={(e) => { if (e.pointerType === "mouse") setActiveLabel(null); }}
             >
               <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
                 <Image
