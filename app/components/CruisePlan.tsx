@@ -223,9 +223,9 @@ export default function CruisePlan() {
           zIndex: 2,
         }} />
 
-        {/* ── Header top-left ─────────────────────────────────────── */}
-        <div className="absolute top-0 left-0 right-0 px-6 lg:px-14 pt-20" style={{ zIndex: 10 }}>
-          <p className="text-[10px] tracking-[0.3em] uppercase font-light"
+        {/* ── Header top-center ───────────────────────────────────── */}
+        <div className="absolute top-0 left-0 right-0 flex flex-col items-center pt-20" style={{ zIndex: 10 }}>
+          <p className="font-manrope text-[10px] tracking-[0.3em] uppercase font-light"
             style={{ color: "rgba(255,255,255,0.35)" }}>
             {lang === "de" ? "Törn 2026" : "Cruise Plan 2026"}
           </p>
@@ -273,17 +273,6 @@ export default function CruisePlan() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Scroll hint */}
-          {activeId === "rapita" && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="absolute bottom-4 flex flex-col items-center gap-1.5">
-              <p className="font-manrope text-[9px] tracking-[0.3em] uppercase"
-                style={{ color: "rgba(255,255,255,0.25)" }}>
-                {lang === "de" ? "Scrollen" : "Scroll"}
-              </p>
-              <div className="w-px h-6" style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0.25), transparent)" }} />
-            </motion.div>
-          )}
         </div>
 
         {/* ── Progress dots right ──────────────────────────────────── */}
