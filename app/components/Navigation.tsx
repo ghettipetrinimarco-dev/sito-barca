@@ -21,6 +21,8 @@ function Dropdown({ items, isOpen }: { items: { label: string; href: string }[];
           <a
             key={i}
             href={item.href}
+            target={item.href.startsWith("/") ? "_blank" : undefined}
+            rel={item.href.startsWith("/") ? "noopener noreferrer" : undefined}
             className="block px-5 py-3 text-[12px] tracking-[0.08em] uppercase transition-all duration-200"
             style={{
               color: "var(--text-secondary)",

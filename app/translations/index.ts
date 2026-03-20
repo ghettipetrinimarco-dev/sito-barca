@@ -26,7 +26,7 @@ export const t = {
         { label: "Holiday Cruise", href: "#cruise-plans-holiday" },
         { label: "Mileage Cruise", href: "#cruise-plans-mileage" },
         { label: "Harbor Maneuver Course", href: "#cruise-plans-harbor" },
-        { label: "Interactive Map", href: "#cruise-plan" },
+        { label: "Interactive Map", href: "/cruise-map" },
       ],
       aboutItems: [
         { label: "Ventum Story", href: "#ventum-story" },
@@ -223,7 +223,7 @@ export const t = {
         { label: "Holiday Cruise", href: "#cruise-plans-holiday" },
         { label: "Meilentörn", href: "#cruise-plans-mileage" },
         { label: "Hafenmanöver-Kurs", href: "#cruise-plans-harbor" },
-        { label: "Interaktive Karte", href: "#cruise-plan" },
+        { label: "Interaktive Karte", href: "/cruise-map" },
       ],
       aboutItems: [
         { label: "Ventum Story", href: "#ventum-story" },
