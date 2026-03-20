@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, animate, useMotionValueEvent } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
 
 const STOPS = [
@@ -101,10 +101,10 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
   const activeStop = STOPS[stopIndex] ?? STOPS[0];
   const prevStop = STOPS[Math.max(0, stopIndex - 1)];
 
-  // Single progress value drives both line and boat simultaneously
   const progress = useMotionValue(0);
   const boatX = useTransform(progress, [0, 1], [prevStop.px, activeStop.px]);
   const boatY = useTransform(progress, [0, 1], [prevStop.py, activeStop.py]);
+  const currentSegRef = useRef<SVGPathElement>(null);
 
   useEffect(() => {
     progress.set(0);
@@ -113,32 +113,40 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId]);
 
+  // Update current segment endpoint directly in DOM — perfectly in sync with boat
+  useMotionValueEvent(boatX, "change", () => {
+    if (currentSegRef.current) {
+      currentSegRef.current.setAttribute(
+        "d",
+        `M ${prevStop.px},${prevStop.py} L ${boatX.get()},${boatY.get()}`
+      );
+    }
+  });
+
   return (
     <svg
       viewBox="0 0 2048 1143"
       preserveAspectRatio="none"
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
     >
-      {/* Already completed segments */}
       {STOPS.slice(0, -1).map((stop, i) => {
         const next = STOPS[i + 1];
-        if (i >= stopIndex) return null; // not yet reached
+        if (i >= stopIndex) return null;
         if (i === stopIndex - 1) {
-          // Current segment — driven by same progress value
+          // Current segment — endpoint updated via ref to match boat exactly
           return (
-            <motion.path
+            <path
               key={`seg-${i}`}
-              d={`M ${stop.px},${stop.py} L ${next.px},${next.py}`}
+              ref={currentSegRef}
+              d={`M ${prevStop.px},${prevStop.py} L ${prevStop.px},${prevStop.py}`}
               fill="none"
               stroke="rgba(255,255,255,0.45)"
               strokeWidth="1.5"
               strokeLinecap="round"
               vectorEffect="non-scaling-stroke"
-              style={{ pathLength: progress }}
             />
           );
         }
-        // Fully drawn past segment
         return (
           <path
             key={`seg-${i}`}
@@ -152,7 +160,6 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
         );
       })}
 
-      {/* Static dots for all stops */}
       {STOPS.map((stop) => (
         <circle
           key={stop.id}
@@ -164,7 +171,6 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
         />
       ))}
 
-      {/* Boat icon — driven by same progress value as line */}
       <motion.g style={{ x: boatX, y: boatY }}>
         <image
           href="/boat-shiloutte.png"
