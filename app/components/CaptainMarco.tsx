@@ -68,14 +68,14 @@ export default function CaptainMarco() {
             transition={{ duration: 0.95, delay: 0.15, ease }}
             className="flex flex-col justify-start pt-2"
           >
-            <p className="font-playfair italic text-xl mb-8" style={{ color: "var(--text-secondary)" }}>
+            <p className="text-xl mb-8 font-light" style={{ color: "var(--text-secondary)" }}>
               {tr.quote}
             </p>
 
             <div className="space-y-5 mb-10">
               <p className="leading-relaxed font-light" style={{ color: "var(--text-secondary)" }}>{tr.p1}</p>
               <p className="leading-relaxed font-light" style={{ color: "var(--text-secondary)" }}>{tr.p2}</p>
-              <p className="font-playfair italic text-sm pt-2" style={{ color: "var(--text-muted)" }}>{tr.motto}</p>
+              <p className="font-playfair italic text-sm pt-2" style={{ color: "var(--accent)" }}>{tr.motto}</p>
             </div>
 
             <div className="space-y-8 mb-12">
