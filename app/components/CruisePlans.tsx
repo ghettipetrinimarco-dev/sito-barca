@@ -72,15 +72,15 @@ export default function CruisePlans() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-0 mb-12 overflow-x-auto" style={{ borderBottom: "1px solid var(--border)" }}>
+        <div className="flex gap-0 mb-12 overflow-x-auto scrollbar-none" style={{ borderBottom: "1px solid var(--border)" }}>
           {PLANS.map((p, i) => (
             <button
               key={p.key}
               onClick={() => setActive(i)}
-              className="relative pb-4 mr-8 text-left transition-colors duration-200"
+              className="relative pb-4 mr-6 lg:mr-8 text-left flex-shrink-0 transition-colors duration-200"
             >
               <span
-                className="font-manrope text-[12px] tracking-[0.2em] uppercase font-medium transition-colors duration-200 whitespace-nowrap"
+                className="font-manrope text-[11px] lg:text-[12px] tracking-[0.15em] lg:tracking-[0.2em] uppercase font-medium transition-colors duration-200 whitespace-nowrap"
                 style={{ color: active === i ? "var(--text)" : "var(--text-muted)" }}
               >
                 {lang === "de" ? p.labelDe : p.labelEn}
@@ -137,10 +137,10 @@ export default function CruisePlans() {
             {/* Placeholder for PDF / dates */}
             <div
               className="lg:w-72 flex items-center justify-center rounded-xl"
-              style={{ minHeight: "200px", background: "var(--surface)", border: "1px dashed var(--border)" }}
+              style={{ minHeight: "120px", background: "var(--surface)", border: "1px dashed var(--border)" }}
             >
               <p className="font-manrope text-[12px] tracking-[0.15em] uppercase text-center" style={{ color: "var(--text-muted)" }}>
-                {lang === "de" ? "Termine / PDF\nfolgt in Kürze" : "Dates / PDF\ncoming soon"}
+                {lang === "de" ? "Termine / PDF folgt in Kürze" : "Dates / PDF coming soon"}
               </p>
             </div>
           </motion.div>
