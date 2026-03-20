@@ -167,10 +167,8 @@ export default function CruisePlan() {
     >
       {/* ── Intro panel — sticky for its 100vh zone ─────────────── */}
       <div style={{
-        position: phase === "intro" ? "fixed" : "absolute",
-        top: phase === "after" ? "auto" : 0,
-        bottom: "auto",
-        left: 0, right: 0, height: "100vh",
+        position: "absolute",
+        top: 0, left: 0, right: 0, height: "100vh",
         zIndex: 30, background: "#07101e",
       }}>
         <img src="/mediterranean-map.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", filter: "saturate(0.15) brightness(0.5)" }} />
