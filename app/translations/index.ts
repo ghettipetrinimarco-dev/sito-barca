@@ -107,6 +107,10 @@ export const t = {
       specsLabel: "Technical Specifications",
       watersportsLabel: "Watersports",
       watersportsDesc: "Our catamaran is not just for sailing. Whether you are looking for speed or want to enjoy the silence underwater, we have something for everyone.",
+      viewAllPhotos: "View all photos",
+      photos: "photos",
+      closeGallery: "Close",
+      backToGrid: "← Back to grid",
       description: "A modern catamaran built for both relaxed cruising and professional training. Spacious outdoor areas, comfortable cabins and full equipment for watersports and sailing instruction.",
       specs: [
         { label: "Type", value: "50ft Sailing Catamaran" },
@@ -331,6 +335,10 @@ export const t = {
       specsLabel: "Technische Daten",
       watersportsLabel: "Wassersport",
       watersportsDesc: "Unser Katamaran ist nicht nur zum Segeln da. Ob Sie Geschwindigkeit suchen oder die Stille unter Wasser geniessen möchten — wir haben für jeden etwas.",
+      viewAllPhotos: "Alle Fotos ansehen",
+      photos: "Fotos",
+      closeGallery: "Schliessen",
+      backToGrid: "← Zurück zur Übersicht",
       description: "Ein moderner Katamaran, gebaut für entspanntes Cruisen und professionelles Training. Grosszügige Aussenbereiche, komfortable Kabinen und vollständige Ausrüstung für Wassersport und Segelunterricht.",
       specs: [
         { label: "Typ", value: "15m Segelkatamaran" },
@@ -555,6 +563,10 @@ export const t = {
       specsLabel: "Specifiche tecniche",
       watersportsLabel: "Sport acquatici",
       watersportsDesc: "Il nostro catamarano non è solo per veleggiare. Che tu cerchi velocità o voglia goderti il silenzio sott'acqua, abbiamo qualcosa per tutti.",
+      viewAllPhotos: "Vedi tutte le foto",
+      photos: "foto",
+      closeGallery: "Chiudi",
+      backToGrid: "← Torna alla griglia",
       description: "Un catamarano moderno costruito per crociere rilassate e formazione professionale. Ampi spazi esterni, cabine confortevoli e dotazione completa per sport acquatici e istruzione velistica.",
       specs: [
         { label: "Tipo", value: "Catamarano a vela 15m" },
@@ -779,6 +791,10 @@ export const t = {
       specsLabel: "Caractéristiques techniques",
       watersportsLabel: "Sports nautiques",
       watersportsDesc: "Notre catamaran n'est pas seulement fait pour naviguer. Que vous recherchiez la vitesse ou souhaitiez profiter du silence sous l'eau, nous avons quelque chose pour tout le monde.",
+      viewAllPhotos: "Voir toutes les photos",
+      photos: "photos",
+      closeGallery: "Fermer",
+      backToGrid: "← Retour à la grille",
       description: "Un catamaran moderne conçu pour des croisières détendues et une formation professionnelle. Vastes espaces extérieurs, cabines confortables et équipement complet pour les sports nautiques et l'instruction à la voile.",
       specs: [
         { label: "Type", value: "Catamaran à voile 15m" },

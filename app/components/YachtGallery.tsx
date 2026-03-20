@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { yachtExteriorImages, yachtInteriorImages } from "../../lib/yacht-data";
+import { useLang } from "../context/LanguageContext";
+import { t } from "../translations";
 
 /* Ken Burns animations alternate per slide */
 const kenBurns = [
@@ -21,11 +23,15 @@ function GalleryPanel({
   images,
   onClick,
   delay = 0,
+  viewAllPhotos,
+  photos,
 }: {
   label: string;
   images: string[];
   onClick: () => void;
   delay?: number;
+  viewAllPhotos: string;
+  photos: string;
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -111,14 +117,14 @@ function GalleryPanel({
           className="text-[12px] tracking-[0.15em] uppercase px-5 py-2.5 font-manrope font-semibold"
           style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "#fff", backdropFilter: "blur(6px)" }}
         >
-          View all photos
+          {viewAllPhotos}
         </span>
       </div>
 
       {/* Label */}
       <div className="absolute bottom-6 left-6">
         <p className="text-[13px] tracking-[0.18em] uppercase mb-1.5" style={{ color: "rgba(255,255,255,0.45)" }}>
-          {images.length} photos
+          {images.length} {photos}
         </p>
         <p className="font-manrope font-bold text-white text-2xl tracking-wider">{label}</p>
       </div>
@@ -154,10 +160,18 @@ function Lightbox({
   open,
   onClose,
   initialSection,
+  exteriorLabel,
+  interiorLabel,
+  closeLabel,
+  backToGridLabel,
 }: {
   open: boolean;
   onClose: () => void;
   initialSection: "exterior" | "interior";
+  exteriorLabel: string;
+  interiorLabel: string;
+  closeLabel: string;
+  backToGridLabel: string;
 }) {
   const [activeSection, setActiveSection] = useState<"exterior" | "interior">(initialSection);
   const [selectedImg, setSelectedImg] = useState<number | null>(null);
@@ -214,6 +228,7 @@ function Lightbox({
             <div className="flex items-center gap-8">
               {(["exterior", "interior"] as const).map((section) => {
                 const count = (section === "exterior" ? yachtExteriorImages : yachtInteriorImages).length;
+                const sectionLabel = section === "exterior" ? exteriorLabel : interiorLabel;
                 return (
                   <button
                     key={section}
@@ -224,7 +239,7 @@ function Lightbox({
                     }}
                     onClick={() => { setActiveSection(section); setSelectedImg(null); }}
                   >
-                    {section}{" "}
+                    {sectionLabel}{" "}
                     <span style={{ color: "rgba(255,255,255,0.25)" }}>({count})</span>
                   </button>
                 );
@@ -244,7 +259,7 @@ function Lightbox({
               onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.4)")}
               onClick={onClose}
             >
-              Close ✕
+              {closeLabel} ✕
             </button>
           </div>
 
@@ -305,7 +320,7 @@ function Lightbox({
                     onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.35)")}
                     onClick={() => setSelectedImg(null)}
                   >
-                    ← Back to grid
+                    {backToGridLabel}
                   </button>
                 </motion.div>
               ) : (
@@ -347,6 +362,9 @@ function Lightbox({
 
 /* ── Main export ─────────────────────────────────────────────────── */
 export default function YachtGallery() {
+  const { lang } = useLang();
+  const tr = t[lang].yacht as unknown as Record<string, string>;
+
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxSection, setLightboxSection] = useState<"exterior" | "interior">("exterior");
 
@@ -358,15 +376,21 @@ export default function YachtGallery() {
   return (
     <>
       <div id="yacht-gallery" className="mb-20">
-        {/* Stacked panels — Exterior first, Interior below */}
         <div className="flex flex-col gap-3 mb-5">
-          <GalleryPanel label="Exterior" images={yachtExteriorImages} onClick={() => open("exterior")} delay={0} />
-          <GalleryPanel label="Interior" images={yachtInteriorImages} onClick={() => open("interior")} delay={0} />
+          <GalleryPanel label={tr.exterior} images={yachtExteriorImages} onClick={() => open("exterior")} delay={0} viewAllPhotos={tr.viewAllPhotos} photos={tr.photos} />
+          <GalleryPanel label={tr.interior} images={yachtInteriorImages} onClick={() => open("interior")} delay={0} viewAllPhotos={tr.viewAllPhotos} photos={tr.photos} />
         </div>
-
       </div>
 
-      <Lightbox open={lightboxOpen} onClose={() => setLightboxOpen(false)} initialSection={lightboxSection} />
+      <Lightbox
+        open={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        initialSection={lightboxSection}
+        exteriorLabel={tr.exterior}
+        interiorLabel={tr.interior}
+        closeLabel={tr.closeGallery}
+        backToGridLabel={tr.backToGrid}
+      />
     </>
   );
 }
