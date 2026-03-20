@@ -40,9 +40,6 @@ export default function CruisePlan() {
           onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
         >
           {lang === "de" ? "Reise beginnen" : "Start the journey"}
-          <svg className="inline-block w-3.5 h-3.5 ml-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
         </button>
       </div>
     </section>

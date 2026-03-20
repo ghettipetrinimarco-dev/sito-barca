@@ -327,9 +327,6 @@ export default function CruiseMapPage() {
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent)"; }}
                 >
                   {lang === "de" ? "Reise buchen" : "Book your cruise"}
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
                 </a>
               )}
             </div>
