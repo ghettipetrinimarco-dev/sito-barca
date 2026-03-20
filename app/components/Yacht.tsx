@@ -191,25 +191,28 @@ function MatterportSection({ tr }: { tr: Record<string, string> }) {
 
       {/* Mobile modal with iframe */}
       {modalOpen && (
-        <div className="fixed inset-0 z-[9999] flex flex-col" style={{ background: "rgba(5,15,30,0.97)" }}>
-          <div className="flex items-center justify-between px-4 py-3 flex-shrink-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-            <p className="font-manrope text-[11px] tracking-[0.2em] uppercase text-white opacity-60">{tr.tour3D}</p>
-            <button
-              onClick={() => setModalOpen(false)}
-              className="font-manrope text-[11px] tracking-[0.2em] uppercase flex items-center gap-2"
-              style={{ color: "rgba(255,255,255,0.6)" }}
-            >
-              {tr.closeGallery} ✕
-            </button>
-          </div>
-          <div className="flex-1">
-            <iframe
-              src="https://my.matterport.com/show/?m=peYyiUWJ3NA"
-              className="w-full h-full"
-              allow="xr-spatial-tracking"
-              allowFullScreen
-            />
-          </div>
+        <div className="fixed inset-0 z-[9999]" style={{ background: "#000" }}>
+          {/* Floating close button — always on top */}
+          <button
+            onClick={() => setModalOpen(false)}
+            className="fixed top-4 right-4 z-[10000] flex items-center justify-center font-manrope text-[11px] tracking-[0.15em] uppercase gap-2"
+            style={{
+              background: "rgba(5,15,30,0.75)",
+              backdropFilter: "blur(8px)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              borderRadius: 8,
+              color: "#fff",
+              padding: "8px 14px",
+            }}
+          >
+            {tr.closeGallery} ✕
+          </button>
+          <iframe
+            src="https://my.matterport.com/show/?m=peYyiUWJ3NA"
+            style={{ width: "100%", height: "100%", border: "none" }}
+            allow="xr-spatial-tracking"
+            allowFullScreen
+          />
         </div>
       )}
     </motion.div>
