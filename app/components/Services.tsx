@@ -172,10 +172,10 @@ export default function Services() {
             }}
           >
             <Image src={src} alt={tr.items[i]?.title ?? ""} fill className="object-cover" priority={i === 0} sizes="100vw" />
-            <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(5,15,30,0.92) 0%, rgba(5,15,30,0.75) 50%, rgba(5,15,30,0.52) 100%)" }} />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(5,15,30,0.97) 0%, rgba(5,15,30,0.88) 50%, rgba(5,15,30,0.72) 100%)" }} />
           </div>
         ))}
-        <div className="absolute inset-0" style={{ background: "rgba(13,27,42,0.35)", zIndex: 3 }} />
+        <div className="absolute inset-0" style={{ background: "rgba(13,27,42,0.55)", zIndex: 3 }} />
       </div>
 
       {/* Content */}
