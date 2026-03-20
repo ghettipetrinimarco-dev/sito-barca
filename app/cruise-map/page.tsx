@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, useMotionValue, useTransform, animate, useMotionValueEvent } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, animate, useMotionValueEvent } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
 
 const STOPS = [
@@ -101,27 +101,29 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
   const activeStop = STOPS[stopIndex] ?? STOPS[0];
   const prevStop = STOPS[Math.max(0, stopIndex - 1)];
 
-  const progress = useMotionValue(0);
-  const boatX = useTransform(progress, [0, 1], [prevStop.px, activeStop.px]);
-  const boatY = useTransform(progress, [0, 1], [prevStop.py, activeStop.py]);
+  const boatX = useMotionValue(prevStop.px);
+  const boatY = useMotionValue(prevStop.py);
   const currentSegRef = useRef<SVGPathElement>(null);
   const resetting = useRef(false);
+  const segStart = useRef({ px: prevStop.px, py: prevStop.py });
 
   useEffect(() => {
     resetting.current = true;
-    progress.set(0);
+    segStart.current = { px: prevStop.px, py: prevStop.py };
+    boatX.set(prevStop.px);
+    boatY.set(prevStop.py);
     resetting.current = false;
-    const controls = animate(progress, 1, { duration: 2.4, ease: "linear" });
-    return () => controls.stop();
+    const cx = animate(boatX, activeStop.px, { duration: 2.4, ease: "linear" });
+    const cy = animate(boatY, activeStop.py, { duration: 2.4, ease: "linear" });
+    return () => { cx.stop(); cy.stop(); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId]);
 
-  // Update current segment endpoint directly in DOM — perfectly in sync with boat
   useMotionValueEvent(boatX, "change", () => {
     if (resetting.current || !currentSegRef.current) return;
     currentSegRef.current.setAttribute(
       "d",
-      `M ${prevStop.px},${prevStop.py} L ${boatX.get()},${boatY.get()}`
+      `M ${segStart.current.px},${segStart.current.py} L ${boatX.get()},${boatY.get()}`
     );
   });
 
