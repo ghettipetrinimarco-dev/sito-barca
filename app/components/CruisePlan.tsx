@@ -303,40 +303,37 @@ export default function CruisePlan() {
 
         </div>
 
-        {/* ── Progress dots right ──────────────────────────────────── */}
-        <div className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 flex flex-col" style={{ zIndex: 10 }}>
-          {STOPS.map((stop, i) => (
-            <button
-              key={stop.id}
-              aria-label={stop.city}
-              onClick={() => {
-                const section = sectionRef.current;
-                if (!section) return;
-                const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-                const scrollable = section.offsetHeight - window.innerHeight;
-                const zoneSize = 1 / STOPS.length;
-                window.scrollTo({ top: sectionTop + (i * zoneSize + zoneSize * 0.5) * scrollable, behavior: "smooth" });
-              }}
-              style={{
-                display: "flex", alignItems: "center", justifyContent: "center",
-                width: 32, height: 32,
-                background: "none", border: "none", cursor: "pointer", outline: "none", padding: 0,
-              }}
-            >
-              <span className="rounded-full transition-all duration-300" style={{
-                display: "block",
-                width:  activeId === stop.id ? 8 : 5,
-                height: activeId === stop.id ? 8 : 5,
-                background: activeId === stop.id ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.3)",
-              }} />
-              {activeId === stop.id && (
-                <span className="font-manrope text-[10px] tracking-[0.12em] uppercase absolute right-10"
-                  style={{ color: "rgba(255,255,255,0.7)", whiteSpace: "nowrap" }}>
-                  {stop.city === "San Carles de la Ràpita" ? "La Ràpita" : stop.city}
-                </span>
-              )}
-            </button>
-          ))}
+        {/* ── Vertical city list right ─────────────────────────────── */}
+        <div className="absolute right-6 lg:right-10 top-1/2 -translate-y-1/2 flex flex-col items-end gap-3" style={{ zIndex: 10 }}>
+          {STOPS.map((stop, i) => {
+            const isActive = activeId === stop.id;
+            const label = stop.city === "San Carles de la Ràpita" ? "La Ràpita" : stop.city;
+            return (
+              <button
+                key={stop.id}
+                onClick={() => {
+                  const section = sectionRef.current;
+                  if (!section) return;
+                  const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+                  const scrollable = section.offsetHeight - window.innerHeight;
+                  const zoneSize = 1 / STOPS.length;
+                  window.scrollTo({ top: sectionTop + (i * zoneSize + zoneSize * 0.5) * scrollable, behavior: "smooth" });
+                }}
+                className="font-manrope transition-all duration-500 cursor-pointer text-right"
+                style={{
+                  background: "none", border: "none", outline: "none", padding: 0,
+                  fontSize: isActive ? "0.72rem" : "0.65rem",
+                  fontWeight: isActive ? 600 : 300,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: isActive ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.22)",
+                  transform: isActive ? "translateX(0)" : "translateX(0)",
+                }}
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>
