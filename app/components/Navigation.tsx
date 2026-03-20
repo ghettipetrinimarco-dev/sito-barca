@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
 
@@ -58,6 +59,7 @@ export default function Navigation() {
   const [pastHero, setPastHero] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openMobileSection, setOpenMobileSection] = useState<string | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
 
   const leftNav = [
@@ -115,6 +117,7 @@ export default function Navigation() {
       }
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-14">
+        {/* Desktop nav */}
         <div className="hidden lg:grid grid-cols-3 items-center h-20">
           {/* Left nav */}
           <div className="flex items-center gap-8">
@@ -161,10 +164,7 @@ export default function Navigation() {
 
           {/* Center logo */}
           <div className="flex justify-center">
-            <a
-              href="#hero"
-              className="transition-opacity duration-400 hover:opacity-60"
-            >
+            <a href="#hero" className="transition-opacity duration-400 hover:opacity-60">
               <img
                 src="/logo-ventum.png"
                 alt="Ventum"
@@ -243,15 +243,12 @@ export default function Navigation() {
         </div>
 
         {/* Mobile header */}
-        <div className="lg:hidden flex items-center justify-between h-20">
-          <a
-            href="#hero"
-            className="transition-opacity duration-400 hover:opacity-60"
-          >
+        <div className="lg:hidden flex items-center justify-between h-16">
+          <a href="#hero" className="transition-opacity duration-400 hover:opacity-60">
             <img
               src="/logo-ventum.png"
               alt="Ventum"
-              className="h-6 w-auto max-w-[140px] object-contain transition-all duration-400"
+              className="h-6 w-auto max-w-[130px] object-contain"
               style={{ filter: onDark ? "brightness(0) invert(1)" : "brightness(0)" }}
             />
           </a>
@@ -267,48 +264,117 @@ export default function Navigation() {
             </div>
           </button>
         </div>
-
-        {/* Mobile menu */}
-        {mobileOpen && (
-          <div className="lg:hidden pb-6" style={{ background: "#fff", borderTop: "1px solid var(--border)" }}>
-            {navItems.map((item) => {
-              const links = item.type === "link"
-                ? [{ label: item.label, href: (item as { href: string }).href }]
-                : (item as { items: { label: string; href: string }[] }).items;
-              return links.map((link, i) => (
-                <a
-                  key={`${item.label}-${i}`}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block px-6 py-3.5 text-[12px] tracking-[0.08em] uppercase transition-all"
-                  style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-light)" }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--accent)"; (e.currentTarget as HTMLElement).style.background = "var(--surface-alt)"; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)"; (e.currentTarget as HTMLElement).style.background = "transparent"; }}
-                >
-                  {link.label}
-                </a>
-              ));
-            })}
-            <div className="flex gap-3 px-6 pt-5">
-              <button
-                className="text-[12px] tracking-[0.08em] font-semibold"
-                style={{ color: lang === "en" ? "var(--accent)" : "var(--text-muted)" }}
-                onClick={() => setLang("en")}
-              >
-                EN
-              </button>
-              <span style={{ color: "var(--border)" }}>|</span>
-              <button
-                className="text-[12px] tracking-[0.08em]"
-                style={{ color: lang === "de" ? "var(--accent)" : "var(--text-muted)" }}
-                onClick={() => setLang("de")}
-              >
-                DE
-              </button>
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Mobile menu — full screen overlay */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="lg:hidden"
+            style={{
+              background: "#fff",
+              borderTop: "1px solid var(--border)",
+              maxHeight: "calc(100vh - 64px)",
+              overflowY: "auto",
+            }}
+          >
+            <div className="px-6 py-4">
+              {navItems.map((item) => {
+                if (item.type === "link") {
+                  return (
+                    <a
+                      key={item.label}
+                      href={(item as { href: string }).href}
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center h-12 text-[13px] tracking-[0.08em] uppercase font-medium"
+                      style={{ color: "var(--text)", borderBottom: "1px solid var(--border-light)" }}
+                    >
+                      {item.label}
+                    </a>
+                  );
+                }
+
+                const sectionItems = (item as { items: { label: string; href: string }[] }).items;
+                const isExpanded = openMobileSection === item.label;
+
+                return (
+                  <div key={item.label} style={{ borderBottom: "1px solid var(--border-light)" }}>
+                    {/* Section header */}
+                    <button
+                      className="flex items-center justify-between w-full h-12 text-[13px] tracking-[0.08em] uppercase font-medium"
+                      style={{ color: isExpanded ? "var(--accent)" : "var(--text)" }}
+                      onClick={() => setOpenMobileSection(isExpanded ? null : item.label)}
+                    >
+                      {item.label}
+                      <svg
+                        className={`w-3 h-3 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+
+                    {/* Section items */}
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          style={{ overflow: "hidden" }}
+                        >
+                          <div className="pb-2">
+                            {sectionItems.map((link, i) => (
+                              <a
+                                key={i}
+                                href={link.href}
+                                target={link.href.startsWith("/") ? "_blank" : undefined}
+                                rel={link.href.startsWith("/") ? "noopener noreferrer" : undefined}
+                                onClick={() => setMobileOpen(false)}
+                                className="flex items-center h-10 pl-4 text-[12px] tracking-[0.06em] uppercase"
+                                style={{ color: "var(--text-secondary)" }}
+                                onTouchStart={(e) => (e.currentTarget as HTMLElement).style.color = "var(--accent)"}
+                                onTouchEnd={(e) => (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)"}
+                              >
+                                <span className="w-1 h-1 rounded-full mr-3 flex-shrink-0" style={{ background: "var(--border)" }} />
+                                {link.label}
+                              </a>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+
+              {/* Language switcher */}
+              <div className="flex items-center gap-4 pt-5 pb-2">
+                <button
+                  className="text-[13px] tracking-[0.08em] font-semibold uppercase"
+                  style={{ color: lang === "en" ? "var(--accent)" : "var(--text-muted)" }}
+                  onClick={() => setLang("en")}
+                >
+                  EN
+                </button>
+                <span style={{ color: "var(--border)", fontSize: "12px" }}>|</span>
+                <button
+                  className="text-[13px] tracking-[0.08em] uppercase"
+                  style={{ color: lang === "de" ? "var(--accent)" : "var(--text-muted)" }}
+                  onClick={() => setLang("de")}
+                >
+                  DE
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
