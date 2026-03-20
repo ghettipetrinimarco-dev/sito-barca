@@ -7,7 +7,7 @@ import { useLang } from "../context/LanguageContext";
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-// px/py = pixel coordinates in the 2048×1143 reference image space
+// px/py = pixel coords in 2048×1143 image space · zoom = CSS scale factor
 const STOPS = [
   {
     id: "rapita",
@@ -15,7 +15,7 @@ const STOPS = [
     region: "Costa Daurada · Spain",
     month: "May",
     dates: "10 May 2026",
-    px: 312, py: 407,
+    px: 312, py: 407, zoom: 1.15,
     image: "/images/cruise/la-rapita.jpg",
     en: "Our journey begins in the sheltered bay of La Ràpita — a quiet fishing village on the Costa Daurada, the perfect departure point before the open Mediterranean.",
     de: "Unsere Reise beginnt in der geschützten Bucht von La Ràpita — ein ruhiges Fischerdorf an der Costa Daurada.",
@@ -26,7 +26,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "May",
     dates: "May – Jun 2026",
-    px: 696, py: 641,
+    px: 696, py: 641, zoom: 1.45,
     image: "/images/cruise/mallorca.jpg",
     en: "The crown jewel of the Balearics. Dramatic cliffs, hidden coves and crystal waters make Mallorca an unmissable first stop of the island arc.",
     de: "Das Juwel der Balearen. Dramatische Klippen, versteckte Buchten und kristallklares Wasser.",
@@ -37,7 +37,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun",
     dates: "May – Jun 2026",
-    px: 829, py: 493,
+    px: 829, py: 493, zoom: 1.5,
     image: "/images/cruise/menorca.jpg",
     en: "Wilder and quieter than her sisters. Menorca's turquoise lagoons and UNESCO Biosphere Reserve offer raw Mediterranean nature at its finest.",
     de: "Wilder und ruhiger als ihre Schwestern. Menorcas türkisfarbene Lagunen und das UNESCO-Biosphärenreservat.",
@@ -48,7 +48,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun",
     dates: "Jun 2026",
-    px: 476, py: 731,
+    px: 476, py: 731, zoom: 1.5,
     image: "/images/cruise/ibiza.jpg",
     en: "Beyond the nightlife lies a magical island of ancient villages, pine forests and secret beaches bathed in golden Mediterranean light.",
     de: "Jenseits des Nachtlebens: eine magische Insel mit alten Dörfern, Pinienwäldern und geheimen Stränden.",
@@ -59,7 +59,7 @@ const STOPS = [
     region: "Balearic Islands · Spain",
     month: "Jun/Sep",
     dates: "Jun – Sep 2026",
-    px: 472, py: 784,
+    px: 472, py: 784, zoom: 1.5,
     image: "/images/cruise/formentera.jpg",
     en: "The Caribbean of Europe. Formentera's shallow turquoise waters and white sand beaches are the crowning glory of the Balearic arc.",
     de: "Die Karibik Europas. Flache türkisfarbene Gewässer und weisse Sandstrände am Ende des Balearen-Bogens.",
@@ -70,7 +70,7 @@ const STOPS = [
     region: "Sardinia · Italy",
     month: "Sep",
     dates: "Sep 2026",
-    px: 1653, py: 522,
+    px: 1653, py: 522, zoom: 1.45,
     image: "/images/cruise/cagliari.jpg",
     en: "Sardinia's ancient capital rises from a lagoon. Roman ruins, rooftop views and warm Sardinian hospitality before the crossing south.",
     de: "Sardiniens alte Hauptstadt über der Lagune. Römische Ruinen, Dachterrassen und sardische Gastfreundschaft.",
@@ -81,7 +81,7 @@ const STOPS = [
     region: "Sardinia · Italy",
     month: "Sep",
     dates: "Sep 2026",
-    px: 1655, py: 151,
+    px: 1655, py: 151, zoom: 1.5,
     image: "/images/cruise/olbia.jpg",
     en: "Gateway to the Costa Smeralda. Where granite rocks tumble into emerald sea and the pace of life slows beautifully.",
     de: "Tor zur Costa Smeralda. Wo Granitfelsen ins smaragdgrüne Meer stürzen.",
@@ -92,7 +92,7 @@ const STOPS = [
     region: "Northern Tunisia",
     month: "Oct",
     dates: "4 Oct 2026",
-    px: 1837, py: 880,
+    px: 1837, py: 880, zoom: 1.4,
     image: "/images/cruise/bizerte.jpg",
     en: "Our final destination. Tunisia's northernmost city blends French colonial charm with Medina colour — the perfect winter harbour for Ventum.",
     de: "Unser letztes Ziel. Tunesiens nördlichste Stadt — der perfekte Winterhafen für Ventum.",
@@ -151,55 +151,62 @@ export default function CruisePlan() {
           background: "#07101e",
         }}
       >
-        {/* ── Satellite image ─────────────────────────────────────── */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/mediterranean-map.jpg"
-          alt=""
+        {/* ── Map + SVG in zoomable wrapper ───────────────────────── */}
+        <div
           style={{
             position: "absolute", inset: 0,
-            width: "100%", height: "100%",
-            objectFit: "fill",
-            filter: "saturate(0.2) brightness(0.82)",
+            transformOrigin: `${(active.px / 2048) * 100}% ${(active.py / 1143) * 100}%`,
+            transform: `scale(${active.zoom})`,
+            transition: "transform 1.1s cubic-bezier(0.16,1,0.3,1), transform-origin 1.1s cubic-bezier(0.16,1,0.3,1)",
           }}
-        />
-
-        {/* ── Route + markers SVG — same coordinate space as image ── */}
-        <svg
-          viewBox="0 0 2048 1143"
-          preserveAspectRatio="none"
-          className="absolute inset-0 w-full h-full"
-          style={{ pointerEvents: "none" }}
         >
-          <path
-            d={ROUTE}
-            fill="none"
-            stroke="rgba(255,255,255,0.55)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/mediterranean-map.jpg"
+            alt=""
+            style={{
+              position: "absolute", inset: 0,
+              width: "100%", height: "100%",
+              objectFit: "fill",
+              filter: "saturate(0.2) brightness(0.82)",
+            }}
           />
-          {STOPS.map((stop) => {
-            const isActive = stop.id === activeId;
-            return (
-              <g key={stop.id}>
-                {isActive ? (
-                  <>
-                    <circle cx={stop.px} cy={stop.py} r="16" fill="none"
-                      stroke="rgba(255,255,255,0.85)" strokeWidth="1.5"
+          <svg
+            viewBox="0 0 2048 1143"
+            preserveAspectRatio="none"
+            className="absolute inset-0 w-full h-full"
+            style={{ pointerEvents: "none" }}
+          >
+            <path
+              d={ROUTE}
+              fill="none"
+              stroke="rgba(255,255,255,0.4)"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+            />
+            {STOPS.map((stop) => {
+              const isActive = stop.id === activeId;
+              return (
+                <g key={stop.id}>
+                  {isActive ? (
+                    <>
+                      <circle cx={stop.px} cy={stop.py} r="14" fill="none"
+                        stroke="rgba(255,255,255,0.8)" strokeWidth="1"
+                        vectorEffect="non-scaling-stroke" />
+                      <circle cx={stop.px} cy={stop.py} r="4" fill="white" />
+                    </>
+                  ) : (
+                    <circle cx={stop.px} cy={stop.py} r="4"
+                      fill="rgba(255,255,255,0.35)"
                       vectorEffect="non-scaling-stroke" />
-                    <circle cx={stop.px} cy={stop.py} r="5" fill="white" />
-                  </>
-                ) : (
-                  <circle cx={stop.px} cy={stop.py} r="5"
-                    fill="rgba(255,255,255,0.4)"
-                    vectorEffect="non-scaling-stroke" />
-                )}
-              </g>
-            );
-          })}
-        </svg>
+                  )}
+                </g>
+              );
+            })}
+          </svg>
+        </div>
 
         {/* ── Gradient overlays ──────────────────────────────────── */}
         <div className="absolute inset-0 pointer-events-none" style={{
