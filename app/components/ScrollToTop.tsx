@@ -27,7 +27,7 @@ export default function ScrollToTop() {
             backdropFilter: "blur(10px)",
             border: "1px solid rgba(0,75,145,0.15)",
             boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
-            borderRadius: "50%",
+            borderRadius: "8px",
             color: "var(--accent)",
           }}
           onMouseEnter={(e) => {
