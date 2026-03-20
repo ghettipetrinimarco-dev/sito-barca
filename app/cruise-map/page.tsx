@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "framer-motion";
 import { useLang } from "../context/LanguageContext";
 
 const STOPS = [
@@ -101,18 +101,46 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
   const activeStop = STOPS[stopIndex] ?? STOPS[0];
   const prevStop = STOPS[Math.max(0, stopIndex - 1)];
 
+  // Single progress value drives both line and boat simultaneously
+  const progress = useMotionValue(0);
+  const boatX = useTransform(progress, [0, 1], [prevStop.px, activeStop.px]);
+  const boatY = useTransform(progress, [0, 1], [prevStop.py, activeStop.py]);
+
+  useEffect(() => {
+    progress.set(0);
+    const controls = animate(progress, 1, { duration: 2.4, ease: "linear" });
+    return () => controls.stop();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeId]);
+
   return (
     <svg
       viewBox="0 0 2048 1143"
       preserveAspectRatio="none"
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
     >
-      {/* Route lines */}
+      {/* Already completed segments */}
       {STOPS.slice(0, -1).map((stop, i) => {
         const next = STOPS[i + 1];
-        const drawn = stopIndex > i;
+        if (i >= stopIndex) return null; // not yet reached
+        if (i === stopIndex - 1) {
+          // Current segment — driven by same progress value
+          return (
+            <motion.path
+              key={`seg-${i}`}
+              d={`M ${stop.px},${stop.py} L ${next.px},${next.py}`}
+              fill="none"
+              stroke="rgba(255,255,255,0.45)"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
+              style={{ pathLength: progress }}
+            />
+          );
+        }
+        // Fully drawn past segment
         return (
-          <motion.path
+          <path
             key={`seg-${i}`}
             d={`M ${stop.px},${stop.py} L ${next.px},${next.py}`}
             fill="none"
@@ -120,9 +148,6 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
             strokeWidth="1.5"
             strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
-            initial={false}
-            animate={{ pathLength: drawn ? 1 : 0 }}
-            transition={{ duration: 2.4, ease: "linear" }}
           />
         );
       })}
@@ -139,13 +164,8 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
         />
       ))}
 
-      {/* Sailboat icon — animates smoothly between positions */}
-      <motion.g
-        key={activeId}
-        initial={{ x: prevStop.px, y: prevStop.py }}
-        animate={{ x: activeStop.px, y: activeStop.py }}
-        transition={{ duration: 2.4, ease: "linear" }}
-      >
+      {/* Boat icon — driven by same progress value as line */}
+      <motion.g style={{ x: boatX, y: boatY }}>
         <image
           href="/boat-shiloutte.png"
           x="-28"
