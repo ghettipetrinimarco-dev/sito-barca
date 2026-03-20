@@ -9,6 +9,15 @@ function Dropdown({ items, isOpen }: { items: { label: string; href: string }[];
   if (!isOpen) return null;
   return (
     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50" style={{ minWidth: "260px" }}>
+      <style>{`
+        @keyframes shimmerNav {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+        .nav-dropdown-item:hover .nav-shimmer {
+          animation: shimmerNav 0.6s ease-in-out;
+        }
+      `}</style>
       <div
         style={{
           background: "#fff",
@@ -24,7 +33,7 @@ function Dropdown({ items, isOpen }: { items: { label: string; href: string }[];
             href={item.href}
             target={item.href.startsWith("/") ? "_blank" : undefined}
             rel={item.href.startsWith("/") ? "noopener noreferrer" : undefined}
-            className="block px-5 py-3 text-[12px] tracking-[0.08em] uppercase transition-all duration-200"
+            className="nav-dropdown-item relative block px-5 py-3 text-[12px] tracking-[0.08em] uppercase overflow-hidden transition-all duration-200"
             style={{
               color: "var(--text-secondary)",
               borderBottom: i < items.length - 1 ? "1px solid var(--border-light)" : "none",
@@ -38,12 +47,15 @@ function Dropdown({ items, isOpen }: { items: { label: string; href: string }[];
               (e.currentTarget as HTMLElement).style.background = "transparent";
             }}
           >
-            {item.label.includes(" / ") ? (
-              <span className="flex flex-col leading-snug">
-                <span>{item.label.split(" / ")[0]}</span>
-                <span style={{ fontSize: "0.85em", opacity: 0.55 }}>{item.label.split(" / ")[1]}</span>
-              </span>
-            ) : item.label}
+            <span className="nav-shimmer absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(90deg, transparent 0%, rgba(74,127,181,0.12) 50%, transparent 100%)" }} />
+            <span className="relative">
+              {item.label.includes(" / ") ? (
+                <span className="flex flex-col leading-snug">
+                  <span>{item.label.split(" / ")[0]}</span>
+                  <span style={{ fontSize: "0.85em", opacity: 0.55 }}>{item.label.split(" / ")[1]}</span>
+                </span>
+              ) : item.label}
+            </span>
           </a>
         ))}
       </div>
