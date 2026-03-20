@@ -106,6 +106,9 @@ export default function CruisePlan() {
   const [phase, setPhase] = useState<"before" | "active" | "after">("before");
   const sectionRef = useRef<HTMLElement>(null);
   const activeIdxRef = useRef(0);
+  const lastScrollY = useRef(0);
+  const lastScrollTime = useRef(Date.now());
+  const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const active = STOPS.find((s) => s.id === activeId) ?? STOPS[0];
 
@@ -122,32 +125,65 @@ export default function CruisePlan() {
   const mapTransform = `translate(${tx}%, ${ty}%) scale(${z})`;
 
   useEffect(() => {
-    const handleScroll = () => {
+    const VELOCITY_THRESHOLD = 1.8; // px/ms — above this = fast scroll, skip activation
+
+    const activate = () => {
       const section = sectionRef.current;
       if (!section) return;
       const { top, height } = section.getBoundingClientRect();
       const vh = window.innerHeight;
       const scrollable = height - vh;
-      if (top > 0) {
-        setPhase("before");
-      } else if (top <= 0 && top > -scrollable) {
+      if (top <= 0 && top > -scrollable) {
         setPhase("active");
         const progress = Math.max(0, Math.min(1, -top / scrollable));
         const zoneSize = 1 / STOPS.length;
-        const buf = zoneSize * 0.12; // 12% buffer — avoids jitter at zone boundaries
+        const buf = zoneSize * 0.12;
         const rawIdx = Math.min(Math.floor(progress * STOPS.length), STOPS.length - 1);
         const cur = activeIdxRef.current;
         let next = cur;
         if (rawIdx > cur && progress >= rawIdx * zoneSize + buf) next = rawIdx;
         else if (rawIdx < cur && progress <= (rawIdx + 1) * zoneSize - buf) next = rawIdx;
         if (next !== cur) { activeIdxRef.current = next; setActiveId(STOPS[next].id); }
+      }
+    };
+
+    const handleScroll = () => {
+      const section = sectionRef.current;
+      if (!section) return;
+      const { top, height } = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const scrollable = height - vh;
+
+      // Velocity check
+      const now = Date.now();
+      const dt = Math.max(1, now - lastScrollTime.current);
+      const velocity = Math.abs(window.scrollY - lastScrollY.current) / dt;
+      lastScrollY.current = window.scrollY;
+      lastScrollTime.current = now;
+
+      if (top > 0) {
+        if (slowTimerRef.current) clearTimeout(slowTimerRef.current);
+        setPhase("before");
+      } else if (top <= 0 && top > -scrollable) {
+        if (velocity > VELOCITY_THRESHOLD) {
+          // Fast scroll — defer activation until user slows down
+          if (slowTimerRef.current) clearTimeout(slowTimerRef.current);
+          slowTimerRef.current = setTimeout(activate, 120);
+        } else {
+          if (slowTimerRef.current) clearTimeout(slowTimerRef.current);
+          activate();
+        }
       } else {
+        if (slowTimerRef.current) clearTimeout(slowTimerRef.current);
         setPhase("after");
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (slowTimerRef.current) clearTimeout(slowTimerRef.current);
+    };
   }, []);
 
   return (
