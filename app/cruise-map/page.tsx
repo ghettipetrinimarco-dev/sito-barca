@@ -235,7 +235,7 @@ function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
               alt=""
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", filter: "saturate(0.2) brightness(0.82)" }}
             />
-            <MapOverlay activeId={activeId} stopIndex={stopIndex} iconSize={140} />
+            <MapOverlay activeId={activeId} stopIndex={stopIndex} iconSize={160} />
           </div>
         </div>
       </div>
