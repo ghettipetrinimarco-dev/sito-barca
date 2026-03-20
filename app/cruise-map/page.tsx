@@ -97,7 +97,7 @@ const STOPS = [
 ];
 
 /* ── Shared SVG overlay (route + dots) ─────────────────────────── */
-function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: number }) {
+function MapOverlay({ activeId, stopIndex, iconSize = 56 }: { activeId: string; stopIndex: number; iconSize?: number }) {
   const activeStop = STOPS[stopIndex] ?? STOPS[0];
   const prevStop = STOPS[Math.max(0, stopIndex - 1)];
 
@@ -178,10 +178,10 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
       <motion.g style={{ x: boatX, y: boatY }}>
         <image
           href="/boat-shiloutte.png"
-          x="-28"
-          y="-40"
-          width="56"
-          height="56"
+          x={-iconSize / 2}
+          y={-iconSize * 0.71}
+          width={iconSize}
+          height={iconSize}
           opacity="0.9"
         />
       </motion.g>
@@ -235,7 +235,7 @@ function MobileLayout({ lang, activeId, setActiveId, stopIndex }: {
               alt=""
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", filter: "saturate(0.2) brightness(0.82)" }}
             />
-            <MapOverlay activeId={activeId} stopIndex={stopIndex} />
+            <MapOverlay activeId={activeId} stopIndex={stopIndex} iconSize={100} />
           </div>
         </div>
       </div>
