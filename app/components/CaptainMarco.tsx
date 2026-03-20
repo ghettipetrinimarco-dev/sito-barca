@@ -103,18 +103,17 @@ export default function CaptainMarco() {
             <p className="text-[12px] tracking-[0.25em] uppercase mb-4 font-manrope font-medium" style={{ color: "var(--text-secondary)" }}>
               {tr.qualLabel}
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="flex flex-col">
               {tr.qualifications.map((qual, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                  transition={{ duration: 0.45, delay: 0.5 + i * 0.06, ease }}
-                  className="px-5 py-4 transition-colors duration-200"
-                  style={{ border: "1px solid var(--border)", borderRadius: 10, background: "var(--bg)" }}
-                  onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.background = "var(--surface-alt)"}
-                  onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.background = "var(--bg)"}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
+                  transition={{ duration: 0.4, delay: 0.5 + i * 0.05, ease }}
+                  className="flex items-center gap-3 py-2.5"
+                  style={{ borderBottom: i < tr.qualifications.length - 1 ? "1px solid var(--border-light)" : "none" }}
                 >
+                  <span style={{ width: 4, height: 4, borderRadius: "50%", background: "var(--accent)", flexShrink: 0 }} />
                   <p className="font-manrope font-light text-sm" style={{ color: "var(--text-secondary)" }}>
                     {qual}
                   </p>
