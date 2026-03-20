@@ -155,7 +155,7 @@ export default function CruisePlan() {
       ref={sectionRef}
       id="cruise-plan"
       className="relative"
-      style={{ height: `${STOPS.length * 90}vh` }}
+      style={{ height: `${STOPS.length * 130}vh` }}
     >
       <div
         className="overflow-hidden"
@@ -173,7 +173,7 @@ export default function CruisePlan() {
             position: "absolute", inset: 0,
             transformOrigin: "0 0",
             transform: mapTransform,
-            transition: "transform 1.4s cubic-bezier(0.16,1,0.3,1)",
+            transition: "transform 2s cubic-bezier(0.25,1,0.5,1)",
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
