@@ -133,7 +133,7 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
           cx={stop.px}
           cy={stop.py}
           r="4"
-          fill={stop.id === activeId ? "white" : "rgba(255,255,255,0.35)"}
+          fill="rgba(255,255,255,0.35)"
           vectorEffect="non-scaling-stroke"
         />
       ))}
