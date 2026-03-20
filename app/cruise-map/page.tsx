@@ -143,14 +143,14 @@ function MapOverlay({ activeId, stopIndex }: { activeId: string; stopIndex: numb
         animate={{ x: activeStop.px, y: activeStop.py }}
         transition={{ duration: 1.0, ease: [0.25, 1, 0.5, 1] }}
       >
-        {/* Hull */}
-        <path d="M -10,5 L 10,5 Q 7,10 0,11 Q -7,10 -10,5 Z" fill="white" opacity="0.95" />
-        {/* Mast */}
-        <line x1="0" y1="-15" x2="0" y2="5" stroke="white" strokeWidth="1.2" opacity="0.9" />
-        {/* Main sail */}
-        <path d="M 1,-13 L 9,5 L 1,5 Z" fill="white" opacity="0.85" />
-        {/* Jib */}
-        <path d="M -1,-7 L -8,5 L -1,5 Z" fill="white" opacity="0.5" />
+        <image
+          href="/boat-shiloutte.png"
+          x="-28"
+          y="-40"
+          width="56"
+          height="56"
+          opacity="0.9"
+        />
       </motion.g>
     </svg>
   );
