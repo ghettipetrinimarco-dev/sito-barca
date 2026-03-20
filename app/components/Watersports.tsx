@@ -44,7 +44,7 @@ export default function Watersports() {
         {/* Image panel */}
         <motion.div
           className="relative overflow-hidden"
-          style={{ minHeight: "520px" }}
+          style={{ minHeight: "300px", height: "clamp(300px, 45vw, 520px)" }}
           initial={{ opacity: 0, x: -40 }}
           animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
           transition={{ duration: 1.0, ease }}
@@ -56,7 +56,11 @@ export default function Watersports() {
             className="object-cover"
           />
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 lg:hidden"
+            style={{ background: "linear-gradient(to bottom, transparent 60%, var(--surface-alt) 100%)" }}
+          />
+          <div
+            className="absolute inset-0 hidden lg:block"
             style={{ background: "linear-gradient(to right, transparent 60%, var(--surface-alt) 100%)" }}
           />
         </motion.div>
@@ -64,7 +68,7 @@ export default function Watersports() {
         {/* Text panel */}
         <motion.div
           ref={ref}
-          className="flex flex-col justify-center px-12 lg:px-16 py-24"
+          className="flex flex-col justify-center px-6 lg:px-16 py-12 lg:py-24"
           initial={{ opacity: 0, x: 40 }}
           animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
           transition={{ duration: 1.0, delay: 0.15, ease }}

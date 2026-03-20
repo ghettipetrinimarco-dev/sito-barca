@@ -87,8 +87,8 @@ export default function Hero() {
 
           {/* H1 — one line, centered */}
           <h1
-            className="font-manrope font-bold text-white leading-none tracking-[-0.02em] mb-2 whitespace-nowrap text-center"
-            style={{ fontSize: "clamp(1.4rem, 2.8vw, 2.6rem)" }}
+            className="font-manrope font-bold text-white leading-tight tracking-[-0.02em] mb-2 text-center"
+            style={{ fontSize: "clamp(1.5rem, 4vw, 2.6rem)" }}
           >
             {tr.title1} {tr.title2}{" "}
             <span style={{

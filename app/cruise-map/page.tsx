@@ -281,7 +281,7 @@ export default function CruiseMapPage() {
       </button>
 
       {/* Stop info card — bottom left */}
-      <div className="absolute left-0 px-6 lg:px-14"
+      <div className="absolute left-0 right-0 lg:right-auto px-6 lg:px-14"
         style={{ zIndex: 10, bottom: "clamp(2rem, 4vh, 3.5rem)" }}>
         <AnimatePresence mode="wait">
           <motion.div key={activeId}
@@ -291,7 +291,7 @@ export default function CruiseMapPage() {
             transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
             className="flex flex-col"
             style={{
-              width: "clamp(220px, 22vw, 300px)",
+              width: "min(100%, 300px)",
               background: "rgba(7,16,30,0.45)",
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
@@ -334,8 +334,8 @@ export default function CruiseMapPage() {
         </AnimatePresence>
       </div>
 
-      {/* Vertical city list right */}
-      <div className="absolute right-6 lg:right-14 flex flex-col items-end gap-3" style={{ zIndex: 60, bottom: "clamp(2rem, 4vh, 3.5rem)" }}>
+      {/* Vertical city list right — hidden on mobile */}
+      <div className="absolute right-6 lg:right-14 hidden lg:flex flex-col items-end gap-3" style={{ zIndex: 60, bottom: "clamp(2rem, 4vh, 3.5rem)" }}>
         {STOPS.map((stop, i) => {
           const isActive = activeId === stop.id;
           const label = stop.city === "San Carles de la Ràpita" ? "La Ràpita" : stop.city;

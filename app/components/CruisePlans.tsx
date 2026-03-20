@@ -72,7 +72,7 @@ export default function CruisePlans() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-0 mb-12" style={{ borderBottom: "1px solid var(--border)" }}>
+        <div className="flex gap-0 mb-12 overflow-x-auto" style={{ borderBottom: "1px solid var(--border)" }}>
           {PLANS.map((p, i) => (
             <button
               key={p.key}

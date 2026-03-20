@@ -52,9 +52,9 @@ export default function CaptainMarco() {
               alt="Captain Marco"
               width={800}
               height={1100}
-              className="w-full h-auto"
+              className="w-full h-auto max-h-[60vh] lg:max-h-none object-cover object-top"
               style={{ display: "block" }}
-              sizes="50vw"
+              sizes="(max-width: 1024px) 100vw, 50vw"
               priority
             />
           </motion.div>
