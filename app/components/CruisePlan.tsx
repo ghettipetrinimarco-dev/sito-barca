@@ -154,7 +154,7 @@ export default function CruisePlan() {
         {/* ── Satellite image ─────────────────────────────────────── */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/mediterranean-map-new.jpg"
+          src="/mediterranean-map.jpg"
           alt=""
           style={{
             position: "absolute", inset: 0,
