@@ -125,7 +125,7 @@ function ChopstickCursor() {
       ctx.putImageData(id, 0, 0);
       if (imgRef.current) imgRef.current.src = canvas.toDataURL();
     };
-    source.src = "/Logo-Cursor.png";
+    source.src = "/Logo-Cursor-new.png";
 
     const onMove = (e: MouseEvent) => {
       if (!wrapRef.current) return;
