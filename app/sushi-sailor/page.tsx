@@ -689,27 +689,96 @@ export default function SushiSailorPage() {
       </section>
 
       {/* ── Footer ─────────────────────────────────────────────── */}
-      <footer
-        style={{
-          borderTop: "1px solid rgba(0,0,0,0.07)",
-          padding: `2rem ${PAD}`,
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "1rem",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <p className="font-manrope" style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#C0C0C0" }}>
-          {tx.footerCopy}
-        </p>
-        <a
-          href={`mailto:${tx.footerEmail}`}
-          className="font-manrope"
-          style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#C0C0C0", textDecoration: "none" }}
+      <footer style={{ background: "#0C0C0C", color: "#fff" }}>
+
+        {/* Main footer body */}
+        <div
+          className="grid grid-cols-1 md:grid-cols-3 gap-12"
+          style={{ padding: `clamp(4rem, 10vh, 7rem) ${PAD}` }}
         >
-          {tx.footerEmail}
-        </a>
+          {/* Col 1 — Brand */}
+          <div>
+            <Image
+              src="/Logo-Icon.png"
+              alt="Sushi Sailor"
+              width={40}
+              height={40}
+              style={{ objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: "1.5rem" }}
+            />
+            <p
+              className="font-manrope font-semibold"
+              style={{ fontSize: "11px", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.85)", marginBottom: "1rem" }}
+            >
+              S U S H I &nbsp; S A I L O R
+            </p>
+            <p
+              className="font-playfair"
+              style={{ fontSize: "0.95rem", fontStyle: "italic", color: "rgba(255,255,255,0.35)", lineHeight: 1.6 }}
+            >
+              {l === "en" ? "The sea as inspiration.\nYour home as the stage." : "Das Meer als Inspiration.\nIhr Zuhause als Bühne."}
+            </p>
+          </div>
+
+          {/* Col 2 — Services */}
+          <div>
+            <p className="font-manrope" style={{ fontSize: "9px", letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: "1.5rem" }}>
+              {l === "en" ? "Services" : "Leistungen"}
+            </p>
+            <div className="flex flex-col gap-3">
+              {tx.services.map((s, i) => (
+                <p key={i} className="font-manrope" style={{ fontSize: "11px", letterSpacing: "0.1em", color: "rgba(255,255,255,0.55)" }}>
+                  {s}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          {/* Col 3 — Contact */}
+          <div>
+            <p className="font-manrope" style={{ fontSize: "9px", letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: "1.5rem" }}>
+              {l === "en" ? "Contact" : "Kontakt"}
+            </p>
+            <a
+              href={`mailto:${tx.footerEmail}`}
+              className="font-manrope block"
+              style={{ fontSize: "11px", letterSpacing: "0.1em", color: "rgba(255,255,255,0.55)", textDecoration: "none", marginBottom: "0.75rem", transition: "color 0.2s" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#fff"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.55)"; }}
+            >
+              {tx.footerEmail}
+            </a>
+            <Link
+              href="/"
+              className="font-manrope block"
+              style={{ fontSize: "11px", letterSpacing: "0.1em", color: "rgba(255,255,255,0.3)", textDecoration: "none", transition: "color 0.2s" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.3)"; }}
+            >
+              ← Ventum Sailing
+            </Link>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div
+          style={{
+            borderTop: "1px solid rgba(255,255,255,0.07)",
+            padding: `1.25rem ${PAD}`,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "0.5rem",
+          }}
+        >
+          <p className="font-manrope" style={{ fontSize: "10px", letterSpacing: "0.15em", color: "rgba(255,255,255,0.2)" }}>
+            {tx.footerCopy}
+          </p>
+          <p className="font-manrope" style={{ fontSize: "10px", letterSpacing: "0.15em", color: "rgba(255,255,255,0.2)" }}>
+            {l === "en" ? "Switzerland" : "Schweiz"}
+          </p>
+        </div>
+
       </footer>
     </main>
   );
