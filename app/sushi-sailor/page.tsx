@@ -11,12 +11,12 @@ const tr = {
   en: {
     back: "Ventum Sailing",
     heroEyebrow: "Ventum × Sushi Sailor",
-    heroTagline: "Private Omakase\nat Sea.",
+    heroTagline: "The Sea Comes\nto Your Home.",
     s01: "01",
-    s01heading: "Mastery of Japanese\nCuisine, Refined at Sea.",
+    s01heading: "Mastery of Japanese\nCuisine, Brought to Your Door.",
     s01sub: "Influenced by a passion for the ocean and the philosophy of omakase.",
     s01body:
-      "Sushi Sailor is an exclusive combination of freedom and gourmet pleasure — slow sailing paired with high-quality cuisine on board. As a passionate sushi chef, I transform your time on the water into a private omakase experience.\n\nEnjoy handcrafted sushi at sunset, while the yacht gently anchors in the bay. Every piece is composed around the season, the catch, and the moment. Never the same twice.",
+      "Sushi Sailor is born at sea — and arrives at your table. As a sailor and passionate sushi chef, Marco brings the philosophy of omakase from the water to your home. The ocean sets the rhythm. The season defines the menu.\n\nEach experience is a private, handcrafted journey — composed around the catch, the moment, and your guests. Never the same twice.",
     chefLabel: "The Chef",
     chefName: "Marco Haenni",
     chefBio:
@@ -29,14 +29,14 @@ const tr = {
     quoteAttr: "Marco Haenni — Sushi Sailor",
     s03: "03",
     s03heading: "Every Detail Reflects\na Deeply Personal Experience.",
-    s03sub: "Sushi wherever you are — on land or at sea.",
+    s03sub: "The sea as inspiration. Your home as the stage.",
     s03body:
-      "The Sushi Sailor experience comes to you. Private sushi catering for intimate dinners, celebrations, and events. Each booking is tailored around your occasion, your location, and your preferences.",
+      "Sushi Sailor comes to you. Marco brings the full omakase experience — fresh ingredients, precise technique, and the quiet philosophy of the sea — directly to your home. Intimate dinners, celebrations, and private events, tailored entirely around you.",
     services: [
-      "Private Charter Omakase",
+      "Private Omakase at Home",
       "Sushi Catering — Events & Celebrations",
-      "Sunset Experience at Anchor",
-      "Private Dining at Home",
+      "Intimate Dinner Parties",
+      "Corporate & Private Events",
     ],
     contactHeading: "Reserve Your\nExperience.",
     contactSub:
@@ -48,12 +48,12 @@ const tr = {
   de: {
     back: "Ventum Sailing",
     heroEyebrow: "Ventum × Sushi Sailor",
-    heroTagline: "Privates Omakase\nauf See.",
+    heroTagline: "Das Meer kommt\nzu Ihnen nach Hause.",
     s01: "01",
-    s01heading: "Meisterschaft der\njapanischen Küche, auf See.",
+    s01heading: "Meisterschaft der\njapanischen Küche, zu Ihnen gebracht.",
     s01sub: "Inspiriert von der Leidenschaft für das Meer und die Philosophie des Omakase.",
     s01body:
-      "Sushi Sailor steht für eine exklusive Kombination aus Freiheit und Gourmet-Genuss — entschleunigtes Segeln gepaart mit hochwertiger Bordküche. Als leidenschaftlicher Sushi-Koch verwandle ich Ihre Zeit auf dem Wasser in ein privates Omakase-Erlebnis.\n\nGeniessen Sie handgemachtes Sushi bei Sonnenuntergang, während die Yacht sanft in der Bucht vor Anker liegt. Jedes Stück ist auf Saison, Fang und Moment abgestimmt. Nie zweimal dasselbe.",
+      "Sushi Sailor entsteht auf See — und kommt an Ihrem Tisch an. Als Segler und leidenschaftlicher Sushi-Koch bringt Marco die Philosophie des Omakase vom Wasser zu Ihnen nach Hause. Das Meer gibt den Rhythmus vor. Die Saison bestimmt das Menü.\n\nJedes Erlebnis ist eine private, handgemachte Reise — komponiert aus Fang, Moment und Ihren Gästen. Nie zweimal dasselbe.",
     chefLabel: "Der Chef",
     chefName: "Marco Haenni",
     chefBio:
@@ -66,14 +66,14 @@ const tr = {
     quoteAttr: "Marco Haenni — Sushi Sailor",
     s03: "03",
     s03heading: "Jedes Detail spiegelt ein\npersönliches Erlebnis.",
-    s03sub: "Sushi wo immer Sie sind — zu Land oder auf See.",
+    s03sub: "Das Meer als Inspiration. Ihr Zuhause als Bühne.",
     s03body:
-      "Das Sushi Sailor Erlebnis kommt zu Ihnen. Privates Sushi-Catering für intime Abendessen, Feiern und Events. Jede Buchung wird auf Ihren Anlass, Ihren Ort und Ihre Wünsche abgestimmt.",
+      "Sushi Sailor kommt zu Ihnen. Marco bringt das vollständige Omakase-Erlebnis — frische Zutaten, präzise Technik und die stille Philosophie des Meeres — direkt zu Ihnen nach Hause. Intime Dinner, Feiern und private Events, ganz auf Sie abgestimmt.",
     services: [
-      "Privates Charter-Omakase",
+      "Privates Omakase bei Ihnen",
       "Sushi-Catering — Events & Feiern",
-      "Sonnenuntergang-Erlebnis vor Anker",
-      "Privates Dinner bei Ihnen",
+      "Intime Dinner-Partys",
+      "Firmen- & Privatanlässe",
     ],
     contactHeading: "Reservieren Sie\nIhr Erlebnis.",
     contactSub:
