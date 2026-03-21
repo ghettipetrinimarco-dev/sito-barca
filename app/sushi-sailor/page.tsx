@@ -137,11 +137,10 @@ function ChopstickCursor() {
         willChange: "transform",
       }}
     >
-      <svg width="26" height="64" viewBox="0 0 26 64" fill="none" style={{ display: "block" }}>
-        {/* Left chopstick — tapered, thin at tip, wider at base */}
-        <polygon points="7,0 9,0 13.5,64 9.5,64" fill="white" />
-        {/* Right chopstick */}
-        <polygon points="14.5,0 16.5,0 21,64 17,64" fill="white" />
+      {/* Chopsticks: diagonal, thin (1.5px tip → 2.5px base), lean left→right like holding */}
+      <svg width="28" height="80" viewBox="0 0 28 80" fill="none" style={{ display: "block" }}>
+        <polygon points="5,0 6.5,0 13,80 10.5,80" fill="white" />
+        <polygon points="14,0 15.5,0 22,80 19.5,80" fill="white" />
       </svg>
     </div>
   );
