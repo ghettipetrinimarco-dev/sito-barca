@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
@@ -92,6 +92,61 @@ const tr = {
   },
 };
 
+/* ── Chopstick cursor — follows mouse, mix-blend-mode for auto color ── */
+function ChopstickCursor() {
+  const ref = useRef<HTMLDivElement>(null);
+  const visible = useRef(false);
+
+  useEffect(() => {
+    // Only on pointer devices
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    const onMove = (e: MouseEvent) => {
+      if (!ref.current) return;
+      if (!visible.current) {
+        ref.current.style.opacity = "1";
+        visible.current = true;
+      }
+      // Offset so the tip of the left chopstick aligns with the hot spot
+      ref.current.style.transform = `translate(${e.clientX - 10}px, ${e.clientY}px)`;
+    };
+    const onLeave = () => { if (ref.current) ref.current.style.opacity = "0"; };
+    const onEnter = () => { if (ref.current) ref.current.style.opacity = "1"; };
+
+    window.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseleave", onLeave);
+    document.addEventListener("mouseenter", onEnter);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseleave", onLeave);
+      document.removeEventListener("mouseenter", onEnter);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        pointerEvents: "none",
+        zIndex: 999999,
+        opacity: 0,
+        mixBlendMode: "difference",
+        willChange: "transform",
+      }}
+    >
+      <svg width="26" height="64" viewBox="0 0 26 64" fill="none" style={{ display: "block" }}>
+        {/* Left chopstick — tapered, thin at tip, wider at base */}
+        <polygon points="7,0 9,0 13.5,64 9.5,64" fill="white" />
+        {/* Right chopstick */}
+        <polygon points="14.5,0 16.5,0 21,64 17,64" fill="white" />
+      </svg>
+    </div>
+  );
+}
+
 /* ── Scroll reveal ────────────────────────────────────────────────── */
 function Reveal({
   children,
@@ -123,18 +178,6 @@ function Reveal({
 const PAD = "clamp(1.5rem, 5vw, 5rem)";
 const SECTION_V = "clamp(6rem, 14vh, 10rem)";
 
-/* Chopstick cursor — white sticks with dark outline, tip hotspot at top */
-const CHOPSTICK_CURSOR = [
-  `url("data:image/svg+xml,`,
-  `<svg xmlns='http://www.w3.org/2000/svg' width='22' height='60'>`,
-  /* left chopstick — dark outline then white fill */
-  `<line x1='7' y1='1' x2='9.5' y2='59' stroke='%23000' stroke-width='4' stroke-linecap='round'/>`,
-  `<line x1='7' y1='1' x2='9.5' y2='59' stroke='%23fff' stroke-width='2' stroke-linecap='round'/>`,
-  /* right chopstick */
-  `<line x1='13' y1='1' x2='15.5' y2='59' stroke='%23000' stroke-width='4' stroke-linecap='round'/>`,
-  `<line x1='13' y1='1' x2='15.5' y2='59' stroke='%23fff' stroke-width='2' stroke-linecap='round'/>`,
-  `</svg>") 10 0, auto`,
-].join("");
 
 /* ── Page ─────────────────────────────────────────────────────────── */
 export default function SushiSailorPage() {
@@ -145,7 +188,8 @@ export default function SushiSailorPage() {
   const sushiImages = ["/Sushi-1.webp", "/Sushi-2.webp", "/Sushi-3.webp", "/Sushi-4.webp"];
 
   return (
-    <main style={{ background: "#F8F7F5", color: "#0C0C0C", cursor: CHOPSTICK_CURSOR }}>
+    <main style={{ background: "#F8F7F5", color: "#0C0C0C", cursor: "none" }}>
+      <ChopstickCursor />
 
       {/* ── Header ─────────────────────────────────────────────── */}
       <header
