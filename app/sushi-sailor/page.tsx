@@ -35,8 +35,6 @@ const tr = {
     services: [
       "Private Omakase at Home",
       "Sushi Catering — Events & Celebrations",
-      "Intimate Dinner Parties",
-      "Corporate & Private Events",
     ],
     contactHeading: "Reserve Your\nExperience.",
     contactSub:
@@ -72,8 +70,6 @@ const tr = {
     services: [
       "Privates Omakase bei Ihnen",
       "Sushi-Catering — Events & Feiern",
-      "Intime Dinner-Partys",
-      "Firmen- & Privatanlässe",
     ],
     contactHeading: "Reservieren Sie\nIhr Erlebnis.",
     contactSub:
