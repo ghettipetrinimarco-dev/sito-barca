@@ -132,7 +132,7 @@ export default function SushiSailorPage() {
   const sushiImages = ["/Sushi-1.webp", "/Sushi-2.webp", "/Sushi-3.webp", "/Sushi-4.webp"];
 
   return (
-    <main style={{ background: "#F8F7F5", color: "#0C0C0C" }}>
+    <main style={{ background: "#F8F7F5", color: "#0C0C0C", cursor: "url('/Logo-Cursor.png') 12 0, auto" }}>
 
       {/* ── Header ─────────────────────────────────────────────── */}
       <header
