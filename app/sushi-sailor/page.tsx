@@ -140,17 +140,17 @@ export default function SushiSailorPage() {
         }}
       >
         {/* Logo */}
-        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.9rem" }}>
           <Image
             src="/Logo-Icon.png"
             alt="Sushi Sailor"
-            width={36}
-            height={36}
-            style={{ filter: "brightness(0) invert(1)", objectFit: "contain" }}
+            width={44}
+            height={44}
+            style={{ objectFit: "contain" }}
           />
           <span
-            className="font-manrope font-bold hidden sm:inline"
-            style={{ fontSize: "11px", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.85)" }}
+            className="font-manrope font-semibold hidden sm:inline"
+            style={{ fontSize: "11px", letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)" }}
           >
             S U S H I &nbsp; S A I L O R
           </span>
@@ -227,21 +227,37 @@ export default function SushiSailorPage() {
             {tx.heroEyebrow}
           </motion.p>
 
-          <motion.h1
-            className="font-manrope font-bold text-white"
-            style={{
-              fontSize: "clamp(2rem, 5.5vw, 5rem)",
-              letterSpacing: "-0.01em",
-              lineHeight: 1.08,
-              textTransform: "uppercase",
-              maxWidth: "16ch",
-            }}
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.3, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            style={{ textAlign: "center" }}
           >
-            {tx.heroTitle}
-          </motion.h1>
+            <p
+              className="font-manrope font-medium text-white"
+              style={{
+                fontSize: "clamp(0.65rem, 1vw, 0.85rem)",
+                letterSpacing: "0.28em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.5)",
+                marginBottom: "0.9rem",
+              }}
+            >
+              {l === "en" ? "Private Omakase by" : "Privates Omakase von"}
+            </p>
+            <h1
+              className="font-playfair text-white"
+              style={{
+                fontSize: "clamp(2rem, 4.5vw, 4rem)",
+                fontWeight: 400,
+                letterSpacing: "-0.01em",
+                lineHeight: 1.1,
+                textTransform: "uppercase",
+              }}
+            >
+              Chef Marco Haenni
+            </h1>
+          </motion.div>
 
           <motion.p
             className="font-playfair"
