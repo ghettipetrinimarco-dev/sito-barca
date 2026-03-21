@@ -259,7 +259,7 @@ export default function SushiSailorPage() {
       {/* ── Hero — dark full bleed, centered title ──────────────── */}
       <section className="relative overflow-hidden" style={{ height: "100svh" }}>
         <Image
-          src="/Sushi-1.webp"
+          src="/Sushi-landing-page.jpg"
           alt="Sushi Sailor"
           fill
           priority
@@ -567,8 +567,18 @@ export default function SushiSailorPage() {
         </div>
       </section>
 
-      {/* ── Divider ─────────────────────────────────────────────── */}
-      <div style={{ height: "1px", margin: `0 ${PAD}`, background: "rgba(0,0,0,0.09)" }} />
+      {/* ── Full-bleed image ─────────────────────────────────────── */}
+      <div style={{ position: "relative", height: "clamp(340px, 55vh, 680px)", overflow: "hidden" }}>
+        <Image
+          src="/Sushi-sailor-marco.jpg"
+          alt="Chef Marco Haenni"
+          fill
+          className="object-cover"
+          style={{ objectPosition: "center 30%" }}
+          sizes="100vw"
+        />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(248,247,245,0.18) 0%, rgba(248,247,245,0) 30%, rgba(248,247,245,0) 70%, rgba(248,247,245,0.22) 100%)" }} />
+      </div>
 
       {/* ── Section 03 — Services ───────────────────────────────── */}
       <section style={{ padding: `${SECTION_V} ${PAD}` }}>
@@ -629,140 +639,116 @@ export default function SushiSailorPage() {
         </div>
       </section>
 
-      {/* ── Divider ─────────────────────────────────────────────── */}
-      <div style={{ height: "1px", margin: `0 ${PAD}`, background: "rgba(0,0,0,0.09)" }} />
-
-      {/* ── Contact ─────────────────────────────────────────────── */}
-      <section style={{ padding: `${SECTION_V} ${PAD}` }}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
-          <div>
-            <Reveal>
-              <h2
-                className="font-playfair"
-                style={{
-                  fontSize: "clamp(2.2rem, 5vw, 4.5rem)",
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1.0,
-                  whiteSpace: "pre-line",
-                }}
-              >
-                {tx.contactHeading}
-              </h2>
-            </Reveal>
-          </div>
-          <div>
-            <Reveal delay={0.1}>
-              <p className="font-manrope" style={{ fontSize: "1rem", lineHeight: 1.85, color: "#666", marginBottom: "2.5rem" }}>
-                {tx.contactSub}
-              </p>
-            </Reveal>
-            <Reveal delay={0.18}>
-              <a
-                href={`mailto:${tx.footerEmail}`}
-                className="inline-block font-manrope font-medium"
-                style={{
-                  fontSize: "10px",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  padding: "1rem 2.4rem",
-                  border: "1px solid #0C0C0C",
-                  color: "#0C0C0C",
-                  textDecoration: "none",
-                  transition: "background 0.35s, color 0.35s",
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = "#0C0C0C";
-                  el.style.color = "#F8F7F5";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = "transparent";
-                  el.style.color = "#0C0C0C";
-                }}
-              >
-                {tx.contactCta}
-              </a>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Footer ─────────────────────────────────────────────── */}
+      {/* ── Closing — Contact + Footer unified ──────────────────── */}
       <footer style={{ background: "#0C0C0C", color: "#fff" }}>
 
-        {/* Main footer body */}
+        {/* Central CTA block */}
         <div
-          className="grid grid-cols-1 md:grid-cols-3 gap-12"
-          style={{ padding: `clamp(4rem, 10vh, 7rem) ${PAD}` }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+            padding: `clamp(5rem, 14vh, 10rem) ${PAD} clamp(4rem, 10vh, 7rem)`,
+          }}
         >
-          {/* Col 1 — Brand */}
-          <div>
+          {/* Logo */}
+          <Reveal>
             <Image
               src="/Logo-Icon.png"
               alt="Sushi Sailor"
-              width={40}
-              height={40}
-              style={{ objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: "1.5rem" }}
+              width={64}
+              height={64}
+              style={{ objectFit: "contain", filter: "invert(1) hue-rotate(180deg)", marginBottom: "2rem" }}
             />
+          </Reveal>
+
+          {/* Brand name */}
+          <Reveal delay={0.06}>
             <p
               className="font-manrope font-semibold"
-              style={{ fontSize: "11px", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.85)", marginBottom: "1rem" }}
+              style={{ fontSize: "10px", letterSpacing: "0.36em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: "2rem" }}
             >
               S U S H I &nbsp; S A I L O R
             </p>
+          </Reveal>
+
+          {/* Heading */}
+          <Reveal delay={0.12}>
+            <h2
+              className="font-playfair"
+              style={{
+                fontSize: "clamp(2.4rem, 5.5vw, 5rem)",
+                letterSpacing: "-0.03em",
+                lineHeight: 1.05,
+                color: "#fff",
+                whiteSpace: "pre-line",
+                marginBottom: "2rem",
+              }}
+            >
+              {tx.contactHeading}
+            </h2>
+          </Reveal>
+
+          {/* Tagline */}
+          <Reveal delay={0.18}>
             <p
               className="font-playfair"
-              style={{ fontSize: "0.95rem", fontStyle: "italic", color: "rgba(255,255,255,0.35)", lineHeight: 1.6 }}
+              style={{ fontSize: "clamp(1rem, 1.6vw, 1.2rem)", fontStyle: "italic", color: "rgba(255,255,255,0.35)", lineHeight: 1.7, marginBottom: "3.5rem", maxWidth: "38ch" }}
             >
-              {l === "en" ? "The sea as inspiration.\nYour home as the stage." : "Das Meer als Inspiration.\nIhr Zuhause als Bühne."}
+              {l === "en" ? "The sea as inspiration. Your home as the stage." : "Das Meer als Inspiration. Ihr Zuhause als Bühne."}
             </p>
-          </div>
+          </Reveal>
 
-          {/* Col 2 — Services */}
-          <div>
-            <p className="font-manrope" style={{ fontSize: "9px", letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: "1.5rem" }}>
-              {l === "en" ? "Services" : "Leistungen"}
-            </p>
-            <div className="flex flex-col gap-3">
-              {tx.services.map((s, i) => (
-                <p key={i} className="font-manrope" style={{ fontSize: "11px", letterSpacing: "0.1em", color: "rgba(255,255,255,0.55)" }}>
-                  {s}
-                </p>
-              ))}
-            </div>
-          </div>
-
-          {/* Col 3 — Contact */}
-          <div>
-            <p className="font-manrope" style={{ fontSize: "9px", letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: "1.5rem" }}>
-              {l === "en" ? "Contact" : "Kontakt"}
-            </p>
+          {/* CTA button */}
+          <Reveal delay={0.24}>
             <a
               href={`mailto:${tx.footerEmail}`}
-              className="font-manrope block"
-              style={{ fontSize: "11px", letterSpacing: "0.1em", color: "rgba(255,255,255,0.55)", textDecoration: "none", marginBottom: "0.75rem", transition: "color 0.2s" }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#fff"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.55)"; }}
+              className="inline-block font-manrope font-medium"
+              style={{
+                fontSize: "10px",
+                letterSpacing: "0.24em",
+                textTransform: "uppercase",
+                padding: "1.1rem 2.8rem",
+                border: "1px solid rgba(255,255,255,0.35)",
+                color: "#fff",
+                textDecoration: "none",
+                transition: "background 0.35s, border-color 0.35s",
+                marginBottom: "1.5rem",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = "rgba(255,255,255,0.08)";
+                el.style.borderColor = "rgba(255,255,255,0.7)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = "transparent";
+                el.style.borderColor = "rgba(255,255,255,0.35)";
+              }}
+            >
+              {tx.contactCta}
+            </a>
+          </Reveal>
+
+          {/* Email visible */}
+          <Reveal delay={0.28}>
+            <a
+              href={`mailto:${tx.footerEmail}`}
+              className="font-manrope"
+              style={{ fontSize: "11px", letterSpacing: "0.1em", color: "rgba(255,255,255,0.25)", textDecoration: "none", transition: "color 0.2s" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.65)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.25)"; }}
             >
               {tx.footerEmail}
             </a>
-            <Link
-              href="/"
-              className="font-manrope block"
-              style={{ fontSize: "11px", letterSpacing: "0.1em", color: "rgba(255,255,255,0.3)", textDecoration: "none", transition: "color 0.2s" }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.3)"; }}
-            >
-              ← Ventum Sailing
-            </Link>
-          </div>
+          </Reveal>
         </div>
 
         {/* Bottom bar */}
         <div
           style={{
-            borderTop: "1px solid rgba(255,255,255,0.07)",
+            borderTop: "1px solid rgba(255,255,255,0.06)",
             padding: `1.25rem ${PAD}`,
             display: "flex",
             justifyContent: "space-between",
@@ -771,12 +757,18 @@ export default function SushiSailorPage() {
             gap: "0.5rem",
           }}
         >
-          <p className="font-manrope" style={{ fontSize: "10px", letterSpacing: "0.15em", color: "rgba(255,255,255,0.2)" }}>
+          <p className="font-manrope" style={{ fontSize: "10px", letterSpacing: "0.15em", color: "rgba(255,255,255,0.18)" }}>
             {tx.footerCopy}
           </p>
-          <p className="font-manrope" style={{ fontSize: "10px", letterSpacing: "0.15em", color: "rgba(255,255,255,0.2)" }}>
-            {l === "en" ? "Switzerland" : "Schweiz"}
-          </p>
+          <Link
+            href="/"
+            className="font-manrope"
+            style={{ fontSize: "10px", letterSpacing: "0.12em", color: "rgba(255,255,255,0.18)", textDecoration: "none", transition: "color 0.2s" }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.5)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.18)"; }}
+          >
+            ← Ventum Sailing
+          </Link>
         </div>
 
       </footer>
