@@ -139,21 +139,13 @@ export default function SushiSailorPage() {
           background: "transparent",
         }}
       >
-        {/* Logo */}
-        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.9rem" }}>
-          <Image
-            src="/Logo-Icon.png"
-            alt="Sushi Sailor"
-            width={44}
-            height={44}
-            style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
-          />
-          <span
-            className="font-manrope font-semibold hidden sm:inline"
-            style={{ fontSize: "11px", letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)" }}
-          >
-            S U S H I &nbsp; S A I L O R
-          </span>
+        {/* Logo — text only, Masa style */}
+        <Link
+          href="/"
+          className="font-manrope font-semibold"
+          style={{ fontSize: "11px", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)", textDecoration: "none" }}
+        >
+          S U S H I &nbsp; S A I L O R
         </Link>
 
         {/* Right — lang + book */}
