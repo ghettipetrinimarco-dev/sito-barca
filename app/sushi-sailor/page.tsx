@@ -10,65 +10,81 @@ import { useLang } from "../context/LanguageContext";
 const tr = {
   en: {
     back: "Ventum Sailing",
-    tagline: "Private Omakase at Sea",
-    s01num: "01",
-    s01heading: "Mastery of Japanese Cuisine —\nRefined at Sea.",
-    s01sub: "INFLUENCED BY A PASSION FOR THE OCEAN AND THE PHILOSOPHY OF OMAKASE.",
+    heroEyebrow: "Ventum × Sushi Sailor",
+    heroTagline: "Private Omakase\nat Sea.",
+    s01: "01",
+    s01heading: "Mastery of Japanese\nCuisine, Refined at Sea.",
+    s01sub: "Influenced by a passion for the ocean and the philosophy of omakase.",
     s01body:
-      "Sushi Sailor is an exclusive combination of freedom and gourmet pleasure. We stand for slow sailing paired with high-quality cuisine on board. As a passionate sushi chef, I transform your time on the water into a private omakase experience.\n\nEnjoy handcrafted sushi at sunset, while the yacht gently anchors in the bay. Every piece is composed around the season, the catch, and the moment — never the same twice.",
+      "Sushi Sailor is an exclusive combination of freedom and gourmet pleasure — slow sailing paired with high-quality cuisine on board. As a passionate sushi chef, I transform your time on the water into a private omakase experience.\n\nEnjoy handcrafted sushi at sunset, while the yacht gently anchors in the bay. Every piece is composed around the season, the catch, and the moment. Never the same twice.",
     chefLabel: "The Chef",
     chefName: "Marco Haenni",
-    s02num: "02",
-    s02heading: "The Philosophy of Shibui —\nSimplicity and Complexity.",
-    s02sub: "QUIET ELEGANCE. NOTHING ADDED. NOTHING REMOVED.",
+    chefBio:
+      "Trained in the art of traditional Japanese sushi, Marco brings the philosophy of omakase to the open sea. Each experience is crafted around the season, the catch, and the moment.",
+    s02: "02",
+    s02heading: "The Philosophy\nof Shibui.",
+    s02sub: "Subtle beauty, quiet elegance, simplicity and complexity.",
     quote:
-      "The sea sets the rhythm. The fish tells the story.\nI simply listen — and let the ingredients speak.",
-    quoteAttr: "— Marco Haenni, Sushi Sailor",
-    s03num: "03",
-    s03heading: "Every Detail Reflects a\nDeeply Personal Experience.",
-    s03sub: "SUSHI WHEREVER YOU ARE — ON LAND OR AT SEA.",
+      '"The sea sets the rhythm.\nThe fish tells the story.\nI simply listen."',
+    quoteAttr: "Marco Haenni — Sushi Sailor",
+    s03: "03",
+    s03heading: "Every Detail Reflects\na Deeply Personal Experience.",
+    s03sub: "Sushi wherever you are — on land or at sea.",
     s03body:
-      "The Sushi Sailor experience comes to you. Private sushi catering for intimate dinners, celebrations, and events — on land or at sea. Each booking is tailored around your occasion, your location, and your preferences.",
-    contactHeading: "Step Into the Experience.",
+      "The Sushi Sailor experience comes to you. Private sushi catering for intimate dinners, celebrations, and events. Each booking is tailored around your occasion, your location, and your preferences.",
+    services: [
+      "Private Charter Omakase",
+      "Sushi Catering — Events & Celebrations",
+      "Sunset Experience at Anchor",
+      "Private Dining at Home",
+    ],
+    contactHeading: "Reserve Your\nExperience.",
     contactSub:
-      "Get in touch to reserve your private omakase — on the water or wherever you choose to gather.",
-    emailPlaceholder: "Your email address",
-    emailCta: "Get in Touch",
-    footer: "© 2025 Ventum Sailing — Sushi Sailor",
-    footerContact: "info@ventum-sailing.ch",
+      "Each booking is personal. Get in touch to discuss your date, location, and preferences.",
+    contactCta: "Get in Touch",
+    footerCopy: "© 2025 Ventum Sailing — Sushi Sailor",
+    footerEmail: "info@ventum-sailing.ch",
   },
   de: {
     back: "Ventum Sailing",
-    tagline: "Privates Omakase auf See",
-    s01num: "01",
-    s01heading: "Meisterschaft der japanischen\nKüche — verfeinert auf See.",
-    s01sub: "INSPIRIERT VON DER LEIDENSCHAFT FÜR DAS MEER UND DIE PHILOSOPHIE DES OMAKASE.",
+    heroEyebrow: "Ventum × Sushi Sailor",
+    heroTagline: "Privates Omakase\nauf See.",
+    s01: "01",
+    s01heading: "Meisterschaft der\njapanischen Küche, auf See.",
+    s01sub: "Inspiriert von der Leidenschaft für das Meer und die Philosophie des Omakase.",
     s01body:
-      "Sushi Sailor steht für eine exklusive Kombination aus Freiheit und Gourmet-Genuss. Entschleunigtes Segeln gepaart mit hochwertiger Bordküche. Als leidenschaftlicher Sushi-Koch verwandle ich Ihre Zeit auf dem Wasser in ein privates Omakase-Erlebnis.\n\nGeniessen Sie handgemachtes Sushi bei Sonnenuntergang, während die Yacht sanft in der Bucht vor Anker liegt. Jedes Stück ist auf Saison, Fang und Moment abgestimmt — nie zweimal dasselbe.",
+      "Sushi Sailor steht für eine exklusive Kombination aus Freiheit und Gourmet-Genuss — entschleunigtes Segeln gepaart mit hochwertiger Bordküche. Als leidenschaftlicher Sushi-Koch verwandle ich Ihre Zeit auf dem Wasser in ein privates Omakase-Erlebnis.\n\nGeniessen Sie handgemachtes Sushi bei Sonnenuntergang, während die Yacht sanft in der Bucht vor Anker liegt. Jedes Stück ist auf Saison, Fang und Moment abgestimmt. Nie zweimal dasselbe.",
     chefLabel: "Der Chef",
     chefName: "Marco Haenni",
-    s02num: "02",
-    s02heading: "Die Philosophie des Shibui —\nEinfachheit und Komplexität.",
-    s02sub: "STILLE ELEGANZ. NICHTS HINZUGEFÜGT. NICHTS WEGGENOMMEN.",
+    chefBio:
+      "Mit einer Leidenschaft für die traditionelle japanische Sushi-Kunst bringt Marco die Philosophie des Omakase auf die offene See. Jedes Erlebnis wird nach Saison, Fang und Moment gestaltet.",
+    s02: "02",
+    s02heading: "Die Philosophie\ndes Shibui.",
+    s02sub: "Stille Eleganz, Einfachheit und Komplexität.",
     quote:
-      "Das Meer gibt den Rhythmus vor. Der Fisch erzählt die Geschichte.\nIch höre nur zu — und lasse die Zutaten sprechen.",
-    quoteAttr: "— Marco Haenni, Sushi Sailor",
-    s03num: "03",
-    s03heading: "Jedes Detail spiegelt ein\nzutiefst persönliches Erlebnis.",
-    s03sub: "SUSHI WO IMMER SIE SIND — ZU LAND ODER AUF SEE.",
+      '„Das Meer gibt den Rhythmus vor.\nDer Fisch erzählt die Geschichte.\nIch höre nur zu."',
+    quoteAttr: "Marco Haenni — Sushi Sailor",
+    s03: "03",
+    s03heading: "Jedes Detail spiegelt ein\npersönliches Erlebnis.",
+    s03sub: "Sushi wo immer Sie sind — zu Land oder auf See.",
     s03body:
-      "Das Sushi Sailor Erlebnis kommt zu Ihnen. Privates Sushi-Catering für intime Abendessen, Feiern und Events — zu Land oder auf See. Jede Buchung wird auf Ihren Anlass, Ihren Ort und Ihre Wünsche abgestimmt.",
-    contactHeading: "Treten Sie ein.",
+      "Das Sushi Sailor Erlebnis kommt zu Ihnen. Privates Sushi-Catering für intime Abendessen, Feiern und Events. Jede Buchung wird auf Ihren Anlass, Ihren Ort und Ihre Wünsche abgestimmt.",
+    services: [
+      "Privates Charter-Omakase",
+      "Sushi-Catering — Events & Feiern",
+      "Sonnenuntergang-Erlebnis vor Anker",
+      "Privates Dinner bei Ihnen",
+    ],
+    contactHeading: "Reservieren Sie\nIhr Erlebnis.",
     contactSub:
-      "Kontaktieren Sie uns für Ihr privates Omakase — auf dem Wasser oder wo immer Sie möchten.",
-    emailPlaceholder: "Ihre E-Mail-Adresse",
-    emailCta: "Kontakt aufnehmen",
-    footer: "© 2025 Ventum Sailing — Sushi Sailor",
-    footerContact: "info@ventum-sailing.ch",
+      "Jede Buchung ist persönlich. Kontaktieren Sie uns für Datum, Ort und Ihre Wünsche.",
+    contactCta: "Kontakt aufnehmen",
+    footerCopy: "© 2025 Ventum Sailing — Sushi Sailor",
+    footerEmail: "info@ventum-sailing.ch",
   },
 };
 
-/* ── Fade-up reveal ───────────────────────────────────────────────── */
+/* ── Scroll reveal ────────────────────────────────────────────────── */
 function Reveal({
   children,
   delay = 0,
@@ -81,13 +97,13 @@ function Reveal({
   style?: React.CSSProperties;
 }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
     <motion.div
       ref={ref}
       className={className}
       style={style}
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 22 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 1.1, delay, ease: [0.16, 1, 0.3, 1] }}
     >
@@ -96,40 +112,8 @@ function Reveal({
   );
 }
 
-/* ── Section number ───────────────────────────────────────────────── */
-function SectionNum({ n }: { n: string }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
-  return (
-    <motion.p
-      ref={ref}
-      initial={{ opacity: 0 }}
-      animate={inView ? { opacity: 1 } : {}}
-      transition={{ duration: 1.2 }}
-      className="font-manrope select-none"
-      style={{
-        fontSize: "clamp(5rem, 14vw, 11rem)",
-        fontWeight: 300,
-        letterSpacing: "-0.04em",
-        color: "rgba(0,0,0,0.07)",
-        lineHeight: 1,
-        marginBottom: "-0.15em",
-      }}
-    >
-      {n}
-    </motion.p>
-  );
-}
-
-/* ── Thin divider ─────────────────────────────────────────────────── */
-function Divider({ className }: { className?: string }) {
-  return (
-    <div
-      className={className}
-      style={{ height: "1px", background: "rgba(0,0,0,0.1)" }}
-    />
-  );
-}
+const PAD = "clamp(1.5rem, 5vw, 5rem)";
+const SECTION_V = "clamp(6rem, 14vh, 10rem)";
 
 /* ── Page ─────────────────────────────────────────────────────────── */
 export default function SushiSailorPage() {
@@ -137,67 +121,47 @@ export default function SushiSailorPage() {
   const l = lang === "de" ? "de" : "en";
   const tx = tr[l];
 
-  const galleryImages = [
-    "/Sushi-1.webp",
-    "/Sushi-2.webp",
-    "/Sushi-3.webp",
-    "/Sushi-4.webp",
-    "/Sushi-sailor-new.jpg",
-  ];
+  const sushiImages = ["/Sushi-1.webp", "/Sushi-2.webp", "/Sushi-3.webp", "/Sushi-4.webp"];
 
   return (
-    <main style={{ background: "#F9F8F6", color: "#0A0A0A" }}>
+    <main style={{ background: "#F8F7F5", color: "#0C0C0C" }}>
 
       {/* ── Header ─────────────────────────────────────────────── */}
       <header
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between"
         style={{
-          height: "56px",
-          padding: "0 clamp(1.5rem, 4vw, 3.5rem)",
-          background: "rgba(249,248,246,0.9)",
-          backdropFilter: "blur(14px)",
-          borderBottom: "1px solid rgba(0,0,0,0.07)",
+          height: "58px",
+          padding: `0 ${PAD}`,
+          background: "rgba(248,247,245,0.92)",
+          backdropFilter: "blur(16px)",
+          borderBottom: "1px solid rgba(0,0,0,0.06)",
         }}
       >
         <Link
           href="/"
           className="font-manrope"
-          style={{
-            fontSize: "10px",
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: "#888",
-            textDecoration: "none",
-          }}
+          style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#999", textDecoration: "none" }}
         >
           ← {tx.back}
         </Link>
 
-        <p
+        <span
           className="font-playfair absolute left-1/2 -translate-x-1/2"
-          style={{ fontSize: "14px", letterSpacing: "0.04em", color: "#0A0A0A" }}
+          style={{ fontSize: "15px", color: "#0C0C0C", letterSpacing: "0.02em" }}
         >
           Sushi Sailor
-        </p>
+        </span>
 
         <button
           onClick={() => setLang(l === "en" ? "de" : "en")}
           className="font-manrope"
-          style={{
-            fontSize: "10px",
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: "#888",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-          }}
+          style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#999", background: "none", border: "none", cursor: "pointer" }}
         >
           {l === "en" ? "DE" : "EN"}
         </button>
       </header>
 
-      {/* ── Hero ───────────────────────────────────────────────── */}
+      {/* ── Hero — full bleed ───────────────────────────────────── */}
       <section className="relative overflow-hidden" style={{ height: "100svh" }}>
         <Image
           src="/Sushi-sailor-new.jpg"
@@ -210,87 +174,66 @@ export default function SushiSailorPage() {
         />
         <div
           className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to top, rgba(5,5,5,0.78) 0%, rgba(5,5,5,0.18) 55%, rgba(5,5,5,0.08) 100%)",
-          }}
+          style={{ background: "linear-gradient(to top, rgba(5,5,5,0.82) 0%, rgba(5,5,5,0.15) 55%, transparent 100%)" }}
         />
 
-        {/* Brand top */}
-        <motion.div
-          className="absolute top-0 left-0 right-0 flex items-center justify-center"
-          style={{ paddingTop: "88px" }}
+        {/* Top label */}
+        <motion.p
+          className="absolute font-manrope"
+          style={{ top: "80px", left: 0, right: 0, textAlign: "center", fontSize: "9px", letterSpacing: "0.32em", textTransform: "uppercase", color: "rgba(255,255,255,0.38)" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.6, delay: 0.3 }}
+          transition={{ duration: 2, delay: 0.4 }}
         >
-          <p
-            className="font-manrope"
-            style={{
-              fontSize: "9px",
-              letterSpacing: "0.35em",
-              textTransform: "uppercase",
-              color: "rgba(255,255,255,0.4)",
-            }}
-          >
-            Ventum × Sushi Sailor
-          </p>
-        </motion.div>
+          {tx.heroEyebrow}
+        </motion.p>
 
         {/* Tagline */}
         <div
-          className="absolute bottom-0 left-0 right-0"
-          style={{ padding: "0 clamp(1.5rem, 4vw, 3.5rem)", paddingBottom: "clamp(3rem, 9vh, 6rem)" }}
+          className="absolute bottom-0 left-0"
+          style={{ padding: `0 ${PAD}`, paddingBottom: "clamp(3rem, 8vh, 5.5rem)" }}
         >
           <motion.h1
             className="font-playfair text-white"
             style={{
-              fontSize: "clamp(2.4rem, 6.5vw, 5.5rem)",
-              letterSpacing: "-0.025em",
-              lineHeight: 1.06,
-              maxWidth: "14ch",
+              fontSize: "clamp(3rem, 7.5vw, 6.5rem)",
+              letterSpacing: "-0.03em",
+              lineHeight: 1.0,
+              whiteSpace: "pre-line",
             }}
-            initial={{ opacity: 0, y: 36 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.3, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.4, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
-            {tx.tagline}
+            {tx.heroTagline}
           </motion.h1>
-
-          <motion.div
-            className="font-manrope"
-            style={{
-              fontSize: "10px",
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "rgba(255,255,255,0.35)",
-              marginTop: "1.5rem",
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, delay: 0.9 }}
-          >
-            Scroll
-          </motion.div>
         </div>
       </section>
 
-      {/* ── Section 01 ─────────────────────────────────────────── */}
-      <section style={{ padding: "clamp(5rem, 12vh, 9rem) clamp(1.5rem, 4vw, 3.5rem) clamp(4rem, 10vh, 7rem)" }}>
-        <SectionNum n={tx.s01num} />
+      {/* ── Section 01 — Bio ────────────────────────────────────── */}
+      <section style={{ padding: `${SECTION_V} ${PAD}` }}>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-          {/* Left: text */}
+        {/* Section label */}
+        <Reveal>
+          <p
+            className="font-manrope"
+            style={{ fontSize: "10px", letterSpacing: "0.28em", textTransform: "uppercase", color: "#C0C0C0", marginBottom: "3rem" }}
+          >
+            {tx.s01}
+          </p>
+        </Reveal>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_0.9fr] gap-16 lg:gap-28 items-start">
+          {/* Left */}
           <div>
             <Reveal>
               <h2
-                className="font-manrope font-bold"
+                className="font-playfair"
                 style={{
-                  fontSize: "clamp(1.6rem, 3.2vw, 2.8rem)",
-                  letterSpacing: "-0.02em",
-                  lineHeight: 1.1,
-                  textTransform: "uppercase",
-                  marginBottom: "2rem",
+                  fontSize: "clamp(2rem, 4vw, 3.6rem)",
+                  letterSpacing: "-0.025em",
+                  lineHeight: 1.08,
+                  marginBottom: "2.5rem",
                   whiteSpace: "pre-line",
                 }}
               >
@@ -301,14 +244,7 @@ export default function SushiSailorPage() {
             <Reveal delay={0.08}>
               <p
                 className="font-manrope"
-                style={{
-                  fontSize: "10px",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "#999",
-                  marginBottom: "2.5rem",
-                  lineHeight: 1.8,
-                }}
+                style={{ fontSize: "10px", letterSpacing: "0.22em", textTransform: "uppercase", color: "#AAA", marginBottom: "2.5rem", lineHeight: 1.9 }}
               >
                 {tx.s01sub}
               </p>
@@ -317,48 +253,40 @@ export default function SushiSailorPage() {
             <Reveal delay={0.14}>
               <p
                 className="font-manrope"
-                style={{
-                  fontSize: "1.05rem",
-                  lineHeight: 1.9,
-                  color: "#444",
-                  whiteSpace: "pre-line",
-                  maxWidth: "44ch",
-                }}
+                style={{ fontSize: "1.05rem", lineHeight: 1.95, color: "#3A3A3A", whiteSpace: "pre-line" }}
               >
                 {tx.s01body}
               </p>
             </Reveal>
           </div>
 
-          {/* Right: chef image */}
-          <Reveal delay={0.1} style={{ position: "relative", aspectRatio: "3/4" } as React.CSSProperties}>
+          {/* Right — chef portrait */}
+          <Reveal
+            delay={0.05}
+            style={{ position: "relative", aspectRatio: "3/4" } as React.CSSProperties}
+          >
             <Image
               src="/Sushi-sailor-marco.jpg"
               alt={tx.chefName}
               fill
               className="object-cover"
-              sizes="(min-width: 1024px) 50vw, 100vw"
+              sizes="(min-width: 1024px) 45vw, 100vw"
             />
+            {/* Caption overlay */}
             <div
               style={{
                 position: "absolute",
                 bottom: 0,
                 left: 0,
                 right: 0,
-                padding: "2.5rem 2rem 2rem",
-                background: "linear-gradient(to top, rgba(5,5,5,0.65) 0%, transparent 100%)",
+                padding: "3rem 2rem 2rem",
+                background: "linear-gradient(to top, rgba(5,5,5,0.7) 0%, transparent 100%)",
               }}
             >
-              <p
-                className="font-manrope"
-                style={{ fontSize: "9px", letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: "0.4rem" }}
-              >
+              <p className="font-manrope" style={{ fontSize: "9px", letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: "0.35rem" }}>
                 {tx.chefLabel}
               </p>
-              <p
-                className="font-playfair text-white"
-                style={{ fontSize: "1.5rem", letterSpacing: "-0.01em" }}
-              >
+              <p className="font-playfair text-white" style={{ fontSize: "1.4rem", letterSpacing: "-0.01em" }}>
                 {tx.chefName}
               </p>
             </div>
@@ -366,273 +294,223 @@ export default function SushiSailorPage() {
         </div>
       </section>
 
-      <Divider className="mx-6 md:mx-14" />
+      {/* ── Divider ─────────────────────────────────────────────── */}
+      <div style={{ height: "1px", margin: `0 ${PAD}`, background: "rgba(0,0,0,0.09)" }} />
 
-      {/* ── Section 02 ─────────────────────────────────────────── */}
-      <section style={{ padding: "clamp(5rem, 12vh, 9rem) clamp(1.5rem, 4vw, 3.5rem) 0" }}>
-        <SectionNum n={tx.s02num} />
+      {/* ── Section 02 — Philosophy + Gallery ──────────────────── */}
+      <section style={{ paddingTop: SECTION_V }}>
 
-        <Reveal>
-          <h2
-            className="font-manrope font-bold"
-            style={{
-              fontSize: "clamp(1.6rem, 3.2vw, 2.8rem)",
-              letterSpacing: "-0.02em",
-              lineHeight: 1.1,
-              textTransform: "uppercase",
-              marginBottom: "1.5rem",
-              whiteSpace: "pre-line",
-              maxWidth: "22ch",
-            }}
-          >
-            {tx.s02heading}
-          </h2>
-        </Reveal>
+        <div style={{ padding: `0 ${PAD}` }}>
+          <Reveal>
+            <p className="font-manrope" style={{ fontSize: "10px", letterSpacing: "0.28em", textTransform: "uppercase", color: "#C0C0C0", marginBottom: "3rem" }}>
+              {tx.s02}
+            </p>
+          </Reveal>
 
-        <Reveal delay={0.08}>
-          <p
-            className="font-manrope"
-            style={{
-              fontSize: "10px",
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "#999",
-              marginBottom: "4rem",
-            }}
-          >
-            {tx.s02sub}
-          </p>
-        </Reveal>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-end" style={{ marginBottom: "4rem" }}>
+            <Reveal>
+              <h2
+                className="font-playfair"
+                style={{ fontSize: "clamp(2rem, 4vw, 3.6rem)", letterSpacing: "-0.025em", lineHeight: 1.08, whiteSpace: "pre-line" }}
+              >
+                {tx.s02heading}
+              </h2>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <p className="font-manrope" style={{ fontSize: "10px", letterSpacing: "0.22em", textTransform: "uppercase", color: "#AAA", lineHeight: 1.9, maxWidth: "34ch" }}>
+                {tx.s02sub}
+              </p>
+            </Reveal>
+          </div>
+        </div>
+
+        {/* Horizontal image strip — drag to scroll */}
+        <div
+          className="flex overflow-x-auto"
+          style={{
+            scrollSnapType: "x mandatory",
+            scrollbarWidth: "none",
+            gap: "3px",
+            paddingLeft: PAD,
+            paddingRight: PAD,
+            cursor: "grab",
+          }}
+        >
+          {sushiImages.map((src, i) => (
+            <div
+              key={i}
+              className="flex-shrink-0 relative overflow-hidden"
+              style={{ width: "clamp(220px, 32vw, 520px)", aspectRatio: "2/3", scrollSnapAlign: "start" }}
+            >
+              <Image
+                src={src}
+                alt={`Sushi ${i + 1}`}
+                fill
+                className="object-cover"
+                sizes="32vw"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Pullquote */}
+        <div
+          style={{
+            padding: `${SECTION_V} ${PAD}`,
+            textAlign: "center",
+          }}
+        >
+          <Reveal>
+            <blockquote
+              className="font-playfair"
+              style={{
+                fontSize: "clamp(1.4rem, 2.8vw, 2.3rem)",
+                fontStyle: "italic",
+                lineHeight: 1.6,
+                color: "#1A1A1A",
+                whiteSpace: "pre-line",
+                maxWidth: "26ch",
+                margin: "0 auto 1.75rem",
+              }}
+            >
+              {tx.quote}
+            </blockquote>
+            <p
+              className="font-manrope"
+              style={{ fontSize: "9px", letterSpacing: "0.26em", textTransform: "uppercase", color: "#BBBBBB" }}
+            >
+              {tx.quoteAttr}
+            </p>
+          </Reveal>
+        </div>
       </section>
 
-      {/* Carousel — horizontal scroll */}
-      <div
-        className="flex overflow-x-auto gap-3"
-        style={{
-          scrollSnapType: "x mandatory",
-          paddingLeft: "clamp(1.5rem, 4vw, 3.5rem)",
-          paddingRight: "clamp(1.5rem, 4vw, 3.5rem)",
-          paddingBottom: "0",
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-        }}
-      >
-        {galleryImages.map((src, i) => (
-          <div
-            key={i}
-            className="flex-shrink-0 relative overflow-hidden"
-            style={{
-              width: "clamp(260px, 36vw, 480px)",
-              aspectRatio: "3/4",
-              scrollSnapAlign: "start",
-            }}
-          >
-            <Image
-              src={src}
-              alt={`Sushi Sailor ${i + 1}`}
-              fill
-              className="object-cover"
-              sizes="36vw"
-            />
-          </div>
-        ))}
-      </div>
+      {/* ── Divider ─────────────────────────────────────────────── */}
+      <div style={{ height: "1px", margin: `0 ${PAD}`, background: "rgba(0,0,0,0.09)" }} />
 
-      {/* Pullquote */}
-      <div
-        style={{
-          padding: "clamp(5rem, 13vh, 10rem) clamp(1.5rem, 6vw, 8rem)",
-          textAlign: "center",
-        }}
-      >
+      {/* ── Section 03 — Services ───────────────────────────────── */}
+      <section style={{ padding: `${SECTION_V} ${PAD}` }}>
+
         <Reveal>
-          <blockquote
-            className="font-playfair"
-            style={{
-              fontSize: "clamp(1.35rem, 2.8vw, 2.2rem)",
-              fontStyle: "italic",
-              lineHeight: 1.55,
-              color: "#1C1C1C",
-              whiteSpace: "pre-line",
-              maxWidth: "30ch",
-              margin: "0 auto 2rem",
-            }}
-          >
-            {`"${tx.quote}"`}
-          </blockquote>
-          <p
-            className="font-manrope"
-            style={{
-              fontSize: "10px",
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "#AAA",
-            }}
-          >
-            {tx.quoteAttr}
+          <p className="font-manrope" style={{ fontSize: "10px", letterSpacing: "0.28em", textTransform: "uppercase", color: "#C0C0C0", marginBottom: "3rem" }}>
+            {tx.s03}
           </p>
         </Reveal>
-      </div>
 
-      <Divider className="mx-6 md:mx-14" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-28 items-start">
 
-      {/* ── Section 03 ─────────────────────────────────────────── */}
-      <section style={{ padding: "clamp(5rem, 12vh, 9rem) clamp(1.5rem, 4vw, 3.5rem) clamp(5rem, 12vh, 9rem)" }}>
-        <SectionNum n={tx.s03num} />
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          {/* Left — heading + text */}
           <div>
             <Reveal>
               <h2
-                className="font-manrope font-bold"
-                style={{
-                  fontSize: "clamp(1.6rem, 3.2vw, 2.8rem)",
-                  letterSpacing: "-0.02em",
-                  lineHeight: 1.1,
-                  textTransform: "uppercase",
-                  marginBottom: "1.5rem",
-                  whiteSpace: "pre-line",
-                }}
+                className="font-playfair"
+                style={{ fontSize: "clamp(2rem, 4vw, 3.6rem)", letterSpacing: "-0.025em", lineHeight: 1.08, marginBottom: "2.5rem", whiteSpace: "pre-line" }}
               >
                 {tx.s03heading}
               </h2>
             </Reveal>
             <Reveal delay={0.08}>
-              <p
-                className="font-manrope"
-                style={{
-                  fontSize: "10px",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "#999",
-                  marginBottom: "2.5rem",
-                  lineHeight: 1.8,
-                }}
-              >
+              <p className="font-manrope" style={{ fontSize: "10px", letterSpacing: "0.22em", textTransform: "uppercase", color: "#AAA", marginBottom: "2.5rem", lineHeight: 1.9 }}>
                 {tx.s03sub}
               </p>
             </Reveal>
             <Reveal delay={0.14}>
-              <p
-                className="font-manrope"
-                style={{
-                  fontSize: "1.05rem",
-                  lineHeight: 1.9,
-                  color: "#444",
-                  maxWidth: "44ch",
-                }}
-              >
+              <p className="font-manrope" style={{ fontSize: "1.05rem", lineHeight: 1.95, color: "#3A3A3A" }}>
                 {tx.s03body}
               </p>
             </Reveal>
           </div>
 
-          {/* Service cards */}
-          <div className="flex flex-col gap-px" style={{ borderTop: "1px solid rgba(0,0,0,0.1)" }}>
-            {[
-              { icon: "⚓", label: l === "en" ? "Private Charter Omakase" : "Privates Charter-Omakase" },
-              { icon: "🍱", label: l === "en" ? "Sushi Catering — Events" : "Sushi-Catering — Events" },
-              { icon: "🌅", label: l === "en" ? "Sunset Experience at Anchor" : "Sonnenuntergang vor Anker" },
-              { icon: "🏠", label: l === "en" ? "Private Dining at Home" : "Privates Dinner bei Ihnen" },
-            ].map((item, i) => (
-              <Reveal key={i} delay={i * 0.06}>
-                <div
-                  style={{
-                    padding: "1.6rem 0",
-                    borderBottom: "1px solid rgba(0,0,0,0.1)",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "1.5rem",
-                  }}
-                >
-                  <span style={{ fontSize: "1.1rem" }}>{item.icon}</span>
-                  <p
-                    className="font-manrope font-medium"
-                    style={{ fontSize: "10px", letterSpacing: "0.18em", textTransform: "uppercase", color: "#333" }}
+          {/* Right — service list */}
+          <div>
+            <div style={{ borderTop: "1px solid rgba(0,0,0,0.09)" }}>
+              {tx.services.map((item, i) => (
+                <Reveal key={i} delay={i * 0.07}>
+                  <div
+                    style={{
+                      padding: "1.5rem 0",
+                      borderBottom: "1px solid rgba(0,0,0,0.09)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
                   >
-                    {item.label}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
+                    <p className="font-manrope" style={{ fontSize: "10px", letterSpacing: "0.18em", textTransform: "uppercase", color: "#333" }}>
+                      {item}
+                    </p>
+                    <span style={{ color: "#CCC", fontSize: "12px" }}>↗</span>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <Divider className="mx-6 md:mx-14" />
+      {/* ── Divider ─────────────────────────────────────────────── */}
+      <div style={{ height: "1px", margin: `0 ${PAD}`, background: "rgba(0,0,0,0.09)" }} />
 
-      {/* ── Contact ────────────────────────────────────────────── */}
-      <section
-        style={{
-          padding: "clamp(5rem, 14vh, 11rem) clamp(1.5rem, 4vw, 3.5rem) clamp(5rem, 14vh, 11rem)",
-          textAlign: "center",
-        }}
-      >
-        <Reveal>
-          <h2
-            className="font-manrope font-bold"
-            style={{
-              fontSize: "clamp(1.8rem, 4vw, 3.5rem)",
-              letterSpacing: "-0.02em",
-              lineHeight: 1.08,
-              textTransform: "uppercase",
-              marginBottom: "1.5rem",
-            }}
-          >
-            {tx.contactHeading}
-          </h2>
-        </Reveal>
-
-        <Reveal delay={0.1}>
-          <p
-            className="font-manrope"
-            style={{
-              fontSize: "1rem",
-              lineHeight: 1.8,
-              color: "#666",
-              maxWidth: "44ch",
-              margin: "0 auto 3rem",
-            }}
-          >
-            {tx.contactSub}
-          </p>
-        </Reveal>
-
-        <Reveal delay={0.18}>
-          <a
-            href={`mailto:${tx.footerContact}`}
-            className="inline-block font-manrope font-medium"
-            style={{
-              fontSize: "10px",
-              letterSpacing: "0.24em",
-              textTransform: "uppercase",
-              padding: "1.1rem 2.8rem",
-              border: "1px solid #0A0A0A",
-              color: "#0A0A0A",
-              textDecoration: "none",
-              transition: "all 0.4s ease",
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = "#0A0A0A";
-              el.style.color = "#F9F8F6";
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = "transparent";
-              el.style.color = "#0A0A0A";
-            }}
-          >
-            {tx.emailCta}
-          </a>
-        </Reveal>
+      {/* ── Contact ─────────────────────────────────────────────── */}
+      <section style={{ padding: `${SECTION_V} ${PAD}` }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
+          <div>
+            <Reveal>
+              <h2
+                className="font-playfair"
+                style={{
+                  fontSize: "clamp(2.2rem, 5vw, 4.5rem)",
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.0,
+                  whiteSpace: "pre-line",
+                }}
+              >
+                {tx.contactHeading}
+              </h2>
+            </Reveal>
+          </div>
+          <div>
+            <Reveal delay={0.1}>
+              <p className="font-manrope" style={{ fontSize: "1rem", lineHeight: 1.85, color: "#666", marginBottom: "2.5rem" }}>
+                {tx.contactSub}
+              </p>
+            </Reveal>
+            <Reveal delay={0.18}>
+              <a
+                href={`mailto:${tx.footerEmail}`}
+                className="inline-block font-manrope font-medium"
+                style={{
+                  fontSize: "10px",
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  padding: "1rem 2.4rem",
+                  border: "1px solid #0C0C0C",
+                  color: "#0C0C0C",
+                  textDecoration: "none",
+                  transition: "background 0.35s, color 0.35s",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "#0C0C0C";
+                  el.style.color = "#F8F7F5";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "transparent";
+                  el.style.color = "#0C0C0C";
+                }}
+              >
+                {tx.contactCta}
+              </a>
+            </Reveal>
+          </div>
+        </div>
       </section>
 
       {/* ── Footer ─────────────────────────────────────────────── */}
       <footer
         style={{
-          borderTop: "1px solid rgba(0,0,0,0.08)",
-          padding: "2.5rem clamp(1.5rem, 4vw, 3.5rem)",
+          borderTop: "1px solid rgba(0,0,0,0.07)",
+          padding: `2rem ${PAD}`,
           display: "flex",
           flexWrap: "wrap",
           gap: "1rem",
@@ -640,18 +518,15 @@ export default function SushiSailorPage() {
           alignItems: "center",
         }}
       >
-        <p
-          className="font-manrope"
-          style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#BBB" }}
-        >
-          {tx.footer}
+        <p className="font-manrope" style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#C0C0C0" }}>
+          {tx.footerCopy}
         </p>
         <a
-          href={`mailto:${tx.footerContact}`}
+          href={`mailto:${tx.footerEmail}`}
           className="font-manrope"
-          style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#BBB", textDecoration: "none" }}
+          style={{ fontSize: "10px", letterSpacing: "0.15em", color: "#C0C0C0", textDecoration: "none" }}
         >
-          {tx.footerContact}
+          {tx.footerEmail}
         </a>
       </footer>
     </main>
