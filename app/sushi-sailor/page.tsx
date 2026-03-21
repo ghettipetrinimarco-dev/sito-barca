@@ -132,7 +132,7 @@ function ChopstickCursor() {
       <img
         src="/Logo-Cursor-new.png"
         alt=""
-        style={{ display: "block", height: "80px", width: "auto", filter: "invert(1)", transform: "rotate(180deg)" }}
+        style={{ display: "block", height: "80px", width: "auto", filter: "invert(1)", transform: "rotate(168deg)" }}
       />
     </div>
   );
