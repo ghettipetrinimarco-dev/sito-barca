@@ -139,13 +139,21 @@ export default function SushiSailorPage() {
           background: "transparent",
         }}
       >
-        {/* Logo spaced — Masa style */}
-        <Link
-          href="/"
-          className="font-manrope font-bold"
-          style={{ fontSize: "12px", letterSpacing: "0.35em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)", textDecoration: "none" }}
-        >
-          S U S H I &nbsp; S A I L O R
+        {/* Logo */}
+        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <Image
+            src="/Logo-Icon.png"
+            alt="Sushi Sailor"
+            width={36}
+            height={36}
+            style={{ filter: "brightness(0) invert(1)", objectFit: "contain" }}
+          />
+          <span
+            className="font-manrope font-bold hidden sm:inline"
+            style={{ fontSize: "11px", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.85)" }}
+          >
+            S U S H I &nbsp; S A I L O R
+          </span>
         </Link>
 
         {/* Right — lang + book */}
@@ -194,6 +202,21 @@ export default function SushiSailorPage() {
 
         {/* Centered content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.4, delay: 0.2 }}
+            style={{ marginBottom: "2rem" }}
+          >
+            <Image
+              src="/Logo-Icon.png"
+              alt="Sushi Sailor"
+              width={72}
+              height={72}
+              style={{ objectFit: "contain" }}
+            />
+          </motion.div>
+
           <motion.p
             className="font-manrope"
             style={{ fontSize: "9px", letterSpacing: "0.36em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: "2rem" }}
