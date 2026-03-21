@@ -108,7 +108,7 @@ function ChopstickCursor() {
         visible.current = true;
       }
       // Offset so the tip of the left chopstick aligns with the hot spot
-      ref.current.style.transform = `translate(${e.clientX - 10}px, ${e.clientY}px)`;
+      ref.current.style.transform = `translate(${e.clientX - 11}px, ${e.clientY}px)`;
     };
     const onLeave = () => { if (ref.current) ref.current.style.opacity = "0"; };
     const onEnter = () => { if (ref.current) ref.current.style.opacity = "1"; };
@@ -137,10 +137,12 @@ function ChopstickCursor() {
         willChange: "transform",
       }}
     >
-      {/* Chopsticks: diagonal, thin (1.5px tip → 2.5px base), lean left→right like holding */}
-      <svg width="28" height="80" viewBox="0 0 28 80" fill="none" style={{ display: "block" }}>
-        <polygon points="5,0 6.5,0 13,80 10.5,80" fill="white" />
-        <polygon points="14,0 15.5,0 22,80 19.5,80" fill="white" />
+      {/* Chopsticks: tips close at top, spread open at bottom (V-shape like holding chopsticks) */}
+      <svg width="30" height="80" viewBox="0 0 30 80" fill="none" style={{ display: "block" }}>
+        {/* Left stick: tip near center-top, base at far left-bottom */}
+        <polygon points="7,0 9.5,0 5,80 1,80" fill="white" />
+        {/* Right stick: tip near center-top, base at far right-bottom */}
+        <polygon points="12,0 14.5,0 25,80 21,80" fill="white" />
       </svg>
     </div>
   );
