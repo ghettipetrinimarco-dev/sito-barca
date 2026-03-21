@@ -92,58 +92,69 @@ const tr = {
   },
 };
 
-/* ── Chopstick cursor — follows mouse, mix-blend-mode for auto color ── */
+/* ── Chopstick cursor — uses actual Logo-Cursor.png shape ────────── */
 function ChopstickCursor() {
-  const ref = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const imgRef  = useRef<HTMLImageElement>(null);
   const visible = useRef(false);
 
   useEffect(() => {
-    // Only on pointer devices
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
+    /* Load PNG → resize to 80px tall → black pixels become white, white → transparent */
+    const source = new window.Image();
+    source.onload = () => {
+      const H = 80;
+      const W = Math.round(source.naturalWidth * (H / source.naturalHeight));
+      const canvas = document.createElement("canvas");
+      canvas.width  = W;
+      canvas.height = H;
+      const ctx = canvas.getContext("2d")!;
+      ctx.drawImage(source, 0, 0, W, H);
+      const id = ctx.getImageData(0, 0, W, H);
+      const d  = id.data;
+      for (let i = 0; i < d.length; i += 4) {
+        const bright = (d[i] + d[i + 1] + d[i + 2]) / 3;
+        if (bright > 180) {
+          d[i + 3] = 0;          // white bg → transparent
+        } else {
+          d[i] = d[i + 1] = d[i + 2] = 255;   // dark chopstick → white
+          d[i + 3] = 255;
+        }
+      }
+      ctx.putImageData(id, 0, 0);
+      if (imgRef.current) imgRef.current.src = canvas.toDataURL();
+    };
+    source.src = "/Logo-Cursor.png";
+
     const onMove = (e: MouseEvent) => {
-      if (!ref.current) return;
+      if (!wrapRef.current) return;
       if (!visible.current) {
-        ref.current.style.opacity = "1";
+        wrapRef.current.style.opacity = "1";
         visible.current = true;
       }
-      // Offset so the tip of the left chopstick aligns with the hot spot
-      ref.current.style.transform = `translate(${e.clientX - 11}px, ${e.clientY}px)`;
+      wrapRef.current.style.transform = `translate(${e.clientX - 10}px, ${e.clientY}px)`;
     };
-    const onLeave = () => { if (ref.current) ref.current.style.opacity = "0"; };
-    const onEnter = () => { if (ref.current) ref.current.style.opacity = "1"; };
+    const hide = () => { if (wrapRef.current) wrapRef.current.style.opacity = "0"; };
+    const show = () => { if (wrapRef.current) wrapRef.current.style.opacity = "1"; };
 
     window.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseleave", onLeave);
-    document.addEventListener("mouseenter", onEnter);
+    document.addEventListener("mouseleave", hide);
+    document.addEventListener("mouseenter", show);
     return () => {
       window.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseleave", onLeave);
-      document.removeEventListener("mouseenter", onEnter);
+      document.removeEventListener("mouseleave", hide);
+      document.removeEventListener("mouseenter", show);
     };
   }, []);
 
   return (
     <div
-      ref={ref}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        pointerEvents: "none",
-        zIndex: 999999,
-        opacity: 0,
-        mixBlendMode: "difference",
-        willChange: "transform",
-      }}
+      ref={wrapRef}
+      style={{ position: "fixed", top: 0, left: 0, pointerEvents: "none", zIndex: 999999, opacity: 0, mixBlendMode: "difference", willChange: "transform" }}
     >
-      {/* Chopsticks: tips close at top, spread open at bottom (V-shape like holding chopsticks) */}
-      <svg width="30" height="80" viewBox="0 0 30 80" fill="none" style={{ display: "block" }}>
-        {/* Left stick: tip near center-top, base at far left-bottom */}
-        <polygon points="7,0 9.5,0 5,80 1,80" fill="white" />
-        {/* Right stick: tip near center-top, base at far right-bottom */}
-        <polygon points="12,0 14.5,0 25,80 21,80" fill="white" />
-      </svg>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img ref={imgRef} alt="" style={{ display: "block", height: "80px", width: "auto" }} />
     </div>
   );
 }
