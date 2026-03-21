@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
@@ -170,11 +170,33 @@ const PAD = "clamp(1.5rem, 5vw, 5rem)";
 const SECTION_V = "clamp(6rem, 14vh, 10rem)";
 
 
+/* ── Smart header hook ────────────────────────────────────────────── */
+function useHeaderState() {
+  const [visible, setVisible]   = useState(true);
+  const [atTop,   setAtTop]     = useState(true);
+  const lastY = useRef(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      setAtTop(y < 60);
+      if (y > lastY.current && y > 120) setVisible(false); // scrolling down
+      else setVisible(true);                                // scrolling up
+      lastY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return { visible, atTop };
+}
+
 /* ── Page ─────────────────────────────────────────────────────────── */
 export default function SushiSailorPage() {
   const { lang, setLang } = useLang();
   const l = lang === "de" ? "de" : "en";
   const tx = tr[l];
+  const { visible, atTop } = useHeaderState();
 
   const sushiImages = ["/Sushi-1.webp", "/Sushi-2.webp", "/Sushi-3.webp", "/Sushi-4.webp"];
 
@@ -188,7 +210,11 @@ export default function SushiSailorPage() {
         style={{
           height: "62px",
           padding: `0 ${PAD}`,
-          background: "transparent",
+          background: atTop ? "transparent" : "rgba(8,8,8,0.88)",
+          backdropFilter: atTop ? "none" : "blur(16px)",
+          transform: visible ? "translateY(0)" : "translateY(-100%)",
+          transition: "transform 0.4s ease, background 0.5s ease, backdrop-filter 0.5s ease",
+          borderBottom: atTop ? "none" : "1px solid rgba(255,255,255,0.06)",
         }}
       >
         {/* Logo — text only, Masa style */}
