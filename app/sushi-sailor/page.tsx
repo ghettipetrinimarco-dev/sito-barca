@@ -146,7 +146,7 @@ export default function SushiSailorPage() {
             alt="Sushi Sailor"
             width={44}
             height={44}
-            style={{ objectFit: "contain" }}
+            style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
           />
           <span
             className="font-manrope font-semibold hidden sm:inline"
@@ -213,7 +213,7 @@ export default function SushiSailorPage() {
               alt="Sushi Sailor"
               width={72}
               height={72}
-              style={{ objectFit: "contain" }}
+              style={{ objectFit: "contain", filter: "invert(1) hue-rotate(180deg)" }}
             />
           </motion.div>
 
