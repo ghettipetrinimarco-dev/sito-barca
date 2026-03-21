@@ -272,23 +272,20 @@ export default function SushiSailorPage() {
         {/* Dark overlay */}
         <div className="absolute inset-0" style={{ background: "rgba(4,4,4,0.55)" }} />
 
-        {/* Left-aligned content */}
-        <div
-          className="absolute inset-0 flex flex-col justify-center"
-          style={{ padding: `0 ${PAD}`, maxWidth: "min(700px, 58vw)" }}
-        >
+        {/* Centered content */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
           {/* Logo stamp */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.2, delay: 0.2 }}
-            style={{ marginBottom: "2.5rem" }}
+            style={{ marginBottom: "2rem" }}
           >
             <Image
               src="/Logo-Icon.png"
               alt="Sushi Sailor"
-              width={44}
-              height={44}
+              width={48}
+              height={48}
               style={{ objectFit: "contain", filter: "invert(1) hue-rotate(180deg)" }}
             />
           </motion.div>
@@ -296,7 +293,7 @@ export default function SushiSailorPage() {
           {/* Label */}
           <motion.p
             className="font-manrope"
-            style={{ fontSize: "9px", letterSpacing: "0.36em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: "1.4rem" }}
+            style={{ fontSize: "9px", letterSpacing: "0.36em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: "1.2rem" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.4, delay: 0.35 }}
@@ -304,28 +301,28 @@ export default function SushiSailorPage() {
             {l === "en" ? "Private Omakase by" : "Privates Omakase von"}
           </motion.p>
 
-          {/* BIG heading */}
+          {/* Heading */}
           <motion.h1
             className="font-playfair text-white"
             style={{
-              fontSize: "clamp(3rem, 7.5vw, 7.2rem)",
+              fontSize: "clamp(2.2rem, 4vw, 3.8rem)",
               fontWeight: 400,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.0,
+              letterSpacing: "-0.01em",
+              lineHeight: 1.1,
               textTransform: "uppercase",
-              marginBottom: "2rem",
+              marginBottom: "1.6rem",
             }}
-            initial={{ opacity: 0, y: 28 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.3, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
-            Chef Marco<br />Haenni
+            Chef Marco Haenni
           </motion.h1>
 
           {/* Tagline */}
           <motion.p
             className="font-playfair"
-            style={{ fontSize: "clamp(1rem, 1.5vw, 1.25rem)", fontStyle: "italic", color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}
+            style={{ fontSize: "clamp(0.95rem, 1.4vw, 1.15rem)", fontStyle: "italic", color: "rgba(255,255,255,0.45)" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.4, delay: 0.9 }}
