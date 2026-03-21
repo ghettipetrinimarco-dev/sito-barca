@@ -265,7 +265,7 @@ export default function SushiSailorPage() {
           priority
           className="object-cover"
           sizes="100vw"
-          style={{ objectPosition: "center center", filter: "grayscale(40%) brightness(0.45)" }}
+          style={{ objectPosition: "center 70%", filter: "grayscale(40%) brightness(0.45)" }}
         />
         {/* Dark overlay */}
         <div className="absolute inset-0" style={{ background: "rgba(4,4,4,0.55)" }} />
