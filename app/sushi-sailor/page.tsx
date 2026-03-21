@@ -14,8 +14,10 @@ const tr = {
     heroTitle: "Private Omakase by Chef Marco Haenni",
     heroSub: "The sea as inspiration. Your home as the stage.",
     heroTagline: "Sushi Sailor — The Art of Omakase",
-    intro:
-      "Experience an exclusive combination of freedom and gourmet pleasure. Sushi Sailor stands for slow sailing paired with high-quality cuisine. As a passionate sushi chef, I transform your time on the water into a private omakase experience. Enjoy handcrafted sushi at sunset, while the yacht gently anchors in the bay.",
+    introStatement:
+      "An exclusive combination of freedom and gourmet pleasure — brought to your table.",
+    introBody:
+      "Sushi Sailor stands for slow sailing paired with high-quality cuisine. As a passionate sushi chef, I transform your time on the water into a private omakase experience. Enjoy handcrafted sushi at sunset, while the yacht gently anchors in the bay.",
     s01: "01",
     s01heading: "Mastery of Japanese\nCuisine, Brought to Your Door.",
     s01sub: "Influenced by a passion for the ocean and the philosophy of omakase.",
@@ -53,8 +55,10 @@ const tr = {
     heroTitle: "Privates Omakase von Chef Marco Haenni",
     heroSub: "Das Meer als Inspiration. Ihr Zuhause als Bühne.",
     heroTagline: "Sushi Sailor — Die Kunst des Omakase",
-    intro:
-      "Erleben Sie eine exklusive Kombination aus Freiheit und Gourmet-Genuss. Sushi Sailor steht für entschleunigtes Segeln gepaart mit hochwertiger Bordküche. Als leidenschaftlicher Sushi-Koch verwandle ich Ihre Zeit auf dem Wasser in ein privates Omakase Erlebnis. Geniessen Sie handgemachtes Sushi bei Sonnenuntergang, während die Yacht sanft in der Bucht vor Anker liegt.",
+    introStatement:
+      "Eine exklusive Kombination aus Freiheit und Gourmet-Genuss — zu Ihnen gebracht.",
+    introBody:
+      "Sushi Sailor steht für entschleunigtes Segeln gepaart mit hochwertiger Bordküche. Als leidenschaftlicher Sushi-Koch verwandle ich Ihre Zeit auf dem Wasser in ein privates Omakase Erlebnis. Geniessen Sie handgemachtes Sushi bei Sonnenuntergang, während die Yacht sanft in der Bucht vor Anker liegt.",
     s01: "01",
     s01heading: "Meisterschaft der\njapanischen Küche, zu Ihnen gebracht.",
     s01sub: "Inspiriert von der Leidenschaft für das Meer und die Philosophie des Omakase.",
@@ -279,22 +283,36 @@ export default function SushiSailorPage() {
         </div>
       </section>
 
-      {/* ── Intro — large editorial text ───────────────────────── */}
+      {/* ── Intro ───────────────────────────────────────────────── */}
       <section style={{ padding: `${SECTION_V} ${PAD}` }}>
-        <div style={{ maxWidth: "38ch" }}>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-12 lg:gap-24 items-start">
+
+          {/* Left — opening statement */}
           <Reveal>
             <p
-              className="font-playfair"
-              style={{
-                fontSize: "clamp(1.3rem, 2.4vw, 1.9rem)",
-                lineHeight: 1.65,
-                color: "#1C1C1C",
-                fontStyle: "italic",
-              }}
+              className="font-manrope"
+              style={{ fontSize: "10px", letterSpacing: "0.28em", textTransform: "uppercase", color: "#BBBBBB", marginBottom: "2rem" }}
             >
-              {tx.intro}
+              {l === "en" ? "The Experience" : "Das Erlebnis"}
+            </p>
+            <p
+              className="font-playfair"
+              style={{ fontSize: "clamp(1.4rem, 2.6vw, 2.1rem)", lineHeight: 1.55, color: "#1A1A1A", fontStyle: "italic" }}
+            >
+              {tx.introStatement}
             </p>
           </Reveal>
+
+          {/* Right — body */}
+          <Reveal delay={0.12}>
+            <p
+              className="font-manrope"
+              style={{ fontSize: "1.05rem", lineHeight: 1.95, color: "#555", paddingTop: "clamp(0rem, 3vw, 3.5rem)" }}
+            >
+              {tx.introBody}
+            </p>
+          </Reveal>
+
         </div>
       </section>
 
