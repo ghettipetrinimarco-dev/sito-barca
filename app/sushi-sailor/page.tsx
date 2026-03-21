@@ -123,6 +123,19 @@ function Reveal({
 const PAD = "clamp(1.5rem, 5vw, 5rem)";
 const SECTION_V = "clamp(6rem, 14vh, 10rem)";
 
+/* Chopstick cursor — white sticks with dark outline, tip hotspot at top */
+const CHOPSTICK_CURSOR = [
+  `url("data:image/svg+xml,`,
+  `<svg xmlns='http://www.w3.org/2000/svg' width='22' height='60'>`,
+  /* left chopstick — dark outline then white fill */
+  `<line x1='7' y1='1' x2='9.5' y2='59' stroke='%23000' stroke-width='4' stroke-linecap='round'/>`,
+  `<line x1='7' y1='1' x2='9.5' y2='59' stroke='%23fff' stroke-width='2' stroke-linecap='round'/>`,
+  /* right chopstick */
+  `<line x1='13' y1='1' x2='15.5' y2='59' stroke='%23000' stroke-width='4' stroke-linecap='round'/>`,
+  `<line x1='13' y1='1' x2='15.5' y2='59' stroke='%23fff' stroke-width='2' stroke-linecap='round'/>`,
+  `</svg>") 10 0, auto`,
+].join("");
+
 /* ── Page ─────────────────────────────────────────────────────────── */
 export default function SushiSailorPage() {
   const { lang, setLang } = useLang();
@@ -132,7 +145,7 @@ export default function SushiSailorPage() {
   const sushiImages = ["/Sushi-1.webp", "/Sushi-2.webp", "/Sushi-3.webp", "/Sushi-4.webp"];
 
   return (
-    <main style={{ background: "#F8F7F5", color: "#0C0C0C", cursor: "url('/Logo-Cursor.png') 12 0, auto" }}>
+    <main style={{ background: "#F8F7F5", color: "#0C0C0C", cursor: CHOPSTICK_CURSOR }}>
 
       {/* ── Header ─────────────────────────────────────────────── */}
       <header
