@@ -14,6 +14,8 @@ const tr = {
     heroTitle: "Private Omakase by Chef Marco Haenni",
     heroSub: "The sea as inspiration. Your home as the stage.",
     heroTagline: "Sushi Sailor — The Art of Omakase",
+    intro:
+      "Experience an exclusive combination of freedom and gourmet pleasure. Sushi Sailor stands for slow sailing paired with high-quality cuisine. As a passionate sushi chef, I transform your time on the water into a private omakase experience. Enjoy handcrafted sushi at sunset, while the yacht gently anchors in the bay.",
     s01: "01",
     s01heading: "Mastery of Japanese\nCuisine, Brought to Your Door.",
     s01sub: "Influenced by a passion for the ocean and the philosophy of omakase.",
@@ -51,6 +53,8 @@ const tr = {
     heroTitle: "Privates Omakase von Chef Marco Haenni",
     heroSub: "Das Meer als Inspiration. Ihr Zuhause als Bühne.",
     heroTagline: "Sushi Sailor — Die Kunst des Omakase",
+    intro:
+      "Erleben Sie eine exklusive Kombination aus Freiheit und Gourmet-Genuss. Sushi Sailor steht für entschleunigtes Segeln gepaart mit hochwertiger Bordküche. Als leidenschaftlicher Sushi-Koch verwandle ich Ihre Zeit auf dem Wasser in ein privates Omakase Erlebnis. Geniessen Sie handgemachtes Sushi bei Sonnenuntergang, während die Yacht sanft in der Bucht vor Anker liegt.",
     s01: "01",
     s01heading: "Meisterschaft der\njapanischen Küche, zu Ihnen gebracht.",
     s01sub: "Inspiriert von der Leidenschaft für das Meer und die Philosophie des Omakase.",
@@ -243,6 +247,27 @@ export default function SushiSailorPage() {
           </Link>
         </div>
       </section>
+
+      {/* ── Intro — large editorial text ───────────────────────── */}
+      <section style={{ padding: `${SECTION_V} ${PAD}` }}>
+        <div style={{ maxWidth: "38ch" }}>
+          <Reveal>
+            <p
+              className="font-playfair"
+              style={{
+                fontSize: "clamp(1.3rem, 2.4vw, 1.9rem)",
+                lineHeight: 1.65,
+                color: "#1C1C1C",
+                fontStyle: "italic",
+              }}
+            >
+              {tx.intro}
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      <div style={{ height: "1px", margin: `0 ${PAD}`, background: "rgba(0,0,0,0.09)" }} />
 
       {/* ── Section 01 — Bio ────────────────────────────────────── */}
       <section style={{ padding: `${SECTION_V} ${PAD}` }}>
