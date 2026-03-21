@@ -11,7 +11,9 @@ const tr = {
   en: {
     back: "Ventum Sailing",
     heroEyebrow: "Ventum × Sushi Sailor",
-    heroTagline: "The Sea Comes\nto Your Home.",
+    heroTitle: "Private Omakase by Chef Marco Haenni",
+    heroSub: "The sea as inspiration. Your home as the stage.",
+    heroTagline: "Sushi Sailor — The Art of Omakase",
     s01: "01",
     s01heading: "Mastery of Japanese\nCuisine, Brought to Your Door.",
     s01sub: "Influenced by a passion for the ocean and the philosophy of omakase.",
@@ -46,7 +48,9 @@ const tr = {
   de: {
     back: "Ventum Sailing",
     heroEyebrow: "Ventum × Sushi Sailor",
-    heroTagline: "Das Meer kommt\nzu Ihnen nach Hause.",
+    heroTitle: "Privates Omakase von Chef Marco Haenni",
+    heroSub: "Das Meer als Inspiration. Ihr Zuhause als Bühne.",
+    heroTagline: "Sushi Sailor — Die Kunst des Omakase",
     s01: "01",
     s01heading: "Meisterschaft der\njapanischen Küche, zu Ihnen gebracht.",
     s01sub: "Inspiriert von der Leidenschaft für das Meer und die Philosophie des Omakase.",
@@ -126,83 +130,117 @@ export default function SushiSailorPage() {
       <header
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between"
         style={{
-          height: "58px",
+          height: "62px",
           padding: `0 ${PAD}`,
-          background: "rgba(248,247,245,0.92)",
-          backdropFilter: "blur(16px)",
-          borderBottom: "1px solid rgba(0,0,0,0.06)",
+          background: "transparent",
         }}
       >
+        {/* Logo spaced — Masa style */}
         <Link
           href="/"
-          className="font-manrope"
-          style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#999", textDecoration: "none" }}
+          className="font-manrope font-bold"
+          style={{ fontSize: "12px", letterSpacing: "0.35em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)", textDecoration: "none" }}
         >
-          ← {tx.back}
+          S U S H I &nbsp; S A I L O R
         </Link>
 
-        <span
-          className="font-playfair absolute left-1/2 -translate-x-1/2"
-          style={{ fontSize: "15px", color: "#0C0C0C", letterSpacing: "0.02em" }}
-        >
-          Sushi Sailor
-        </span>
-
-        <button
-          onClick={() => setLang(l === "en" ? "de" : "en")}
-          className="font-manrope"
-          style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#999", background: "none", border: "none", cursor: "pointer" }}
-        >
-          {l === "en" ? "DE" : "EN"}
-        </button>
+        {/* Right — lang + book */}
+        <div className="flex items-center gap-5">
+          <button
+            onClick={() => setLang(l === "en" ? "de" : "en")}
+            className="font-manrope"
+            style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", background: "none", border: "none", cursor: "pointer" }}
+          >
+            {l === "en" ? "DE" : "EN"}
+          </button>
+          <a
+            href={`mailto:${tx.footerEmail}`}
+            className="font-manrope font-medium"
+            style={{
+              fontSize: "10px",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "rgba(255,255,255,0.85)",
+              border: "1px solid rgba(255,255,255,0.4)",
+              padding: "0.5rem 1.2rem",
+              textDecoration: "none",
+              transition: "all 0.3s",
+            }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.9)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.4)"; }}
+          >
+            {l === "en" ? "Book" : "Buchen"}
+          </a>
+        </div>
       </header>
 
-      {/* ── Hero — full bleed ───────────────────────────────────── */}
+      {/* ── Hero — dark full bleed, centered title ──────────────── */}
       <section className="relative overflow-hidden" style={{ height: "100svh" }}>
         <Image
-          src="/Sushi-sailor-new.jpg"
+          src="/Sushi-1.webp"
           alt="Sushi Sailor"
           fill
           priority
           className="object-cover"
           sizes="100vw"
-          style={{ objectPosition: "center 40%" }}
+          style={{ objectPosition: "center center", filter: "grayscale(40%) brightness(0.45)" }}
         />
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(to top, rgba(5,5,5,0.82) 0%, rgba(5,5,5,0.15) 55%, transparent 100%)" }}
-        />
+        {/* Dark overlay */}
+        <div className="absolute inset-0" style={{ background: "rgba(4,4,4,0.55)" }} />
 
-        {/* Top label */}
-        <motion.p
-          className="absolute font-manrope"
-          style={{ top: "80px", left: 0, right: 0, textAlign: "center", fontSize: "9px", letterSpacing: "0.32em", textTransform: "uppercase", color: "rgba(255,255,255,0.38)" }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2, delay: 0.4 }}
-        >
-          {tx.heroEyebrow}
-        </motion.p>
-
-        {/* Tagline */}
-        <div
-          className="absolute bottom-0 left-0"
-          style={{ padding: `0 ${PAD}`, paddingBottom: "clamp(3rem, 8vh, 5.5rem)" }}
-        >
-          <motion.h1
-            className="font-playfair text-white"
-            style={{
-              fontSize: "clamp(3rem, 7.5vw, 6.5rem)",
-              letterSpacing: "-0.03em",
-              lineHeight: 1.0,
-              whiteSpace: "pre-line",
-            }}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.4, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        {/* Centered content */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+          <motion.p
+            className="font-manrope"
+            style={{ fontSize: "9px", letterSpacing: "0.36em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: "2rem" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.8, delay: 0.3 }}
           >
-            {tx.heroTagline}
+            {tx.heroEyebrow}
+          </motion.p>
+
+          <motion.h1
+            className="font-manrope font-bold text-white"
+            style={{
+              fontSize: "clamp(2rem, 5.5vw, 5rem)",
+              letterSpacing: "-0.01em",
+              lineHeight: 1.08,
+              textTransform: "uppercase",
+              maxWidth: "16ch",
+            }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.3, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {tx.heroTitle}
           </motion.h1>
+
+          <motion.p
+            className="font-playfair"
+            style={{ fontSize: "clamp(1rem, 1.8vw, 1.4rem)", fontStyle: "italic", color: "rgba(255,255,255,0.55)", marginTop: "1.5rem" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.4, delay: 0.9 }}
+          >
+            {tx.heroSub}
+          </motion.p>
+        </div>
+
+        {/* Bottom bar — Masa style */}
+        <div
+          className="absolute bottom-0 left-0 right-0 flex items-center justify-between font-manrope"
+          style={{ padding: `1.2rem ${PAD}`, borderTop: "1px solid rgba(255,255,255,0.08)" }}
+        >
+          <p style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)" }}>
+            {tx.heroTagline}
+          </p>
+          <Link
+            href="/"
+            style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", textDecoration: "none" }}
+          >
+            ← {tx.back}
+          </Link>
         </div>
       </section>
 
