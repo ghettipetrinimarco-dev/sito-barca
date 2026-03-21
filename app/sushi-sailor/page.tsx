@@ -272,68 +272,60 @@ export default function SushiSailorPage() {
         {/* Dark overlay */}
         <div className="absolute inset-0" style={{ background: "rgba(4,4,4,0.55)" }} />
 
-        {/* Centered content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+        {/* Left-aligned content */}
+        <div
+          className="absolute inset-0 flex flex-col justify-center"
+          style={{ padding: `0 ${PAD}`, maxWidth: "min(700px, 58vw)" }}
+        >
+          {/* Logo stamp */}
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.4, delay: 0.2 }}
-            style={{ marginBottom: "2rem" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, delay: 0.2 }}
+            style={{ marginBottom: "2.5rem" }}
           >
             <Image
               src="/Logo-Icon.png"
               alt="Sushi Sailor"
-              width={72}
-              height={72}
+              width={44}
+              height={44}
               style={{ objectFit: "contain", filter: "invert(1) hue-rotate(180deg)" }}
             />
           </motion.div>
 
+          {/* Label */}
           <motion.p
             className="font-manrope"
-            style={{ fontSize: "9px", letterSpacing: "0.36em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: "2rem" }}
+            style={{ fontSize: "9px", letterSpacing: "0.36em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: "1.4rem" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.8, delay: 0.3 }}
+            transition={{ duration: 1.4, delay: 0.35 }}
           >
-            {tx.heroEyebrow}
+            {l === "en" ? "Private Omakase by" : "Privates Omakase von"}
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+          {/* BIG heading */}
+          <motion.h1
+            className="font-playfair text-white"
+            style={{
+              fontSize: "clamp(3rem, 7.5vw, 7.2rem)",
+              fontWeight: 400,
+              letterSpacing: "-0.02em",
+              lineHeight: 1.0,
+              textTransform: "uppercase",
+              marginBottom: "2rem",
+            }}
+            initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.3, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            style={{ textAlign: "center" }}
           >
-            <p
-              className="font-manrope font-medium text-white"
-              style={{
-                fontSize: "clamp(0.65rem, 1vw, 0.85rem)",
-                letterSpacing: "0.28em",
-                textTransform: "uppercase",
-                color: "rgba(255,255,255,0.5)",
-                marginBottom: "0.9rem",
-              }}
-            >
-              {l === "en" ? "Private Omakase by" : "Privates Omakase von"}
-            </p>
-            <h1
-              className="font-playfair text-white"
-              style={{
-                fontSize: "clamp(2rem, 4.5vw, 4rem)",
-                fontWeight: 400,
-                letterSpacing: "-0.01em",
-                lineHeight: 1.1,
-                textTransform: "uppercase",
-              }}
-            >
-              Chef Marco Haenni
-            </h1>
-          </motion.div>
+            Chef Marco<br />Haenni
+          </motion.h1>
 
+          {/* Tagline */}
           <motion.p
             className="font-playfair"
-            style={{ fontSize: "clamp(1rem, 1.8vw, 1.4rem)", fontStyle: "italic", color: "rgba(255,255,255,0.55)", marginTop: "1.5rem" }}
+            style={{ fontSize: "clamp(1rem, 1.5vw, 1.25rem)", fontStyle: "italic", color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.4, delay: 0.9 }}
