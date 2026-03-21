@@ -258,15 +258,17 @@ export default function SushiSailorPage() {
 
       {/* ── Hero — dark full bleed, centered title ──────────────── */}
       <section className="relative overflow-hidden" style={{ height: "100svh" }}>
-        <Image
-          src="/Sushi-landing-page.jpg"
-          alt="Sushi Sailor"
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-          style={{ objectPosition: "center 70%", filter: "grayscale(100%) brightness(0.45)" }}
-        />
+        <div style={{ position: "absolute", inset: "-12% -8% -12% -8%" }}>
+          <Image
+            src="/Sushi-landing-page.jpg"
+            alt="Sushi Sailor"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+            style={{ objectPosition: "25% 55%", filter: "grayscale(100%) brightness(0.45)" }}
+          />
+        </div>
         {/* Dark overlay */}
         <div className="absolute inset-0" style={{ background: "rgba(4,4,4,0.55)" }} />
 
