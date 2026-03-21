@@ -92,40 +92,13 @@ const tr = {
   },
 };
 
-/* ── Chopstick cursor — uses actual Logo-Cursor.png shape ────────── */
+/* ── Chopstick cursor ─────────────────────────────────────────────── */
 function ChopstickCursor() {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const imgRef  = useRef<HTMLImageElement>(null);
   const visible = useRef(false);
 
   useEffect(() => {
     if (window.matchMedia("(pointer: coarse)").matches) return;
-
-    /* Load PNG → resize to 80px tall → black pixels become white, white → transparent */
-    const source = new window.Image();
-    source.onload = () => {
-      const H = 80;
-      const W = Math.round(source.naturalWidth * (H / source.naturalHeight));
-      const canvas = document.createElement("canvas");
-      canvas.width  = W;
-      canvas.height = H;
-      const ctx = canvas.getContext("2d")!;
-      ctx.drawImage(source, 0, 0, W, H);
-      const id = ctx.getImageData(0, 0, W, H);
-      const d  = id.data;
-      for (let i = 0; i < d.length; i += 4) {
-        const bright = (d[i] + d[i + 1] + d[i + 2]) / 3;
-        if (bright > 180) {
-          d[i + 3] = 0;          // white bg → transparent
-        } else {
-          d[i] = d[i + 1] = d[i + 2] = 255;   // dark chopstick → white
-          d[i + 3] = 255;
-        }
-      }
-      ctx.putImageData(id, 0, 0);
-      if (imgRef.current) imgRef.current.src = canvas.toDataURL();
-    };
-    source.src = "/Logo-Cursor-new.png";
 
     const onMove = (e: MouseEvent) => {
       if (!wrapRef.current) return;
@@ -149,12 +122,18 @@ function ChopstickCursor() {
   }, []);
 
   return (
+    /* mix-blend-mode:difference — black bg acts as transparent, white chopsticks auto-invert */
     <div
       ref={wrapRef}
       style={{ position: "fixed", top: 0, left: 0, pointerEvents: "none", zIndex: 999999, opacity: 0, mixBlendMode: "difference", willChange: "transform" }}
     >
+      {/* invert(1): black chopsticks→white, white bg→black (disappears with difference) */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img ref={imgRef} alt="" style={{ display: "block", height: "80px", width: "auto" }} />
+      <img
+        src="/Logo-Cursor-new.png"
+        alt=""
+        style={{ display: "block", height: "80px", width: "auto", filter: "invert(1)" }}
+      />
     </div>
   );
 }
