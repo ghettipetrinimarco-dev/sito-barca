@@ -303,12 +303,13 @@ export default function SushiSailorPage() {
 
           {/* Heading */}
           <motion.h1
-            className="font-playfair text-white"
+            className="text-white"
             style={{
-              fontSize: "clamp(2.2rem, 4vw, 3.8rem)",
-              fontWeight: 400,
-              letterSpacing: "-0.01em",
-              lineHeight: 1.1,
+              fontFamily: "var(--font-cormorant)",
+              fontSize: "clamp(2.4rem, 4.5vw, 4.2rem)",
+              fontWeight: 700,
+              letterSpacing: "0.02em",
+              lineHeight: 1.05,
               textTransform: "uppercase",
               marginBottom: "1.6rem",
             }}

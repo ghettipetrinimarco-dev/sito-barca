@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Manrope, Playfair_Display } from "next/font/google";
+import { Inter, Manrope, Playfair_Display, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "./context/LanguageContext";
 
@@ -20,6 +20,14 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
   display: "swap",
+  style: ["normal", "italic"],
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-cormorant",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
   style: ["normal", "italic"],
 });
 
@@ -50,7 +58,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${manrope.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${inter.variable} ${manrope.variable} ${playfair.variable} ${cormorant.variable}`}>
       <body className="antialiased font-sans" style={{ background: "var(--bg)", color: "var(--text)" }}>
         <LanguageProvider>{children}</LanguageProvider>
       </body>
