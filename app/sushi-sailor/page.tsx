@@ -106,7 +106,7 @@ function ChopstickCursor() {
         wrapRef.current.style.opacity = "1";
         visible.current = true;
       }
-      wrapRef.current.style.transform = `translate(${e.clientX - 10}px, ${e.clientY}px)`;
+      wrapRef.current.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 80}px)`;
     };
     const hide = () => { if (wrapRef.current) wrapRef.current.style.opacity = "0"; };
     const show = () => { if (wrapRef.current) wrapRef.current.style.opacity = "1"; };
@@ -132,7 +132,7 @@ function ChopstickCursor() {
       <img
         src="/Logo-Cursor-new.png"
         alt=""
-        style={{ display: "block", height: "80px", width: "auto", filter: "invert(1)" }}
+        style={{ display: "block", height: "80px", width: "auto", filter: "invert(1)", transform: "rotate(180deg)" }}
       />
     </div>
   );
