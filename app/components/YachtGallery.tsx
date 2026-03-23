@@ -7,6 +7,74 @@ import { yachtExteriorImages, yachtInteriorImages } from "../../lib/yacht-data";
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
 
+/* ── Mobile horizontal scroll strip ─────────────────────────────── */
+function MobileGalleryStrip({
+  label,
+  images,
+  photos,
+  onImageClick,
+}: {
+  label: string;
+  images: string[];
+  photos: string;
+  onImageClick: (index: number) => void;
+}) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const cardWidth = el.scrollWidth / images.length;
+    setActiveIndex(Math.round(el.scrollLeft / cardWidth));
+  };
+
+  return (
+    <div className="mb-8">
+      {/* Section header */}
+      <div className="mb-3">
+        <p className="font-manrope font-bold" style={{ fontSize: "1.6rem", letterSpacing: "-0.02em", color: "var(--text)" }}>
+          {label}
+        </p>
+      </div>
+
+      {/* Scroll strip — next image peeks from right */}
+      <div
+        ref={scrollRef}
+        className="flex gap-3 overflow-x-auto pb-1"
+        style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch", scrollbarWidth: "none", paddingRight: "12vw" }}
+        onScroll={handleScroll}
+      >
+        {images.map((src, i) => (
+          <button
+            key={i}
+            className="flex-shrink-0 relative overflow-hidden"
+            style={{ width: "80vw", aspectRatio: "4/3", borderRadius: "10px", scrollSnapAlign: "start", border: "1px solid var(--border)", flexShrink: 0 }}
+            onClick={() => onImageClick(i)}
+          >
+            <Image src={src} alt={`${label} ${i + 1}`} fill className="object-cover" sizes="80vw" />
+          </button>
+        ))}
+      </div>
+
+      {/* Dot indicators */}
+      <div className="flex justify-center gap-1.5 mt-3">
+        {images.map((_, i) => (
+          <div
+            key={i}
+            className="rounded-full transition-all duration-300"
+            style={{
+              width: activeIndex === i ? "16px" : "4px",
+              height: "4px",
+              background: activeIndex === i ? "var(--accent)" : "var(--border)",
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* Ken Burns animations alternate per slide */
 const kenBurns = [
   { from: "scale(1.08) translate(-2%, 1%)",   to: "scale(1) translate(0%, 0%)" },
@@ -160,6 +228,7 @@ function Lightbox({
   open,
   onClose,
   initialSection,
+  initialImage,
   exteriorLabel,
   interiorLabel,
   closeLabel,
@@ -168,6 +237,7 @@ function Lightbox({
   open: boolean;
   onClose: () => void;
   initialSection: "exterior" | "interior";
+  initialImage?: number;
   exteriorLabel: string;
   interiorLabel: string;
   closeLabel: string;
@@ -178,13 +248,13 @@ function Lightbox({
 
   const images = activeSection === "exterior" ? yachtExteriorImages : yachtInteriorImages;
 
-  // Sync section when lightbox opens
+  // Sync section and image when lightbox opens
   useEffect(() => {
     if (open) {
       setActiveSection(initialSection);
-      setSelectedImg(null);
+      setSelectedImg(initialImage ?? null);
     }
-  }, [open, initialSection]);
+  }, [open, initialSection, initialImage]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -224,7 +294,7 @@ function Lightbox({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
           className="fixed inset-0 z-[9999] flex flex-col overflow-hidden"
-          style={{ background: "rgba(5,15,30,0.97)", backdropFilter: "blur(10px)", paddingTop: "env(safe-area-inset-top)", paddingBottom: "env(safe-area-inset-bottom)", overscrollBehavior: "none" }}
+          style={{ background: "#050f1e", height: "100dvh", paddingTop: "env(safe-area-inset-top)", paddingBottom: "env(safe-area-inset-bottom)", overscrollBehavior: "none" }}
         >
           {/* Header */}
           <div
@@ -252,11 +322,6 @@ function Lightbox({
               })}
             </div>
 
-            {selectedImg !== null && (
-              <span className="text-[12px] tracking-[0.08em] uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>
-                {selectedImg + 1} / {images.length}
-              </span>
-            )}
 
             <button
               className="text-[12px] tracking-[0.25em] uppercase transition-colors duration-200"
@@ -373,25 +438,43 @@ export default function YachtGallery() {
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxSection, setLightboxSection] = useState<"exterior" | "interior">("exterior");
+  const [lightboxImage, setLightboxImage] = useState<number | undefined>(undefined);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const open = (section: "exterior" | "interior") => {
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const openAt = (section: "exterior" | "interior", imageIndex?: number) => {
     setLightboxSection(section);
+    setLightboxImage(imageIndex);
     setLightboxOpen(true);
   };
 
   return (
     <>
       <div id="yacht-gallery" className="mb-20">
-        <div className="flex flex-col gap-3 mb-5">
-          <GalleryPanel label={tr.exterior} images={yachtExteriorImages} onClick={() => open("exterior")} delay={0} viewAllPhotos={tr.viewAllPhotos} photos={tr.photos} />
-          <GalleryPanel label={tr.interior} images={yachtInteriorImages} onClick={() => open("interior")} delay={0} viewAllPhotos={tr.viewAllPhotos} photos={tr.photos} />
-        </div>
+        {isMobile ? (
+          <div className="flex flex-col">
+            <MobileGalleryStrip label={tr.exterior} images={yachtExteriorImages} photos={tr.photos} onImageClick={(i) => openAt("exterior", i)} />
+            <MobileGalleryStrip label={tr.interior} images={yachtInteriorImages} photos={tr.photos} onImageClick={(i) => openAt("interior", i)} />
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3 mb-5">
+            <GalleryPanel label={tr.exterior} images={yachtExteriorImages} onClick={() => openAt("exterior")} delay={0} viewAllPhotos={tr.viewAllPhotos} photos={tr.photos} />
+            <GalleryPanel label={tr.interior} images={yachtInteriorImages} onClick={() => openAt("interior")} delay={0} viewAllPhotos={tr.viewAllPhotos} photos={tr.photos} />
+          </div>
+        )}
       </div>
 
       <Lightbox
         open={lightboxOpen}
         onClose={() => setLightboxOpen(false)}
         initialSection={lightboxSection}
+        initialImage={lightboxImage}
         exteriorLabel={tr.exterior}
         interiorLabel={tr.interior}
         closeLabel={tr.closeGallery}

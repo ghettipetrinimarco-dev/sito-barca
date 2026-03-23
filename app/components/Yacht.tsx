@@ -58,6 +58,14 @@ function FloorPlan({ tr }: { tr: Record<string, string> }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const [activeLabel, setActiveLabel] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const plans = [
     { src: "/floorplan-exterior.jpg", label: tr.exterior, text: tr.exteriorText },
@@ -81,41 +89,53 @@ function FloorPlan({ tr }: { tr: Record<string, string> }) {
           return (
             <div
               key={plan.label}
-              className="relative overflow-hidden cursor-pointer transition-all duration-300"
-              style={{
-                border: isActive ? "1px solid var(--accent)" : "1px solid var(--border)",
-                borderRadius: "10px",
-                background: "var(--bg)",
-              }}
-              onClick={() => setActiveLabel(isActive ? null : plan.label)}
-              onPointerEnter={(e) => { if (e.pointerType === "mouse") setActiveLabel(plan.label); }}
-              onPointerLeave={(e) => { if (e.pointerType === "mouse") setActiveLabel(null); }}
+              style={{ borderRadius: "10px", border: "1px solid var(--border)", background: "var(--bg)", overflow: "hidden" }}
+              {...(!isMobile && {
+                className: "relative cursor-pointer transition-all duration-300",
+                onClick: () => setActiveLabel(isActive ? null : plan.label),
+                onPointerEnter: (e: React.PointerEvent) => { if (e.pointerType === "mouse") setActiveLabel(plan.label); },
+                onPointerLeave: (e: React.PointerEvent) => { if (e.pointerType === "mouse") setActiveLabel(null); },
+              })}
             >
-              <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
-                <Image
-                  src={plan.src}
-                  alt={plan.label}
-                  fill
-                  className="object-contain p-4 transition-opacity duration-300"
-                  style={{ mixBlendMode: "multiply", opacity: isActive ? 0.15 : 1 }}
-                  sizes="100vw"
-                />
-              </div>
-
-              <p
-                className="text-[11px] tracking-[0.18em] uppercase font-manrope text-center pb-3 transition-opacity duration-300"
-                style={{ color: "var(--text-muted)", opacity: isActive ? 0 : 1 }}
-              >
-                {plan.label}
-              </p>
-              {/* Overlay */}
-              <div
-                className="absolute inset-0 flex flex-col items-center justify-center px-6 transition-opacity duration-300"
-                style={{ opacity: isActive ? 1 : 0 }}
-              >
-                <p className="text-[11px] tracking-[0.18em] uppercase font-manrope mb-3" style={{ color: "var(--accent)" }}>{plan.label}</p>
-                <p className="text-sm font-light leading-relaxed text-center" style={{ color: "var(--text-secondary)" }}>{plan.text}</p>
-              </div>
+              {isMobile ? (
+                /* Mobile: always visible */
+                <>
+                  <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+                    <Image src={plan.src} alt={plan.label} fill className="object-contain p-4" style={{ mixBlendMode: "multiply" }} sizes="100vw" />
+                  </div>
+                  <div className="px-4 pb-4">
+                    <p className="text-[11px] tracking-[0.18em] uppercase font-manrope mb-2" style={{ color: "var(--accent)" }}>{plan.label}</p>
+                    <p className="text-sm font-light leading-relaxed" style={{ color: "var(--text-secondary)" }}>{plan.text}</p>
+                  </div>
+                </>
+              ) : (
+                /* Desktop: hover interaction */
+                <>
+                  <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+                    <Image
+                      src={plan.src}
+                      alt={plan.label}
+                      fill
+                      className="object-contain p-4 transition-opacity duration-300"
+                      style={{ mixBlendMode: "multiply", opacity: isActive ? 0.15 : 1 }}
+                      sizes="50vw"
+                    />
+                  </div>
+                  <p
+                    className="text-[11px] tracking-[0.18em] uppercase font-manrope text-center pb-3 transition-opacity duration-300"
+                    style={{ color: "var(--text-muted)", opacity: isActive ? 0 : 1 }}
+                  >
+                    {plan.label}
+                  </p>
+                  <div
+                    className="absolute inset-0 flex flex-col items-center justify-center px-6 transition-opacity duration-300"
+                    style={{ opacity: isActive ? 1 : 0 }}
+                  >
+                    <p className="text-[11px] tracking-[0.18em] uppercase font-manrope mb-3" style={{ color: "var(--accent)" }}>{plan.label}</p>
+                    <p className="text-sm font-light leading-relaxed text-center" style={{ color: "var(--text-secondary)" }}>{plan.text}</p>
+                  </div>
+                </>
+              )}
             </div>
           );
         })}
@@ -162,7 +182,7 @@ function MatterportSection({ tr }: { tr: Record<string, string> }) {
       <button
         onClick={handleClick}
         className="group relative flex items-center justify-center w-full overflow-hidden transition-all duration-300 cursor-pointer"
-        style={{ aspectRatio: "16/9", borderRadius: "10px", border: "1px solid var(--border)" }}
+        style={{ aspectRatio: isMobile ? "4/3" : "16/9", borderRadius: "10px", border: "1px solid var(--border)" }}
       >
         <Image
           src="/Boat/Interior/Interior-Cover.jpg"
@@ -333,7 +353,7 @@ function WatersportsIncluded({ tr, specsInView, lang }: { tr: Record<string, str
       <p className="text-base font-light leading-relaxed mb-8 max-w-2xl" style={{ color: "var(--text-secondary)" }}>
         {tr.watersportsDesc}
       </p>
-      <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
         {ACTIVITIES.map((a, i) => (
           <motion.div
             key={a.key}
