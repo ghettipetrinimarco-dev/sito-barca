@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback, } from "react";
+import { useRef, useState, useEffect, useCallback, useTransition, memo } from "react";
 import Image from "next/image";
 import { useLang } from "../context/LanguageContext";
 import { t } from "../translations";
@@ -23,17 +23,31 @@ interface ServiceItem {
   footer?: string;
 }
 
+// Maps service index → cruise-plans anchor (null = no link)
+const PLAN_LINKS: (string | null)[] = [
+  "#cruise-plans-mileage",  // 01 Mileage
+  "#cruise-plans-holiday",  // 02 Holiday
+  "#cruise-plans-harbor",   // 03 Harbor
+  null,                      // 04 Survey
+  "#cruise-plans-holiday",  // 05 Wingfoil (runs during holiday weeks)
+  null,                      // 06 Sushi Sailor
+];
+
 /* ── Single service row ─────────────────────────────────────────── */
-function ServiceRow({
+const ServiceRow = memo(function ServiceRow({
   service,
   index,
   isActive,
   onMount,
+  viewDatesLabel,
+  duringHolidayLabel,
 }: {
   service: ServiceItem;
   index: number;
   isActive: boolean;
   onMount: (el: HTMLDivElement | null, i: number) => void;
+  viewDatesLabel: string;
+  duringHolidayLabel: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -68,24 +82,21 @@ function ServiceRow({
 
         {/* Title */}
         <h3
-          className="font-manrope text-center"
+          className="font-manrope font-semibold text-center"
           style={{
             fontSize: "clamp(1.3rem, 2.2vw, 2rem)",
             lineHeight: 1.2,
-            fontWeight: isActive ? 600 : 300,
-            color: isActive ? "#ffffff" : "rgba(255,255,255,0.9)",
-            letterSpacing: isActive ? "-0.02em" : "0",
+            color: isActive ? "#ffffff" : "rgba(255,255,255,0.5)",
             transform: isActive ? "scale(1.05)" : "scale(1)",
             transformOrigin: "center",
-            display: "block",
-            transition: "transform 0.6s ease, color 0.6s ease",
+            transition: "color 0.5s ease, transform 0.5s ease",
             willChange: "transform",
           }}
         >
           {service.title.includes(" / ") ? (
             <span className="flex flex-col items-center gap-0.5">
               <span>{service.title.split(" / ")[0]}</span>
-              <span style={{ fontSize: "0.75em", fontWeight: 300, color: isActive ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.4)", transition: "color 0.6s ease" }}>
+              <span style={{ fontSize: "0.75em", fontWeight: 300, color: isActive ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.25)", transition: "color 0.5s ease" }}>
                 {service.title.split(" / ")[1]}
               </span>
             </span>
@@ -98,31 +109,44 @@ function ServiceRow({
           style={{
             fontSize: "1.05rem",
             fontWeight: 300,
-            color: isActive ? "rgba(255,255,255,0.82)" : "rgba(255,255,255,0.5)",
+            color: isActive ? "rgba(255,255,255,0.82)" : "rgba(255,255,255,0.3)",
             transform: isActive ? "scale(1.04)" : "scale(1)",
             transformOrigin: "center",
-            transition: "color 0.6s ease, transform 0.6s ease",
+            transition: "color 0.5s ease, transform 0.5s ease",
             willChange: "transform",
           }}
         >
           {service.description}
         </p>
 
-        {service.dates && (
-          <p className="mt-3 text-[11px] tracking-[0.12em] uppercase font-medium text-center" style={{ color: "#4a7fb5" }}>
-            {service.dates}
-          </p>
-        )}
         {service.footer && (
           <p className="mt-2 font-playfair italic text-sm text-center" style={{ color: "rgba(255,255,255,0.35)" }}>
             {service.footer}
           </p>
         )}
+        {PLAN_LINKS[index] && (
+          <div className="mt-4 flex flex-col items-center gap-1" style={{ opacity: isActive ? 1 : 0, transition: "opacity 0.5s ease", pointerEvents: isActive ? "auto" : "none" }}>
+            {index === 4 && (
+              <p className="font-manrope text-[10px] tracking-[0.12em] uppercase text-center" style={{ color: "rgba(255,255,255,0.4)" }}>
+                {duringHolidayLabel}
+              </p>
+            )}
+            <a
+              href={PLAN_LINKS[index]!}
+              className="font-manrope font-medium text-[11px] tracking-[0.12em] uppercase transition-colors duration-200"
+              style={{ color: "#7ab8f5" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#c8e4ff"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#7ab8f5"; }}
+            >
+              {viewDatesLabel}
+            </a>
+          </div>
+        )}
 
       </div>
     </div>
   );
-}
+});
 
 /* ── Main component ─────────────────────────────────────────────── */
 export default function Services() {
@@ -130,28 +154,27 @@ export default function Services() {
   const tr = t[lang].services;
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const [, startTransition] = useTransition();
   const itemEls = useRef<Array<HTMLDivElement | null>>([]);
   const registerEl = useCallback((el: HTMLDivElement | null, i: number) => {
     itemEls.current[i] = el;
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const viewportCenter = window.scrollY + window.innerHeight * 0.5;
-      let closest = 0;
-      let minDist = Infinity;
-      itemEls.current.forEach((el, i) => {
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const itemCenter = window.scrollY + rect.top + rect.height / 2;
-        const dist = Math.abs(viewportCenter - itemCenter);
-        if (dist < minDist) { minDist = dist; closest = i; }
-      });
-      setActiveIndex(closest);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    const ratios = new Array(tr.items.length).fill(0);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const i = itemEls.current.indexOf(entry.target as HTMLDivElement);
+          if (i !== -1) ratios[i] = entry.intersectionRatio;
+        });
+        const best = ratios.indexOf(Math.max(...ratios));
+        startTransition(() => setActiveIndex(best));
+      },
+      { threshold: [0, 0.25, 0.5, 0.75, 1], rootMargin: "-20% 0px -20% 0px" }
+    );
+    itemEls.current.forEach((el) => { if (el) observer.observe(el); });
+    return () => observer.disconnect();
   }, [tr.items.length]);
 
   return (
@@ -165,17 +188,16 @@ export default function Services() {
             className="absolute inset-0"
             style={{
               opacity: activeIndex === i ? 1 : 0,
-              transform: activeIndex === i ? "scale(1)" : "scale(1.04)",
-              transition: "opacity 0.8s ease, transform 0.8s ease",
-              willChange: "opacity, transform",
+              transition: "opacity 0.8s ease",
+              willChange: "opacity",
               zIndex: activeIndex === i ? 2 : 1,
             }}
           >
             <Image src={src} alt={tr.items[i]?.title ?? ""} fill className="object-cover" priority={i === 0} sizes="100vw" />
-            <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(5,15,30,0.97) 0%, rgba(5,15,30,0.88) 50%, rgba(5,15,30,0.72) 100%)" }} />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(5,15,30,0.92) 0%, rgba(5,15,30,0.78) 50%, rgba(5,15,30,0.50) 100%)" }} />
           </div>
         ))}
-        <div className="absolute inset-0" style={{ background: "rgba(13,27,42,0.55)", zIndex: 3 }} />
+        <div className="absolute inset-0" style={{ background: "rgba(13,27,42,0.35)", zIndex: 3 }} />
       </div>
 
       {/* Content */}
@@ -202,6 +224,8 @@ export default function Services() {
                 index={i}
                 isActive={activeIndex === i}
                 onMount={registerEl}
+                viewDatesLabel={tr.viewDates}
+                duringHolidayLabel={tr.duringHoliday}
               />
             ))}
           </div>

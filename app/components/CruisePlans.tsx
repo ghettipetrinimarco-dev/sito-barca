@@ -9,11 +9,47 @@ const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const PLAN_KEYS = ["holiday", "mileage", "harbor"];
 
+const HOLIDAY_DATES = [
+  { period: "31.05 – 07.06", code: "26-46173" },
+  { period: "07.06 – 14.06", code: "26-46180" },
+  { period: "14.06 – 21.06", code: "26-46187" },
+  { period: "21.06 – 28.06", code: "26-46194" },
+  { period: "28.06 – 05.07", code: "26-46201" },
+  { period: "05.07 – 12.07", code: "26-46208" },
+  { period: "12.07 – 19.07", code: "26-46215" },
+  { period: "19.07 – 26.07", code: "26-46222" },
+  { period: "26.07 – 02.08", code: "26-46229" },
+  { period: "02.08 – 09.08", code: "26-46236" },
+  { period: "09.08 – 16.08", code: "26-46243" },
+  { period: "16.08 – 23.08", code: "26-46250" },
+  { period: "23.08 – 30.08", code: "26-46257" },
+  { period: "30.08 – 06.09", code: "26-46264" },
+];
+
+const HARBOR_DATES = [
+  { period: "04.10 – 11.10", code: "" },
+  { period: "11.10 – 18.10", code: "" },
+];
+
+const MILEAGE_DATES = [
+  { period: "10.05 – 17.05", route: "San Carles → Mallorca", code: "26-46152" },
+  { period: "17.05 – 24.05", route: "Mallorca → Menorca", code: "26-46159" },
+  { period: "24.05 – 31.05", route: "Menorca → Ibiza", code: "26-46166" },
+  { period: "06.09 – 13.09", route: "Ibiza → Cagliari", code: "26-46271" },
+  { period: "13.09 – 20.09", route: "Cagliari → Olbia", code: "26-46278" },
+  { period: "20.09 – 27.09", route: "Olbia → Cagliari", code: "26-46285" },
+  { period: "27.09 – 04.10", route: "Cagliari → Bizerte", code: "26-46292" },
+];
+
 export default function CruisePlans() {
   const { lang } = useLang();
   const tr = t[lang].cruisePlansSection;
   const [active, setActive] = useState(0);
   const plan = tr.plans[active];
+
+  const pdfUrl = (lang === "fr" || lang === "it")
+    ? "/tornplan-2026-fren.pdf"
+    : "/tornplan-2026-deen.pdf";
 
   // Deep-link: #cruise-plans-holiday / -mileage / -harbor
   useEffect(() => {
@@ -109,19 +145,114 @@ export default function CruisePlans() {
               </a>
             </div>
 
-            {/* Placeholder for PDF / dates */}
-            <div
-              className="lg:w-72 flex items-center justify-center rounded-xl"
-              style={{ minHeight: "120px", background: "var(--surface)", border: "1px dashed var(--border)" }}
-            >
-              <p className="font-manrope text-[12px] tracking-[0.15em] uppercase text-center" style={{ color: "var(--text-muted)" }}>
-                {tr.placeholder}
-              </p>
+            {/* Dates panel */}
+            <div className="lg:w-72 flex-shrink-0">
+              {active === 0 && (
+                <DatesPanel
+                  area="Ibiza – Formentera"
+                  dates={HOLIDAY_DATES}
+                  resLabel={tr.reservationCode}
+                  pdfUrl={pdfUrl}
+                  pdfLabel={tr.pdfLabel}
+                />
+              )}
+              {active === 1 && (
+                <DatesPanel
+                  area="Mediterranean"
+                  dates={MILEAGE_DATES}
+                  resLabel={tr.reservationCode}
+                  pdfUrl={pdfUrl}
+                  pdfLabel={tr.pdfLabel}
+                  showRoute
+                />
+              )}
+              {active === 2 && (
+                <DatesPanel
+                  area="Bizerte – Tunisia"
+                  dates={HARBOR_DATES}
+                  resLabel={tr.reservationCode}
+                  pdfUrl={pdfUrl}
+                  pdfLabel={tr.pdfLabel}
+                />
+              )}
             </div>
           </motion.div>
         </AnimatePresence>
 
       </div>
     </section>
+  );
+}
+
+function DatesPanel({
+  area,
+  dates,
+  resLabel,
+  pdfUrl,
+  pdfLabel,
+  showRoute = false,
+}: {
+  area: string;
+  dates: { period: string; route?: string; code: string }[];
+  resLabel: string;
+  pdfUrl: string;
+  pdfLabel: string;
+  showRoute?: boolean;
+}) {
+  return (
+    <div className="flex flex-col gap-3">
+      <p className="font-manrope text-[10px] tracking-[0.2em] uppercase font-medium" style={{ color: "var(--accent-light)" }}>
+        {area}
+      </p>
+
+      <div
+        className="rounded-xl overflow-y-auto"
+        style={{ background: "var(--surface)", border: "1px solid var(--border)", maxHeight: "320px" }}
+      >
+        {dates.map((d, i) => (
+          <div
+            key={i}
+            className="flex items-center justify-between px-4 py-2.5"
+            style={{ borderBottom: i < dates.length - 1 ? "1px solid var(--border)" : "none" }}
+          >
+            <div>
+              <p className="font-manrope font-medium text-[12px]" style={{ color: "var(--text)" }}>
+                {d.period}
+              </p>
+              {showRoute && d.route && (
+                <p className="font-manrope text-[10px] mt-0.5" style={{ color: "var(--text-muted)" }}>
+                  {d.route}
+                </p>
+              )}
+            </div>
+            <p className="font-manrope text-[10px] tabular-nums" style={{ color: "var(--text-muted)" }}>
+              {d.code}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <a
+        href={pdfUrl}
+        download
+        className="flex items-center justify-center gap-2 font-manrope font-medium text-[12px] tracking-[0.1em] uppercase px-5 py-3 transition-all duration-200"
+        style={{ background: "var(--surface)", color: "var(--accent-light)", border: "1px solid var(--border)", borderRadius: "8px" }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--accent-light)"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--border)"; }}
+      >
+        <DownloadIcon />
+        {pdfLabel}
+      </a>
+    </div>
+  );
+}
+
+function DownloadIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
   );
 }

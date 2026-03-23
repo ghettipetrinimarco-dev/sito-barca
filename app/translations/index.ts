@@ -35,10 +35,10 @@ export const t = {
     },
     hero: {
       label: "Premium Sailing Catamaran · Mediterranean",
-      title1: "Sailing, training",
-      title2: "and",
-      titleAccent: "unforgettable",
-      title3: "experience at sea",
+      title1: "An",
+      title2: "",
+      titleAccent: "Unforgettable",
+      title3: "Experience",
       subtitle: "Private catamaran cruises & professional sailing instruction",
       sub2: "Adventure on the Mediterranean with Captain Marco",
       cta1: "Cruise Plan 2026",
@@ -49,6 +49,8 @@ export const t = {
       title: "SERVICES",
       placeholder: "Hover a service",
       cta: "Get in touch",
+      viewDates: "View dates →",
+      duringHoliday: "Available during Holiday Cruise weeks",
       items: [
         {
           number: "01",
@@ -67,7 +69,6 @@ export const t = {
           title: "Harbor Maneuver Course",
           description: "Master docking with complete confidence. Learn how to safely maneuver your catamaran into the harbor even with wind and limited space. We train calmness and precision so that stress in the harbor becomes a thing of the past.",
           tag: "Course",
-          dates: "04–11 Oct · 11–18 Oct",
         },
         {
           number: "04",
@@ -88,7 +89,7 @@ export const t = {
           title: "Sushi Sailor",
           description: "I select only the best seasonal ingredients and the freshest fish to create a multi-course menu directly in front of you. No loud restaurants, no time pressure. Only you, your guests, and the art of sushi.",
           tag: "Culinary",
-          footer: "Arigato — Marco",
+          footer: "",
         },
       ],
     },
@@ -170,7 +171,7 @@ export const t = {
       ],
       qualLabel: "Qualifications",
       qualifications: [
-        "Inland License A and D",
+        "Swiss Lake License A&D",
         "WWS / WWC Chief Instructor Catamaran",
         "Offshore License B",
         "RYA Yachtmaster",
@@ -204,11 +205,12 @@ export const t = {
     cruisePlansSection: {
       header: "Plans 2026",
       cta: "Get in touch",
-      placeholder: "Dates / PDF coming soon",
+      pdfLabel: "Download PDF 2026",
+      reservationCode: "Res. Code",
       plans: [
-        { label: "Holiday Cruise", short: "Holiday", tag: "Leisure", description: "Dates and details coming soon. Contact us to be notified when bookings open." },
-        { label: "Mileage Cruise", short: "Mileage", tag: "Training", description: "Dates and details coming soon. Contact us to be notified when bookings open." },
-        { label: "Harbor Maneuver Course", short: "Harbor", tag: "Course", description: "Dates and details coming soon. Contact us to be notified when bookings open." },
+        { label: "Holiday Cruise", short: "Holiday", tag: "Leisure", description: "Round trips from Ibiza exploring the crystal waters of Formentera and the surrounding islands. No itinerary, no crowds — just you, the sea, and the freedom to go wherever the wind takes you." },
+        { label: "Mileage Cruise", short: "Mileage", tag: "Training", description: "Long-distance passages across the Mediterranean. Build sea miles, earn certifications, and develop real offshore sailing skills alongside Captain Marco." },
+        { label: "Harbor Maneuver Course", short: "Harbor", tag: "Course", description: "Master docking with complete confidence. Learn how to safely maneuver your catamaran into the harbor even with wind and limited space — calm, precise, stress-free." },
       ],
     },
     cruiseMap: {
@@ -263,10 +265,10 @@ export const t = {
     },
     hero: {
       label: "Premium Segelkatamaran · Mittelmeer",
-      title1: "Segeln, Training",
-      title2: "und",
-      titleAccent: "unvergessliche",
-      title3: "Erlebnisse auf See",
+      title1: "Ein",
+      title2: "",
+      titleAccent: "Unvergessliches",
+      title3: "Erlebnis",
       subtitle: "Private Katamarankreuzfahrten & professioneller Segelunterricht",
       sub2: "Abenteuer im Mittelmeer mit Kapitän Marco",
       cta1: "Reiseplan 2026",
@@ -277,6 +279,8 @@ export const t = {
       title: "LEISTUNGEN",
       placeholder: "Leistung auswählen",
       cta: "Kontakt aufnehmen",
+      viewDates: "Termine anzeigen →",
+      duringHoliday: "Verfügbar während Urlaubstörn-Wochen",
       items: [
         {
           number: "01",
@@ -295,7 +299,6 @@ export const t = {
           title: "Hafenmanöver-Kurs",
           description: "Lernen Sie sicheres Anlegen mit absolutem Selbstvertrauen. In diesem Kurs lernen Sie praxisnah, wie Sie Ihren Katamaran auch bei Wind und beengten Platzverhältnissen sicher in den Hafen manövrieren. Wir trainieren Ruhe und Präzision, damit Stress im Hafen der Vergangenheit angehört.",
           tag: "Kurs",
-          dates: "04.–11. Okt · 11.–18. Okt",
         },
         {
           number: "04",
@@ -316,7 +319,7 @@ export const t = {
           title: "Sushi Sailor",
           description: "Ich wähle nur die besten saisonalen Zutaten und den frischesten Fisch aus, um direkt vor Ihnen ein Mehrgangmenü zu kreieren. Keine lauten Restaurants, kein Zeitdruck. Nur Sie, Ihre Gäste und die Kunst des Sushi.",
           tag: "Kulinarik",
-          footer: "Arigato — Marco",
+          footer: "",
         },
       ],
     },
@@ -398,9 +401,9 @@ export const t = {
       ],
       qualLabel: "Qualifikationen",
       qualifications: [
-        "Bodenseeschifferpatent A und D",
-        "WWS / WWC Chefausbilder Katamaran",
-        "Küstenschifferpatent B",
+        "Swiss Lake License A&D",
+        "WWS / WWC Chief Instructor Catamaran",
+        "Offshore License B",
         "RYA Yachtmaster",
         "PADI Dive Master",
       ],
@@ -432,11 +435,12 @@ export const t = {
     cruisePlansSection: {
       header: "Angebote 2026",
       cta: "Anfragen",
-      placeholder: "Termine / PDF folgt in Kürze",
+      pdfLabel: "PDF 2026 herunterladen",
+      reservationCode: "Res. Code",
       plans: [
-        { label: "Urlaubskreuzfahrt", short: "Urlaub", tag: "Freizeit", description: "Termine und Details folgen in Kürze. Kontaktieren Sie uns, um benachrichtigt zu werden." },
-        { label: "Meilentörn", short: "Meilen", tag: "Training", description: "Termine und Details folgen in Kürze. Kontaktieren Sie uns, um benachrichtigt zu werden." },
-        { label: "Hafenmanöverkurs", short: "Hafen", tag: "Kurs", description: "Termine und Details folgen in Kürze. Kontaktieren Sie uns, um benachrichtigt zu werden." },
+        { label: "Urlaubskreuzfahrt", short: "Urlaub", tag: "Freizeit", description: "Rundreisen ab Ibiza durch die kristallklaren Gewässer von Formentera und den umliegenden Inseln. Kein fester Plan, kein Trubel — nur Sie, das Meer und die Freiheit, dorthin zu segeln, wohin der Wind Sie trägt." },
+        { label: "Meilentörn", short: "Meilen", tag: "Training", description: "Langstreckenpassagen durch das Mittelmeer. Sammeln Sie Seemeilen, erwerben Sie Zertifikate und entwickeln Sie echte Hochseesegelkenntnisse mit Kapitän Marco." },
+        { label: "Hafenmanöverkurs", short: "Hafen", tag: "Kurs", description: "Lernen Sie sicheres Anlegen mit absolutem Selbstvertrauen. Manövrieren Sie Ihren Katamaran auch bei Wind und beengten Platzverhältnissen sicher in den Hafen — ruhig, präzise, stressfrei." },
       ],
     },
     cruiseMap: {
@@ -491,10 +495,10 @@ export const t = {
     },
     hero: {
       label: "Catamarano a vela premium · Mediterraneo",
-      title1: "Veleggiare, formarsi",
-      title2: "e",
-      titleAccent: "indimenticabili",
-      title3: "esperienze in mare",
+      title1: "L'",
+      title2: "",
+      titleAccent: "Indimenticabile",
+      title3: "Esperienza",
       subtitle: "Crociere private in catamarano e istruzione velistica professionale",
       sub2: "Avventura nel Mediterraneo con il Capitano Marco",
       cta1: "Piano di rotta 2026",
@@ -505,6 +509,8 @@ export const t = {
       title: "SERVIZI",
       placeholder: "Seleziona un servizio",
       cta: "Contattaci",
+      viewDates: "Vedi date →",
+      duringHoliday: "Disponibile durante le settimane Holiday Cruise",
       items: [
         {
           number: "01",
@@ -544,7 +550,7 @@ export const t = {
           title: "Sushi Sailor",
           description: "Seleziono solo i migliori ingredienti stagionali e il pesce più fresco per creare un menu a più portate direttamente davanti a te. Nessun ristorante rumoroso, nessuna pressione. Solo tu, i tuoi ospiti e l'arte del sushi.",
           tag: "Culinaria",
-          footer: "Arigato — Marco",
+          footer: "",
         },
       ],
     },
@@ -626,9 +632,9 @@ export const t = {
       ],
       qualLabel: "Qualifiche",
       qualifications: [
-        "Patente nautica A e D",
-        "WWS / WWC Istruttore capo catamarano",
-        "Patente costiera B",
+        "Swiss Lake License A&D",
+        "WWS / WWC Chief Instructor Catamaran",
+        "Offshore License B",
         "RYA Yachtmaster",
         "PADI Dive Master",
       ],
@@ -660,11 +666,12 @@ export const t = {
     cruisePlansSection: {
       header: "Offerte 2026",
       cta: "Contattaci",
-      placeholder: "Date / PDF in arrivo",
+      pdfLabel: "Scarica PDF 2026",
+      reservationCode: "Cod. prenotazione",
       plans: [
-        { label: "Crociera vacanze", short: "Vacanze", tag: "Leisure", description: "Date e dettagli in arrivo. Contattaci per essere avvisato quando le prenotazioni apriranno." },
-        { label: "Crociera a miglia", short: "Miglia", tag: "Formazione", description: "Date e dettagli in arrivo. Contattaci per essere avvisato quando le prenotazioni apriranno." },
-        { label: "Corso manovre in porto", short: "Porto", tag: "Corso", description: "Date e dettagli in arrivo. Contattaci per essere avvisato quando le prenotazioni apriranno." },
+        { label: "Crociera vacanze", short: "Vacanze", tag: "Leisure", description: "Crociere andata e ritorno da Ibiza tra le acque cristalline di Formentera e le isole vicine. Nessun itinerario fisso, nessuna folla — solo tu, il mare e la libertà di andare dove ti porta il vento." },
+        { label: "Crociera a miglia", short: "Miglia", tag: "Formazione", description: "Traversate a lungo raggio nel Mediterraneo. Accumula miglia, ottieni certificazioni e sviluppa vere competenze di vela offshore con il Capitano Marco." },
+        { label: "Corso manovre in porto", short: "Porto", tag: "Corso", description: "Impara ad attraccare con assoluta sicurezza. Manovra il tuo catamarano in porto anche con vento e spazio ridotto — con calma, precisione e zero stress." },
       ],
     },
     cruiseMap: {
@@ -719,10 +726,10 @@ export const t = {
     },
     hero: {
       label: "Catamaran à voile premium · Méditerranée",
-      title1: "Naviguer, se former",
-      title2: "et",
-      titleAccent: "inoubliables",
-      title3: "expériences en mer",
+      title1: "L'",
+      title2: "",
+      titleAccent: "Inoubliable",
+      title3: "Expérience",
       subtitle: "Croisières privées en catamaran et formation à la voile professionnelle",
       sub2: "Aventure en Méditerranée avec le Capitaine Marco",
       cta1: "Plan de croisière 2026",
@@ -733,6 +740,8 @@ export const t = {
       title: "SERVICES",
       placeholder: "Choisir un service",
       cta: "Nous contacter",
+      viewDates: "Voir les dates →",
+      duringHoliday: "Disponible pendant les semaines de croisière vacances",
       items: [
         {
           number: "01",
@@ -772,7 +781,7 @@ export const t = {
           title: "Sushi Sailor",
           description: "Je sélectionne uniquement les meilleurs ingrédients de saison et le poisson le plus frais pour créer un menu en plusieurs plats directement devant vous. Pas de restaurants bruyants, pas de pression. Juste vous, vos invités et l'art du sushi.",
           tag: "Gastronomie",
-          footer: "Arigato — Marco",
+          footer: "",
         },
       ],
     },
@@ -854,9 +863,9 @@ export const t = {
       ],
       qualLabel: "Qualifications",
       qualifications: [
-        "Permis nautique A et D",
-        "WWS / WWC Instructeur en chef catamaran",
-        "Permis côtier B",
+        "Swiss Lake License A&D",
+        "WWS / WWC Chief Instructor Catamaran",
+        "Offshore License B",
         "RYA Yachtmaster",
         "PADI Dive Master",
       ],
@@ -888,11 +897,12 @@ export const t = {
     cruisePlansSection: {
       header: "Offres 2026",
       cta: "Nous contacter",
-      placeholder: "Dates / PDF bientôt disponible",
+      pdfLabel: "Télécharger PDF 2026",
+      reservationCode: "Code de rés.",
       plans: [
-        { label: "Croisière de vacances", short: "Vacances", tag: "Loisirs", description: "Dates et détails bientôt disponibles. Contactez-nous pour être informé à l'ouverture des réservations." },
-        { label: "Croisière de milles", short: "Milles", tag: "Formation", description: "Dates et détails bientôt disponibles. Contactez-nous pour être informé à l'ouverture des réservations." },
-        { label: "Cours de manœuvres portuaires", short: "Port", tag: "Cours", description: "Dates et détails bientôt disponibles. Contactez-nous pour être informé à l'ouverture des réservations." },
+        { label: "Croisière de vacances", short: "Vacances", tag: "Loisirs", description: "Croisières aller-retour au départ d'Ibiza dans les eaux cristallines de Formentera et des îles environnantes. Pas d'itinéraire fixe, pas de foule — juste vous, la mer et la liberté d'aller où le vent vous mène." },
+        { label: "Croisière de milles", short: "Milles", tag: "Formation", description: "Traversées longue distance en Méditerranée. Cumulez des milles marins, obtenez des certifications et développez de vraies compétences en navigation hauturière avec le Capitaine Marco." },
+        { label: "Cours de manœuvres portuaires", short: "Port", tag: "Cours", description: "Maîtrisez l'accostage en toute confiance. Manœuvrez votre catamaran au port même avec du vent et peu d'espace — avec calme, précision et sans stress." },
       ],
     },
     cruiseMap: {
